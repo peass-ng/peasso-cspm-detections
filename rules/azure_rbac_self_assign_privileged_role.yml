@@ -1,0 +1,29 @@
+title: Azure principal assigned a privileged subscription role to itself
+id: 82b1451a-6467-4f92-a926-8cc08e2e1d3a
+status: experimental
+description: A Started Azure role assignment request named the actor as principal, and a matching Succeeded event confirmed the same operation. The assigned role is Owner or User Access Administrator at subscription scope. Review authorization and prior access; the logs do not prove compromise or a net increase in effective privilege.
+references:
+  - https://learn.microsoft.com/en-us/azure/role-based-access-control/change-history-report
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/activity-log-schema
+  - https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
+logsource:
+  product: azure
+  service: activity
+detection:
+  selection:
+    cloud.provider: azure
+    event.source: azure.activity
+    event.name: role_self_assignment
+    event.outcome: success
+    request.self_grant: true
+    request.role_definition_id:
+      - 8e3af657-a8ff-443c-a75c-2fe8c4bcb635
+      - 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9
+    scope.type: subscription
+  condition: selection
+falsepositives:
+  - Approved break glass action or authorized administrator self-assignment
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: azure-rbac-self-assign-privileged-role
