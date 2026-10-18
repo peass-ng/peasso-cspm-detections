@@ -1,0 +1,23 @@
+id: edec54a1-d91c-4ca2-bb2d-870046fca38b
+title: Azure Key Vault diagnostic setting delete operation succeeded
+description: A successful Administrative Activity Log event with HTTP 200 or 204 reports a diagnostic setting delete operation on a Key Vault. Review the prior AuditEvent configuration and remaining settings; this event alone does not prove that the setting existed immediately before, that all export stopped, or that any vault data was accessed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/azure-security/az-post-exploitation/az-key-vault-post-exploitation.md#L274
+  - https://learn.microsoft.com/en-us/rest/api/monitor/diagnostic-settings/delete?view=rest-monitor-2021-05-01-preview
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/activity-log-schema
+level: medium
+x_hacktricks_technique_id: azure-keyvault-diagnostic-setting-delete
+logsource:
+  product: azure
+  service: activity
+detection:
+  selection:
+    event.source: azure.activity
+    event.name: keyvault_diagnostic_setting_delete
+    event.outcome: success
+    scope.type: key_vault
+    request.keyvault_diagnostic_setting_deleted: true
+  condition: selection
+falsepositives:
+  - Approved migration or retirement of a vault diagnostic setting.
+  - Another diagnostic setting may continue exporting AuditEvent.
