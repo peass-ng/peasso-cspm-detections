@@ -1,0 +1,23 @@
+title: GuardDuty detector disable API operation succeeded
+id: 54071ca4-14e6-474f-96ab-d1283dd574f1
+status: experimental
+description: A successful GuardDuty UpdateDetector request explicitly set enable to false for a detector in the audited account and Region. Confirm the detector's prior and current state before describing a loss of monitoring; this operation alone does not establish attacker intent.
+references:
+  - https://docs.aws.amazon.com/guardduty/latest/APIReference/API_UpdateDetector.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: UpdateDetector
+    event.outcome: success
+    request.detector_disable_requested: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty detector retirement or maintenance
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-update-detector-disable

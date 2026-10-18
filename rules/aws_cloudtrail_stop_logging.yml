@@ -1,0 +1,23 @@
+title: CloudTrail StopLogging API operation succeeded
+id: cace191b-5f21-4ba3-9993-4bcc1558dcb0
+status: experimental
+description: A successful CloudTrail StopLogging request named a trail in the audited account and Region. Review the trail's current status and approved maintenance record; this event alone does not establish how long logging was stopped or whether the action was malicious.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_StopLogging.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: StopLogging
+    event.outcome: success
+    request.stop_logging_observed: true
+  condition: selection
+falsepositives:
+  - Approved trail retirement or maintenance with a documented logging replacement
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-stop-logging
