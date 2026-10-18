@@ -1,0 +1,25 @@
+title: Microsoft Entra Global Administrator role assigned directly to its actor
+id: c6c63b91-8c35-4568-8396-41501c5704bf
+status: experimental
+description: A successful Core Directory Add member to role audit entry identifies a User target equal to the initiating user and the Global Administrator role template. Scoped and PIM activity names are excluded. Tenant scope is inferred from the exact audit activity name; review the approved access path and subsequent role use.
+references:
+  - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-audit-activities
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/azure-security/az-privilege-escalation/az-entraid-privesc/README.md
+logsource:
+  product: azure
+  service: entra
+detection:
+  selection:
+    event.source: entra.directoryAudit
+    event.name: global_admin_self_assignment
+    event.outcome: success
+    request.self_grant: true
+    request.role_template_id: 62e90394-69f5-4237-9190-012177145e10
+    scope.type: tenant
+  condition: selection
+falsepositives:
+  - Approved emergency administration performed by an authorized Privileged Role Administrator
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: azure-entra-global-admin-self-grant

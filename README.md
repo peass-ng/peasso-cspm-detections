@@ -16,5 +16,6 @@ The Azure Activity Log rule runs on a canonical event produced by joining
 matching `Started` and `Succeeded` entries. The join is implemented in the
 CSPM and is not a portable Sigma correlation rule; the Sigma selection
 controls which successfully joined role grants become findings. Entra
-directory audits are currently readable, but routine credential rotation
-volume needs contextual filtering before any Entra attack rule is published.
+directory audits have one narrow direct Global Administrator self-assignment
+rule. Routine credential-add events are still excluded because the observed
+volume cannot distinguish approved rotation from an attack by event name alone.

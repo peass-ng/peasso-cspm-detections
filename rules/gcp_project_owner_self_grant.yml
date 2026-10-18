@@ -1,0 +1,25 @@
+title: Project Owner binding added to the policy editor
+id: f1e856f6-8d48-4199-815e-c09fa3dba08f
+status: experimental
+description: A successful project SetIamPolicy Admin Activity record contains an ADD policy delta granting roles/owner to the same principal that made the request, and the returned unconditional policy contains that binding. Review who approved the grant; the record does not prove the principal lacked effective Owner access before this direct binding.
+references:
+  - https://docs.cloud.google.com/iam/docs/review-iam-policy-history
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-cross-project-attacks/iam-and-service-account-impersonation-attacks.md
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    event.source: cloudresourcemanager.googleapis.com
+    event.name: project_iam_self_binding_added
+    event.outcome: success
+    request.actor_is_member: true
+    request.binding_added: true
+    request.role: roles/owner
+  condition: selection
+falsepositives:
+  - Approved direct Owner access granted by a privileged administrator to their own identity
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: gcp-project-owner-self-binding-add

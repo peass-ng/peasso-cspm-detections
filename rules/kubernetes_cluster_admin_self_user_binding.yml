@@ -1,0 +1,25 @@
+title: Kubernetes cluster-admin binding created for the actor
+id: f9542021-e0dc-4a5c-a96a-18e1ac08c3bc
+status: experimental
+description: A completed Kubernetes audit event returned a new cluster-admin ClusterRoleBinding with a User subject equal to the actor. Review whether this direct cluster-wide grant was approved. The record does not prove the actor lacked equivalent access before or that the binding still exists.
+references:
+  - https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/kubernetes-security/kubernetes-privilege-escalation/rbac-and-identities.md
+logsource:
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    event.source: kubernetes.audit
+    event.name: create
+    event.outcome: success
+    rbac.cluster_admin_binding_created: true
+    rbac.self_user_grant: true
+    rbac.role: cluster-admin
+  condition: selection
+falsepositives:
+  - Approved cluster bootstrap or emergency access performed by the same administrator
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: kubernetes-cluster-admin-self-user-binding-create

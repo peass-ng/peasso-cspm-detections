@@ -1,0 +1,25 @@
+title: CloudTrail UpdateTrail explicitly applies three weak logging settings
+id: cf7310e9-9001-42fa-99f5-ecb38768b9a5
+status: experimental
+description: A successful UpdateTrail request explicitly set log validation, multi-Region logging, and global-service logging to false, and the returned trail confirms all three settings. This is a high-risk configuration observation; the event does not establish prior settings, that the trail was active, or malicious intent.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_UpdateTrail.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: UpdateTrail
+    event.outcome: success
+    request.integrity_validation_disabled: true
+    request.multi_region_logging_disabled: true
+    request.global_service_logging_disabled: true
+  condition: selection
+falsepositives:
+  - Approved consolidation into a different validated organization trail, with documented compensating coverage
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-update-trail-three-weak-settings

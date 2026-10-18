@@ -1,0 +1,25 @@
+title: Kubernetes cluster-admin binding created for all authenticated or unauthenticated users
+id: 18e17794-206a-4fde-b61a-df621e6b6481
+status: experimental
+description: A completed Kubernetes audit event returned a new cluster-admin ClusterRoleBinding for system:authenticated or system:unauthenticated. This exposes cluster-wide permissions to a broad group; investigate the binding and creator. The record does not prove the binding still exists.
+references:
+  - https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/kubernetes-security/kubernetes-privilege-escalation/rbac-and-identities.md
+logsource:
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    event.source: kubernetes.audit
+    event.name: create
+    event.outcome: success
+    rbac.cluster_admin_binding_created: true
+    rbac.broad_group_grant: true
+    rbac.role: cluster-admin
+  condition: selection
+falsepositives:
+  - Deliberate but unsafe test-cluster configuration with documented isolation
+level: critical
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: kubernetes-cluster-admin-broad-group-binding-create
