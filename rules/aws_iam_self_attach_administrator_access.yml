@@ -1,0 +1,26 @@
+title: IAM user attached AWS AdministratorAccess to itself
+id: 5c11ac54-e159-48b9-9e04-f44d0921931e
+status: experimental
+description: A successful IAM AttachUserPolicy call attached the exact AWS managed AdministratorAccess policy to the calling IAM user. This records the policy attachment, not effective permissions or malicious intent; boundaries and SCPs may restrict access.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html
+  - https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AdministratorAccess.html
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AttachUserPolicy
+    event.outcome: success
+    actor.kind: IAMUser
+    request.self_user: true
+    request.policy_arn: arn:aws:iam::aws:policy/AdministratorAccess
+  condition: selection
+falsepositives:
+  - Approved IAM self administration or break glass maintenance
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-attachuserpolicy-self
