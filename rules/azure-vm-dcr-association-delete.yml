@@ -17,3 +17,6 @@ detection:
 falsepositives:
   - Approved migration, agent reconfiguration, or VM decommissioning can intentionally remove an association.
   - Other DCR associations may still collect telemetry for the VM.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/azure-security/az-post-exploitation/az-monitor-post-exploitation.md
+  - https://learn.microsoft.com/en-us/rest/api/monitor/data-collection-rule-associations/delete?view=rest-monitor-2024-03-11
