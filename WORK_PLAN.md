@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete público: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), 78 reglas. El [PR #18 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/18) fija el commit de reglas `9630b64ecc0342bff3b2d9829e05fd5ccb7d0de9` y el digest `1b496cfdd68dc7ed2dc4521c4d5efc30abe0d604aa28bb45225dff16a5c857a5`; permanece en borrador y no demuestra despliegue en producción.
+Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete público: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), 78 reglas. El [PR #18 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/18) fija el commit de reglas `30e828672b1345e690c1a94ce011a1641c058c81` y el digest `615b727b5532f0ef599094e848e03cbc930897b0c9e3056a83f469cef2ae4a39`; permanece en borrador y no demuestra despliegue en producción.
 
 **Integración pendiente prioritaria:** el lector antiguo del CSPM falla al descargar el commit fijado mediante el nombre anterior tras el renombrado (`rule_source_unavailable` / raíz de archivo distinta). La rama del [PR #18](https://github.com/peass-ng/PEASSo-CSPM/pull/18) descarga y valida las 78 reglas del nombre nuevo con el pin actualizado. Hasta integrar y desplegar ese cambio, no asumir que el CSPM de producción puede cargar el paquete.
 
@@ -290,9 +290,13 @@ Grupo de seguridad desechable `sg-002ed2e467b17be31` sin instancias asociadas, e
 
 Nueve eventos EC2 relacionados con el grupo dieron exactamente dos hallazgos. CloudTrail usa `requestParameters.ModifySecurityGroupRulesRequest.SecurityGroupRule.SecurityGroupRule`; `eventName=ModifySecurityGroupRules` no equivale a `AuthorizeSecurityGroupIngress`. La respuesta `return=true` confirma que AWS aceptó la edición, pero el evento no muestra el CIDR anterior. Los negativos dirigidos cubren CIDR restringido, UDP, respuesta falsa, ID inválido y cuenta ajena. Fuente: [EC2 post-exploitation](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L605).
 
+## Tanda GuardDuty del 2026-10-19
+
+`scripts/live_guardduty_batch.py --profile naxusai-admin` confirmó que no había detector previo en `us-east-1` de la cuenta `947247140022`. Creó un detector temporal y un filtro con nombre `peasso-detection-test-68397e8528`; completó ocho operaciones: `CreateDetector`, `CreateFilter` con `ARCHIVE`, `UpdateFilter` a `NOOP`, `UpdateFilter` a `ARCHIVE`, `UpdateDetector` a `Enable=False`, restauración a `Enable=True`, `DeleteFilter` y `DeleteDetector`. La consulta final `ListDetectors` devolvió cero: recursos eliminados. Los eventos todavía no aparecían en CloudTrail Event History al cerrar la operación; **no** contar esta tanda como validación de reglas ni añadir detección hasta inspeccionar el esquema real, probar positivos y negativos, y vincular los Event ID. Tampoco se generaron hallazgos de GuardDuty para demostrar supresión efectiva. Fuente: [GuardDuty post-exploitation](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L58).
+
 ## Estado de CI del PR #18
 
-El primer intento de GitHub Actions falló por el benchmark 1x (`cpu_sec=4,16` frente a presupuesto `4`) y por una prueba Playwright de UI que no encontró el texto `Live API`; la suite general de Python no llegó a ejecutarse. Se relanzaron ambos jobs fallidos (intento 2) y los fallos se reprodujeron: 4,98 s de CPU y la misma expectativa de UI. La rama del PR corrige el test obsoleto y aumenta el presupuesto 1x a 6 s, acorde con los 1521 checks registrados; el job de frontend pasó en una revisión anterior; el CI del último commit del PR está en curso. Hasta que ambos pasen e integre, el lector de producción sigue sin el arreglo del renombrado.
+El primer intento de GitHub Actions falló por el benchmark 1x (`cpu_sec=4,16` frente a presupuesto `4`) y por una prueba Playwright de UI que no encontró el texto `Live API`; la suite general de Python no llegó a ejecutarse. Se relanzaron ambos jobs fallidos (intento 2) y los fallos se reprodujeron: 4,98 s de CPU y la misma expectativa de UI. La rama del PR corrige el test obsoleto y aumenta el presupuesto 1x a 6 s, acorde con los 1521 checks registrados; ambos jobs pasaron en la revisión anterior. El commit más reciente fija 78 reglas con digest verificado; su CI está en curso. Hasta que integre y despliegue, el lector de producción sigue sin el arreglo del renombrado.
 
 ## Trabajo transversal pendiente
 
@@ -304,7 +308,7 @@ El primer intento de GitHub Actions falló por el benchmark 1x (`cpu_sec=4,16` f
 
 ## Candidatas retenidas
 
-- **AWS GuardDuty**: hay código experimental para acciones de evasión, pero falta forma real comprobada del evento y negativos de mantenimiento; no está en el paquete.
+- **AWS GuardDuty, filtros `ARCHIVE`**: se ejecutó el ciclo de ocho operaciones sobre un detector temporal; falta forma real de CloudTrail, negativos y verificación de hallazgos suprimidos. Las reglas de desactivación/eliminación del detector ya están en el paquete, pero aún falta su positivo real de CloudTrail.
 - **AWS CreateAccessKey sobre otro usuario**: regla retirada del paquete activo tras coincidir con 32 de 50 eventos CloudTrail de una muestra de administración. Falta correlación contextual para distinguir abuso.
 - **Kubernetes TokenRequest**: prueba GKE real emitió un token efímero; no apareció una fila de auditoría TokenRequest durante la observación. No publicar la candidata hasta probar visibilidad y esquema en clusters compatibles.
 - **Azure purga de Key Vault**: la operación puede ser una limpieza autorizada; la candidata no tiene gate completo ni prueba de efectos de seguridad.
