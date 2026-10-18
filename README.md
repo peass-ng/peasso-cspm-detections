@@ -15,6 +15,6 @@ requires investigation and does not by itself prove malicious intent.
 The Azure Activity Log rule runs on a canonical event produced by joining
 matching `Started` and `Succeeded` entries. The join is implemented in the
 CSPM and is not a portable Sigma correlation rule; the Sigma selection
-controls which successfully joined role grants become findings. The Entra
-rule matches a successful service-principal credential-add activity in the
-tenant's directory audit log and does not infer credential use.
+controls which successfully joined role grants become findings. Entra
+directory audits are currently readable, but routine credential rotation
+volume needs contextual filtering before any Entra attack rule is published.
