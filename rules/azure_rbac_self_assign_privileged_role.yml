@@ -6,6 +6,7 @@ references:
   - https://learn.microsoft.com/en-us/azure/role-based-access-control/change-history-report
   - https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/activity-log-schema
   - https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/azure-security/az-privilege-escalation/az-authorization-privesc.md
 logsource:
   product: azure
   service: activity
