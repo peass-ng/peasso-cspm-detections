@@ -1,0 +1,23 @@
+title: SNS DeleteTopic operation succeeded
+id: 2bb58592-f0f9-4d2d-98c1-0e4579d10ca7
+status: experimental
+description: A successful DeleteTopic request named a topic in the audited account and Region. Review the previous topic state and change record; the event alone does not prove lost messages or malicious intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/README.md#L194
+  - https://docs.aws.amazon.com/sns/latest/api/API_DeleteTopic.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: DeleteTopic
+    event.outcome: success
+    request.delete_topic_observed: true
+  condition: selection
+falsepositives:
+  - Approved topic retirement or test cleanup
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sns-delete-topic

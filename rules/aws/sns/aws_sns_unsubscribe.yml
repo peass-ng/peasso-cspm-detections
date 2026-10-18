@@ -1,0 +1,23 @@
+title: SNS subscription unsubscribe operation succeeded
+id: b537cbea-aa03-41b2-9f5b-02b14e5f0ed3
+status: experimental
+description: A successful Unsubscribe request named a subscription in the audited account and Region. The event does not identify its former endpoint; use previous subscription inventory to determine delivery impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/README.md#L152
+  - https://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: Unsubscribe
+    event.outcome: success
+    request.unsubscribe_observed: true
+  condition: selection
+falsepositives:
+  - Approved subscriber decommissioning or endpoint rotation
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sns-unsubscribe
