@@ -1,0 +1,23 @@
+title: S3 bucket website redirect-all configuration set
+id: f4f82da4-8cf4-4571-a3b2-38e54b22b299
+status: experimental
+description: A successful PutBucketWebsite request set RedirectAllRequestsTo to a named host. It affects only S3 website endpoints or distributions using them, and can be approved site migration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L247
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketWebsite
+    event.outcome: success
+    request.website_redirect_all: true
+  condition: selection
+falsepositives:
+  - Approved website domain migration or maintenance
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-s3-website-redirect-all

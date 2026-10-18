@@ -1,0 +1,23 @@
+title: S3 bucket policy submitted an unconditional public object read grant
+id: 10550e1a-23e3-49e4-9aa9-f15ebd0fe0cf
+status: experimental
+description: A successful PutBucketPolicy request included an unconditional Allow for everyone to read at least one object resource in the named bucket. Block Public Access, explicit Deny statements, and object state may prevent effective exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L298
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketPolicy
+    event.outcome: success
+    request.unconditional_public_object_read_policy: true
+  condition: selection
+falsepositives:
+  - Approved public website or public download bucket
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-s3-bucket-unconditional-public-object-read-policy
