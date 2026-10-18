@@ -1,0 +1,25 @@
+title: GCP project Default log sink set to disabled
+id: 55bfb423-4bd5-40da-a955-2575429e917a
+status: experimental
+description: A successful Admin Activity UpdateSink entry explicitly updated the disabled field of the project _Default sink to true, and the returned sink confirms it. The event does not prove that the sink was previously enabled or that other destinations did not receive the logs.
+references:
+  - https://docs.cloud.google.com/logging/docs/reference/v2/rpc/google.logging.v2#updatesinkrequest
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-post-exploitation/gcp-logging-post-exploitation.md
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    event.source: logging.googleapis.com
+    event.name: default_log_sink_disable_update_succeeded
+    event.outcome: success
+    request.disabled: true
+    request.disabled_field_updated: true
+    sink.disabled_after_update: true
+  condition: selection
+falsepositives:
+  - Approved routing change with independently verified alternate sinks and retention
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: gcp-default-log-sink-disabled

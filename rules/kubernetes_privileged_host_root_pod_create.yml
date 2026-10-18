@@ -1,0 +1,27 @@
+title: Privileged Pod created with host PID and writable host root
+id: 4e1ce639-aa57-4328-91d3-7cb6e28c7fbe
+status: experimental
+description: A completed Kubernetes audit event returned a new Pod spec whose same privileged container has a writable mount of the host root and whose Pod enables hostPID. This proves API admission of a risky Pod spec, not scheduling, host access, escape, or malicious intent.
+references:
+  - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+  - https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/kubernetes-security/kubernetes-privilege-escalation/workload-and-pod-access.md
+logsource:
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    event.source: kubernetes.audit
+    event.name: create
+    event.outcome: success
+    pod.host_pid: true
+    pod.privileged: true
+    pod.writable_host_root_mount: true
+    pod.privileged_host_pod_created: true
+  condition: selection
+falsepositives:
+  - Approved node debugging or infrastructure agent in a non-system namespace with documented owner and change record
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: kubernetes-privileged-host-root-pod-create
