@@ -10,5 +10,5 @@ The CSPM reads this public repository without a token. The rule loader fails
 closed if the pinned GitHub commit is unavailable and never falls back to an
 older unreviewed rule set. Do not put credentials or customer audit data here.
 
-The initial five rules are deliberately narrow. A matched administrative action
+The rules are deliberately narrow. A matched administrative action
 requires investigation and does not by itself prove malicious intent.
