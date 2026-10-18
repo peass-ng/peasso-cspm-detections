@@ -1,0 +1,23 @@
+title: CloudTrail log file validation explicitly disabled
+id: 25789c13-2453-433f-846a-252f91a23e8b
+status: experimental
+description: A successful UpdateTrail request explicitly disabled log file integrity validation and the returned trail confirms the disabled setting. This is an observed trail configuration, not proof that validation was enabled before the call or that another trail does not protect the account.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_UpdateTrail.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: UpdateTrail
+    event.outcome: success
+    request.integrity_validation_disabled: true
+  condition: selection
+falsepositives:
+  - Approved trail configuration that uses another validated audit trail with documented retention
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-update-trail-disable-log-validation

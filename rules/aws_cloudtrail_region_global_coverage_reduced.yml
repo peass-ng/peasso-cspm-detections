@@ -1,0 +1,24 @@
+title: CloudTrail multi-Region and global-service coverage explicitly disabled
+id: 6a3a58f8-f064-4da5-a321-41d313ee6460
+status: experimental
+description: A successful UpdateTrail request explicitly set both multi-Region and global-service event logging to false, and the returned trail confirms both settings. This describes this trail after the call; it does not establish the prior settings, logging in other trails, or malicious intent.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_UpdateTrail.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: UpdateTrail
+    event.outcome: success
+    request.multi_region_logging_disabled: true
+    request.global_service_logging_disabled: true
+  condition: selection
+falsepositives:
+  - Approved regional trail alongside separate validated multi-Region and global-service logging
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-update-trail-reduce-region-global-coverage
