@@ -27,6 +27,36 @@ def headings(source: str) -> list[tuple[int, str]]:
     return result
 
 
+def decision(path: str, title: str) -> str:
+    """Carry forward a small set of reviewed decisions, leaving the rest open."""
+    if path.endswith("aws-iam-privesc/README.md"):
+        if "UpdateAccessKey" in title:
+            return "Parcial: regla validada para clave ajena activada; falta uso posterior."
+        if "UploadSigningCertificate" in title:
+            return "Parcial: regla validada para certificado de usuario ajeno."
+    if path.endswith("aws-ec2-privesc/README.md") and "ModifyInstanceMetadataOptions" in title:
+        return "Parcial: IMDSv1 opcional y límite de saltos probados en instancia desechable."
+    if path.endswith("aws-lambda-privesc/README.md"):
+        if title == "Expose a pre-existing `AuthType=NONE` Function URL":
+            return "Parcial: URL sin IAM y grant URL público; falta comprobar invocación anónima efectiva."
+        if title.startswith("`lambda:GetFunction") or title.startswith("`lambda:GetLayerVersion"):
+            return "Lectura sensible; requiere contexto del artefacto y uso posterior."
+    if path.endswith("aws-s3-privesc/README.md"):
+        if title == "`s3:PutBucketPolicy`":
+            return "Parcial: regla validada para GetObject público incondicional."
+        if title == "`s3:PutBucketCORS`":
+            return "Probada: CORS solo no concede acceso; sin regla independiente."
+        if (title.startswith("JSON ") or title.startswith("IF THE S3 BUCKET")
+                or title.startswith("Make sure to modify") or title.startswith("An ACL should")):
+            return "Ejemplo o nota, no técnica autónoma."
+    if path.endswith("aws-sagemaker-persistence/README.md") and title in {
+            "Example AWS CLI Commands:", "Types of Studio Application Lifecycle Configurations", "Critical Info:"}:
+        return "Encabezado explicativo, revisar técnicas bajo él."
+    if "/aws-services/" in path and title in {"Privilege escalation", "Privesc"}:
+        return "Navegación, no técnica autónoma."
+    return "Pendiente de clasificar/probar"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--hacktricks-repo", type=Path, required=True)
@@ -77,7 +107,7 @@ def main() -> None:
             key = hashlib.sha256(f"{path}\0{title}\0{occurrences[title]}".encode()).hexdigest()[:16]
             safe_title = title.replace("|", "\\|")
             output.append(f"| `aws-delta-{key}` | [{path[len(PREFIX):]}]({base_url}{path}#L{line}) "
-                          f"| {safe_title} | Pendiente de clasificar/probar |")
+                          f"| {safe_title} | {decision(path, title)} |")
     output += ["", "## Páginas nuevas", ""]
     for path in added:
         output.append(f"- [{path[len(PREFIX):]}]({base_url}{path}) — revisar todas las técnicas.")

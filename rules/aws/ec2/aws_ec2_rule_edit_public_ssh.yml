@@ -1,0 +1,23 @@
+title: Existing EC2 security group rule edited to public SSH
+id: 43d386ef-6373-478a-9d33-23db9b5e5d7d
+status: experimental
+description: A successful ModifySecurityGroupRules request changed an existing rule ID to allow TCP port 22 from 0.0.0.0/0. The event does not prove what CIDR the rule used before or that an instance was externally reachable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L605
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifySecurityGroupRules
+    event.outcome: success
+    request.existing_rule_set_public_ssh: true
+  condition: selection
+falsepositives:
+  - Approved temporary SSH access recorded in a change request
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-ec2-rule-edit-public-ssh

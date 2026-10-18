@@ -1,0 +1,23 @@
+title: Existing EC2 security group rule edited to public RDP
+id: 3ff732ed-3bf7-45e5-9a99-492996994376
+status: experimental
+description: A successful ModifySecurityGroupRules request changed an existing rule ID to allow TCP port 3389 from 0.0.0.0/0. The event does not prove prior rule scope or an externally reachable RDP service.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L605
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifySecurityGroupRules
+    event.outcome: success
+    request.existing_rule_set_public_rdp: true
+  condition: selection
+falsepositives:
+  - Approved temporary RDP access recorded in a change request
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-ec2-rule-edit-public-rdp

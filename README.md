@@ -22,7 +22,7 @@ directory audits have one narrow direct Global Administrator self-assignment
 rule. Routine credential-add events are still excluded because the observed
 volume cannot distinguish approved rotation from an attack by event name alone.
 
-The local candidate pack contains 73 rules across AWS, GCP, Azure, and
+The local candidate pack contains 78 rules across AWS, GCP, Azure, and
 Kubernetes. Recent additions report three observed Secret Manager
 operations and one successful Azure Key Vault diagnostic setting deletion.
 The GCP operations were checked against disposable live Admin Activity records;
@@ -31,7 +31,7 @@ These are review signals, not proof of an attack. Normalizers and correlation
 logic live in the CSPM application; Sigma rules match their validated canonical
 events. Coverage of all
 HackTricks Cloud techniques and a measured false-positive rate are not yet
-established. The current public revision contains 73 rules. The CSPM release
+established. The current public revision contains 78 rules. The CSPM release
 must explicitly pin its commit and digest before using them.
 
 The local AWS `UpdateAccessKey` rule reports an IAM user setting another
