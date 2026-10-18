@@ -1,0 +1,25 @@
+title: Assumed role attached AWS AdministratorAccess to itself
+id: e11d789d-7673-4d63-8e46-f0efb4b4a750
+status: experimental
+description: A successful IAM AttachRolePolicy call attached the exact AWS managed AdministratorAccess policy to the same role that issued the calling session. This records the attachment, not net effective permissions or malicious intent; boundaries and SCPs may still restrict access.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AttachRolePolicy
+    event.outcome: success
+    actor.kind: AssumedRole
+    request.self_role_admin_policy_attach: true
+  condition: selection
+falsepositives:
+  - Approved role self administration or emergency maintenance
+level: high
+tags:
+  - attack.privilege_escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-iam-attachrolepolicy-self
