@@ -3,6 +3,7 @@ id: a74e35c1-768e-4512-8e83-05b8d3187060
 status: experimental
 description: A successful IAM PutRolePolicy call from an assumed role wrote an inline policy on its own issuing role with an unconditional Allow for every action and resource. This records the policy write, not effective permissions or malicious intent; boundaries and SCPs may restrict access.
 references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
   - https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html
   - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html
 logsource:

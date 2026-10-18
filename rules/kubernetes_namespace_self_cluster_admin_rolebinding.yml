@@ -3,6 +3,7 @@ id: 9973186a-61ba-48a1-bc88-cdb44defa2d8
 status: experimental
 description: A completed Kubernetes create returned a namespaced RoleBinding whose cluster-admin roleRef names the same service account that made the request in that namespace. This records the binding, not whether it expanded effective permissions or whether the actor was malicious. A namespaced RoleBinding grants access within that namespace.
 references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/kubernetes-security/kubernetes-privilege-escalation/rbac-and-identities.md
   - https://kubernetes.io/docs/reference/kubernetes-api/rbac/role-binding-v1/
   - https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/
   - https://docs.cloud.google.com/kubernetes-engine/docs/how-to/audit-logging

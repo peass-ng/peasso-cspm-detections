@@ -3,6 +3,7 @@ id: f8443ce8-fbe0-48bd-93ad-daa042deff84
 status: experimental
 description: A successful PutUserPolicy call gave the calling IAM user an identity policy with an unconditional Allow for every action and resource. Boundaries and SCPs can still restrict effective access; authorized administration remains possible.
 references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
   - https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html
   - https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
 logsource:

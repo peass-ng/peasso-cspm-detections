@@ -3,6 +3,7 @@ id: 5c11ac54-e159-48b9-9e04-f44d0921931e
 status: experimental
 description: A successful IAM AttachUserPolicy call attached the exact AWS managed AdministratorAccess policy to the calling IAM user. This records the policy attachment, not effective permissions or malicious intent; boundaries and SCPs may restrict access.
 references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
   - https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html
   - https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AdministratorAccess.html
   - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html
