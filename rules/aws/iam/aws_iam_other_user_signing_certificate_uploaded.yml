@@ -1,0 +1,25 @@
+title: IAM user uploaded a signing certificate for another IAM user
+id: 9b248d80-67d4-4e12-883c-e2d61c4fc88d
+status: experimental
+description: A successful IAM UploadSigningCertificate call added certificate material to another IAM user. The event does not prove the certificate was used, the target had useful permissions, or the change was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L1087
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UploadSigningCertificate
+    event.outcome: success
+    actor.kind: IAMUser
+    request.other_user: true
+  condition: selection
+falsepositives:
+  - Approved IAM certificate provisioning or rotation
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-uploadsigningcertificate-other-user

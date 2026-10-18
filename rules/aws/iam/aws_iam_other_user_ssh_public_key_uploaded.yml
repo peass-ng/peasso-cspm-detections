@@ -1,0 +1,25 @@
+title: IAM user uploaded an SSH public key for another IAM user
+id: 1ee87e36-6040-48a3-b96d-78906badbe24
+status: experimental
+description: A successful IAM UploadSSHPublicKey call added SSH key material to another IAM user. Review CodeCommit access and the approved change record; this event does not prove the key was used or the target had repository permissions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UploadSSHPublicKey
+    event.outcome: success
+    actor.kind: IAMUser
+    request.other_user: true
+  condition: selection
+falsepositives:
+  - Approved CodeCommit SSH credential provisioning or rotation
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-uploadsshpublickey-other-user
