@@ -20,7 +20,7 @@ directory audits have one narrow direct Global Administrator self-assignment
 rule. Routine credential-add events are still excluded because the observed
 volume cannot distinguish approved rotation from an attack by event name alone.
 
-The current candidate pack contains 46 rules across AWS, GCP, Azure, and
+The current candidate pack contains 45 rules across AWS, GCP, Azure, and
 Kubernetes. Four recent additions report three observed Secret Manager
 operations and one successful Azure Key Vault diagnostic setting deletion.
 The GCP operations were checked against disposable live Admin Activity records;
@@ -30,3 +30,10 @@ logic live in the CSPM application; Sigma rules match their validated canonical
 events. Coverage of all
 HackTricks Cloud techniques and a measured false-positive rate are not yet
 established.
+
+The single-event alert for one IAM user creating another user's access key was
+retired. In one bounded read-only CloudTrail sample it matched 32 of 50 recent
+events, consistent with routine administration in that account. The event is
+useful evidence, but cannot establish target privilege, unauthorized creation,
+or later key use by itself. This sample is not a measured production false
+positive rate; the rule remains in Git history for future correlated designs.
