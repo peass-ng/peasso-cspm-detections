@@ -1,0 +1,23 @@
+title: SQS PurgeQueue operation succeeded
+id: 98aa1348-63c8-481c-bffc-0c8c6b0fd6ca
+status: experimental
+description: A successful PurgeQueue operation was observed. The event does not include message bodies or prove how many messages were present; review the queue and change record.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L155
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_PurgeQueue.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: PurgeQueue
+    event.outcome: success
+    request.purge_queue_observed: true
+  condition: selection
+falsepositives:
+  - Approved test reset or queue maintenance
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sqs-purge-queue
