@@ -1,0 +1,23 @@
+title: Unconditional administrator policy version made default
+id: 8ce5ce4a-2a56-4f3e-a6e8-f29b1918f9cc
+status: experimental
+description: A successful CreatePolicyVersion call made a new unconditional all-action, all-resource policy version the default. CloudTrail alone does not show whether the policy was attached to the caller or which boundaries or SCPs apply.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreatePolicyVersion
+    event.outcome: success
+    request.set_as_default: true
+    request.unconditional_admin_grant: true
+  condition: selection
+falsepositives:
+  - Approved administrator policy deployment
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-createpolicyversion-self

@@ -1,0 +1,23 @@
+title: IAM user creates an access key for another user
+id: 3963d62d-8367-4b19-902e-706f1418f9ba
+status: experimental
+description: A successful CreateAccessKey call by one IAM user targeted a different IAM user. This creates credential takeover or persistence potential; the event does not prove that the key was used or the action was unauthorized.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateAccessKey
+    event.outcome: success
+    actor.kind: IAMUser
+    request.other_user: true
+  condition: selection
+falsepositives:
+  - Approved credential provisioning or rotation by a dedicated IAM operator
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-iam-createaccesskey-other-user

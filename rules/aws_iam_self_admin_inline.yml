@@ -1,0 +1,25 @@
+title: IAM user writes an unconditional administrator policy onto itself
+id: f8443ce8-fbe0-48bd-93ad-daa042deff84
+status: experimental
+description: A successful PutUserPolicy call gave the calling IAM user an identity policy with an unconditional Allow for every action and resource. Boundaries and SCPs can still restrict effective access; authorized administration remains possible.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html
+  - https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: PutUserPolicy
+    event.outcome: success
+    actor.kind: IAMUser
+    request.self_user: true
+    request.unconditional_admin_grant: true
+  condition: selection
+falsepositives:
+  - Approved break-glass IAM administration
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-putuserpolicy-self
