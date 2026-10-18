@@ -1,12 +1,12 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete publicado: [repositorio público](https://github.com/peass-ng/peasso-cspm-detections) `72b9db15f28e1e09e94bb5ba980e7695ac37375d`; cambios locales en `peasso-cspm-detections`, pendientes de publicación. El renombrado remoto está hecho; el commit fijado antiguo sigue disponible en el repositorio nuevo.
+Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete público: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), 60 reglas. El [PR #18 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/18) fija el commit de reglas `81062edeae920123dd4cf3e1d304e7fa8b1b9fd7` y el digest `59c4359f609f40de4b732c64b773905a2363951d157c14886f3968a6280d007b`; permanece en borrador y no demuestra despliegue en producción.
 
 ## Qué significa «terminado»
 
 Para **cada técnica real** nombrada en el corpus: (1) distinguir técnica de encabezado de navegación, variante o paso inocuo; (2) especificar qué evento, campo y configuración de auditoría la hacen observable; (3) describir predicados que prueban el hecho observado y qué efecto o intención no pueden probar; (4) añadir una regla Sigma portable cuando el hecho sea distinguible, o documentar la limitación y la telemetría adicional necesaria; (5) probar un positivo real autorizado y negativos de error, operación incompleta y mantenimiento benigno; (6) integrar la regla, comprobar el conector y fijar versión y digest del paquete. Las pruebas deben borrar sus recursos y no guardar credenciales ni cargas masivas de logs.
 
-**Estado local:** 60 reglas (AWS 32, GCP 13, AZURE 6, KUBERNETES 9); el paquete publicado sigue en 46. Los inventarios siguientes contienen 7070 **grupos candidatos heurísticos**; no son un recuento de ataques distintos. Ningún enlace de página, coincidencia de método o regla parcial prueba que un grupo completo esté cubierto. Las reglas son señales de revisión, no veredictos de compromiso ni garantía de cero falsos positivos. La publicación de este repositorio no demuestra que el CSPM de producción consuma esta revisión.
+**Estado del paquete público:** 60 reglas (AWS 32, GCP 13, AZURE 6, KUBERNETES 9). Los inventarios siguientes contienen 7070 **grupos candidatos heurísticos**; no son un recuento de ataques distintos. Ningún enlace de página, coincidencia de método o regla parcial prueba que un grupo completo esté cubierto. Las reglas son señales de revisión, no veredictos de compromiso ni garantía de cero falsos positivos. La publicación de este repositorio no demuestra que el CSPM de producción consuma esta revisión.
 
 ## Reglas disponibles
 
@@ -12477,7 +12477,7 @@ Candidatas deduplicadas en el inventario: **1521**; páginas con entradas: **287
 
 ## Kubernetes: cobertura pendiente de técnicas nombradas de HackTricks Cloud
 
-Corpus fijado: `peass-ng/hacktricks-cloud@fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete de reglas actual: `peass-ng/peasso-cspm-detections@72b9db15f28e1e09e94bb5ba980e7695ac37375d`.
+Corpus fijado: `peass-ng/hacktricks-cloud@fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete de reglas usado como base de esta auditoría histórica: `peass-ng/peasso-cspm-detections@72b9db15f28e1e09e94bb5ba980e7695ac37375d`.
 
 El inventario de encabezados nombra **222 grupos deduplicados** en escalada, persistencia, post explotación y enumeración. Hay **9 reglas Kubernetes** publicadas que reconocen predicados estrechos; no cubren páginas completas. Este inventario es un mapa de trabajo por encabezado, no una afirmación de 222 ataques independientes ni de detección exhaustiva.
 
