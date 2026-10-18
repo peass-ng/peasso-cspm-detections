@@ -1,0 +1,26 @@
+title: IAM user removed its own permissions boundary
+id: d8df1ce8-897f-5525-b10d-289acd0238f4
+status: experimental
+description: A successful DeleteUserPermissionsBoundary call by an IAM user removed that same user's boundary. Review the change authorization and remaining identity policies; the event does not prove effective permissions increased.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L771
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPermissionsBoundary.html
+  - https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteUserPermissionsBoundary
+    event.outcome: success
+    actor.kind: IAMUser
+    request.self_user_boundary_delete_observed: true
+  condition: selection
+falsepositives:
+  - Approved self-service recovery or delegated boundary migration.
+  - No privilege increase when identity policies or other guardrails continue to deny the requested actions.
+level: medium
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-iam-self-user-boundary-delete

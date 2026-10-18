@@ -20,7 +20,7 @@ directory audits have one narrow direct Global Administrator self-assignment
 rule. Routine credential-add events are still excluded because the observed
 volume cannot distinguish approved rotation from an attack by event name alone.
 
-The current candidate pack contains 45 rules across AWS, GCP, Azure, and
+The current candidate pack contains 46 rules across AWS, GCP, Azure, and
 Kubernetes. Four recent additions report three observed Secret Manager
 operations and one successful Azure Key Vault diagnostic setting deletion.
 The GCP operations were checked against disposable live Admin Activity records;
@@ -37,3 +37,8 @@ events, consistent with routine administration in that account. The event is
 useful evidence, but cannot establish target privilege, unauthorized creation,
 or later key use by itself. This sample is not a measured production false
 positive rate; the rule remains in Git history for future correlated designs.
+
+A separate rule observes an IAM user successfully removing its own permissions
+boundary. A disposable IAM user produced the exact CloudTrail shape, and no
+matching event appeared in a bounded pre-test history sample from that lab
+account. The operation alone does not establish a net permission increase.
