@@ -1,0 +1,19 @@
+id: 8df67e3b-2d75-4cf5-a333-24b66f6e8c94
+title: Azure VM data collection rule association deleted
+description: A completed ARM delete returned HTTP 200 for one VM data collection rule association. Review whether telemetry for that VM was affected; this event does not prove that all data collection stopped.
+level: medium
+x_hacktricks_technique_id: azure-vm-dcr-association-delete
+logsource:
+  product: azure
+  service: activity
+detection:
+  selection:
+    event.source: azure.activity
+    event.name: vm_dcr_association_delete
+    event.outcome: success
+    scope.type: virtual_machine
+    request.vm_dcr_association_deleted: true
+  condition: selection
+falsepositives:
+  - Approved migration, agent reconfiguration, or VM decommissioning can intentionally remove an association.
+  - Other DCR associations may still collect telemetry for the VM.

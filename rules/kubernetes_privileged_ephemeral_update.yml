@@ -1,0 +1,23 @@
+title: Kubernetes Privileged Ephemeral Container Present in Accepted Update
+id: 4c84a842-34af-4b6c-98cb-986891d7e2e4
+status: experimental
+description: >-
+  A completed pods/ephemeralcontainers update requested a privileged ephemeral
+  container targeting an existing container, and the returned Pod retained
+  that configuration. This records accepted state; it does not prove the
+  ephemeral container was newly added, started, or used for an escape.
+level: high
+logsource:
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    event.source: kubernetes.audit
+    event.name: update
+    event.outcome: success
+    pod.privileged_ephemeral_update_observed: true
+    pod.change_effect: accepted_state
+  condition: selection
+falsepositives:
+  - Approved incident response or application debugging can configure a privileged ephemeral container. Confirm the operator, target Pod, and change ticket before treating this as an attack.
+x_hacktricks_technique_id: k8s-nodes-privileged-ephemeral-container

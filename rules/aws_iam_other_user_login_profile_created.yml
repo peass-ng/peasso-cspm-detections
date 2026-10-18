@@ -1,0 +1,26 @@
+title: Principal created another IAM user's console password without forced reset
+id: 55c5ff6a-c6c5-4ccc-ad53-374d17f4c743
+status: experimental
+description: A successful IAM CreateLoginProfile call by an IAM user or assumed role returned a matching login profile for another user with passwordResetRequired=false. It shows that a console password was created, but does not establish target privileges, later sign-in, or malicious intent.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateLoginProfile
+    event.outcome: success
+    request.other_user: true
+    request.password_reset_required: false
+    response.login_profile_matches_target: true
+  condition: selection
+falsepositives:
+  - Approved help desk or account provisioning can create a console password for another user.
+level: medium
+tags:
+  - attack.privilege_escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-iam-createloginprofile-other-user

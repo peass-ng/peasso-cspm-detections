@@ -1,0 +1,28 @@
+title: GCP project Owner granted to service account from another project
+id: ba1e16bb-f5d8-567a-8100-d664df382e3b
+status: experimental
+description: A successful project SetIamPolicy Admin Activity record has an unconditional ADD binding delta for roles/owner to a service account whose home project differs from the target project, corroborated by the returned policy. The event does not establish attacker control or newly effective inherited access.
+references:
+  - https://docs.cloud.google.com/iam/docs/review-iam-policy-history
+  - https://docs.cloud.google.com/resource-manager/docs/audit-logging
+  - https://docs.cloud.google.com/iam/docs/reference/rpc/google.iam.v1#bindingdelta
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-cross-project-attacks/iam-and-service-account-impersonation-attacks.md
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    event.source: cloudresourcemanager.googleapis.com
+    event.name: cross_project_service_account_binding_added
+    event.outcome: success
+    request.binding_added: true
+    request.cross_project_service_account: true
+    request.role: roles/owner
+  condition: selection
+falsepositives:
+  - Approved central automation service account administered from a separate project
+level: high
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+x_hacktricks_technique_id: gcp-cross-project-service-account-owner-binding

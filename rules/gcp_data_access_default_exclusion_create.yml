@@ -1,0 +1,28 @@
+title: GCP enabled exclusion created for Data Access audit log in Default sink
+id: 406ee337-e22a-5b57-803f-43edfa0eebcb
+status: experimental
+description: A completed Cloud Logging CreateExclusion Admin Activity event created an enabled _Default sink exclusion whose filter exactly selects the project's Data Access audit log. It does not affect the _Required bucket or other independent routes.
+references:
+  - https://docs.cloud.google.com/logging/docs/audit-logging
+  - https://docs.cloud.google.com/logging/docs/reference/v2/rest/v2/projects.exclusions/create
+  - https://docs.cloud.google.com/logging/docs/view/logging-query-language
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-post-exploitation/gcp-logging-post-exploitation.md
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    event.source: logging.googleapis.com
+    event.name: data_access_audit_log_exclusion_created
+    event.outcome: success
+    request.audit_stream: DATA_ACCESS
+    request.exclusion_enabled: true
+    request.exact_log_name_filter: true
+    storage.scope: _Default
+  condition: selection
+falsepositives:
+  - Approved Data Access logging exclusion with documented retention and alternate routing
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: gcp-create-data-access-audit-exclusion-default

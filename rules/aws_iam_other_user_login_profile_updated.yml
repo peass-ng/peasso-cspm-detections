@@ -1,0 +1,26 @@
+title: Principal updated another IAM user's console profile without forced reset
+id: d31ebe7e-e5ad-46d0-9f4f-1ef7c397e525
+status: experimental
+description: A successful IAM UpdateLoginProfile call for another user set passwordResetRequired=false. CloudTrail omits the password parameter, so the event cannot establish whether the password changed or only the reset flag changed. It also does not prove target permissions, later sign-in, or attacker intent.
+references:
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateLoginProfile.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateLoginProfile
+    event.outcome: success
+    request.other_user: true
+    request.password_reset_required: false
+    request.profile_update_observed: true
+  condition: selection
+falsepositives:
+  - Approved help desk password reset can replace another user's console password.
+level: low
+tags:
+  - attack.privilege_escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-iam-updateloginprofile-other-user

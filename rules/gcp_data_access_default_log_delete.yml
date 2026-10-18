@@ -1,0 +1,25 @@
+title: GCP Data Access audit log deletion requested in Default bucket
+id: f85f6fcb-43ca-56fc-8874-731876e6dc6f
+status: experimental
+description: A completed Cloud Logging DeleteLog Admin Activity event targeted the project's Data Access audit log in the global _Default bucket. The event does not prove that entries existed or that other routed copies were removed.
+references:
+  - https://docs.cloud.google.com/logging/docs/audit-logging
+  - https://docs.cloud.google.com/logging/docs/reference/v2/rest/v2/projects.logs/delete
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-post-exploitation/gcp-logging-post-exploitation.md
+logsource:
+  product: gcp
+  service: audit
+detection:
+  selection:
+    event.source: logging.googleapis.com
+    event.name: data_access_audit_log_delete_succeeded
+    event.outcome: success
+    request.audit_stream: DATA_ACCESS
+    storage.scope: _Default
+  condition: selection
+falsepositives:
+  - Approved cleanup of a Data Access audit stream with independently preserved copies
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: gcp-delete-data-access-audit-log-default
