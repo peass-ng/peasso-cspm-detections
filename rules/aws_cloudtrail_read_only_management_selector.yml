@@ -1,0 +1,23 @@
+title: CloudTrail trail selector applies read-only management logging
+id: 4d810203-67a9-4e88-a8b0-a544c4eed70d
+status: experimental
+description: A successful PutEventSelectors request and response show that this trail has one basic event selector with management events enabled and ReadWriteType ReadOnly. This trail will not record write management events under that selector. The event does not prove the prior configuration, the state of other trails, or malicious intent.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_PutEventSelectors.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: PutEventSelectors
+    event.outcome: success
+    request.read_only_management_selector_applied: true
+  condition: selection
+falsepositives:
+  - Approved data or read-only trail with a separate validated trail that records write management events
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-read-only-management-selector
