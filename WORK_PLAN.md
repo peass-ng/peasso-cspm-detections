@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete público: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), 69 reglas. El [PR #18 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/18) fija el commit de reglas `f2a1a2874add3327161ad08ea2d1f22a1c1614e5` y el digest `723f3a79788ba5634a0e3d323eccc97fdc1fe4660fc92a95e5b53043cedc5142`; permanece en borrador y no demuestra despliegue en producción.
+Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete público: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), 69 reglas. El [PR #18 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/18) fija el commit de reglas `28aac677645f848367721ee277c92445ea3b89ee` y el digest `7b4924166dc02ca86601be75e48ae4aded968e8deab219488fd37568f4e78ed9`; permanece en borrador y no demuestra despliegue en producción.
 
 **Integración pendiente prioritaria:** el lector antiguo del CSPM falla al descargar el commit fijado mediante el nombre anterior tras el renombrado (`rule_source_unavailable` / raíz de archivo distinta). La rama del [PR #18](https://github.com/peass-ng/PEASSo-CSPM/pull/18) descarga y valida las 69 reglas del nombre nuevo con el pin actualizado. Hasta integrar y desplegar ese cambio, no asumir que el CSPM de producción puede cargar el paquete.
 
@@ -242,7 +242,7 @@ Los ocho eventos reales de la segunda tanda produjeron exactamente cuatro hallaz
 
 ## Estado de CI del PR #18
 
-El primer intento de GitHub Actions falló por el benchmark 1x (`cpu_sec=4,16` frente a presupuesto `4`) y por una prueba Playwright de UI que no encontró el texto `Live API`; la suite general de Python no llegó a ejecutarse. Se relanzaron ambos jobs fallidos (intento 2) y los fallos se reprodujeron: 4,98 s de CPU y la misma expectativa de UI. La rama del PR corrige el test obsoleto y aumenta el presupuesto 1x a 6 s, acorde con los 1521 checks registrados; el nuevo CI está pendiente. Hasta que pase e integre, el lector de producción sigue sin el arreglo del renombrado.
+El primer intento de GitHub Actions falló por el benchmark 1x (`cpu_sec=4,16` frente a presupuesto `4`) y por una prueba Playwright de UI que no encontró el texto `Live API`; la suite general de Python no llegó a ejecutarse. Se relanzaron ambos jobs fallidos (intento 2) y los fallos se reprodujeron: 4,98 s de CPU y la misma expectativa de UI. La rama del PR corrige el test obsoleto y aumenta el presupuesto 1x a 6 s, acorde con los 1521 checks registrados; el job de frontend pasó y el job completo de Python sigue en curso. Hasta que ambos pasen e integre, el lector de producción sigue sin el arreglo del renombrado.
 
 ## Trabajo transversal pendiente
 
