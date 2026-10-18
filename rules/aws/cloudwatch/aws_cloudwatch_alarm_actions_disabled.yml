@@ -1,0 +1,23 @@
+title: CloudWatch alarm actions explicitly disabled in alarm definition
+id: 1cd5ae8f-0e21-416d-b119-faa5e5afe42d
+status: experimental
+description: A successful PutMetricAlarm request set ActionsEnabled to false. It may prevent configured actions from firing; the event does not prove prior alarm settings or an unauthorized change.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+  - https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutMetricAlarm.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: PutMetricAlarm
+    event.outcome: success
+    request.alarm_actions_explicitly_disabled: true
+  condition: selection
+falsepositives:
+  - Approved maintenance or testing with actions intentionally disabled
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-put-metric-alarm-actions-disabled
