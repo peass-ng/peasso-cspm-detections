@@ -1,0 +1,23 @@
+title: CloudWatch Logs stream deletion operation succeeded
+id: aa3746a6-459a-4a6d-9b43-24af6284a350
+status: experimental
+description: A successful DeleteLogStream request named a stream in a log group. Check prior stream content and retention; this event alone does not prove evidentiary data was lost.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-persistence/README.md#L51
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogStream.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: DeleteLogStream
+    event.outcome: success
+    request.log_stream_deleted: true
+  condition: selection
+falsepositives:
+  - Approved log stream cleanup or workload retirement
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-logs-delete-stream

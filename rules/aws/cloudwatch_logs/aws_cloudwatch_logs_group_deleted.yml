@@ -1,0 +1,23 @@
+title: CloudWatch Logs group deletion operation succeeded
+id: c419749b-1fe5-424b-9e7d-c6d66609fe9c
+status: experimental
+description: A successful DeleteLogGroup request named a group. Check whether it carried security telemetry; the event alone does not prove a monitoring outage or malicious intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-persistence/README.md#L51
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: DeleteLogGroup
+    event.outcome: success
+    request.log_group_deleted: true
+  condition: selection
+falsepositives:
+  - Approved log group retirement or disposable test cleanup
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-logs-delete-group

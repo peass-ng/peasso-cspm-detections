@@ -1,0 +1,23 @@
+title: CloudWatch Logs metric filter deletion observed
+id: 2d55de19-e4dd-4d94-ac38-dd58b30aed51
+status: experimental
+description: A successful DeleteMetricFilter request named a filter and log group. Determine whether it fed a security alarm; the event does not include the filter's former pattern or purpose.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-persistence/README.md#L21
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteMetricFilter.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: DeleteMetricFilter
+    event.outcome: success
+    request.metric_filter_deleted: true
+  condition: selection
+falsepositives:
+  - Approved metric-filter retirement or test cleanup
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-logs-delete-metric-filter
