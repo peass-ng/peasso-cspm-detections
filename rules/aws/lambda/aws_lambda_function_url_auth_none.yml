@@ -1,0 +1,25 @@
+title: Lambda Function URL configured without IAM authentication
+id: a216b718-d842-49d0-a981-f03fec5b0cdc
+status: experimental
+description: A successful CreateFunctionUrlConfig or UpdateFunctionUrlConfig request set AuthType to NONE. Anonymous invocation also depends on resource policy; this event alone does not prove effective public access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-function-url-public-exposure.md
+  - https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name:
+      - CreateFunctionUrlConfig
+      - UpdateFunctionUrlConfig
+    event.outcome: success
+    request.function_url_auth_none: true
+  condition: selection
+falsepositives:
+  - Approved public endpoint with reviewed resource policy
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-lambda-function-url-auth-none
