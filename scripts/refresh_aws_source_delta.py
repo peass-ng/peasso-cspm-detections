@@ -71,8 +71,10 @@ def main() -> None:
         "| ID | Página | Encabezado nuevo | Decisión |", "|---|---|---|---|",
     ]
     for path, items in modified:
+        occurrences: dict[str, int] = {}
         for line, title in items:
-            key = hashlib.sha256(f"{path}\0{title}".encode()).hexdigest()[:16]
+            occurrences[title] = occurrences.get(title, 0) + 1
+            key = hashlib.sha256(f"{path}\0{title}\0{occurrences[title]}".encode()).hexdigest()[:16]
             safe_title = title.replace("|", "\\|")
             output.append(f"| `aws-delta-{key}` | [{path[len(PREFIX):]}]({base_url}{path}#L{line}) "
                           f"| {safe_title} | Pendiente de clasificar/probar |")
