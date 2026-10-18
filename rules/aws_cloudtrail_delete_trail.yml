@@ -1,0 +1,23 @@
+title: CloudTrail DeleteTrail request observed
+id: 159aa248-b950-4011-aa55-d56a7d6c628f
+status: experimental
+description: A CloudTrail management event records a successful DeleteTrail API call on an exact trail name or matching trail ARN. Review authorized retirement and later trail inventory; this event alone does not prove the current logging state or malicious intent.
+references:
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_DeleteTrail.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: DeleteTrail
+    event.outcome: success
+    request.delete_trail_observed: true
+  condition: selection
+falsepositives:
+  - Approved trail retirement or logging migration
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-cloudtrail-delete-trail

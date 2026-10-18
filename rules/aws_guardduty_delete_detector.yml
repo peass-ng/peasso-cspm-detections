@@ -1,0 +1,23 @@
+title: GuardDuty DeleteDetector request observed
+id: 3efca38b-210e-4acf-acbb-3b976cd00d49
+status: experimental
+description: A GuardDuty management event records a successful DeleteDetector API call for an exact detector ID in the audited account and Region. Review authorized retirement and later detector inventory; this event alone does not prove the current monitoring state or malicious intent.
+references:
+  - https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteDetector.html
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: DeleteDetector
+    event.outcome: success
+    request.detector_delete_observed: true
+  condition: selection
+falsepositives:
+  - Approved detector retirement or security tooling migration
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-delete-detector
