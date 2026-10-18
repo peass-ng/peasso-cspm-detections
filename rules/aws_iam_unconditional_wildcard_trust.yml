@@ -1,0 +1,24 @@
+title: AWS IAM Role Trust Updated To Unconditional Wildcard Principal
+id: 6c642558-9568-44e9-878d-2bb7675b0e89
+status: experimental
+description: >
+  A successful IAM UpdateAssumeRolePolicy wrote a complete role trust policy
+  that unconditionally allows sts:AssumeRole to all AWS principals. The event
+  proves a trust configuration write, not successful assumption or malicious intent.
+x_hacktricks_technique_id: aws-iam-role-trust-wildcard-principal
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-persistence/aws-iam-persistence/README.md#L45-L77
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateAssumeRolePolicy
+    event.outcome: success
+    request.unconditional_wildcard_trust: true
+  condition: selection
+level: high
+falsepositives:
+  - An administrator deliberately configured broadly assumable trust on a role.

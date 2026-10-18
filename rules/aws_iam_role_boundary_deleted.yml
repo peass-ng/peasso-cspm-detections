@@ -1,0 +1,27 @@
+title: IAM role permissions boundary deletion observed
+id: dcb95c75-5b78-4cf3-b315-553e548569ff
+status: experimental
+description: >-
+  A successful IAM DeleteRolePermissionsBoundary API call named a role.
+  Review change authorization and the role's other policies. The event alone
+  does not prove that effective permissions increased.
+x_hacktricks_technique_id: aws-iam-delete-role-permissions-boundary
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L815
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePermissionsBoundary.html
+author: HackTricks CSPM research proposal
+date: 2026-10-18
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteRolePermissionsBoundary
+    event.outcome: success
+    request.role_boundary_delete_observed: true
+  condition: selection
+falsepositives:
+  - Approved role decommissioning or boundary migration
+  - Removal from a role with no identity policies and therefore no new effective access
+level: high

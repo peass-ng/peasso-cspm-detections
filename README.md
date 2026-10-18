@@ -19,3 +19,13 @@ controls which successfully joined role grants become findings. Entra
 directory audits have one narrow direct Global Administrator self-assignment
 rule. Routine credential-add events are still excluded because the observed
 volume cannot distinguish approved rotation from an attack by event name alone.
+
+The current candidate pack contains 39 rules across AWS, GCP, Azure, and
+Kubernetes. Five additions in this wave identify a role boundary deletion,
+unconditional wildcard role trust, a Cloud Storage HMAC key creation, a
+resource-group Owner self-assignment, and an accepted privileged Pod spec with
+a writable host runtime socket. These are review signals, not proof of an
+attack. Normalizers and correlation logic live in the CSPM application;
+Sigma rules match their validated canonical events. Coverage of all
+HackTricks Cloud techniques and a measured false-positive rate are not yet
+established.

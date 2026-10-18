@@ -1,0 +1,25 @@
+title: Cloud Storage HMAC key created for service account
+id: 91b77384-a4a2-4db3-a495-f2d7d249768c
+status: experimental
+description: A successful Cloud Storage HMAC key creation response identified an active credential for a named service account. This records the create action, not use, effective storage access, or malicious intent.
+references:
+  - https://docs.cloud.google.com/storage/docs/json_api/v1/projects/hmacKeys/create
+  - https://docs.cloud.google.com/storage/docs/audit-logging
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/gcp-security/gcp-privilege-escalation/gcp-storage-privesc.md#L76
+logsource:
+  product: gcp
+  service: audit
+
+detection:
+  selection:
+    event.source: storage.googleapis.com
+    event.name: storage.hmacKeys.create
+    event.outcome: success
+    credential.hmac_key_create_observed: true
+  condition: selection
+falsepositives:
+  - Approved credential rotation or integration provisioning by a service account administrator
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: gcp-storage-hmac-keys-create

@@ -1,0 +1,31 @@
+title: Azure resource-group Owner role assigned to its actor
+id: b69f61be-d708-49d8-acbf-0230c9133b80
+status: experimental
+description: >-
+  Paired Azure Activity Log Started and Succeeded records establish that the
+  actor assigned the Owner role to itself at a resource-group scope. Review
+  change authorization and inherited access; this does not prove a net gain
+  in effective privileges or malicious intent.
+x_hacktricks_technique_id: azure-rg-owner-self-grant
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/azure-security/az-privilege-escalation/az-authorization-privesc.md#L18
+  - https://learn.microsoft.com/en-us/azure/role-based-access-control/change-history-report
+author: HackTricks CSPM research proposal
+date: 2026-10-18
+logsource:
+  product: azure
+  service: activity
+detection:
+  selection:
+    cloud.provider: azure
+    event.source: azure.activity
+    event.name: rg_owner_self_assignment
+    event.outcome: success
+    request.self_grant: true
+    request.role_definition_id: 8e3af657-a8ff-443c-a75c-2fe8c4bcb635
+    scope.type: resource_group
+  condition: selection
+falsepositives:
+  - Approved access administration
+  - Existing inherited privileges already provide equivalent access
+level: high

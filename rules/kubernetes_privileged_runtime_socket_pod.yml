@@ -1,0 +1,26 @@
+title: Kubernetes Privileged Pod Accepted with Writable Host Runtime Socket
+id: 0e5f93f9-1cab-40fd-b32e-e856d2f2f881
+status: experimental
+description: >-
+  A successful Pod create returned an admitted spec with a privileged
+  container and a writable hostPath Socket mount for an exact rootful
+  container-runtime socket path. The audit event does not prove scheduling,
+  that the socket exists or is usable, or that the node was escaped.
+level: high
+logsource:
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    event.source: kubernetes.audit
+    event.name: create
+    event.outcome: success
+    pod.privileged_runtime_socket_spec_accepted: true
+    pod.change_effect: admitted_spec
+  condition: selection
+falsepositives:
+  - Approved node diagnostics or container-build agents can mount runtime sockets; verify owner, namespace, target node, and change ticket.
+x_hacktricks_technique_id: kubernetes-privilege-escalation/workload-and-pod-access.md#runtime-sockets-and-kernel-helper-paths
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/kubernetes-security/kubernetes-privilege-escalation/workload-and-pod-access.md#L303
+  - https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/
