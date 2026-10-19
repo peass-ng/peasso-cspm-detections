@@ -323,9 +323,9 @@ Con `naxusai-admin` se creó el usuario `peasso-identity-01d84ea76d` y el provee
 |---|---|---|
 | Subir certificado de firma a otro usuario | `12542c41-a57b-4f45-a2d5-f4bd7ad65204`; regla local positiva | El evento no demuestra uso o privilegios del usuario. |
 | Mover un usuario a otro path | `5b736f9e-3d41-4fbd-8591-af1849e3500f`; sin regla independiente | Correlacionar políticas IAM que dependan del ARN/path. |
-| Crear proveedor OIDC propio | `65577713-bbe2-49a4-9b60-11e8c52df961`; sin regla independiente | Correlacionar roles que lo confían y sesiones posteriores. |
-| Añadir audiencia a proveedor OIDC | `cc88bfcc-e306-4bbf-9495-a302d6e2d955`; sin regla independiente | Correlacionar roles y audiencias permitidas antes/después. |
-| Cambiar thumbprint OIDC | `ef9b4c9e-319e-463d-9eb0-a009db3cfd73`; sin regla independiente | Correlacionar certificado, roles y sesiones posteriores. |
+| Crear proveedor OIDC propio | `65577713-bbe2-49a4-9b60-11e8c52df961`; regla añadida y revalidada en la tanda de federación posterior | Correlacionar roles que lo confían y sesiones posteriores. |
+| Añadir audiencia a proveedor OIDC | `cc88bfcc-e306-4bbf-9495-a302d6e2d955`; regla añadida y revalidada en la tanda posterior | Correlacionar roles y audiencias permitidas antes/después. |
+| Cambiar thumbprint OIDC | `ef9b4c9e-319e-463d-9eb0-a009db3cfd73`; regla añadida y revalidada en la tanda posterior | Correlacionar certificado, roles y sesiones posteriores. |
 
 ## Tanda S3 del 2026-10-19
 
