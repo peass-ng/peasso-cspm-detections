@@ -1,0 +1,21 @@
+title: AWS VPC Flow Log deleted
+id: b824a68f-a7dc-40d7-9615-3a1d5ddd268a
+status: experimental
+description: DeleteFlowLogs accepted deletion of a Flow Log, stopping future capture.
+  Previously delivered log files remain at their destination.
+x_hacktricks_technique_id: aws-vpc-flow-logs-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L1012
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: DeleteFlowLogs
+    event.outcome: success
+    request.vpc_flow_logs_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved Flow Log retirement

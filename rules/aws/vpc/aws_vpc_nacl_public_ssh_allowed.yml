@@ -1,0 +1,21 @@
+title: AWS VPC network ACL allows public SSH
+id: bc3af4fc-a368-4656-b490-9a8efecb5e3c
+status: experimental
+description: ReplaceNetworkAclEntry accepted an ingress TCP rule allowing port 22
+  from every IPv4 address. Security groups can still restrict traffic.
+x_hacktricks_technique_id: aws-vpc-nacl-public-ssh-allowed
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L667
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ReplaceNetworkAclEntry
+    event.outcome: success
+    request.vpc_nacl_public_ssh_allowed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved temporary subnet access

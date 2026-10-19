@@ -1,0 +1,21 @@
+title: AWS VPC endpoint policy broadened to wildcard access
+id: 35413a21-a2a2-4622-8840-7d6e8b7a3912
+status: experimental
+description: ModifyVpcEndpoint accepted a policy with wildcard principal, broad action,
+  and wildcard resource. IAM and bucket policies still apply.
+x_hacktricks_technique_id: aws-vpc-endpoint-policy-broad-allow
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L832
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyVpcEndpoint
+    event.outcome: success
+    request.vpc_endpoint_policy_broad_allow: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved endpoint policy expansion
