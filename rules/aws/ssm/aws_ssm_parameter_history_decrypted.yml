@@ -1,0 +1,22 @@
+title: AWS SSM parameter history read with decryption
+id: ddf20e9f-680d-45bf-9248-875718a465a4
+status: experimental
+description: GetParameterHistory requested decrypted values, including prior versions
+  and the current version. CloudTrail omits response values; compare the actor with
+  approved parameter readers.
+x_hacktricks_technique_id: aws-ssm-parameter-history-decrypted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ssm-parameter-and-command-access-post-exploitation/README.md#L66
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: GetParameterHistory
+    event.outcome: success
+    request.ssm_parameter_history_decrypted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved parameter history review

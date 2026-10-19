@@ -1,0 +1,21 @@
+title: AWS SQS visibility timeout set to twelve hours
+id: 63de0019-c292-4ccd-925e-f945de06eb5d
+status: experimental
+description: SetQueueAttributes accepted the maximum 12-hour queue visibility timeout,
+  which can delay retries after consumers receive messages.
+x_hacktricks_technique_id: aws-sqs-visibility-timeout-12h
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L53
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_visibility_timeout_12h: true
+  condition: selection
+level: low
+falsepositives:
+- Approved long-running consumers

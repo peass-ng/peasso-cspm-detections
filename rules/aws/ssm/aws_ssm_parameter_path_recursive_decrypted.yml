@@ -1,0 +1,21 @@
+title: AWS SSM parameter path recursively read with decryption
+id: dc98259a-aeaf-4ed0-93ef-6630edef72b1
+status: experimental
+description: GetParametersByPath recursively requested decrypted values below a path.
+  This action can reveal child parameters despite a GetParameter denial on a leaf.
+x_hacktricks_technique_id: aws-ssm-parameter-path-recursive-decrypted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ssm-parameter-and-command-access-post-exploitation/README.md#L36
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: GetParametersByPath
+    event.outcome: success
+    request.ssm_parameter_path_recursive_decrypted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved application bootstrap or rotation
