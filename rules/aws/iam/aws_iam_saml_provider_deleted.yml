@@ -1,0 +1,21 @@
+title: AWS IAM SAML provider deleted
+id: 1390e424-81dd-465d-8efa-92669080cba3
+status: experimental
+description: A SAML provider was deleted. Dependent workforce federation may stop
+  after propagation, while existing sessions remain valid until expiry.
+x_hacktricks_technique_id: aws-iam-saml-provider-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L429
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteSAMLProvider
+    event.outcome: success
+    request.iam_saml_provider_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved IdP migration or decommissioning

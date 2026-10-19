@@ -1,0 +1,22 @@
+title: AWS IAM OIDC provider audience removed
+id: 991ccddd-e48d-4b67-9d03-f2d849397afe
+status: experimental
+description: A client ID was removed from an OIDC provider. Tokens for that audience
+  may stop assuming trusting roles after propagation; verify the affected workload
+  and current provider list.
+x_hacktricks_technique_id: aws-iam-oidc-client-id-removed
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L429
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: RemoveClientIDFromOpenIDConnectProvider
+    event.outcome: success
+    request.iam_oidc_client_id_removed: true
+  condition: selection
+level: high
+falsepositives:
+- Approved retirement of an application audience
