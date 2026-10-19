@@ -1,0 +1,23 @@
+title: AWS SSM Session Manager session started on a managed node
+id: fb6134dd-94a4-4cc9-b49b-8c46926cde6e
+status: experimental
+description: StartSession accepted a connection to a managed node and returned a
+  session ID. The event proves session creation, not shell commands or their
+  output. Compare actor and target with approved interactive access.
+x_hacktricks_technique_id: aws-ssm-session-started
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L284
+- https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_StartSession.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: StartSession
+    event.outcome: success
+    request.ssm_session_started: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved interactive troubleshooting session

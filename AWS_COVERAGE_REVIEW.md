@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **164**.
+Pages with at least three level-three headings and no direct YAML reference: **163**. Total headings: **826**.
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md) (20 headings)
 
@@ -78,22 +78,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`states:DeleteStateMachine\`, \`states:DeleteStateMachineVersion\`, \`states:DeleteStateMachineAlias\`
 - \`states:UpdateMapRun\`
 - \`states:StopExecution\`
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md) (13 headings)
-
-- \`ssm:StartAutomationExecution\` — execute a preauthorized runbook role
-- \`ssm:CreateActivation\`, \`iam:PassRole\` — mint a hybrid activation that hands out a role
-- \`ssm:UpdateManagedInstanceRole\`, \`iam:PassRole\` — re-point an existing hybrid instance at a better role
-- \`ssm:UpdateServiceSetting\`, \`iam:PassRole\` — hijack Default Host Management Configuration
-- \`ssm:SendCommand\`
-- \`ssm:StartSession\`
-- \`ssm:StartAccessRequest\` + \`ssm:GetAccessToken\` — vend JIT credentials for a Session Manager shell
-- \`ssm:ResumeSession\`
-- Privileged execution through a State Manager association
-- \`ssm:UpdateDocument\`, \`ssm:UpdateDocumentDefaultVersion\`, (\`ssm:ListDocuments\` | \`ssm:GetDocument\`)
-- \`ssm:RegisterTaskWithMaintenanceWindow\`, \`ssm:RegisterTargetWithMaintenanceWindow\`, (\`ssm:DescribeMaintenanceWindows\` | \`ec2:DescribeInstances\`)
-- Codebuild
-- Hijack response-plan actions, chat channel and contacts
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md) (12 headings)
 
@@ -1334,4 +1318,3 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Required conditions
 - Example
 - Discovery without list permissions
-
