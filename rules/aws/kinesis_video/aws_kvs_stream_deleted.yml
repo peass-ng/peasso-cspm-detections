@@ -1,0 +1,21 @@
+title: AWS Kinesis Video stream deleted
+id: 5c3bc7b9-31ab-4862-9ac4-4c09b41ddada
+status: experimental
+description: A Kinesis video stream deletion was accepted. Confirm whether retained
+  media and producers were affected.
+x_hacktricks_technique_id: aws-kvs-stream-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L200
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: DeleteStream
+    event.outcome: success
+    request.kvs_stream_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved stream retirement
