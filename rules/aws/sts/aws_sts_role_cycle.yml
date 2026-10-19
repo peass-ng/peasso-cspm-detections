@@ -1,0 +1,20 @@
+title: AWS STS role chain returns to an earlier role
+id: e1d8f854-4abe-47ce-af45-7762934fa0de
+status: experimental
+description: Two successful AssumeRole calls form A to B to A, with the B session from the first call invoking the second. This demonstrates role chaining with a cycle, but neither continued access nor malicious intent.
+x_hacktricks_technique_id: aws-sts-role-chain-juggling-cycle
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sts-persistence/README.md#L50
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sts.amazonaws.com
+    event.name: AssumeRole
+    event.outcome: success
+    request.sts_role_cycle: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved role-chain diagnostics or operational role switching
