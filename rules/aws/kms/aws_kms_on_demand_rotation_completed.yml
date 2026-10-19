@@ -1,0 +1,26 @@
+title: KMS on-demand key material rotation completed
+id: 228f30f6-4c67-4e12-b213-6946958ef0d0
+status: experimental
+description: >
+  AWS KMS emitted a RotateKey service event with ON_DEMAND rotation and
+  distinct previous/current material IDs. This proves that the new material
+  version was created. It does not prove that an application began using it
+  or that the initiating RotateKeyOnDemand request was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L470
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-rotatekey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_on_demand_rotation_completed: true
+  condition: selection
+falsepositives:
+  - Approved on-demand rotation of customer managed key material.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-on-demand-rotation-completed
