@@ -1,0 +1,21 @@
+title: AWS CloudFront distribution update trusts a signing key group
+id: dfdab7cf-dca4-4d54-bb3a-8cc3b35b8d08
+status: experimental
+description: A successful UpdateDistribution enabled a trusted key group on a cache behavior. Compare with the prior configuration to determine whether a new signer was added; CloudTrail does not show signed URL or cookie use.
+x_hacktricks_technique_id: aws-cloudfront-trusted-key-group-hijack
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudfront.amazonaws.com
+    event.name: UpdateDistribution
+    event.outcome: success
+    request.cloudfront_trusted_key_group_present: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized private content signer rotation or unrelated distribution update retaining an existing key group
