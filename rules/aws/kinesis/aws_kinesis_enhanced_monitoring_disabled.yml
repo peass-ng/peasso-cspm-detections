@@ -1,0 +1,20 @@
+title: AWS Kinesis enhanced monitoring disabled
+id: 81869aae-e6e4-4554-b844-e3f1467f49f5
+status: experimental
+description: One or more shard-level metrics were removed from an account-owned stream's enhanced monitoring configuration.
+x_hacktricks_technique_id: aws-kinesis-enhanced-monitoring-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: DisableEnhancedMonitoring
+    event.outcome: success
+    request.kinesis_monitoring_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved reduction of shard-level metrics
