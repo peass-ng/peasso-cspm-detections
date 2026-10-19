@@ -1,0 +1,25 @@
+title: AWS SQS FIFO deduplication ID collision across actors
+id: 79859240-8ca8-4f23-bc7d-68337d74c6f7
+status: experimental
+description: Two actors sent different bodies to the same FIFO queue and group with
+  the same explicit deduplication ID within five minutes; CloudTrail recorded the
+  same returned MessageId. One send can be suppressed, but second-resolution
+  timestamps do not prove sender order or malicious intent. Requires SQS data events.
+x_hacktricks_technique_id: aws-sqs-fifo-cross-actor-dedup-collision
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L220
+- https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+- https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SendMessage
+    event.outcome: success
+    request.sqs_fifo_cross_actor_dedup_collision: true
+  condition: selection
+level: medium
+falsepositives:
+- Two approved producers reuse an explicit deduplication ID for different contents
