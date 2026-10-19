@@ -1,0 +1,21 @@
+title: AWS Step Functions activity callback accepted
+id: 370ba76f-0755-4ab9-97da-e0f32f81df1c
+status: experimental
+description: SendTaskSuccess was accepted using a task token and output. CloudTrail redacts both and does not identify the activity or execution; correlate with optional GetActivityTask data events and execution history.
+x_hacktricks_technique_id: aws-sfn-activity-callback-success
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L394
+- https://docs.aws.amazon.com/step-functions/latest/apireference/API_SendTaskSuccess.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: SendTaskSuccess
+    event.outcome: success
+    request.sfn_activity_callback_success: true
+  condition: selection
+level: low
+falsepositives:
+- Approved activity worker callback

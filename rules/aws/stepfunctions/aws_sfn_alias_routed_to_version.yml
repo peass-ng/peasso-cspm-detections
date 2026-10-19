@@ -1,0 +1,20 @@
+title: AWS Step Functions alias routed entirely to one version
+id: 7b0b5b5c-82e1-414e-a931-7af38df427a4
+status: experimental
+description: UpdateStateMachineAlias accepted a routing configuration with 100 percent weight on a version of the same state machine. Verify the approved rollout baseline and resulting behavior.
+x_hacktricks_technique_id: aws-sfn-alias-routed-to-version
+references:
+- https://docs.aws.amazon.com/step-functions/latest/dg/auth-version-alias.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UpdateStateMachineAlias
+    event.outcome: success
+    request.sfn_alias_routed_to_version: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved alias rollout
