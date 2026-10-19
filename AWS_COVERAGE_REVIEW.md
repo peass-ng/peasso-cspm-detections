@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **163**. Total headings: **826**.
+Pages with at least three level-three headings and no direct YAML reference: **162**. Total headings: **813**.
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md) (20 headings)
 
@@ -62,22 +62,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`identitystore:CreateUser\` / \`sso-directory:CreateUser\` (+ group membership / assignment)
 - \`sso-admin:CreateTrustedTokenIssuer\` (+ \`CreateApplication\` / \`PutApplicationGrant\`) — impersonate any user via a rogue trusted token issuer
 - \`account-access:CreateEntitlement\` — assign an existing IAM role to a controlled Identity Center user
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md) (13 headings)
-
-- Victim Setup (Context for Exploit)
-- \`states:RevealSecrets\`
-- \`states:DescribeStateMachine\` — definition-secret disclosure
-- Read execution data with \`DescribeExecution\` and \`GetExecutionHistory\`
-- Claim activity work with \`states:GetActivityTask\`
-- \`states:StartExecution\` -> Input Injection Into Dangerous Sinks
-- \`states:UpdateStateMachine\`, \`lambda:UpdateFunctionCode\`
-- \`states:RedriveExecution\` — Replay the failed path under stored roles
-- \`states:SendTaskSuccess\` — inject callback output into a privileged next state
-- \`states:TagResource\`, \`states:UntagResource\`
-- \`states:DeleteStateMachine\`, \`states:DeleteStateMachineVersion\`, \`states:DeleteStateMachineAlias\`
-- \`states:UpdateMapRun\`
-- \`states:StopExecution\`
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md) (12 headings)
 
