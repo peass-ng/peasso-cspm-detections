@@ -4,6 +4,8 @@ Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/Ha
 
 **Integración posterior al release:** las reglas de esta rama aislada aún no están fijadas en el CSPM; cada tanda debe actualizar el ref/digest, comprobar el lector y verificar la carga antes de declarar su publicación. El lector anterior del nombre viejo había fallado con `rule_source_unavailable`, pero la publicación del release corrigió esa integración.
 
+**Cola de revisión AWS actualizada:** [AWS_COVERAGE_REVIEW.md](AWS_COVERAGE_REVIEW.md) enumera 165 páginas de post-explotación, persistencia o escalada en el commit `47c375ae496ae89f81936f47ab1cb84885c88373` con 854 encabezados de nivel tres y sin referencia directa desde YAML. Es una lista para decidir cobertura, no 854 ataques confirmados ni una prueba de que falten 854 reglas. Priorizar RDS, Identity Center, SageMaker, Lambda y SSM por número de técnicas candidatas; para cada encabezado aplicar la definición de terminado siguiente.
+
 ## Qué significa «terminado»
 
 Para **cada técnica real** nombrada en el corpus: (1) distinguir técnica de encabezado de navegación, variante o paso inocuo; (2) especificar qué evento, campo y configuración de auditoría la hacen observable; (3) describir predicados que prueban el hecho observado y qué efecto o intención no pueden probar; (4) añadir una regla Sigma portable cuando el hecho sea distinguible, o documentar la limitación y la telemetría adicional necesaria; (5) probar un positivo real autorizado y negativos de error, operación incompleta y mantenimiento benigno; (6) integrar la regla, comprobar el conector y fijar versión y digest del paquete. Las pruebas deben borrar sus recursos y no guardar credenciales ni cargas masivas de logs.
