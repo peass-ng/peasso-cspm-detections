@@ -1,0 +1,21 @@
+title: AWS SNS FIFO archive replay requested on new subscription
+id: 9500c777-ac5b-49c6-a3d9-7e3d4345a413
+status: experimental
+description: A successful Subscribe request included a timestamp ReplayPolicy. Review endpoint ownership and archived message scope; this event does not prove replay delivery.
+x_hacktricks_technique_id: aws-sns-fifo-replay-new-subscription
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-fifo-replay-exfil.md
+  - https://docs.aws.amazon.com/sns/latest/dg/message-archiving-and-replay-subscriber.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: Subscribe
+    event.outcome: success
+    request.sns_replay_subscribe_requested: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved subscriber recovery or state replication
