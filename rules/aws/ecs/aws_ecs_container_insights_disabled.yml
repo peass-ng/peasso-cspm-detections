@@ -1,0 +1,20 @@
+title: AWS ECS Container Insights disabled on cluster
+id: 45dd4738-ed8a-4ac5-b4b0-12d276349f6a
+status: experimental
+description: A cluster was updated to disable Container Insights. Verify the previous setting and monitoring coverage.
+x_hacktricks_technique_id: aws-ecs-container-insights-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecs-post-exploitation/README.md#L282
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecs.amazonaws.com
+    event.name: UpdateClusterSettings
+    event.outcome: success
+    request.ecs_container_insights_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved change to cluster telemetry settings
