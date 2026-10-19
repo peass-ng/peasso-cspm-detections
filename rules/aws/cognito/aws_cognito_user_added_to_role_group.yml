@@ -1,0 +1,20 @@
+title: AWS Cognito user added to a newly role-bearing group
+id: b359d4b0-cfe0-4fe8-b7e2-f33a5874f332
+status: experimental
+description: A successful AdminAddUserToGroup followed CreateGroup or UpdateGroup on the same pool and group with an IAM role ARN within thirty minutes. CloudTrail redacts the username. Confirm role trust, identity-pool mapping and group membership before inferring privilege gain; this signal needs both events in the detection window.
+x_hacktricks_technique_id: aws-cognito-add-user-to-role-group
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L214
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminAddUserToGroup
+    event.outcome: success
+    request.cognito_user_added_to_role_group: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved group setup and user onboarding

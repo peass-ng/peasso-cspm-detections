@@ -1,0 +1,20 @@
+title: AWS Cognito administrator created a user without notification
+id: 15d2c692-dfae-42dd-b3ba-11ef83edc0ca
+status: experimental
+description: A successful AdminCreateUser used MessageAction SUPPRESS. CloudTrail redacts the username, and this event alone does not prove unauthorized access.
+x_hacktricks_technique_id: aws-cognito-admin-create-user-suppressed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L289
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminCreateUser
+    event.outcome: success
+    request.cognito_suppressed_admin_user: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved silent service-user provisioning

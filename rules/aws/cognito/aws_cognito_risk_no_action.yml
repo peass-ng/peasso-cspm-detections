@@ -1,0 +1,20 @@
+title: AWS Cognito compromised-credential response set to NO_ACTION
+id: 0f2bc29a-7c28-46d5-88cb-c3056c7f3f72
+status: experimental
+description: A successful SetRiskConfiguration set NO_ACTION for at least one compromised-credential event. Enforcement impact depends on the pool's threat-protection mode.
+x_hacktricks_technique_id: aws-cognito-compromised-credential-no-action
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cognito-persistence/README.md#L89
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: SetRiskConfiguration
+    event.outcome: success
+    request.cognito_compromised_credentials_no_action: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved threat-protection policy change

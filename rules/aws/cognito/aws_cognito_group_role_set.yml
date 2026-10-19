@@ -1,0 +1,20 @@
+title: AWS Cognito user-pool group configured with IAM role
+id: 62b5e50e-83c5-4c05-a2d2-54153b3fdd30
+status: experimental
+description: A successful CreateGroup or UpdateGroup supplied a same-account IAM role ARN. Review role trust and identity-pool configuration before inferring that group members can assume it.
+x_hacktricks_technique_id: aws-cognito-group-iam-role-set
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L240
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: [CreateGroup, UpdateGroup]
+    event.outcome: success
+    request.cognito_group_role_set: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved group role mapping
