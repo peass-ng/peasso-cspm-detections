@@ -1,0 +1,20 @@
+title: AWS RDS public read replica promoted after password reset request
+id: 2ab8ee95-9257-46ea-a8c0-ae521b49872a
+status: experimental
+description: The same actor requested a public read replica, reset its master password and requested promotion within one hour. Confirm the final replica state, isolation from the source and whether data was accessed.
+x_hacktricks_technique_id: aws-rds-public-replica-promoted-after-reset-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L732
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: PromoteReadReplica
+    event.outcome: success
+    request.rds_public_replica_promoted_after_reset_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Approved migration that temporarily uses a public read replica
