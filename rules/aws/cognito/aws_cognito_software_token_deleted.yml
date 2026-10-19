@@ -1,0 +1,20 @@
+title: AWS Cognito user software MFA token deleted
+id: 209197c3-2c56-4cc9-a800-a99cc5440eab
+status: experimental
+description: A successful AdminDeleteSoftwareToken removed a registered TOTP factor. In an optional-MFA pool, a known password may then authenticate without an MFA challenge.
+x_hacktricks_technique_id: aws-cognito-software-token-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L457
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminDeleteSoftwareToken
+    event.outcome: success
+    request.cognito_software_token_deleted: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved MFA enrollment reset or help-desk recovery
