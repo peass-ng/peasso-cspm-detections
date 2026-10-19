@@ -1,0 +1,20 @@
+title: AWS RDS manual DB snapshot deletion accepted
+id: 03f45bc7-bb12-42d3-9c8d-f40a5ab73428
+status: experimental
+description: DeleteDBSnapshot was accepted for a manual DB snapshot. Verify whether retention policy and other recovery points exist.
+x_hacktricks_technique_id: aws-rds-snapshot-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L971
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: DeleteDBSnapshot
+    event.outcome: success
+    request.rds_snapshot_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved snapshot lifecycle cleanup

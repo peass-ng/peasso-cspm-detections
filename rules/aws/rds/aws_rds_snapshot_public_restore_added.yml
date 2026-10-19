@@ -1,0 +1,21 @@
+title: AWS RDS snapshot made publicly restorable
+id: 9980bbd6-6da2-494e-8f85-d39bb230967e
+status: experimental
+description: ModifyDBSnapshotAttribute added all to the restore attribute on a manual DB snapshot, allowing public copy or restore. Verify final attributes and whether the snapshot held sensitive data.
+x_hacktricks_technique_id: aws-rds-snapshot-public-restore-added
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L427
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBSnapshotAttribute.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBSnapshotAttribute
+    event.outcome: success
+    request.rds_snapshot_public_restore_added: true
+  condition: selection
+level: high
+falsepositives:
+- Approved publication of a synthetic or intentionally shared snapshot

@@ -1,0 +1,21 @@
+title: AWS RDS DB instance deletion requested without retained backup
+id: 4b239e69-59c1-4228-923b-5b7f37dce081
+status: experimental
+description: DeleteDBInstance accepted skipFinalSnapshot and deleteAutomatedBackups. The event proves requested destruction; confirm asynchronous deletion and other recovery copies.
+x_hacktricks_technique_id: aws-rds-instance-deleted-without-backup
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L971
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: DeleteDBInstance
+    event.outcome: success
+    request.rds_instance_deleted_without_backup: true
+  condition: selection
+level: high
+falsepositives:
+- Approved removal of a disposable DB with backups intentionally skipped

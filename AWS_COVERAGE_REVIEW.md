@@ -2,30 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **162**. Total headings: **813**.
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md) (20 headings)
-
-- Harvest DB credentials via RDS Proxy auth secrets (\`rds:DescribeDBProxies\` + \`secretsmanager:GetSecretValue\`)
-- Read the RDS-managed master password from Secrets Manager (\`rds:DescribeDB*\` + \`secretsmanager:GetSecretValue\`)
-- \`rds:DownloadDBLogFilePortion\`
-- \`rds:CreateBlueGreenDeployment\`, \`rds:ModifyDBInstance\`
-- Out-of-band SQL via RDS Data API by enabling HTTP endpoint + resetting master password
-- \`rds:CreateDBSnapshot\`, \`rds:RestoreDBInstanceFromDBSnapshot\`, \`rds:ModifyDBInstance\`
-- \`rds:Restore*\`
-- \`rds:StartExportTask\`, \`iam:PassRole\` — export a snapshot's full contents to attacker S3
-- \`rds:ModifyDBSnapshotAttribute\`, \`rds:CreateDBSnapshot\`
-- \`rds:ModifyDBClusterSnapshotAttribute\`, \`rds:CreateDBClusterSnapshot\`
-- \`rds:StartExportTask\`, \`iam:PassRole\`, KMS key-use permissions
-- Cross-Region Automated Backups Replication for Stealthy Restore (\`rds:StartDBInstanceAutomatedBackupsReplication\`)
-- Enable full SQL logging via DB parameter groups and exfiltrate via RDS log APIs
-- \`rds:CreateDBInstanceReadReplica\`, \`rds:ModifyDBInstance\`
-- Stealthy continuous exfiltration via Aurora zero‑ETL to Amazon Redshift (rds:CreateIntegration)
-- \`rds:StopDBCluster\` & \`rds:StopDBInstance\`
-- \`rds:Delete*\`
-- \`rds:DeleteDBInstance\`
-- \`rds:Modify*\`
-- \`rds:CreateDBInstance\`
+Pages with at least three level-three headings and no direct YAML reference: **161**. Total headings: **793**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md) (15 headings)
 
