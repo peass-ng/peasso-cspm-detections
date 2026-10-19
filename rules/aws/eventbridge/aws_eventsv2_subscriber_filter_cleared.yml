@@ -1,0 +1,23 @@
+title: Enhanced EventBridge subscriber filters cleared
+author: PEASSO
+id: d8662dae-553e-4c53-a957-1918653dcb06
+status: experimental
+description: An accepted UpdateSubscriber request supplied an empty FilterConfiguration, removing all existing filters. Future bus events can reach the subscriber's existing target; compare its previous filter and delivery volume.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L177
+  - https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_FilterConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_subscriber_filter_cleared: true
+  condition: selection
+falsepositives:
+  - Approved removal of a subscriber filter
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-eventsv2-subscriber-filter-cleared
