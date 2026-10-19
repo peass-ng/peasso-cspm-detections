@@ -1,0 +1,27 @@
+title: Enhanced EventBridge bus policy grants external event or subscriber access
+id: 54c76204-5fa7-41cd-984d-a5cc4ef174b9
+status: experimental
+description: >
+  PutResourcePolicy accepted an unconditional default-policy Allow for an
+  external IAM principal to publish events or create a subscriber on this
+  enhanced bus. The grant can enable injection or retained-event access if
+  the external principal also has its own required permissions. The event
+  alone does not prove that the foreign account used the grant.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eventbridge-persistence/README.md#L103
+  - https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_PutResourcePolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_external_bus_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account event producers or consumers.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-eventsv2-external-bus-policy-grant
