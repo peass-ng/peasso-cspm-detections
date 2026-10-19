@@ -1,0 +1,21 @@
+title: AWS Step Functions execution redrive accepted
+id: f61be11c-321e-4f94-b872-80b950181704
+status: experimental
+description: RedriveExecution accepted a retry of an unsuccessful Standard execution. The event names the existing execution but does not prove which task ran or whether the retry succeeded; resolve execution history and stored role.
+x_hacktricks_technique_id: aws-sfn-execution-redriven
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L368
+- https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: RedriveExecution
+    event.outcome: success
+    request.sfn_execution_redriven: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved retry of a failed workflow
