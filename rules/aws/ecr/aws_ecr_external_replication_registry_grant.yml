@@ -1,0 +1,26 @@
+title: ECR registry policy permits another account to replicate images into this registry
+id: b4df853e-63d3-4471-a43b-4bed4d0a5069
+status: experimental
+description: >
+  An accepted registry policy unconditionally permits an external AWS
+  principal to replicate images into the destination registry. Check whether
+  the source account and repository scope are approved.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ecr-persistence/README.md#L165
+  - https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: PutRegistryPolicy
+    event.outcome: success
+    request.ecr_external_replication_registry_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account replication into this registry.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ecr-external-replication-registry-grant

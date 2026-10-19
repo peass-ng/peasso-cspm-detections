@@ -1,0 +1,23 @@
+title: Lambda reserved concurrency set to zero
+id: 0c496376-6884-4fb7-aadc-a9c39bfd3fca
+status: experimental
+description: A successful PutFunctionConcurrency20171031 request set reserved concurrency to zero. This can throttle invocations, but the event alone does not prove that the function was serving traffic or that the change was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/README.md#L443
+  - https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: PutFunctionConcurrency20171031
+    event.outcome: success
+    request.zero_reserved_concurrency: true
+  condition: selection
+falsepositives:
+  - Approved pause of a function during maintenance or incident response
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-lambda-zero-reserved-concurrency

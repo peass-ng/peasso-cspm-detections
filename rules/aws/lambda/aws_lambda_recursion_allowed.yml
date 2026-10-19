@@ -1,0 +1,23 @@
+title: Lambda recursive loop protection set to Allow
+id: 4bfcfce7-fd50-4283-bf9c-61a77eb39375
+status: experimental
+description: A successful PutFunctionRecursionConfig request allowed recursive loops. This weakens a per-function guard; it does not prove that recursion or an unauthorized invocation occurred.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L238
+  - https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: PutFunctionRecursionConfig
+    event.outcome: success
+    request.recursive_loop_allowed: true
+  condition: selection
+falsepositives:
+  - Approved recursive workflow requiring an explicit Allow setting
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-recursive-loop-allowed

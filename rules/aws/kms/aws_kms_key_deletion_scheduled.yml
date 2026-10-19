@@ -1,0 +1,26 @@
+title: KMS customer key deletion scheduled
+id: 40ffbb75-3a7d-4a91-8705-0e39a9bb4848
+status: experimental
+description: >
+  AWS KMS accepted a key deletion request and reported a pending deletion
+  state with a deletion date. Investigate the key's data dependencies and
+  whether the request was authorized before its waiting period expires.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L318
+  - https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: ScheduleKeyDeletion
+    event.outcome: success
+    request.kms_key_deletion_scheduled: true
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused customer managed key.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-key-deletion-scheduled

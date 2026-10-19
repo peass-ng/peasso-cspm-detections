@@ -1,0 +1,23 @@
+title: S3 bucket ACL set to public read
+id: 9bc784ba-6010-432f-b33f-1a4abbc24113
+status: experimental
+description: A successful PutBucketAcl request used the public-read or public-read-write canned ACL. This records the grant request; Object Ownership and Block Public Access can make it ineffective, and bucket READ alone does not expose object contents.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L298
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAcl.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketAcl
+    event.outcome: success
+    request.public_read_bucket_acl: true
+  condition: selection
+falsepositives:
+  - Approved legacy public bucket ACL
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-s3-public-read-bucket-acl

@@ -1,0 +1,23 @@
+title: EC2 instance metadata tokens set to optional
+id: 3ba5ee70-4fc4-4dc6-b962-09f4bb219f70
+status: experimental
+description: A successful ModifyInstanceMetadataOptions request set HttpTokens to optional on an instance, allowing IMDSv1 requests once applied. The event does not prove a prior required setting, attached instance role or credential theft.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/README.md#L542
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-existing-instances.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyInstanceMetadataOptions
+    event.outcome: success
+    request.imdsv1_allowed: true
+  condition: selection
+falsepositives:
+  - Approved compatibility change for a workload that still requires IMDSv1
+level: high
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-ec2-imdsv1-allowed

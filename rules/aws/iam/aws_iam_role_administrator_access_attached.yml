@@ -1,0 +1,22 @@
+title: AdministratorAccess attached to IAM role
+id: ff68efed-8579-4daf-bb79-55629d27d188
+status: experimental
+description: >
+  A successful AttachRolePolicy applied the AWS managed AdministratorAccess
+  policy to a role. Review who can assume the role and effective boundaries.
+x_hacktricks_technique_id: aws-iam-attachrolepolicy-administrator-access
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L283
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AttachRolePolicy
+    event.outcome: success
+    request.iam_admin_grant_kind: role_attach
+  condition: selection
+level: high
+falsepositives:
+  - Approved administrator role provisioning or maintenance.

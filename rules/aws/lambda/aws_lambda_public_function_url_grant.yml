@@ -1,0 +1,23 @@
+title: Lambda Function URL invoke granted to wildcard principal
+id: 9dbd7b4b-7869-428b-bf8a-586651e295e0
+status: experimental
+description: A successful AddPermission20150331v2 request granted lambda:InvokeFunctionUrl to everyone with FunctionUrlAuthType NONE. Effective anonymous access also depends on the URL configuration and a separate InvokeFunction policy statement.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-function-url-public-exposure.md
+  - https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: AddPermission20150331v2
+    event.outcome: success
+    request.public_function_url_grant: true
+  condition: selection
+falsepositives:
+  - Approved public endpoint with reviewed resource policy
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-lambda-public-function-url-grant

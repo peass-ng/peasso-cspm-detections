@@ -1,0 +1,23 @@
+title: SQS queue message retention set to 60 seconds
+id: 5d744836-cb97-4d60-b12d-b4239d8bfb13
+status: experimental
+description: A successful SetQueueAttributes call requested the 60-second minimum message retention. It can expire queued work, but the event alone does not prove a previous longer retention or message loss.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L199
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SetQueueAttributes.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.retention_60_seconds: true
+  condition: selection
+falsepositives:
+  - Approved short-retention queue or performance testing
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sqs-retention-60-seconds

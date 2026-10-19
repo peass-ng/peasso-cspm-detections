@@ -1,0 +1,26 @@
+title: KMS key policy grants sensitive action to another AWS account
+id: 9d738627-f947-46e1-9da9-c1960a5ad4ce
+status: experimental
+description: >
+  An accepted PutKeyPolicy contains an unconditional allow for a different
+  account to decrypt, create grants, or use all KMS actions. Cross-account
+  use also requires authorization in the other account.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kms-persistence/README.md#L15
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: PutKeyPolicy
+    event.outcome: success
+    request.kms_external_key_policy_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account key use or organization access.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-kms-external-key-policy-grant

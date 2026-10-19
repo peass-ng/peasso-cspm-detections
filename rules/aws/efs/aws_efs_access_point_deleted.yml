@@ -1,0 +1,25 @@
+title: EFS access point deleted
+id: 0974a5b5-d554-41d8-bb2a-a6b66b549cc2
+status: experimental
+description: >
+  A DeleteAccessPoint call succeeded. Confirm whether applications still
+  depend on the point; connected clients can remain active until disconnect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-efs-post-exploitation/README.md#L75
+  - https://docs.aws.amazon.com/efs/latest/APIReference/API_DeleteAccessPoint.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: DeleteAccessPoint
+    event.outcome: success
+    request.efs_access_point_deleted: true
+  condition: selection
+falsepositives:
+  - Approved removal of an unused access point.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-efs-access-point-deleted

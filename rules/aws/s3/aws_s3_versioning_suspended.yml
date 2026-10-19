@@ -1,0 +1,25 @@
+title: S3 bucket versioning explicitly suspended
+id: d6475655-1693-4629-9e37-b95eb4b59803
+status: experimental
+description: >
+  A successful PutBucketVersioning request set Status to Suspended. The event
+  does not prove versioning was previously enabled or that objects were lost.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L446
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketVersioning
+    event.outcome: success
+    request.s3_versioning_suspended: true
+  condition: selection
+falsepositives:
+  - Approved change to a bucket's versioning policy.
+level: medium
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-s3-versioning-suspended

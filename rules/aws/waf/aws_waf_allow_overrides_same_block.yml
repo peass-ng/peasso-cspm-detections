@@ -1,0 +1,26 @@
+title: WAF Allow rule takes precedence over an identical Block match
+id: 9a29856b-be85-4942-b920-f2deee6ff809
+status: experimental
+description: >
+  An accepted Web ACL update places an Allow action before a Block action
+  using the same request statement. Matching traffic reaches Allow first;
+  check whether the ordering and match are approved.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-waf-persistence/README.md#L21
+  - https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-processing-order.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateWebACL
+    event.outcome: success
+    request.waf_allow_overrides_same_block: true
+  condition: selection
+falsepositives:
+  - Deliberate exception to a later block rule.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-allow-overrides-same-block

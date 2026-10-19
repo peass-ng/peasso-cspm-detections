@@ -1,0 +1,23 @@
+title: SQS DeleteQueue operation succeeded
+id: e9c25036-c88d-47d8-9234-f9cf0caeddf5
+status: experimental
+description: A successful DeleteQueue operation was observed for a queue URL in the audited account and Region. The event does not reveal the queue's previous message count or whether deletion was authorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L133
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteQueue.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: DeleteQueue
+    event.outcome: success
+    request.delete_queue_observed: true
+  condition: selection
+falsepositives:
+  - Approved queue retirement or test cleanup
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sqs-delete-queue

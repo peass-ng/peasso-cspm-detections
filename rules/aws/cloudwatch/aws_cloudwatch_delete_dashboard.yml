@@ -1,0 +1,23 @@
+title: CloudWatch dashboard deletion operation succeeded
+id: 2ff10bc0-2e8f-4520-9975-199e22d5745d
+status: experimental
+description: A successful DeleteDashboards request named a dashboard for deletion. The event does not identify its contents or prove that operational visibility was lost.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L327
+  - https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DeleteDashboards.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DeleteDashboards
+    event.outcome: success
+    request.delete_dashboard_observed: true
+  condition: selection
+falsepositives:
+  - Approved dashboard retirement or disposable test cleanup
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-delete-dashboard

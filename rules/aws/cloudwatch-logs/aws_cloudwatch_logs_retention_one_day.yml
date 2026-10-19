@@ -1,0 +1,23 @@
+title: CloudWatch Logs group retention set to one day
+id: 0cb65198-4908-4d3a-8b2a-537c976bb49d
+status: experimental
+description: A successful PutRetentionPolicy request set a log group's retention to one day. Review prior retention and approval; the event alone does not prove any existing data expired.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-persistence/README.md#L51
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: PutRetentionPolicy
+    event.outcome: success
+    request.retention_one_day: true
+  condition: selection
+falsepositives:
+  - Approved short retention for disposable or low-value logs
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-logs-retention-one-day

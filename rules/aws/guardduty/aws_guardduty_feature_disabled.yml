@@ -1,0 +1,23 @@
+title: GuardDuty detector protection feature explicitly disabled
+id: 23d5d972-87d0-4c43-a9aa-b24a44f9334d
+status: experimental
+description: A successful UpdateDetector request included at least one named feature with status DISABLED. The event does not establish the previous feature state, eventual application or unauthorized intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L357
+  - https://docs.aws.amazon.com/guardduty/latest/APIReference/API_UpdateDetector.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: UpdateDetector
+    event.outcome: success
+    request.detector_feature_disable_requested: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty protection-plan change
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-feature-disabled

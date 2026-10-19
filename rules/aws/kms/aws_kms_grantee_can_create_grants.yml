@@ -1,0 +1,26 @@
+title: KMS grant permits grantee to create further grants
+id: b48bca55-1327-4e8d-9f6a-6a0cd38d4daa
+status: experimental
+description: >
+  A successful KMS CreateGrant included CreateGrant in the grantee's
+  operations. Review whether the grantee is approved and whether more grants
+  were created. The event does not prove malicious use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kms-persistence/README.md#L36
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: CreateGrant
+    event.outcome: success
+    request.kms_grantee_can_create_grants: true
+  condition: selection
+falsepositives:
+  - Approved delegated KMS grant administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-kms-grantee-can-create-grants

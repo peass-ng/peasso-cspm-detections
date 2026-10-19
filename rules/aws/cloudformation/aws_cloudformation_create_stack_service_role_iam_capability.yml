@@ -1,0 +1,23 @@
+title: CloudFormation stack created with service role and IAM capability
+id: 6a8d0838-27c5-47f1-bff9-3b57ff0f4296
+status: experimental
+description: >
+  A successful CreateStack selected a service role and acknowledged IAM resource
+  creation. Review the role policy, template and downstream IAM writes to decide
+  whether the caller crossed its normal privilege boundary.
+x_hacktricks_technique_id: aws-cloudformation-createstack-passrole-iam-capability
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L18
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CreateStack
+    event.outcome: success
+    request.stack_service_role_iam_capability: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved infrastructure deployment that creates IAM resources through a service role.

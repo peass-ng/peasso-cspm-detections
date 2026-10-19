@@ -1,0 +1,25 @@
+title: Lambda function attached a layer from another AWS account
+id: 4e6564d5-e360-48aa-a8b9-e39933d8ead6
+status: experimental
+description: >
+  An accepted function configuration attached a Lambda layer whose account
+  differs from the function account. This does not establish that its code
+  ran or was malicious.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionConfiguration20150331v2
+    event.outcome: success
+    request.lambda_external_layer_attached: true
+  condition: selection
+falsepositives:
+  - Approved third-party runtime or monitoring layer.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-external-layer-attached

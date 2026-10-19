@@ -1,0 +1,22 @@
+title: API Gateway REST stage variable changed
+id: 49486d22-b1bc-4fa4-ab83-4039ea857c3a
+status: experimental
+description: >
+  A successful REST API stage update changed a stage variable. CloudTrail
+  redacts its new value, so compare live stage state and integration templates.
+x_hacktricks_technique_id: aws-apigateway-stage-variable-changed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L91
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_stage_variable_changed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved release or configuration change to a stage variable.

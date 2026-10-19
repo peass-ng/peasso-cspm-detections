@@ -1,0 +1,26 @@
+title: AppConfig extension associated with an entire application
+id: 36714a17-93e2-4e26-bec5-5c1d44492a4c
+status: experimental
+description: >
+  A custom extension was associated at application scope, making it eligible
+  to run for descendant profiles and environments. Correlate its extension ARN
+  with CreateExtension or inventory to establish whether it reads content.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appconfig-persistence/README.md#L13
+  - https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions-creating-custom-association.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: CreateExtensionAssociation
+    event.outcome: success
+    request.appconfig_app_wide_extension_association: true
+  condition: selection
+falsepositives:
+  - Approved AppConfig extension applied to all profiles in an application.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appconfig-application-extension-associated

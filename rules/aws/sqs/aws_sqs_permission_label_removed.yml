@@ -1,0 +1,23 @@
+title: SQS queue permission label removed
+id: 6c69c7df-8b8e-4798-a06c-e216e5fb46bd
+status: experimental
+description: A successful RemovePermission call removed a named queue policy permission label. The event does not contain the removed statement, so affected principals and actual access loss require prior policy state.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L177
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_RemovePermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: RemovePermission
+    event.outcome: success
+    request.permission_removed: true
+  condition: selection
+falsepositives:
+  - Approved queue policy maintenance or decommissioning
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sqs-remove-permission-label

@@ -1,0 +1,23 @@
+title: CloudWatch alarm deletion operation succeeded
+id: 93c11375-9033-43d4-be1b-c858268b5fda
+status: experimental
+description: A successful DeleteAlarms request named an alarm for deletion. Confirm prior alarm existence and business purpose; this event alone does not prove security monitoring was lost.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+  - https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DeleteAlarms.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DeleteAlarms
+    event.outcome: success
+    request.delete_alarm_observed: true
+  condition: selection
+falsepositives:
+  - Approved alarm retirement or disposable test cleanup
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-delete-alarm

@@ -1,0 +1,26 @@
+title: CloudFormation change set prepared with service role and IAM capability
+id: 4e16f50a-1650-4c1e-a5e7-8f4b843dc56e
+status: experimental
+description: >
+  An accepted CreateChangeSet passed a CloudFormation service role and
+  acknowledged IAM resource creation. Correlate ExecuteChangeSet and created
+  resources; preparation alone does not prove execution or privilege gain.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L101
+  - https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CreateChangeSet
+    event.outcome: success
+    request.change_set_service_role_iam_capability: true
+  condition: selection
+falsepositives:
+  - Approved infrastructure deployment that creates IAM resources.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-cloudformation-change-set-passrole-iam-capability

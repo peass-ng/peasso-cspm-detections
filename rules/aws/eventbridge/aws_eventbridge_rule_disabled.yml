@@ -1,0 +1,23 @@
+title: EventBridge rule explicitly disabled
+id: 0df85697-807f-47cd-93ce-38f030749a64
+status: experimental
+description: A successful DisableRule request targeted a named EventBridge rule. Review its previous state, targets and change approval before inferring an alerting or automation outage.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L211
+  - https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DisableRule.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.name: DisableRule
+    event.outcome: success
+    request.eventbridge_rule_disable_observed: true
+  condition: selection
+falsepositives:
+  - Approved suspension or retirement of an EventBridge rule
+level: medium
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-eventbridge-disable-rule

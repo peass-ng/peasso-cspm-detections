@@ -1,0 +1,26 @@
+title: EFS access point created at file system root with root POSIX identity
+id: 3eeb6b6c-657d-4efa-a2f6-321315613ceb
+status: experimental
+description: >
+  An EFS access point was accepted with root directory / and enforced
+  POSIX uid and gid 0. Check its file system policy, mount targets and
+  intended clients before treating the point as usable privileged access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-efs-persistence/README.md#L13
+  - https://docs.aws.amazon.com/efs/latest/ug/create-access-point.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: CreateAccessPoint
+    event.outcome: success
+    request.efs_root_access_point: true
+  condition: selection
+falsepositives:
+  - Authorized root-owned file system workload.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-efs-root-access-point-created

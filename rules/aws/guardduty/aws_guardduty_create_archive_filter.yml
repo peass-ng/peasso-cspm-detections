@@ -1,0 +1,23 @@
+title: GuardDuty finding suppression filter created with ARCHIVE action
+id: 30187190-c03f-4222-bafc-c6ee12e235bd
+status: experimental
+description: A successful CreateFilter request configured a GuardDuty finding filter with action ARCHIVE and nonempty criteria. The event does not prove a finding was subsequently suppressed or that the configuration was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L58
+  - https://docs.aws.amazon.com/guardduty/latest/ug/findings_suppression-rule.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: CreateFilter
+    event.outcome: success
+    request.suppression_filter_created: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty finding suppression policy
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-create-archive-filter

@@ -1,0 +1,26 @@
+title: CodeBuild project visibility changed to public
+id: 33a0a3dc-a798-4f63-8b74-c8b3d72f2cf0
+status: experimental
+description: >
+  A successful UpdateProjectVisibility request set a CodeBuild project to
+  PUBLIC_READ. The event proves the setting was accepted, but does not prove
+  that anyone viewed builds, logs, or artifacts.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codebuild-post-exploitation/README.md#L150
+  - https://docs.aws.amazon.com/codebuild/latest/APIReference/API_UpdateProjectVisibility.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: UpdateProjectVisibility
+    event.outcome: success
+    request.codebuild_public_visibility: true
+  condition: selection
+falsepositives:
+  - Approved publication of build results for a public project.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-codebuild-project-public-visibility

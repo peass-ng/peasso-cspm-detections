@@ -1,0 +1,22 @@
+title: API Gateway REST stage canary traffic configured to another deployment
+id: b90fdf4f-e786-45ae-82c3-19169bed996c
+status: experimental
+description: >
+  A successful stage update set nonzero canary traffic to a deployment distinct
+  from the main deployment. Review both deployment definitions and release plan.
+x_hacktricks_technique_id: aws-apigateway-canary-traffic-another-deployment
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L118
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_canary_traffic_redirected: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved canary release or traffic split to a retained deployment.

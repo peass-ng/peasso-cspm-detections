@@ -1,0 +1,26 @@
+title: Athena workgroup result encryption removal requested
+id: b917eabe-0287-4129-9b28-d48451ac55f3
+status: experimental
+description: >
+  An accepted workgroup update requests removal of its result encryption
+  configuration. Check previous state, current workgroup settings and the S3
+  bucket's own encryption before determining effective protection.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/athena/latest/APIReference/API_ResultConfigurationUpdates.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: UpdateWorkGroup
+    event.outcome: success
+    request.athena_result_encryption_removed: true
+  condition: selection
+falsepositives:
+  - Approved move to bucket-managed encryption or removal of an unused setting.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-athena-workgroup-result-encryption-removed

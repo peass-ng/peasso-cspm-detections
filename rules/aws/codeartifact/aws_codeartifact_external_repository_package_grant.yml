@@ -1,0 +1,26 @@
+title: CodeArtifact repository policy grants package access to another account
+id: 89c3e562-1a88-47e8-a2bc-faa425e937d0
+status: experimental
+description: >
+  An accepted repository policy grants an external AWS principal package
+  read or publish permission. Confirm whether the principal also has the
+  necessary identity policy and domain authorization before claiming use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-codeartifact-persistence/README.md#L13
+  - https://docs.aws.amazon.com/codeartifact/latest/ug/repo-policies.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: PutRepositoryPermissionsPolicy
+    event.outcome: success
+    request.codeartifact_external_package_grant: true
+  condition: selection
+falsepositives:
+  - Approved sharing of packages with another AWS account.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-codeartifact-external-repository-package-grant

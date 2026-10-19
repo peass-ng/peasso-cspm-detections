@@ -1,0 +1,23 @@
+title: EC2 instance metadata response hop limit set to at least two
+id: 8fb3d599-ee58-4c17-84e9-228099f73539
+status: experimental
+description: A successful ModifyInstanceMetadataOptions request set HttpPutResponseHopLimit to at least two. This may extend IMDS reachability, but a container workload may legitimately require it and the event does not prove an increase from prior state.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/README.md#L542
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-existing-instances.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyInstanceMetadataOptions
+    event.outcome: success
+    request.metadata_hop_limit_at_least_two: true
+  condition: selection
+falsepositives:
+  - Approved container or proxy workload requiring more than one IMDS response hop
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-ec2-metadata-hop-limit-at-least-two

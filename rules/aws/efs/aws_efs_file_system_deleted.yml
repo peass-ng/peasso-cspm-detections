@@ -1,0 +1,25 @@
+title: EFS file system deletion accepted
+id: 7479392a-aa21-4d4f-96be-7ec037d27104
+status: experimental
+description: >
+  A DeleteFileSystem call succeeded. Confirm the file system reached the
+  deleted state and whether backup or application dependencies were affected.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-efs-post-exploitation/README.md#L100
+  - https://docs.aws.amazon.com/efs/latest/APIReference/API_DeleteFileSystem.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: DeleteFileSystem
+    event.outcome: success
+    request.efs_file_system_deleted: true
+  condition: selection
+falsepositives:
+  - Approved disposal of an unused EFS file system.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-efs-file-system-deleted

@@ -1,0 +1,25 @@
+title: Lambda alias routes a small traffic share to another version
+id: 509461a8-5ba0-4b69-9e58-10a4bb51f7dc
+status: experimental
+description: >
+  An accepted alias update routes up to ten percent of traffic to an
+  additional function version. Review the version code and deployment plan;
+  weighted deployment is also normal release practice.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L64
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateAlias20150331
+    event.outcome: success
+    request.lambda_alias_low_weight_version: true
+  condition: selection
+falsepositives:
+  - Approved canary deployment or weighted rollback.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-alias-low-weight-version

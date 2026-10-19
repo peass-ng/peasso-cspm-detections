@@ -1,0 +1,23 @@
+title: ECR lifecycle policy keeps only one image regardless of tag
+id: 51812dcc-cfd2-42d0-9980-7b442a702793
+status: experimental
+description: A successful PutLifecyclePolicy request installed an expire rule for all tags when more than one image exists. It does not prove that images were present or later expired; review approved retention policy.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L405
+  - https://docs.aws.amazon.com/AmazonECR/latest/userguide/lifecycle_policy_examples.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: PutLifecyclePolicy
+    event.outcome: success
+    request.ecr_broad_one_image_expiration_policy: true
+  condition: selection
+falsepositives:
+  - Approved policy retaining only the newest image
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ecr-broad-one-image-expiration

@@ -1,0 +1,23 @@
+title: CloudWatch DisableAlarmActions operation succeeded
+id: 6cb6cd41-f776-4ba0-9998-9162e0ff8ddd
+status: experimental
+description: A successful DisableAlarmActions request named an alarm. Review its prior state and configured actions; the event alone does not prove that alerting was interrupted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L221
+  - https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DisableAlarmActions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DisableAlarmActions
+    event.outcome: success
+    request.disable_alarm_actions_observed: true
+  condition: selection
+falsepositives:
+  - Approved alarm maintenance or incident response
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-disable-alarm-actions

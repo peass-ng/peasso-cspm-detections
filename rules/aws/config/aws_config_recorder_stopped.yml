@@ -1,0 +1,26 @@
+title: AWS Config configuration recorder stopped
+id: 42bce6aa-23a4-4155-a9f8-9766160368ca
+status: experimental
+description: >
+  A customer managed AWS Config recorder stop was accepted. Recording of
+  configuration changes ceases until restarted. Confirm the previous running
+  state and approved maintenance window before treating the action as evasion.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-config-persistence/README.md
+  - https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: StopConfigurationRecorder
+    event.outcome: success
+    request.config_recorder_stop: true
+  condition: selection
+falsepositives:
+  - Approved maintenance or shutdown of a disposable recorder.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-config-recorder-stopped

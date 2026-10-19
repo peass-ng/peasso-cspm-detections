@@ -1,0 +1,25 @@
+title: WAF Web ACL deleted
+id: 4fb6e1a4-0dd1-4a09-93af-0b775a6863db
+status: experimental
+description: >
+  A WAF Web ACL deletion succeeded. Investigate prior resource associations;
+  an ACL that was never associated could be routine cleanup.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_DeleteWebACL.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: DeleteWebACL
+    event.outcome: success
+    request.waf_web_acl_deleted: true
+  condition: selection
+falsepositives:
+  - Approved removal of an unassociated Web ACL.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-waf-web-acl-deleted

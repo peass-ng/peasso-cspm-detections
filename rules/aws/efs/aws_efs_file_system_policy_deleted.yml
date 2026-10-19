@@ -1,0 +1,26 @@
+title: EFS file system policy deleted
+id: 9c0f5804-4239-47f7-bdc2-907a15c9e850
+status: experimental
+description: >
+  A DeleteFileSystemPolicy call succeeded. EFS applies its default policy
+  afterward; compare the prior explicit policy and mount-target reachability
+  before concluding that access widened.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-efs-privesc/README.md#L28
+  - https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: DeleteFileSystemPolicy
+    event.outcome: success
+    request.efs_policy_deleted: true
+  condition: selection
+falsepositives:
+  - Approved removal of an obsolete EFS file system policy.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-efs-file-system-policy-deleted

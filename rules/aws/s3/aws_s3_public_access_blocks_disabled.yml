@@ -1,0 +1,23 @@
+title: S3 bucket public access blocks explicitly disabled
+id: 6f28e123-1cb5-4332-a6a0-98531b0cd064
+status: experimental
+description: A successful PutBucketPublicAccessBlock request set all four bucket-level public access blocks to false. Account-level blocks and other controls can still prevent public access; this event does not prove data exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L298
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketPublicAccessBlock
+    event.outcome: success
+    request.all_public_access_blocks_disabled: true
+  condition: selection
+falsepositives:
+  - Approved public bucket configuration in an isolated account
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-s3-bucket-public-access-blocks-disabled

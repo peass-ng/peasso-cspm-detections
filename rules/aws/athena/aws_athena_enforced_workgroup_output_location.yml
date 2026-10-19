@@ -1,0 +1,26 @@
+title: Athena workgroup enforces a new query result output location
+id: 8879dbab-f837-434e-9ed1-6a4beb3011fa
+status: experimental
+description: >
+  An accepted workgroup update sets a result bucket while enforcing workgroup
+  settings over client settings. Compare the bucket with approved destinations
+  and previous configuration before treating this as result exfiltration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: UpdateWorkGroup
+    event.outcome: success
+    request.athena_enforced_output_location: true
+  condition: selection
+falsepositives:
+  - Approved change of the workgroup result bucket and override settings.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-athena-enforced-workgroup-output-location

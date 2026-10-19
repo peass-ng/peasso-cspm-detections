@@ -1,0 +1,23 @@
+title: Lambda function deletion operation succeeded
+id: fcc8fce6-a045-483a-9913-5063450426ba
+status: experimental
+description: A successful DeleteFunction20150331 request deleted a Lambda function or qualified version. Confirm the target and change record; the event alone does not prove a production outage or malicious intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/README.md#L416
+  - https://docs.aws.amazon.com/lambda/latest/api/API_DeleteFunction.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: DeleteFunction20150331
+    event.outcome: success
+    request.function_deleted: true
+  condition: selection
+falsepositives:
+  - Approved deployment replacement, retirement or test cleanup
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-lambda-delete-function

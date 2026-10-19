@@ -1,0 +1,25 @@
+title: EventBridge archive configured to retain events indefinitely
+id: d56593b0-dbc4-4c4f-a639-94bd48983d87
+status: experimental
+description: >
+  An accepted archive creation or update has zero-day retention, which means
+  indefinite retention. An archive can preserve event payloads for later
+  replay even after the actor's original credentials are revoked.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eventbridge-persistence/README.md#L21
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-archive.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_indefinite_archive: true
+  condition: selection
+falsepositives:
+  - Approved indefinite retention for event recovery or audit.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-eventbridge-indefinite-archive

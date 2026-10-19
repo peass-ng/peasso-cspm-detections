@@ -1,0 +1,26 @@
+title: AppConfig experiment defines a treatment enabling a disabled feature flag
+id: a0d8c124-b911-4a92-8763-f47ab915ae92
+status: experimental
+description: >
+  An accepted experiment definition has a disabled control and a positively
+  weighted treatment that enables the flag. The definition requires a running
+  experiment and an eligible consumer before the treatment can affect users.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L187
+  - https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-experiment-definition.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: CreateExperimentDefinition
+    event.outcome: success
+    request.appconfig_enabled_experiment_defined: true
+  condition: selection
+falsepositives:
+  - Approved feature flag experiment testing an enabled treatment.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-appconfig-disabled-flag-enabled-in-experiment

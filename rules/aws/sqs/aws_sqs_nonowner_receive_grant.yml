@@ -1,0 +1,23 @@
+title: SQS queue grants ReceiveMessage to a nonowner account
+id: 63d43044-e73a-414e-bd49-b49ce9e943a5
+status: experimental
+description: A successful AddPermission request granted ReceiveMessage on an SQS queue to an account other than its owner. The event does not prove that the other account read a message or that the grant was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sqs-privesc/README.md#L13
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_AddPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: AddPermission
+    event.outcome: success
+    request.sqs_nonowner_receive_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account SQS consumer integration
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-sqs-nonowner-receive-grant

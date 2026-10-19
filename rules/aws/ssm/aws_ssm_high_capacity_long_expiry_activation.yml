@@ -1,0 +1,23 @@
+title: SSM hybrid activation permits many registrations over long expiry
+id: 7a7de124-4189-49db-b44d-a49a0a07078b
+status: experimental
+description: >
+  A successful SSM CreateActivation permits at least 20 managed-node
+  registrations and remains valid for at least 14 days. Review the bound role
+  and subsequent registrations; no node registration is implied.
+x_hacktricks_technique_id: aws-ssm-high-capacity-long-expiry-activation
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-ssm-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: CreateActivation
+    event.outcome: success
+    request.ssm_activation_high_capacity_long_expiry: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved hybrid fleet onboarding with many nodes or a long registration window.

@@ -1,0 +1,25 @@
+title: CloudWatch alarm state manually forced to ALARM or OK
+id: 923386e0-b3aa-42b3-bf70-e5071a1955b9
+status: experimental
+description: >
+  A successful SetAlarmState explicitly forced an alarm into ALARM or OK.
+  Review whether the actor was testing and whether enabled alarm actions
+  executed; the event alone does not prove an action or sustained suppression.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L221
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: SetAlarmState
+    event.outcome: success
+    request.alarm_state_manually_forced: true
+  condition: selection
+falsepositives:
+  - Approved alarm test or incident response exercise.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-alarm-state-manually-forced

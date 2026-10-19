@@ -1,0 +1,25 @@
+title: CloudTrail S3 delivery destination explicitly set
+id: ddcbb3bc-4a36-4ce1-ad39-0f634d386dc2
+status: experimental
+description: >
+  An accepted UpdateTrail explicitly set the S3 log destination, confirmed
+  by the response. Compare the bucket with the prior trail and approved
+  owners; this event alone cannot prove a destination change or data loss.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md#L77
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: UpdateTrail
+    event.outcome: success
+    request.trail_s3_bucket_destination_set: true
+  condition: selection
+falsepositives:
+  - Approved migration of CloudTrail log delivery to another bucket.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudtrail-s3-destination-set

@@ -1,0 +1,23 @@
+title: GuardDuty finding filter updated to ARCHIVE action
+id: b730814c-6b3a-45f9-a98f-0809f0f3e251
+status: experimental
+description: A successful UpdateFilter request explicitly set a GuardDuty finding filter action to ARCHIVE. The event does not prove the previous action, the effective criteria, a later suppressed finding or unauthorized intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L58
+  - https://docs.aws.amazon.com/guardduty/latest/ug/findings_suppression-rule.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: UpdateFilter
+    event.outcome: success
+    request.suppression_filter_updated: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty suppression policy update
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-update-archive-filter

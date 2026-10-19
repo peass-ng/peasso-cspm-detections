@@ -1,0 +1,25 @@
+title: CloudTrail selector excludes KMS or RDS Data management events
+id: 1997fca8-78c4-4df4-b64b-0cb26274f808
+status: experimental
+description: >
+  An accepted basic selector update requested a single selector that excludes
+  KMS or RDS Data API management events. Review the resulting trail selectors;
+  this event does not prove past events were removed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudtrail-persistence/README.md#L23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: PutEventSelectors
+    event.outcome: success
+    request.trail_management_sources_excluded: true
+  condition: selection
+falsepositives:
+  - Approved reduction of noisy KMS or RDS Data API management events.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudtrail-management-sources-excluded
