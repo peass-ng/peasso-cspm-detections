@@ -1,0 +1,23 @@
+title: EventBridge Scheduler schedule deleted
+id: b58b0503-e384-46df-8598-1fb2b60a3d47
+status: experimental
+description: >
+  DeleteSchedule completed for a named schedule. This removes future
+  invocations but does not reveal the deleted target or prove business impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-scheduler-post-exploitation.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: scheduler.amazonaws.com
+    event.outcome: success
+    request.scheduler_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of a schedule.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-scheduler-schedule-deleted

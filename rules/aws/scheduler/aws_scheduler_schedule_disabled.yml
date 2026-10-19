@@ -1,0 +1,24 @@
+title: EventBridge Scheduler schedule explicitly disabled
+id: 11d36c85-fcd9-42e1-ab22-614cf6a54314
+status: experimental
+description: >
+  UpdateSchedule completed with State DISABLED. This stops future scheduled
+  invocations while leaving the schedule in inventory. The event does not
+  prove an existing business workflow was disrupted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-scheduler-post-exploitation.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: scheduler.amazonaws.com
+    event.outcome: success
+    request.scheduler_disabled: true
+  condition: selection
+falsepositives:
+  - Approved pause of scheduled automation.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-scheduler-schedule-disabled
