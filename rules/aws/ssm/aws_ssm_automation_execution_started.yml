@@ -1,0 +1,21 @@
+title: AWS SSM Automation runbook execution started
+id: c0e7ac53-6ff5-4a10-9c56-0f67ac41d4c2
+status: experimental
+description: A successful StartAutomationExecution returned an execution ID. The event does not contain the stored assumeRole or prove privilege escalation; resolve document version and role against an approved inventory.
+x_hacktricks_technique_id: aws-ssm-automation-execution-started
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L21
+- https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_StartAutomationExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: StartAutomationExecution
+    event.outcome: success
+    request.ssm_automation_started: true
+  condition: selection
+level: low
+falsepositives:
+- Approved runbook operation

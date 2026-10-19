@@ -1,0 +1,21 @@
+title: AWS SSM hybrid activation created for a managed-node role
+id: b5d75d80-c402-4421-9064-49d37a978e14
+status: experimental
+description: A successful CreateActivation minted an activation ID for an IAM role. The bearer activation code is redacted in CloudTrail; registration and privilege use require separate evidence.
+x_hacktricks_technique_id: aws-ssm-hybrid-activation-created
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L92
+- https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateActivation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: CreateActivation
+    event.outcome: success
+    request.ssm_hybrid_activation_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved onboarding of hybrid managed nodes
