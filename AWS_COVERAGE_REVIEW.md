@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **161**. Total headings: **793**.
+Pages with at least three level-three headings and no direct YAML reference: **160**. Total headings: **785**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md) (15 headings)
 
@@ -234,17 +234,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`iam:PassRole\`, \`eks:CreateNodegroup\` / \`eks:CreateFargateProfile\` — run pods on capacity you control
 - \`eks:AssociateIdentityProviderConfig\` with a matching privileged RBAC group
 - Associate a cluster-admin access policy with an existing EKS access entry the source controls
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-rds-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-rds-privesc/README.md) (8 headings)
-
-- \`rds:ModifyDBInstance\`
-- rds-db:connect
-- Abuse RDS Role IAM permissions
-- \`rds:AddRoleToDBCluster\`, \`iam:PassRole\`
-- \`rds:CreateDBInstance\`
-- \`rds:CreateDBInstance\`, \`iam:PassRole\`, KMS key-use permissions
-- \`rds:AddRoleToDBInstance\`, \`iam:PassRole\`
-- \`rds:CreateBlueGreenDeployment\`, \`rds:AddRoleToDBCluster\`, \`iam:PassRole\`, \`rds:SwitchoverBlueGreenDeployment\`
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md) (8 headings)
 
