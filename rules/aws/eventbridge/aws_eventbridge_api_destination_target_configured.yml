@@ -1,0 +1,22 @@
+title: EventBridge API destination configured as rule target
+id: 084b4fc1-3bfa-4830-a62f-fd603ef49f9b
+status: experimental
+description: A successful PutTargets configured an API destination with an execution role. A matching event can be sent over HTTPS through its connection; compare the rule's previous targets, endpoint, connection credential and approval to assess disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L107
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_api_destination_target: true
+  condition: selection
+falsepositives:
+  - Approved HTTP integration added to an EventBridge rule
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-eventbridge-api-destination-target-configured
