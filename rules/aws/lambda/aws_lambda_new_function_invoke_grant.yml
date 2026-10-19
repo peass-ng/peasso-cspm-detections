@@ -1,0 +1,22 @@
+title: AWS Lambda new function grants another role invocation
+id: 499113b4-226f-469a-a1c2-ad061153516c
+status: experimental
+description: The function creator added an InvokeFunction grant to an IAM role within
+  ten minutes of creation. It is an access path to the function execution role,
+  but the event does not establish the role's privilege level or invocation.
+x_hacktricks_technique_id: aws-lambda-new-function-invoke-grant
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L173
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: AddPermission20150331v2
+    event.outcome: success
+    request.lambda_new_function_invoke_grant: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved role invocation grant during deployment

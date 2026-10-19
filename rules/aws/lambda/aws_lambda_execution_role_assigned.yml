@@ -1,0 +1,22 @@
+title: AWS Lambda execution role assigned by configuration update
+id: d9217680-bae9-4b88-b9f3-e61c8f9dd02d
+status: experimental
+description: UpdateFunctionConfiguration accepted and returned the requested execution
+  role. The event does not contain the previous role or prove that the new role
+  is more privileged; compare with configuration inventory and actor rights.
+x_hacktricks_technique_id: aws-lambda-execution-role-assigned
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L140
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionConfiguration20150331v2
+    event.outcome: success
+    request.lambda_execution_role_assigned: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved execution role change during deployment

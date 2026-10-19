@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **165**.
+Pages with at least three level-three headings and no direct YAML reference: **164**.
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md) (20 headings)
 
@@ -26,24 +26,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`rds:DeleteDBInstance\`
 - \`rds:Modify*\`
 - \`rds:CreateDBInstance\`
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md) (15 headings)
-
-- \`iam:PassRole\`, \`lambda:CreateFunction\`, \`lambda:InvokeFunction\`
-- \`iam:PassRole\`, \`lambda:UpdateFunctionConfiguration\`, \`lambda:InvokeFunction\` — repoint an existing function's execution role
-- \`iam:PassRole\`, \`lambda:CreateFunction\`, \`lambda:AddPermission\`
-- \`iam:PassRole\`, \`lambda:CreateFunction\`, \`lambda:CreateEventSourceMapping\`
-- \`lambda:PutResourcePolicy\` + \`lambda:AddPermission\` + \`lambda:RemovePermission\` — grant code updates through a function policy
-- \`ecr:PutImage\` on a mutable Lambda image tag (later code deployment required)
-- \`lambda:UpdateFunctionCode\`
-- \`lambda:UpdateFunctionConfiguration\`
-- \`iam:PassRole\`, \`lambda:CreateFunction\`, \`lambda:CreateFunctionUrlConfig\`, \`lambda:InvokeFunctionUrl\`
-- \`lambda:DeleteFunctionCodeSigningConfig\` or \`lambda:PutFunctionCodeSigningConfig\` + \`lambda:UpdateFunctionCode\` — Bypass Lambda Code Signing
-- \`signer:StartSigningJob\` + \`lambda:UpdateFunctionCode\` — Sign attacker code with an already trusted publisher
-- \`lambda:CreateMicrovmShellAuthToken\` — shell into an existing Lambda MicroVM
-- Lambda MicroVMs
-- Cron/Event actuator
-- Enumeration
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md) (15 headings)
 
