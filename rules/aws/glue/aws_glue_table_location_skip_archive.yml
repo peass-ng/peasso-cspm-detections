@@ -1,0 +1,21 @@
+title: AWS Glue table S3 location set while version archive skipped
+id: 5d291250-7662-4c40-b544-1a1dc2b7498a
+status: experimental
+description: A successful UpdateTable supplied an S3 location and SkipArchive true. Compare with the prior catalog version to determine whether the location actually changed or redirected a consumer.
+x_hacktricks_technique_id: aws-glue-poison-table-location
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-glue-post-exploitation/README.md#L115
+  - https://docs.aws.amazon.com/glue/latest/webapi/API_UpdateTable.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: glue.amazonaws.com
+    event.name: UpdateTable
+    event.outcome: success
+    request.glue_table_location_skip_archive: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized schema or location maintenance that skips version archive

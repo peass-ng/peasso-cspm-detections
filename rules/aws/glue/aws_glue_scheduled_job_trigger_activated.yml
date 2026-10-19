@@ -1,0 +1,21 @@
+title: AWS Glue scheduled job trigger activated on creation
+id: d04d19b0-a95a-46e2-b005-1731596c53ae
+status: experimental
+description: A successful CreateTrigger requested a scheduled job trigger active on creation. Review target job, schedule and caller; creation does not prove a job run occurred.
+x_hacktricks_technique_id: aws-glue-recurring-job-trigger
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-glue-persistence/README.md#L52
+  - https://docs.aws.amazon.com/glue/latest/webapi/API_CreateTrigger.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: glue.amazonaws.com
+    event.name: CreateTrigger
+    event.outcome: success
+    request.glue_scheduled_job_trigger_activated: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved scheduled ETL automation
