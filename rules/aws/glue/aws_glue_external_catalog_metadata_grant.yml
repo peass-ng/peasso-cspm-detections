@@ -1,0 +1,21 @@
+title: AWS Glue Data Catalog policy grants metadata read to another account
+id: 5d9aaf3f-e89e-4e5b-8e41-55033c5147c8
+status: experimental
+description: A successful PutResourcePolicy contained an Allow for Glue metadata reads to an external account principal, or a wildcard restricted by aws:PrincipalAccount to an external account. Confirm the account is approved and evaluate any other IAM, Lake Formation, S3 and KMS controls before attributing data access.
+x_hacktricks_technique_id: aws-glue-external-catalog-resource-policy
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-glue-persistence/README.md#L13
+  - https://docs.aws.amazon.com/glue/latest/webapi/API_PutResourcePolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: glue.amazonaws.com
+    event.name: PutResourcePolicy
+    event.outcome: success
+    request.glue_external_catalog_grant: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved cross account catalog sharing
