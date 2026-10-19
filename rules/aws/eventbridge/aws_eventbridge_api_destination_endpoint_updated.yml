@@ -1,0 +1,22 @@
+title: EventBridge API destination endpoint updated
+id: 95db7a32-ea7c-497b-96ed-56e6eec88b48
+status: experimental
+description: An active API destination accepted a new HTTPS invocation endpoint. Compare the previous endpoint and attached rule targets to determine whether outbound events were redirected.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-privesc/README.md
+  - https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdateApiDestination.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_api_destination_endpoint_updated: true
+  condition: selection
+falsepositives:
+  - Approved migration of an API destination endpoint
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-eventbridge-api-destination-endpoint-updated
