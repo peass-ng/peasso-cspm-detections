@@ -1,0 +1,21 @@
+title: AWS RDS cluster snapshot shared with another account
+id: 8d336b6d-91ea-422a-9fce-6c8daec346a5
+status: experimental
+description: An accepted ModifyDBClusterSnapshotAttribute added a different AWS account ID to the restore ACL of a cluster snapshot. Confirm the recipient against approved sharing inventory.
+x_hacktricks_technique_id: aws-rds-cluster-snapshot-cross-account-restore
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L462
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBClusterSnapshotAttribute.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBClusterSnapshotAttribute
+    event.outcome: success
+    request.rds_cluster_snapshot_external_restore_added: true
+  condition: selection
+level: high
+falsepositives:
+- Approved cross account backup or migration
