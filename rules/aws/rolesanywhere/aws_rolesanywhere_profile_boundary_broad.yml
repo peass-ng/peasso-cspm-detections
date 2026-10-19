@@ -1,0 +1,22 @@
+title: AWS Roles Anywhere profile session boundary set to unrestricted
+id: d8ed0cd7-a138-4f71-b07a-ad6f07d6a3b7
+status: experimental
+description: A successful UpdateProfile cleared managed session policies and set an
+  unconditional allow-all session policy for a profile with roles. Effective access
+  still depends on role permissions and certificate authentication.
+x_hacktricks_technique_id: aws-rolesanywhere-profile-boundary-broad
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md#L426
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: UpdateProfile
+    event.outcome: success
+    request.rolesanywhere_profile_boundary_broad: true
+  condition: selection
+level: high
+falsepositives:
+- Approved removal of obsolete session policy restrictions

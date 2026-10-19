@@ -1,0 +1,22 @@
+title: AWS Roles Anywhere certificate trust anchor replaced
+id: f92b8a8d-7780-4f22-9959-0a2d36056c43
+status: experimental
+description: A successful UpdateTrustAnchor submitted a new certificate bundle for
+  an existing anchor. Verify prior source and subsequent CreateSession to establish
+  takeover.
+x_hacktricks_technique_id: aws-rolesanywhere-trust-anchor-ca-replaced
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md#L381
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: UpdateTrustAnchor
+    event.outcome: success
+    request.rolesanywhere_anchor_ca_replaced: true
+  condition: selection
+level: high
+falsepositives:
+- Approved CA rotation
