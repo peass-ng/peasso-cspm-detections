@@ -1,0 +1,21 @@
+title: AWS IAM role maximum session duration set to twelve hours
+id: db0181d5-3556-4acf-93d7-e9df74b2c38d
+status: experimental
+description: A successful UpdateRole set MaxSessionDuration to 43200 seconds. This allows future API or CLI role sessions to request up to twelve hours, subject to trust and other policy controls; it does not show a session was issued.
+x_hacktricks_technique_id: aws-iam-update-role-max-session-duration
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-iam-persistence/README.md#L202
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateRole.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateRole
+    event.outcome: success
+    request.max_session_duration: 43200
+  condition: selection
+level: medium
+falsepositives:
+  - Approved role configuration allowing long running sessions
