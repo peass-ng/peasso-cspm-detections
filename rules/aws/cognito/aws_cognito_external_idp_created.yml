@@ -1,0 +1,20 @@
+title: AWS Cognito external identity provider created
+id: c66e3085-8643-4746-8bc9-8dd8c044ab4d
+status: experimental
+description: A successful CreateIdentityProvider configured a federated provider. Review its issuer, client and mapped claims before enabling it for app clients.
+x_hacktricks_technique_id: aws-cognito-external-idp-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L664
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: CreateIdentityProvider
+    event.outcome: success
+    request.cognito_external_idp_created: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved user administration or identity-provider maintenance

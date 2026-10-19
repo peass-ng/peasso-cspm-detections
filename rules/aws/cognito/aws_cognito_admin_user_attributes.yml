@@ -1,0 +1,20 @@
+title: AWS Cognito user attributes administratively changed
+id: dfc0e628-3619-469e-be20-3e31f1fbaafd
+status: experimental
+description: A successful AdminUpdateUserAttributes changed a user profile. CloudTrail hides the attribute names and values, so this cannot establish a role claim or verification bypass; compare user-pool state.
+x_hacktricks_technique_id: aws-cognito-admin-update-user-attributes
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L527
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminUpdateUserAttributes
+    event.outcome: success
+    request.cognito_admin_update_user_attributes: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved user administration or identity-provider maintenance
