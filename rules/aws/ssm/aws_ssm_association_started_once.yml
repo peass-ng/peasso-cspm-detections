@@ -1,0 +1,23 @@
+title: AWS SSM existing association started once
+id: 7f352906-bd57-451f-aac7-ef24b7088d95
+status: experimental
+description: StartAssociationsOnce accepted a one-time execution of an existing State
+  Manager association. The event lists association IDs but not their document,
+  parameters or targets; resolve these from the association inventory.
+x_hacktricks_technique_id: aws-ssm-association-started-once
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ssm-parameter-and-command-access-post-exploitation/README.md#L7
+- https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_StartAssociationsOnce.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: StartAssociationsOnce
+    event.outcome: success
+    request.ssm_association_started_once: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved manual troubleshooting or rerun of an association

@@ -1,0 +1,23 @@
+title: AWS SQS message visibility extended beyond one hour
+id: 07d435e3-9c2e-4c2c-b45d-b179c28ef1ae
+status: experimental
+description: A successful ChangeMessageVisibility request hid one received message for
+  at least an hour. SQS data events must be enabled for the queue; the event does
+  not reveal the message body or prove that a consumer missed work.
+x_hacktricks_technique_id: aws-sqs-message-hidden-over-hour
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L100
+- https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: ChangeMessageVisibility
+    event.outcome: success
+    request.sqs_message_hidden_over_hour: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved long-running message processing
