@@ -1,0 +1,21 @@
+title: AWS SQS DLQ explicitly allows all same-account sources
+id: e11606c3-7f30-44de-9516-d309e5709628
+status: experimental
+description: An accepted RedriveAllowPolicy explicitly allows any same-account source queue to target this DLQ. Review owner and linked RedrivePolicy values.
+x_hacktricks_technique_id: aws-sqs-dlq-allow-all-sources
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sqs-persistence/aws-sqs-dlq-backdoor-persistence.md
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SetQueueAttributes.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_redrive_allow_all: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved DLQ shared by several source queues
