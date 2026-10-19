@@ -1,0 +1,24 @@
+title: Enhanced EventBridge bus retention set to one day
+id: f83d3658-be8b-4ac4-8a2c-ad9681080cac
+status: experimental
+description: >
+  UpdateEventBus accepted a one-day retention period. The event does not
+  include previous retention, so it cannot by itself prove a reduction or
+  loss of older data; compare prior bus configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L309
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_retention_one_day: true
+  condition: selection
+falsepositives:
+  - Approved one-day retention setting for a low-value event bus.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eventsv2-one-day-retention

@@ -1,0 +1,25 @@
+title: Enhanced EventBridge subscriber reads retained history
+id: c88d956a-37ee-49a8-a214-5b510fa99a1a
+status: experimental
+description: >
+  A running enhanced-bus subscriber was created with POINT_IN_TIME so it can
+  read events retained before its creation. The event proves configuration,
+  while delivery and sensitivity depend on its filter, role, and target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L25
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-custom-bus-replay.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_backfill_subscriber: true
+  condition: selection
+falsepositives:
+  - Approved retrospective processing of retained events.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-eventsv2-backfill-subscriber

@@ -1,0 +1,25 @@
+title: Enhanced EventBridge subscriber paused
+id: d12224fa-d054-41c2-9205-8eb8360e941a
+status: experimental
+description: >
+  UpdateSubscriber accepted State STOPPED, preventing further delivery while
+  the subscriber remains configured. The event does not prove that useful
+  events were missed or that the backlog was later discarded.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L269
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-custom-bus-update.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_subscriber_paused: true
+  condition: selection
+falsepositives:
+  - Approved maintenance pause of a subscriber.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eventsv2-subscriber-paused
