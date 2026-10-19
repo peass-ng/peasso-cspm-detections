@@ -1,0 +1,20 @@
+title: AWS Kinesis Data Streams channel created for S3 delivery
+id: fd4a277c-3f29-4db7-a422-9b80ed9edc78
+status: experimental
+description: An account stream was attached to a newly accepted channel that delivers future records to S3 through an execution role. Compare the stream, role and bucket to an approved delivery inventory.
+x_hacktricks_technique_id: aws-kinesis-s3-channel-created
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L173
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: CreateChannel
+    event.outcome: success
+    request.kinesis_s3_channel_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved Kinesis S3 delivery

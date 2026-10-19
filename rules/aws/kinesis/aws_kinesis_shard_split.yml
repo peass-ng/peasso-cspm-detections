@@ -1,0 +1,20 @@
+title: AWS Kinesis stream shard split
+id: 9814bafe-a209-4c7c-9a93-445892cf54f1
+status: experimental
+description: A Kinesis stream accepted SplitShard. Compare capacity and cost baselines to decide whether the change was disruptive.
+x_hacktricks_technique_id: aws-kinesis-shard-split
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: SplitShard
+    event.outcome: success
+    request.kinesis_shard_split: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved shard scaling
