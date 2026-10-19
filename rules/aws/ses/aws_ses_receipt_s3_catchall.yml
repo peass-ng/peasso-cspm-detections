@@ -1,0 +1,22 @@
+title: AWS SES catch-all receipt rule writes email to S3
+id: 4de134f4-15f9-4091-9250-042286262596
+status: experimental
+description: An enabled SES receipt rule with no recipient restriction was created or updated to store messages in S3. Verify the destination and active rule set; this event alone does not prove email was delivered.
+x_hacktricks_technique_id: aws-ses-receipt-s3-catchall
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ses-post-exploitation/README.md#L55
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ses.amazonaws.com
+    event.name:
+    - CreateReceiptRule
+    - UpdateReceiptRule
+    event.outcome: success
+    request.ses_receipt_s3_catchall: true
+  condition: selection
+level: high
+falsepositives:
+- Approved inbound email archiving to S3
