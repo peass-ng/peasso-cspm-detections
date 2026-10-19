@@ -1,0 +1,19 @@
+title: AWS Cognito app client permits external identity provider
+id: 8e2759b7-daa7-486f-b6b1-ebba0a307b83
+status: experimental
+description: A successful app-client create or update included a non-COGNITO identity provider. Review issuer trust, claims and authorized app-client configuration.
+x_hacktricks_technique_id: aws-cognito-external-idp-enabled-on-client
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L664
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.outcome: success
+    request.cognito_external_idp_enabled_on_client: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved user-pool or app-client deployment
