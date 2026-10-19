@@ -1,0 +1,21 @@
+title: AWS RDS verbose SQL logging followed by API log read
+id: 3c766f85-26bd-4bdf-aa68-a2fcb8e4c567
+status: experimental
+description: The same actor enabled verbose PostgreSQL SQL logging, attached that parameter group, rebooted the instance and read its DB log through the RDS API within two hours. The sequence does not prove that SQL statements were captured or contained secrets; inspect the log and approval context.
+x_hacktricks_technique_id: aws-rds-sql-logging-then-log-read
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L617
+- https://docs.aws.amazon.com/prescriptive-guidance/latest/amazon-rds-monitoring-alerting/audit-trails.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: DownloadDBLogFilePortion
+    event.outcome: success
+    request.rds_sql_logging_then_log_read: true
+  condition: selection
+level: high
+falsepositives:
+- Approved database audit collection or incident investigation

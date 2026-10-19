@@ -1,0 +1,21 @@
+title: AWS RDS parameter group enables verbose SQL statement logging
+id: 9e0e2fa5-b13f-4b77-82aa-f41b396929dc
+status: experimental
+description: ModifyDBParameterGroup accepted PostgreSQL log_statement=all or log_min_duration_statement=0. Check whether the group is attached and whether query contents were subsequently downloaded; the event alone does not prove capture or exfiltration. The MySQL general_log variant needs separate validation.
+x_hacktricks_technique_id: aws-rds-verbose-sql-logging-enabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L617
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_ModifyDBParameterGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBParameterGroup
+    event.outcome: success
+    request.rds_sql_logging_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved database audit or performance diagnostics
