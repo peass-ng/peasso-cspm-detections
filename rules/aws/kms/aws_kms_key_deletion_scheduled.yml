@@ -2,9 +2,10 @@ title: KMS customer key deletion scheduled
 id: 40ffbb75-3a7d-4a91-8705-0e39a9bb4848
 status: experimental
 description: >
-  AWS KMS accepted a key deletion request and reported a pending deletion
-  state with a deletion date. Investigate the key's data dependencies and
-  whether the request was authorized before its waiting period expires.
+  AWS KMS accepted a key deletion request and reported PendingDeletion with
+  a deletion date, or PendingReplicaDeletion for a multi-Region primary key.
+  The latter has no deletion date until the last replica is deleted.
+  Investigate data dependencies and whether the request was authorized.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L318
   - https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html
