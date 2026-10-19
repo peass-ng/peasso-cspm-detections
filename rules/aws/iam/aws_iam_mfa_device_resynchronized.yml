@@ -1,0 +1,23 @@
+title: IAM MFA device resynchronized
+id: 73364233-5563-4cfb-a10c-2a7e1a199978
+status: experimental
+description: A successful ResyncMFADevice call synchronized a hardware or virtual MFA device for an IAM user. Review whether the actor controlled the device and whether the request was approved; resynchronization alone grants no IAM permission.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L491
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResyncMFADevice.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: ResyncMFADevice
+    event.outcome: success
+    request.iam_mfa_resync_observed: true
+  condition: selection
+falsepositives:
+  - Approved resynchronization for clock drift or device recovery
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-iam-mfa-device-resynchronized
