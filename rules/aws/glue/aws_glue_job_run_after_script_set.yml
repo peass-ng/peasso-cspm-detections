@@ -1,0 +1,21 @@
+title: AWS Glue job run started soon after S3 script configuration
+id: 3e37b9ea-2926-43ad-8b1b-36347d641842
+status: experimental
+description: A successful StartJobRun followed a successful CreateJob or UpdateJob for the same job within thirty minutes, with a Glue role and S3 script location supplied. This identifies the code execution path but does not prove the script changed, that the run succeeded or that the activity was unauthorized.
+x_hacktricks_technique_id: aws-glue-create-or-update-job-and-run
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/README.md#L70
+  - https://docs.aws.amazon.com/glue/latest/webapi/API_StartJobRun.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: glue.amazonaws.com
+    event.name: StartJobRun
+    event.outcome: success
+    request.glue_job_run_after_script_set: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved Glue job creation, deployment and first run
