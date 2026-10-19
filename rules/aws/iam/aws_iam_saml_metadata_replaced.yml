@@ -1,0 +1,20 @@
+title: AWS IAM SAML provider metadata replaced
+id: 255b52fb-6866-4f93-9589-4ab7b0d427aa
+status: experimental
+description: Successful replacement of SAML provider metadata can change accepted signing keys. Review old and new metadata and role trust.
+x_hacktricks_technique_id: aws-iam-update-saml-provider
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateSAMLProvider
+    event.outcome: success
+  condition: selection
+level: high
+falsepositives:
+  - Approved SSO metadata or certificate rotation

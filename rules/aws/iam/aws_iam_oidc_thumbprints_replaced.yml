@@ -1,0 +1,20 @@
+title: AWS IAM OIDC provider thumbprints replaced
+id: 3798e177-fc26-42d1-bcdc-2a01d251bf84
+status: experimental
+description: The configured OIDC certificate thumbprint list was replaced. This alone does not bypass provider token signatures or role trust.
+x_hacktricks_technique_id: aws-iam-update-open-id-connect-provider-thumbprint
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateOpenIDConnectProviderThumbprint.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateOpenIDConnectProviderThumbprint
+    event.outcome: success
+  condition: selection
+level: medium
+falsepositives:
+  - Approved identity provider certificate rotation

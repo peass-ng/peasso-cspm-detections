@@ -1,0 +1,20 @@
+title: AWS IAM OIDC provider registered
+id: b4032542-d4aa-4dc7-9939-018c70934122
+status: experimental
+description: Successful registration of an OIDC identity provider. A role must trust the provider and a valid token must be presented before this can yield credentials.
+x_hacktricks_technique_id: aws-iam-create-openid-connect-provider
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateOpenIDConnectProvider
+    event.outcome: success
+  condition: selection
+level: medium
+falsepositives:
+  - Approved workload federation onboarding
