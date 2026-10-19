@@ -1,0 +1,21 @@
+title: AWS IAM OIDC provider created
+id: d2c49f32-e014-4ab4-b23e-e314d487b09a
+status: experimental
+description: An IAM OIDC provider was created. It becomes an access path only when
+  a role trusts it and a valid token can be obtained.
+x_hacktricks_technique_id: aws-iam-oidc-provider-created
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L1119
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateOpenIDConnectProvider
+    event.outcome: success
+    request.iam_oidc_provider_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved workload OIDC federation setup

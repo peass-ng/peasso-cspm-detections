@@ -1,0 +1,21 @@
+title: AWS IAM OIDC provider audience added
+id: 6b17c18e-e03d-494d-b226-160fd7c30679
+status: experimental
+description: A new client ID was accepted on an existing OIDC provider. Tokens for
+  that audience can then satisfy provider admission, subject to role trust conditions.
+x_hacktricks_technique_id: aws-iam-oidc-client-id-added
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L1153
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AddClientIDToOpenIDConnectProvider
+    event.outcome: success
+    request.iam_oidc_client_id_added: true
+  condition: selection
+level: high
+falsepositives:
+- Approved application audience registration
