@@ -1,0 +1,20 @@
+title: AWS Cognito identity pool principal tag mapped to mutable claim
+id: e283ec18-01cf-493b-9322-d04fb2a4b598
+status: experimental
+description: A successful SetPrincipalTagAttributeMap mapped a principal tag to a common user-editable claim with defaults disabled. Inspect IAM conditions and attribute mutability.
+x_hacktricks_technique_id: aws-cognito-identity-mutable-principal-tag
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L168
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-identity.amazonaws.com
+    event.name: SetPrincipalTagAttributeMap
+    event.outcome: success
+    request.cognito_identity_mutable_principal_tag: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved Cognito configuration or credential rotation
