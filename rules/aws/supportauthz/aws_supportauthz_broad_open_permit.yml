@@ -1,0 +1,20 @@
+title: AWS Support permit grants all regional actions without case or expiry
+id: eb6d868d-193b-451c-9bb3-1e4e24887cd2
+status: experimental
+description: A successful CreateSupportPermit authorized all actions on all resources in a region, with no case ID and no time condition. This grants latent Support access until deletion or signing-key revocation; later operator use requires separate evidence.
+x_hacktricks_technique_id: aws-supportauthz-broad-open-permit
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-support-authorization-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: supportauthz.amazonaws.com
+    event.name: CreateSupportPermit
+    event.outcome: success
+    request.support_permit_broad_open_ended: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved regional Support access for ongoing troubleshooting
