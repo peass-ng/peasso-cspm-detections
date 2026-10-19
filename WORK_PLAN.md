@@ -180,7 +180,7 @@ Recibo sin credenciales: `/tmp/peasso_glue_batch_receipt.json`; eventos CloudTra
 
 ## Reglas disponibles
 
-La diferencia AWS de la fuente actual se regeneró contra `origin/master` `47c375ae496ae89f81936f47ab1cb84885c88373` del 2026-10-19: 15 páginas AWS modificadas desde el inventario fijado, sin páginas ni encabezados nuevos. Catorce cambios son enlaces internos de referencias; la página de federación añade orientación para localizar un ARN de rol OIDC en workflows, sin nueva API AWS autónoma. La copia local `47bb6e8...` es del 2026-10-11 y **anterior** al inventario fijado; las 73 entradas de la comparación antigua no son altas nuevas de la fuente vigente. Se regenera con `scripts/refresh_aws_source_delta.py --current origin/master`.
+La diferencia AWS de la fuente actual se regeneró contra `origin/master` `47c375ae496ae89f81936f47ab1cb84885c88373` del 2026-10-19: 15 páginas AWS modificadas desde el inventario fijado, sin páginas ni encabezados nuevos. Catorce cambios son enlaces internos de referencias; la página de federación añade orientación para localizar un ARN de rol OIDC en workflows, sin nueva API AWS autónoma. La copia local `47bb6e8...` es del 2026-10-11 y **anterior** al inventario fijado; las 73 entradas de la comparación antigua no son altas nuevas de la fuente vigente. Se regenera con `scripts/refresh_aws_source_delta.py --current origin/master`; el informe reproducido `/tmp/peasso_aws_source_delta_20261019.json` tiene SHA256 `aa732d0d2c2e8dbbd270b26dc75c67bb7c2db90a76e62a93a2cdd0dafd2a2374`.
 
 
 | Proveedor | Regla | Técnica identificada | Referencia de HackTricks |
