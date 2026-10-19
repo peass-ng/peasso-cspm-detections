@@ -1,0 +1,22 @@
+title: AWS CloudFront path forwards full viewer requests to alternate origin
+id: c859d8cb-43aa-4551-abdf-00abc680a72f
+status: experimental
+description: A successful UpdateDistribution configured a nondefault path with a custom origin distinct from the default, the AllViewer origin request policy, CachingDisabled, and POST forwarding. This can send viewer headers, cookies and request bodies to the alternate origin when the distribution is enabled. Compare with approved routing and prior configuration; the event does not prove traffic or attacker control.
+x_hacktricks_technique_id: aws-cloudfront-alternate-origin-full-viewer-route
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html
+  - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudfront.amazonaws.com
+    event.name: UpdateDistribution
+    event.outcome: success
+    request.cloudfront_alternate_full_viewer_route: true
+  condition: selection
+level: high
+falsepositives:
+  - Authorized API proxy or application route forwarding all viewer values
