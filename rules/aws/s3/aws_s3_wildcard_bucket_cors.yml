@@ -1,0 +1,24 @@
+title: S3 bucket CORS allows any origin
+id: 5c1d4266-6a23-4cc8-a240-12b0355f3d80
+status: experimental
+description: >
+  A successful CORS update allows any browser origin for a read or write method. CORS does not grant S3 permissions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L903
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketCors
+    event.outcome: success
+    request.s3_wildcard_cors: true
+  condition: selection
+falsepositives:
+  - Approved S3 access or browser configuration change.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-tech-0991c96d5a9d2a1c

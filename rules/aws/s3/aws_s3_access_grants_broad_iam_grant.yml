@@ -1,0 +1,24 @@
+title: Broad S3 Access Grant issued to IAM principal
+id: 4b256613-9fed-447d-818d-db7253fab78a
+status: experimental
+description: >
+  A successful wildcard subprefix grant gives an IAM principal READ or READWRITE access to the registered location. It does not prove data access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L942
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-grant-create.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CreateAccessGrant
+    event.outcome: success
+    request.s3_access_grants_broad_iam_grant: true
+  condition: selection
+falsepositives:
+  - Approved S3 access or browser configuration change.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-tech-fbe93bde8589ab13

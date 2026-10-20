@@ -1,0 +1,24 @@
+title: S3 Access Grants data credentials requested
+id: 1f2ee01d-3ac1-4770-abfa-0dbb6632ed61
+status: experimental
+description: >
+  A successful GetDataAccess requests scoped temporary credentials. CloudTrail omits the credential response and later object reads require S3 data events.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L942
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetDataAccess.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: GetDataAccess
+    event.outcome: success
+    request.s3_access_grants_data_access_requested: true
+  condition: selection
+falsepositives:
+  - Approved S3 access or browser configuration change.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-tech-fbe93bde8589ab13
