@@ -1,0 +1,24 @@
+title: Secondary private IPv4 assignment permits reassignment
+id: b716e4cc-f897-4d1d-84b4-1af9dda76442
+status: experimental
+description: >
+  AssignPrivateIpAddresses accepted with AllowReassignment=true for a concrete secondary IPv4. The flag alone does not prove another interface owned the address.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eni-secondary-ip-hijack.md#L11
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssignPrivateIpAddresses.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AssignPrivateIpAddresses
+    event.outcome: success
+    request.secondary_private_ip_reassignment_requested: true
+  condition: selection
+falsepositives:
+  - Approved failover of a secondary private IPv4.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-secondary-private-ip-reassignment-requested

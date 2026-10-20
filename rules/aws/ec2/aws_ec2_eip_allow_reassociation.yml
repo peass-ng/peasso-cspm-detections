@@ -1,0 +1,24 @@
+title: EIP association explicitly permits reassociation
+id: 8ee8af59-79c5-43fb-80e0-d1539c02df28
+status: experimental
+description: >
+  AssociateAddress accepted with AllowReassociation=true. This setting alone does not prove that the address had a prior owner.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eip-hijack-impersonation.md#L17
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateAddress.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AssociateAddress
+    event.outcome: success
+    request.eip_allow_reassociation_requested: true
+  condition: selection
+falsepositives:
+  - Approved Elastic IP migration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-eip-allow-reassociation

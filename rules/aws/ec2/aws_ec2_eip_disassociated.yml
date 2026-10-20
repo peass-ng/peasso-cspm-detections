@@ -1,0 +1,24 @@
+title: EIP explicitly disassociated
+id: b31c02c9-0003-46e1-9568-501ea92e0aae
+status: experimental
+description: >
+  DisassociateAddress accepted for an association ID. The event does not establish prior ownership without inventory or a preceding association event.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eip-hijack-impersonation.md#L17
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateAddress.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: DisassociateAddress
+    event.outcome: success
+    request.eip_disassociated: true
+  condition: selection
+falsepositives:
+  - Approved Elastic IP removal or migration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-eip-explicit-disassociation
