@@ -1,0 +1,21 @@
+title: CodePipeline stage condition overridden
+id: 4cdcd297-0141-5aed-b76c-ff1f17a35996
+status: experimental
+description: >
+  A successful OverrideStageCondition requested bypass of an entry or success condition. The event does not show whether downstream work succeeded.
+x_hacktricks_technique_id: aws-tech-743c8b5f94378d9f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L151
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: OverrideStageCondition
+    event.outcome: success
+    request.pipeline_stage_condition_overridden: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized break-glass release.

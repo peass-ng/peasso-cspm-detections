@@ -1,0 +1,21 @@
+title: CodePipeline project and action changed before execution
+id: dd0af540-80f6-53b0-90e0-2c8c3786092c
+status: experimental
+description: >
+  A CodeBuild project buildspec update and a CodePipeline Build action configuration update by the same actor preceded the first pipeline start. CloudTrail redacts the buildspec, and this signal does not prove command content or privilege escalation.
+x_hacktricks_technique_id: aws-tech-b8b20e52b72e46a0
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L50
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: CodePipelineProjectMutationExecuted
+    event.outcome: success
+    request.pipeline_project_mutation_executed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized coordinated pipeline and build-project deployment.
