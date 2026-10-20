@@ -1,0 +1,20 @@
+title: Chime SDK SIP media application endpoint configured
+id: 587b33df-f88f-45e0-9399-e4aa26b350b8
+status: experimental
+description: A SIP media application was created with an accepted Lambda endpoint. CloudTrail hides the Lambda ARN, so the event cannot identify its destination or prove invocation.
+x_hacktricks_technique_id: aws-chime-sip-application-endpoint-configured
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: CreateSipMediaApplication
+    event.outcome: success
+    request.chime_sip_application_endpoint_configured: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved SIP application deployment
