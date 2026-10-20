@@ -1,0 +1,21 @@
+title: CloudFormation stack updated with an explicit service role
+id: ae94cad5-cf37-4240-ba5f-d98539bfcc2c
+status: experimental
+description: >
+  A successful UpdateStack named a same-account CloudFormation service role. Review the role permissions and template change; this event records a role selection, not the resulting resource effect.
+x_hacktricks_technique_id: aws-cloudformation-update-stack-passrole
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L52
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: UpdateStack
+    event.outcome: success
+    request.cfn_update_stack_service_role_passed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved deployment or operational signaling by another authorized principal.

@@ -1,0 +1,21 @@
+title: CloudFormation resource success signal submitted
+id: 6443e5c3-871d-40a0-9f65-27ab5966eea3
+status: experimental
+description: >
+  A successful SignalResource submitted SUCCESS for a named resource in a stack. The event can release a creation gate, but without stack state it does not prove the resource was waiting or that downstream creation occurred.
+x_hacktricks_technique_id: aws-cloudformation-signal-resource-release
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-trigger-post-exploitation/README.md#L50
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: SignalResource
+    event.outcome: success
+    request.cfn_success_signal_submitted: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved deployment or operational signaling by another authorized principal.
