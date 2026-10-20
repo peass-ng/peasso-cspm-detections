@@ -1,0 +1,21 @@
+title: IAM signing certificate deactivated
+id: 568dfe26-26d9-54c2-9b2e-41f467c00f77
+status: experimental
+description: An accepted UpdateSigningCertificate IAM request named a credential target.
+  Review approved lifecycle changes and actual dependent access.
+x_hacktricks_technique_id: aws-tech-3ea854f98c8547ce
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L138
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateSigningCertificate
+    event.outcome: success
+    request.iam_cert_key_control_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved credential rotation or IAM administration.
