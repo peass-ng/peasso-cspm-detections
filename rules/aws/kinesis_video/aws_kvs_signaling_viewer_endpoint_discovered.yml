@@ -1,0 +1,20 @@
+title: AWS Kinesis Video signaling viewer endpoint discovered
+id: 826d2f3d-206b-4a97-a4cc-581c0eb72d70
+status: experimental
+description: A principal obtained a signaling channel HTTPS viewer endpoint. This is a precursor to requesting temporary ICE/TURN credentials; the endpoint request alone does not prove credential issuance or media access.
+x_hacktricks_technique_id: aws-kvs-signaling-viewer-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetSignalingChannelEndpoint
+    event.outcome: success
+    request.kvs_signaling_viewer_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved WebRTC viewer initialization
