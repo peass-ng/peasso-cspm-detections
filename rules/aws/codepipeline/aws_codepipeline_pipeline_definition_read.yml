@@ -1,0 +1,21 @@
+title: CodePipeline definition read requested
+id: cb4e2412-d9f9-50d4-8b12-2f5d293718b1
+status: experimental
+description: >
+  A successful GetPipeline request read a pipeline definition. The CloudTrail event does not include the returned default variable values or action configuration.
+x_hacktricks_technique_id: aws-tech-061b20edddfd8b9e
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: GetPipeline
+    event.outcome: success
+    request.pipeline_definition_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized release operator or deployment tooling reading a pipeline.

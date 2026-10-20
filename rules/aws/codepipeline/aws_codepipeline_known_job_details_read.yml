@@ -1,0 +1,21 @@
+title: CodePipeline known custom job details requested
+id: f06fb29a-4e1a-5896-b50e-a801610303c1
+status: experimental
+description: >
+  A successful GetJobDetails request supplied a job ID. CloudTrail does not show whether artifact credentials or input artifacts were returned.
+x_hacktricks_technique_id: aws-tech-25466d74ad19f000
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md#L88
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: GetJobDetails
+    event.outcome: success
+    request.pipeline_known_job_details_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized custom action worker inspecting its job.
