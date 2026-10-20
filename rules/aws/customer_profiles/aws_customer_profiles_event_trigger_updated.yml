@@ -1,0 +1,21 @@
+title: AWS Customer Profiles event trigger behavior changed
+id: a89d83b9-63c7-4074-8977-55dbdc2f5f9f
+status: experimental
+description: UpdateEventTrigger changed an event trigger's conditions, limits, object type or segment filter. Inspect the private before/after diff and downstream campaign activity; an accepted update alone does not prove customer contact.
+x_hacktricks_technique_id: aws-tech-d28ee40f6fe3ab3a
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L171
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_UpdateEventTrigger.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: UpdateEventTrigger
+    event.outcome: success
+    request.customer_profiles_event_trigger_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved event-trigger configuration change

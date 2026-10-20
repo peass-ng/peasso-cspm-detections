@@ -1,0 +1,21 @@
+title: AWS Customer Profiles event trigger deleted
+id: 93c16f75-5998-4e73-a089-9c1d61268396
+status: experimental
+description: DeleteEventTrigger disabled and removed a trigger. AWS rejects deletion while an active integration is associated, so correlate preceding integration removal where relevant.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_DeleteEventTrigger.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteEventTrigger
+    event.outcome: success
+    request.customer_profiles_event_trigger_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved trigger retirement or integration teardown

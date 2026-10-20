@@ -1,0 +1,21 @@
+title: AWS Customer Profiles profile object deleted
+id: 48089d15-d7d9-4131-a7cc-89dbcaeb1a0e
+status: experimental
+description: DeleteProfileObject removed a referenced object. The rule omits profile and object keys from evidence; confirm actual loss by private readback.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_DeleteProfileObject.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteProfileObject
+    event.outcome: success
+    request.customer_profiles_profile_object_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved retention or privacy deletion

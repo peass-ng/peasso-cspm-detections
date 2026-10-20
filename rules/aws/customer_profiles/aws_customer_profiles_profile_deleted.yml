@@ -1,0 +1,20 @@
+title: AWS Customer Profiles profile deleted
+id: 0ec94811-c5a8-4522-8dd2-c47c3df49b29
+status: experimental
+description: DeleteProfile removed a customer profile. Review approved retention workflow and backups; the event alone does not quantify any associated data loss.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteProfile
+    event.outcome: success
+    request.customer_profiles_profile_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved profile erasure request
