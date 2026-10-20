@@ -1,0 +1,24 @@
+title: CodeCommit commit read by known ID
+id: 7bb81135-f1e1-4083-9442-34b4e1508206
+status: experimental
+description: A successful GetCommit call accessed commit metadata by ID. The event
+  does not establish the commit message or author returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/codecommit/latest/userguide/integ-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codecommit.amazonaws.com
+    event.name: GetCommit
+    event.outcome: success
+    request.codecommit_known_commit_read: true
+  condition: selection
+falsepositives:
+- Approved source history inspection
+level: low
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-a9be9ac2ab0765e2

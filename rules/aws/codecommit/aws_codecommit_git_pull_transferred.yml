@@ -1,0 +1,25 @@
+title: CodeCommit GitPull transferred repository data
+id: 251290c3-4874-4570-913e-917ffd5f38cf
+status: experimental
+description: A successful GitPull protocol event reported data transferred from a
+  repository. Review source-reader identity; the event does not reveal which files
+  or commits were obtained.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md#L36
+- https://docs.aws.amazon.com/codecommit/latest/userguide/integ-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codecommit.amazonaws.com
+    event.name: GitPull
+    event.outcome: success
+    request.codecommit_git_pull_transferred: true
+  condition: selection
+falsepositives:
+- Approved Git clone or fetch
+level: medium
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-d0caeb86bd2b1e72
