@@ -1,0 +1,25 @@
+title: CodeBuild build replay requested
+id: 10b711fd-9ae5-5965-bbe6-01bed1c51f4c
+status: experimental
+description: A successful RetryBuild call requested a replay of a completed build.
+  Risk depends on the stored build side effects and service role; this event does
+  not prove arbitrary code execution.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md#L91
+- https://docs.aws.amazon.com/codebuild/latest/APIReference/API_RetryBuild.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: RetryBuild
+    event.outcome: success
+    request.codebuild_retry: true
+  condition: selection
+falsepositives:
+- Approved retry of a failed or transient build.
+level: medium
+tags:
+- attack.privilege_escalation
+x_hacktricks_technique_id: aws-codebuild-retry-build

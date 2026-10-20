@@ -1,0 +1,25 @@
+title: CodeBuild build started with a buildspec override
+id: b8d5d9e9-842b-54e1-b8cc-1c8f2eb41268
+status: experimental
+description: A successful StartBuild call supplied a nonempty buildspec override.
+  This permits a different build command set for this run; the event does not prove
+  what the container executed.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md#L21
+- https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuild.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: StartBuild
+    event.outcome: success
+    request.codebuild_buildspec_override_present: true
+  condition: selection
+falsepositives:
+- Approved manual build using a reviewed alternate buildspec.
+level: high
+tags:
+- attack.privilege_escalation
+x_hacktricks_technique_id: aws-codebuild-start-build-buildspec-override
