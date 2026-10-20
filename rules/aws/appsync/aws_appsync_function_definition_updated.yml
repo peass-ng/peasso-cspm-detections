@@ -1,0 +1,21 @@
+title: AppSync function definition submitted in update
+id: f58e8634-d55d-428d-8dda-a2c3f0d35619
+status: experimental
+description: UpdateFunction submitted a code or mapping-template definition and returned the exact function ARN. CloudTrail masks the body; review state and later execution separately.
+x_hacktricks_technique_id: aws-tech-2c7723bd463e2e95
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appsync-persistence/README.md#L46
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_UpdateFunction.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateFunction
+    event.outcome: success
+    request.appsync_function_definition_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved AppSync function deployment

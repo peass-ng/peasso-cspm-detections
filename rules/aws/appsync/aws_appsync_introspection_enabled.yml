@@ -1,0 +1,21 @@
+title: AppSync GraphQL introspection enabled in API update
+id: a04e4d7d-cb87-4ee6-bc0a-cb16a04bcf32
+status: experimental
+description: UpdateGraphqlApi accepted introspectionConfig ENABLED and returned that state. The event does not reveal the prior setting; compare inventory to prove a transition.
+x_hacktricks_technique_id: aws-tech-dcb2f7224745b5eb
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_UpdateGraphqlApi.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateGraphqlApi
+    event.outcome: success
+    request.appsync_introspection_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved GraphQL schema discovery for development

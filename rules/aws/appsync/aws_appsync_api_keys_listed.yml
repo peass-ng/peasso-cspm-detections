@@ -1,0 +1,21 @@
+title: AppSync GraphQL API keys listed
+id: 4803dc31-e177-482a-b890-f741a02692af
+status: experimental
+description: ListApiKeys succeeded for one API. A disposable live test confirmed the returned key could query its API; CloudTrail omits the key list and this rule only proves the access request.
+x_hacktricks_technique_id: aws-tech-34b7c45cd03072a7
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L15
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_ListApiKeys.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: ListApiKeys
+    event.outcome: success
+    request.appsync_api_keys_listed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved API key inventory or rotation

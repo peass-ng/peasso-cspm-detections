@@ -1,7 +1,7 @@
-title: AppSync GraphQL API primary authentication changed to API key
+title: AppSync GraphQL API primary API key authentication confirmed in update
 id: 2c1bc2d0-daa8-464c-98e0-ff1cfb61db9a
 status: experimental
-description: UpdateGraphqlApi accepted API_KEY as primary authentication for one API. Field directives can still restrict API key use; review the effective schema and approved change.
+description: UpdateGraphqlApi accepted API_KEY as primary authentication for one API. The event does not reveal the previous mode; field directives can still restrict API key use.
 x_hacktricks_technique_id: aws-tech-c94b156714c02ba9
 references:
 - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L131
