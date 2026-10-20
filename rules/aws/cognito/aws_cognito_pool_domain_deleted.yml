@@ -1,0 +1,20 @@
+title: AWS Cognito user-pool domain deletion accepted
+id: e1d99e48-e7d5-429c-9df1-12a199cf3b9a
+status: experimental
+description: A principal successfully requested deletion of a user-pool domain. The event alone does not establish when the hosted endpoint stopped resolving.
+x_hacktricks_technique_id: aws-cognito-pool-domain-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L127
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: DeleteUserPoolDomain
+    event.outcome: success
+    request.cognito_pool_domain_deleted: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved hosted UI migration

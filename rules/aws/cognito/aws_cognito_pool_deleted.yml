@@ -1,0 +1,20 @@
+title: AWS Cognito user-pool deletion accepted
+id: dbe545d8-5b18-4aed-abec-797e788c0ba2
+status: experimental
+description: A principal successfully requested deletion of a Cognito user pool. Confirm later inventory and approved change context before declaring the directory removed.
+x_hacktricks_technique_id: aws-cognito-pool-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L127
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: DeleteUserPool
+    event.outcome: success
+    request.cognito_pool_deleted: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved user-pool retirement
