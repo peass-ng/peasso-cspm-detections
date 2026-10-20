@@ -1,0 +1,23 @@
+title: Interface VPC endpoint expanded to another subnet
+id: 2e0fa16a-8fb3-4c90-acb3-41b1e52c1aea
+status: experimental
+description: >
+  A successful ModifyVpcEndpoint added a subnet to the endpoint. This can
+  extend a private service path to workloads in another availability zone;
+  resolve the endpoint service and subnet use before determining impact.
+x_hacktricks_technique_id: aws-vpc-endpoint-subnet-added
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md#L72
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyVpcEndpoint
+    event.outcome: success
+    request.vpc_endpoint_subnet_added: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved endpoint availability expansion to another subnet.
