@@ -1,0 +1,21 @@
+title: API Gateway REST API key value requested
+id: c3279337-474c-5a81-bb4f-8585fc2324d3
+status: experimental
+description: An accepted GetApiKey request set includeValue to true. The
+  key value is omitted from detector evidence; review the reader and key owner.
+x_hacktricks_technique_id: aws-tech-d67bb945d74fd549
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L51
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestApiKeyValueRequested
+    event.outcome: success
+    request.apigateway_api_key_value_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized recovery of a client key for migration or support.

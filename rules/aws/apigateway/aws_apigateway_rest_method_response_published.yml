@@ -1,0 +1,22 @@
+title: API Gateway REST method response header published
+id: 923ef68d-4430-50b3-8df4-f7ab78236793
+status: experimental
+description: A method response header and matching integration response header
+  were configured on the same method, followed by a deployment from the same
+  principal within one hour. Review approved API response changes.
+x_hacktricks_technique_id: aws-tech-245a2b69ddfc3106
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L224
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestMethodResponsePublished
+    event.outcome: success
+    request.apigateway_method_response_published: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved CORS or response-header deployment.
