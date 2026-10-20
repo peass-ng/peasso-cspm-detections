@@ -1,0 +1,26 @@
+title: IAM delete role policy API call accepted
+id: 19cbbca3-853b-5e69-8589-1eefefedea48
+status: experimental
+description: A successful IAM DeleteRolePolicy management API call named a policy
+  and its target. Review approved changes and the prior policy document; this event
+  alone does not prove that effective access expanded or a workload failed.
+x_hacktricks_technique_id: aws-iam-delete-role-policy
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L395
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html
+author: HackTricks CSPM research draft
+date: '2026-10-20'
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteRolePolicy
+    event.outcome: success
+    request.iam_policy_removal_observed: true
+  condition: selection
+falsepositives:
+- Approved policy rotation or decommissioning
+- Policy removal that does not change effective permissions
+level: medium
