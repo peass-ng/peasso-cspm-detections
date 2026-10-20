@@ -1,0 +1,20 @@
+title: AWS Customer Profiles object ingested
+id: e11b37a0-1d13-43fb-988b-8beedb9ec8ac
+status: experimental
+description: PutProfileObject accepted a source object into an object type. Compare actor, mapping and domain with approved ingestors; the CloudTrail event alone does not prove downstream profile corruption.
+x_hacktricks_technique_id: aws-tech-132b4254e96ea051
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L68
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: PutProfileObject
+    event.outcome: success
+    request.customer_profiles_profile_object_ingested: true
+  condition: selection
+level: low
+falsepositives:
+- Approved ingestion pipeline

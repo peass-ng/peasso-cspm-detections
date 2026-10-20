@@ -1,0 +1,20 @@
+title: AWS Customer Profiles upload job path accessed
+id: b28ddcd3-2833-43f3-a6b0-9099d3f9df5c
+status: experimental
+description: GetUploadJobPath accessed upload authority for a prepared job. Review whether the caller owned the job; CloudTrail does not expose the returned presigned URL or client token.
+x_hacktricks_technique_id: aws-tech-7ed9d5fe4def7f49
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L103
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: GetUploadJobPath
+    event.outcome: success
+    request.customer_profiles_upload_job_path_accessed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved bulk upload preparation
