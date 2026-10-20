@@ -1,0 +1,23 @@
+title: Roles Anywhere certificate revocation list disabled
+id: ff27f69b-1a9a-5738-a211-02dbdb97e68c
+status: experimental
+description: An accepted CRL disable returned enabled=false. Verify the CRL was protecting
+  an active trust anchor and revoked certificate.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-iam-persistence/README.md#L102
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: DisableCrl
+    event.outcome: success
+    request.rolesanywhere_crl_disabled: true
+  condition: selection
+falsepositives:
+- Authorized IAM Roles Anywhere administration or certificate rotation.
+level: high
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-rolesanywhere-crl-disabled
