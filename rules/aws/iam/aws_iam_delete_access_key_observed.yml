@@ -1,0 +1,22 @@
+title: IAM DeleteAccessKey accepted for a named target
+id: 887b28cb-b8e9-503a-a93d-ceed5363fcca
+status: experimental
+description: A successful IAM DeleteAccessKey request named a target. Review the prior
+  state and effective access before treating this as an attack effect.
+x_hacktricks_technique_id: aws-tech-f4cc1e45d2f1fc5e
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L321
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteAccessKey
+    event.outcome: success
+    request.iam_credential_boundary_action_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IAM administration, credential rotation or policy maintenance.

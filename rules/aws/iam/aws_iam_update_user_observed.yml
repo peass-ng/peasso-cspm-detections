@@ -1,0 +1,22 @@
+title: IAM UpdateUser accepted for a named target
+id: 606aa347-30d4-5802-90ff-d673cc6cc4cb
+status: experimental
+description: A successful IAM UpdateUser request named a target. Review the prior
+  state and effective access before treating this as an attack effect.
+x_hacktricks_technique_id: aws-tech-00bcdcaeb764e03b
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L947
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateUser.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateUser
+    event.outcome: success
+    request.iam_credential_boundary_action_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IAM administration, credential rotation or policy maintenance.
