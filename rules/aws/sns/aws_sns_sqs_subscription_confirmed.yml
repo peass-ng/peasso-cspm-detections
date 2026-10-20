@@ -1,0 +1,25 @@
+title: SNS SQS subscription confirmed
+id: d5fbc181-8e51-4d5f-a343-6e7b8b141d4f
+status: experimental
+description: >
+  An SQS endpoint was accepted as a new SNS subscriber. Review ownership of
+  the queue and expected fanout; the event alone does not show message access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sns-persistence/README.md#L85
+  - https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: Subscribe
+    event.outcome: success
+    request.sns_sqs_subscription_confirmed: true
+  condition: selection
+falsepositives:
+  - Approved SNS to SQS fanout subscription.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sns-sqs-subscription-confirmed

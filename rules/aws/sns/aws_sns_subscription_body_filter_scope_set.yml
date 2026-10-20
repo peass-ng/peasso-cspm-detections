@@ -1,0 +1,25 @@
+title: SNS subscription filter scope set to message body
+id: 7053a7fa-9600-4931-8b47-dda56c9f9005
+status: experimental
+description: >
+  A subscription was configured to filter JSON message bodies. Correlate a
+  nonempty filter policy on the same subscription to assess selective delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sns-persistence/README.md#L116
+  - https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering-scope.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetSubscriptionAttributes
+    event.outcome: success
+    request.sns_body_filter_scope_set: true
+  condition: selection
+falsepositives:
+  - Approved event routing on message body properties.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sns-subscription-body-filter-scope-set
