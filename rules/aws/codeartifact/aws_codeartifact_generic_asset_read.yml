@@ -1,0 +1,26 @@
+title: CodeArtifact generic package asset read
+id: 70406e8e-0e8b-472e-bd8c-fb2f1cc238e3
+status: experimental
+description: >
+  A principal successfully calls GetPackageVersionAsset for a generic
+  package. Review principal, repository and package coordinates to
+  distinguish expected builds from an unauthorized read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeartifact-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_GetPackageVersionAsset.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: GetPackageVersionAsset
+    event.outcome: success
+    request.codeartifact_generic_asset_read: true
+  condition: selection
+falsepositives:
+  - An expected build or package download.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-codeartifact-generic-asset-read

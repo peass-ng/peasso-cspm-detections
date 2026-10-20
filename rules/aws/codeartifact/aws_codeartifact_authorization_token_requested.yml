@@ -1,0 +1,26 @@
+title: CodeArtifact domain authorization token requested
+id: 4d7c46e4-3bc6-48c5-89f6-b15e84a834e8
+status: experimental
+description: >
+  A principal successfully calls GetAuthorizationToken for a CodeArtifact
+  domain. Correlate with its package access; the event does not expose the
+  token or prove a package was read or published.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeartifact-auth-token-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/codeartifact/latest/ug/codeartifact-information-in-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: GetAuthorizationToken
+    event.outcome: success
+    request.codeartifact_token_requested: true
+  condition: selection
+falsepositives:
+  - Expected package-manager authentication by an authorized principal.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-codeartifact-authorization-token-requested
