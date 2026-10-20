@@ -1,0 +1,20 @@
+title: AWS Kinesis single record write observed
+id: d3c51f5d-1a5f-477c-99fa-fc24f269b32a
+status: experimental
+description: A Kinesis stream accepted a PutRecord data API call. Compare its producer principal and target stream with an approved producer inventory; this event alone does not prove malicious data or a downstream effect.
+x_hacktricks_technique_id: aws-tech-99f3d676db994ea4
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L87
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: PutRecord
+    event.outcome: success
+    request.kinesis_write_request_accepted: true
+  condition: selection
+level: low
+falsepositives:
+- Approved producers writing ordinary records

@@ -6,6 +6,14 @@ Actualizado: 2026-10-20. Fuente fijada: [HackTricks Cloud](https://github.com/Ha
 
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
 
+### Tanda Kinesis de cinco llamadas de datos (2026-10-20)
+
+Un stream, un consumidor y un trail temporales probaron `PutRecord`, `PutRecords`, `GetShardIterator`, `GetRecords` y `SubscribeToShard`. Dos canarios obtuvieron secuencias y se leyeron; la suscripción se aceptó y cerró. CloudTrail entregó cinco eventos de datos con actor, cuenta, región y recurso exactos; cinco reglas coincidieron en el detector CSPM. Sin guardar payloads ni iteradores, una auditoría independiente confirmó stream, consumidor, trail y bucket ausentes.
+
+CloudTrail marca `PutRecord` y `PutRecords` con `readOnly=true` y omite `responseElements`. El parser acepta ese valor; las respuestas SDK y la lectura de canarios probaron la inserción, mientras que cada regla solo señala una llamada aceptada. `GetRecords` incluye un ARN de stream en `resources`, que atribuye el iterador opaco. El trail temporal se limitó a `AWS::Kinesis::Stream` y `AWS::Kinesis::StreamConsumer`; no se modificaron selectores existentes.
+
+Reglas: [escritura de un registro](rules/aws/kinesis/aws_kinesis_put_record_data_event.yml), [escritura por lote](rules/aws/kinesis/aws_kinesis_put_records_data_event.yml), [iterador](rules/aws/kinesis/aws_kinesis_get_shard_iterator_data_event.yml), [lectura de registros](rules/aws/kinesis/aws_kinesis_get_records_data_event.yml) y [suscripción](rules/aws/kinesis/aws_kinesis_subscribe_to_shard_data_event.yml). Estas llamadas requieren habilitar datos Kinesis en CloudTrail y comparar actores con productores/lectores aprobados. No prueban payload malicioso, exfiltración ni consumo posterior; quedan otras variantes Kinesis y la revisión AWS global.
+
 ### Tanda Customer Profiles de cinco rutas (2026-10-20)
 
 Sobre un dominio y un stream Kinesis exclusivamente del laboratorio, se probaron `AddProfileKey`, `CreateEventStream`, `MergeProfiles`, `UpdateDomain` con autofusión activada y `DeleteDomain`. Se confirmó la búsqueda mediante la clave canario, la configuración del stream, la ausencia del perfil secundario tras la fusión, la configuración de autofusión en `GetDomain` y el borrado final. CloudTrail Event History devolvió cinco eventos de administración con actor, cuenta, región y dominio exactos; las cinco reglas coincidieron a través del detector completo del CSPM. El primer intento detectó dos errores del comprobador local; ambos intentos tienen auditoría independiente con dominio y stream ausentes, y el segundo obtuvo los cinco efectos sin errores. Los recibos y eventos reales permanecen privados.

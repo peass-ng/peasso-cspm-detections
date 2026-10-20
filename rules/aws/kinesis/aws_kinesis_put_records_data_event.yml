@@ -1,0 +1,20 @@
+title: AWS Kinesis batch record write observed
+id: e4cc55da-7c0b-4717-9d2d-a7d25dcfcaf0
+status: experimental
+description: A Kinesis stream accepted a PutRecords data API call. Individual records can still fail within an accepted batch; compare the producer principal and stream with an approved inventory before treating it as suspicious.
+x_hacktricks_technique_id: aws-tech-99f3d676db994ea4
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L87
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: PutRecords
+    event.outcome: success
+    request.kinesis_write_request_accepted: true
+  condition: selection
+level: low
+falsepositives:
+- Approved producers writing ordinary batches

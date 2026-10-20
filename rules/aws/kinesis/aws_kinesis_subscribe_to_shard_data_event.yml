@@ -1,0 +1,20 @@
+title: AWS Kinesis consumer shard subscription
+id: 56424240-bfd6-4a0e-a474-83a8da05b956
+status: experimental
+description: A consumer's SubscribeToShard data API call succeeded. The subscription can receive records but this event alone does not prove delivery; compare actor and consumer ARN with approved readers.
+x_hacktricks_technique_id: aws-tech-e4bbae8a08f2a2b9
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L56
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: SubscribeToShard
+    event.outcome: success
+    request.kinesis_subscribe_to_shard: true
+  condition: selection
+level: low
+falsepositives:
+- Approved enhanced fan-out subscriptions

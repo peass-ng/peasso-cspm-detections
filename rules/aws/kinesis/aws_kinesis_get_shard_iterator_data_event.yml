@@ -1,0 +1,20 @@
+title: AWS Kinesis shard iterator requested
+id: ce3734cb-f684-46f6-8b1d-994d91ec1d11
+status: experimental
+description: A principal obtained an iterator for a stream shard. This is a precursor to reading retained records and does not prove records were returned. Compare the principal and stream with approved consumers.
+x_hacktricks_technique_id: aws-tech-3993ca64a20efb04
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: GetShardIterator
+    event.outcome: success
+    request.kinesis_get_shard_iterator: true
+  condition: selection
+level: low
+falsepositives:
+- Approved stream consumers obtaining iterators
