@@ -1,8 +1,8 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-20. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete publicado: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), ref inmutable `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Root coordinó la publicación de la app y verificó la carga en producción. Esta rama aislada continúa la revisión AWS después de esa instantánea sin modificarla.
+Actualizado: 2026-10-20. Revisión AWS actual: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud) `47c375ae496ae89f81936f47ab1cb84885c88373`. La instantánea ya publicada en producción usa la fuente histórica `fd9bf8863bf7a36de10b8695d366a53a9063c81c` y el paquete [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections) `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Esta rama aislada sigue la revisión AWS y contiene 510 reglas, 482 de AWS; la aplicación de la PR 34 fija la revisión inmutable de esta rama para revisión, sin afirmar despliegue de esas reglas nuevas.
 
-**Integración posterior al release:** las reglas de esta rama aislada aún no están fijadas en el CSPM; cada tanda debe actualizar el ref/digest, comprobar el lector y verificar la carga antes de declarar su publicación. El lector anterior del nombre viejo había fallado con `rule_source_unavailable`, pero la publicación del release corrigió esa integración.
+**Integración posterior al release:** las reglas de esta rama aislada están fijadas por commit y digest en la PR 34 del CSPM, con carga remota verificada. Las PR de reglas y aplicación siguen abiertas; el paquete de producción permanece en la instantánea anterior hasta su revisión y despliegue coordinado.
 
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
 
