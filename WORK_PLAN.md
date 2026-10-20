@@ -1,8 +1,18 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-19. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete publicado: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), ref inmutable `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Root coordinó la publicación de la app y verificó la carga en producción. Esta rama aislada continúa la revisión AWS después de esa instantánea sin modificarla.
+Actualizado: 2026-10-20. Fuente fijada: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud) `fd9bf8863bf7a36de10b8695d366a53a9063c81c`. Paquete publicado: [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections), ref inmutable `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Root coordinó la publicación de la app y verificó la carga en producción. Esta rama aislada continúa la revisión AWS después de esa instantánea sin modificarla.
 
 **Integración posterior al release:** las reglas de esta rama aislada aún no están fijadas en el CSPM; cada tanda debe actualizar el ref/digest, comprobar el lector y verificar la carga antes de declarar su publicación. El lector anterior del nombre viejo había fallado con `rule_source_unavailable`, pero la publicación del release corrigió esa integración.
+
+Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
+
+### Tanda Customer Profiles de cinco rutas (2026-10-20)
+
+Sobre un dominio y un stream Kinesis exclusivamente del laboratorio, se probaron `AddProfileKey`, `CreateEventStream`, `MergeProfiles`, `UpdateDomain` con autofusión activada y `DeleteDomain`. Se confirmó la búsqueda mediante la clave canario, la configuración del stream, la ausencia del perfil secundario tras la fusión, la configuración de autofusión en `GetDomain` y el borrado final. CloudTrail Event History devolvió cinco eventos de administración con actor, cuenta, región y dominio exactos; las cinco reglas coincidieron a través del detector completo del CSPM. El primer intento detectó dos errores del comprobador local; ambos intentos tienen auditoría independiente con dominio y stream ausentes, y el segundo obtuvo los cinco efectos sin errores. Los recibos y eventos reales permanecen privados.
+
+CloudTrail usa `DomainName`, `ProfileId` y otros parámetros con inicial mayúscula para este servicio. El normalizador acepta también esa forma y omite `Values`, que CloudTrail oculta como `***`. La regla de `CreateEventStream` señala una suscripción aceptada a un stream de la misma cuenta y región; este lote no comprobó la entrega posterior de registros ni una salida externa. La regla de autofusión señala la configuración aceptada, no una fusión asíncrona futura. La fusión observada fue solo la llamada `MergeProfiles` entre dos perfiles sintéticos propios.
+
+Reglas: [clave alternativa](rules/aws/customer_profiles/aws_customer_profiles_key_added.yml), [stream de eventos](rules/aws/customer_profiles/aws_customer_profiles_event_stream_created.yml), [fusión](rules/aws/customer_profiles/aws_customer_profiles_merged.yml), [autofusión](rules/aws/customer_profiles/aws_customer_profiles_auto_merging_enabled.yml) y [borrado](rules/aws/customer_profiles/aws_customer_profiles_domain_deleted.yml). Quedan pendientes las variantes de segmentos, ingesta, lecturas y otras interrupciones del [corpus fijado](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security). Esta tanda cierra cinco rutas observables, no toda la familia Customer Profiles.
 
 ### Tanda IAM Roles Anywhere de ancla, perfil, atributos y CRL (2026-10-20)
 
@@ -895,7 +905,7 @@ Comparación de rutas Markdown: 813 páginas del inventario `fd9bf886...` y 803 
 
 ## Tanda IAM del 2026-10-19
 
-Fuente: `aws-iam-privesc/README.md`, secciones `AttachUserPolicy`, `PutUserPolicy`, `CreateLoginProfile`, `UpdateLoginProfile` y `UpdateAccessKey`. Cuenta de pruebas 947247140022, perfil `naxusai-admin`; usuarios desechables `peasso-detect-actor-32956329e8` y `peasso-detect-target-32956329e8`. Las cinco llamadas tuvieron respuesta de éxito. El `finally` borró perfiles, claves, políticas y usuarios; `GetUser` confirmó que ambos usuarios ya no existen. El primer intento (`248b4a02f0`) falló por propagación de credencial IAM (`InvalidClientTokenId`) y también se limpió. El script `scripts/live_iam_batch.py` reintenta esa propagación.
+Fuente: `aws-iam-privesc/README.md`, secciones `AttachUserPolicy`, `PutUserPolicy`, `CreateLoginProfile`, `UpdateLoginProfile` y `UpdateAccessKey`. Cuenta de pruebas 999999999999, perfil `naxusai-admin`; usuarios desechables `peasso-detect-actor-32956329e8` y `peasso-detect-target-32956329e8`. Las cinco llamadas tuvieron respuesta de éxito. El `finally` borró perfiles, claves, políticas y usuarios; `GetUser` confirmó que ambos usuarios ya no existen. El primer intento (`248b4a02f0`) falló por propagación de credencial IAM (`InvalidClientTokenId`) y también se limpió. El script `scripts/live_iam_batch.py` reintenta esa propagación.
 
 | Técnica | API real | CloudTrail real | Regla | Limitación |
 |---|---|---|---|---|
@@ -921,7 +931,7 @@ Cinco operaciones reales con `peasso-b2-actor-40b7620695` y recursos `peasso-b2-
 
 ## Tanda CloudTrail del 2026-10-19
 
-Trail y bucket efímeros `peasso-detect-trail-bd9a6ad2a4` y `peasso-detect-trail-947247140022-bd9a6ad2a4`, región `us-east-1`, perfil `naxusai-admin`. En una sola tanda se ejecutaron con respuesta de éxito: `UpdateTrail` con validación de logs desactivada; `UpdateTrail` con `IsMultiRegionTrail=false` y `IncludeGlobalServiceEvents=false`; `PutEventSelectors` con eventos de gestión solo lectura; `StopLogging`; `DeleteTrail`. El primer intento `461dfe89de` ejecutó los dos primeros cambios pero falló antes del selector por un nombre de parámetro local erróneo; se corrigió el script y ambos intentos limpiaron sus recursos. `DescribeTrails` y `HeadBucket` verificaron que no quedan trails ni buckets de ninguna tanda. Script: `scripts/live_cloudtrail_batch.py`.
+Trail y bucket efímeros `peasso-detect-trail-bd9a6ad2a4` y `peasso-detect-trail-999999999999-bd9a6ad2a4`, región `us-east-1`, perfil `naxusai-admin`. En una sola tanda se ejecutaron con respuesta de éxito: `UpdateTrail` con validación de logs desactivada; `UpdateTrail` con `IsMultiRegionTrail=false` y `IncludeGlobalServiceEvents=false`; `PutEventSelectors` con eventos de gestión solo lectura; `StopLogging`; `DeleteTrail`. El primer intento `461dfe89de` ejecutó los dos primeros cambios pero falló antes del selector por un nombre de parámetro local erróneo; se corrigió el script y ambos intentos limpiaron sus recursos. `DescribeTrails` y `HeadBucket` verificaron que no quedan trails ni buckets de ninguna tanda. Script: `scripts/live_cloudtrail_batch.py`.
 
 | Técnica | API | CloudTrail y regla |
 |---|---|
@@ -947,7 +957,7 @@ Con `naxusai-admin` se creó el usuario `peasso-identity-01d84ea76d` y el provee
 
 ## Tanda S3 del 2026-10-19
 
-Bucket **vacío** y efímero `peasso-detect-s3-947247140022-d4c0701a49` en `us-east-1`, perfil `naxusai-admin`. Cinco escrituras terminaron con éxito: `PutPublicAccessBlock` con los cuatro bloqueos en `false`, `PutBucketPolicy` con lectura pública de objetos, `PutBucketAcl` `public-read` (tras habilitar ACL en el bucket), `PutBucketWebsite` con redirección a `example.com` y `PutBucketCors` con origen `*`. La limpieza revocó el acceso público antes de borrar el bucket; `HeadBucket` devolvió 404. Script: `scripts/live_s3_bucket_batch.py`.
+Bucket **vacío** y efímero `peasso-detect-s3-999999999999-d4c0701a49` en `us-east-1`, perfil `naxusai-admin`. Cinco escrituras terminaron con éxito: `PutPublicAccessBlock` con los cuatro bloqueos en `false`, `PutBucketPolicy` con lectura pública de objetos, `PutBucketAcl` `public-read` (tras habilitar ACL en el bucket), `PutBucketWebsite` con redirección a `example.com` y `PutBucketCors` con origen `*`. La limpieza revocó el acceso público antes de borrar el bucket; `HeadBucket` devolvió 404. Script: `scripts/live_s3_bucket_batch.py`.
 
 | Técnica | CloudTrail | Decisión inicial |
 |---|---|---|
@@ -991,7 +1001,7 @@ Fuente: [SNS privesc](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/4
 
 ## Tanda Lambda del 2026-10-19
 
-Función inerte `peasso-detect-lambda-f26e9a7338` y rol `peasso-detect-lambda-role-f26e9a7338` en `us-east-1` (cuenta 947247140022). El script `scripts/live_lambda_batch.py` completó en una sola tanda ocho llamadas: `CreateFunction`, `PutFunctionConcurrency` con cero, `PutFunctionRecursionConfig` con `Allow`, `CreateFunctionUrlConfig` con `NONE`, `AddPermission` para `lambda:InvokeFunctionUrl` con principal `*`, `RemovePermission`, `DeleteFunctionUrlConfig` y `DeleteFunction`. La URL no se invocó y solo hubo una política de invocación; no afirmar exposición anónima efectiva. El `finally` borró el rol y comprobó con `GetFunction`/`GetRole` que ninguno existe. Event History entregó los cinco positivos; las cinco reglas Lambda coincidieron con sus eventos reales.
+Función inerte `peasso-detect-lambda-f26e9a7338` y rol `peasso-detect-lambda-role-f26e9a7338` en `us-east-1` (cuenta 999999999999). El script `scripts/live_lambda_batch.py` completó en una sola tanda ocho llamadas: `CreateFunction`, `PutFunctionConcurrency` con cero, `PutFunctionRecursionConfig` con `Allow`, `CreateFunctionUrlConfig` con `NONE`, `AddPermission` para `lambda:InvokeFunctionUrl` con principal `*`, `RemovePermission`, `DeleteFunctionUrlConfig` y `DeleteFunction`. La URL no se invocó y solo hubo una política de invocación; no afirmar exposición anónima efectiva. El `finally` borró el rol y comprobó con `GetFunction`/`GetRole` que ninguno existe. Event History entregó los cinco positivos; las cinco reglas Lambda coincidieron con sus eventos reales.
 
 | Técnica | Event ID real | Regla/limitación |
 |---|---|---|
@@ -1006,7 +1016,7 @@ Los negativos sintéticos cubren error de autorización, operación sin respuest
 
 ## Tanda CloudWatch Monitoring del 2026-10-19
 
-Dos tandas sucesivas sobre alarmas y dashboards desechables en `us-east-1`, cuenta 947247140022. La segunda tanda (`peasso-detect-alarm-3957a3e838`, `peasso-detect-dashboard-3957a3e838`) completó ocho llamadas: `PutMetricAlarm` de montaje, `DisableAlarmActions`, `PutMetricAlarm` con `actionsEnabled=false`, `SetAlarmState` a `OK`, `EnableAlarmActions`, `PutDashboard`, `DeleteDashboards` y `DeleteAlarms`. `DescribeAlarms` y `ListDashboards` verificaron la eliminación. La primera tanda de siete llamadas (`218a43f2e1`) también se eliminó. Script: `scripts/live_cloudwatch_batch.py`. No hubo alarm actions configuradas ni métricas reales, por lo que las pruebas no demuestran interrupción de alertas de producción.
+Dos tandas sucesivas sobre alarmas y dashboards desechables en `us-east-1`, cuenta 999999999999. La segunda tanda (`peasso-detect-alarm-3957a3e838`, `peasso-detect-dashboard-3957a3e838`) completó ocho llamadas: `PutMetricAlarm` de montaje, `DisableAlarmActions`, `PutMetricAlarm` con `actionsEnabled=false`, `SetAlarmState` a `OK`, `EnableAlarmActions`, `PutDashboard`, `DeleteDashboards` y `DeleteAlarms`. `DescribeAlarms` y `ListDashboards` verificaron la eliminación. La primera tanda de siete llamadas (`218a43f2e1`) también se eliminó. Script: `scripts/live_cloudwatch_batch.py`. No hubo alarm actions configuradas ni métricas reales, por lo que las pruebas no demuestran interrupción de alertas de producción.
 
 | Técnica | Event ID real de la segunda tanda | Resultado |
 |---|---|---|
@@ -1020,7 +1030,7 @@ Los ocho eventos reales de la segunda tanda produjeron exactamente cuatro hallaz
 
 ## Tanda CloudWatch Logs del 2026-10-19
 
-Grupo `/peasso/detection-test/c334eb20fb`, stream `synthetic-events` y filtro `peasso-detect-filter-c334eb20fb` desechables en `us-east-1`, cuenta 947247140022. El script `scripts/live_cloudwatch_logs_batch.py` completó nueve llamadas: `CreateLogGroup`, `CreateLogStream`, `PutLogEvents` con una línea sintética, `PutMetricFilter`, `PutRetentionPolicy` de un día, `DeleteRetentionPolicy`, `DeleteMetricFilter`, `DeleteLogStream` y `DeleteLogGroup`. `DescribeLogGroups` confirmó que no queda el grupo. Event History entregó ocho eventos de gestión; `PutLogEvents` es evento de datos y no apareció allí con esta configuración.
+Grupo `/peasso/detection-test/c334eb20fb`, stream `synthetic-events` y filtro `peasso-detect-filter-c334eb20fb` desechables en `us-east-1`, cuenta 999999999999. El script `scripts/live_cloudwatch_logs_batch.py` completó nueve llamadas: `CreateLogGroup`, `CreateLogStream`, `PutLogEvents` con una línea sintética, `PutMetricFilter`, `PutRetentionPolicy` de un día, `DeleteRetentionPolicy`, `DeleteMetricFilter`, `DeleteLogStream` y `DeleteLogGroup`. `DescribeLogGroups` confirmó que no queda el grupo. Event History entregó ocho eventos de gestión; `PutLogEvents` es evento de datos y no apareció allí con esta configuración.
 
 | Técnica | Event ID real | Resultado |
 |---|---|---|
@@ -1033,7 +1043,7 @@ Los ocho eventos de gestión produjeron exactamente cuatro hallazgos. `CreateLog
 
 ## Tanda EC2 de metadatos y red del 2026-10-19
 
-Instancia `i-0907621489a1bfdaa` (Amazon Linux 2023 `t3.micro`) y grupo `sg-0269a1f812a13fad3` en `us-east-1`, cuenta 947247140022. La instancia se creó sin IP pública ni perfil IAM, con IMDSv2 obligatorio y límite de salto 1. El script `scripts/live_ec2_metadata_batch.py` completó ocho operaciones: crear grupo, lanzar instancia, autorizar y revocar SSH desde `0.0.0.0/0`, poner `HttpTokens=optional`, elevar `HttpPutResponseHopLimit=2`, restaurar IMDSv2 y límite 1, y terminar la instancia. La restauración se comprobó con `DescribeInstances` después de que el estado de metadatos pasara a `applied`; el `finally` esperó la terminación y verificó la eliminación del volumen raíz y el grupo. No se probó SSRF ni se expuso un servicio SSH.
+Instancia `i-0907621489a1bfdaa` (Amazon Linux 2023 `t3.micro`) y grupo `sg-0269a1f812a13fad3` en `us-east-1`, cuenta 999999999999. La instancia se creó sin IP pública ni perfil IAM, con IMDSv2 obligatorio y límite de salto 1. El script `scripts/live_ec2_metadata_batch.py` completó ocho operaciones: crear grupo, lanzar instancia, autorizar y revocar SSH desde `0.0.0.0/0`, poner `HttpTokens=optional`, elevar `HttpPutResponseHopLimit=2`, restaurar IMDSv2 y límite 1, y terminar la instancia. La restauración se comprobó con `DescribeInstances` después de que el estado de metadatos pasara a `applied`; el `finally` esperó la terminación y verificó la eliminación del volumen raíz y el grupo. No se probó SSRF ni se expuso un servicio SSH.
 
 | Técnica | Event ID real | Resultado |
 |---|---|---|
@@ -1046,7 +1056,7 @@ Siete eventos reales de la tanda dieron exactamente tres hallazgos; `RunInstance
 
 ## Tanda EC2 de edición de reglas de grupo del 2026-10-19
 
-Grupo de seguridad desechable `sg-002ed2e467b17be31` sin instancias asociadas, en `us-east-1`, cuenta 947247140022. El script `scripts/live_ec2_security_group_rule_batch.py` creó dos reglas de TCP 22 y 3389 limitadas a `192.0.2.0/32`, modificó **los mismos IDs** para permitir `0.0.0.0/0`, restauró el CIDR restringido y borró las reglas y el grupo. Ocho operaciones terminaron con éxito; `DescribeSecurityGroups` confirmó eliminación. No hubo escucha SSH/RDP ni exposición de una instancia.
+Grupo de seguridad desechable `sg-002ed2e467b17be31` sin instancias asociadas, en `us-east-1`, cuenta 999999999999. El script `scripts/live_ec2_security_group_rule_batch.py` creó dos reglas de TCP 22 y 3389 limitadas a `192.0.2.0/32`, modificó **los mismos IDs** para permitir `0.0.0.0/0`, restauró el CIDR restringido y borró las reglas y el grupo. Ocho operaciones terminaron con éxito; `DescribeSecurityGroups` confirmó eliminación. No hubo escucha SSH/RDP ni exposición de una instancia.
 
 | Técnica | Event ID real | Resultado |
 |---|---|---|
@@ -1058,7 +1068,7 @@ Nueve eventos EC2 relacionados con el grupo dieron exactamente dos hallazgos. Cl
 
 ## Tanda GuardDuty del 2026-10-19
 
-`scripts/live_guardduty_batch.py --profile naxusai-admin` confirmó que no había detector previo en `us-east-1` de la cuenta `947247140022`. Creó un detector temporal y un filtro con nombre `peasso-detection-test-68397e8528`; completó ocho operaciones: `CreateDetector`, `CreateFilter` con `ARCHIVE`, `UpdateFilter` a `NOOP`, `UpdateFilter` a `ARCHIVE`, `UpdateDetector` a `Enable=False`, restauración a `Enable=True`, `DeleteFilter` y `DeleteDetector`. La consulta final `ListDetectors` devolvió cero: recursos eliminados. CloudTrail Event History registró los cambios después de un retraso de varios minutos. El detector `2383d364b4ba46ec85a8422f8d43a2cd` era temporal y ya no existe.
+`scripts/live_guardduty_batch.py --profile naxusai-admin` confirmó que no había detector previo en `us-east-1` de la cuenta `999999999999`. Creó un detector temporal y un filtro con nombre `peasso-detection-test-68397e8528`; completó ocho operaciones: `CreateDetector`, `CreateFilter` con `ARCHIVE`, `UpdateFilter` a `NOOP`, `UpdateFilter` a `ARCHIVE`, `UpdateDetector` a `Enable=False`, restauración a `Enable=True`, `DeleteFilter` y `DeleteDetector`. La consulta final `ListDetectors` devolvió cero: recursos eliminados. CloudTrail Event History registró los cambios después de un retraso de varios minutos. El detector `2383d364b4ba46ec85a8422f8d43a2cd` era temporal y ya no existe.
 
 | Operación | Event ID real | Resultado |
 |---|---|---|
@@ -1168,7 +1178,7 @@ Decisiones para ocho grupos de la página CodeBuild: (1) publicar proyecto: regl
 
 ## Tanda simultánea S3, Backup y ECR del 2026-10-19
 
-Se probaron seis candidatos en paralelo con `naxusai-admin`, cada servicio con recursos vacíos y exclusivos. En S3, el bucket `peasso-detect-retention-947247140022-16d2fbb2b2` pasó de versioning `Enabled` a `Suspended` (`a7225934-7d24-4d9c-b721-ce85d6b9ab83`), recibió expiración de un día para todas las claves (`1439dba7-d352-473e-8863-3a87ccf43c76`) y se borró (`868a37e4-f3ec-4412-af71-35e57d776bf4`). El evento `Enabled` `0553211f-094a-4936-a6bf-79c76b9d0161` fue negativo real de la regla de suspensión. La API `put_bucket_lifecycle_configuration` aparece en Event History como `PutBucketLifecycle`. Una segunda ejecución `4a4f2c3230` produjo expiración de treinta días (`12000e05-4d44-48f4-b312-cea6636f99f4`, negativo real) y después de un día (`1f710075-49dc-4757-b37c-273a9ab66779`, positivo).
+Se probaron seis candidatos en paralelo con `naxusai-admin`, cada servicio con recursos vacíos y exclusivos. En S3, el bucket `peasso-detect-retention-999999999999-16d2fbb2b2` pasó de versioning `Enabled` a `Suspended` (`a7225934-7d24-4d9c-b721-ce85d6b9ab83`), recibió expiración de un día para todas las claves (`1439dba7-d352-473e-8863-3a87ccf43c76`) y se borró (`868a37e4-f3ec-4412-af71-35e57d776bf4`). El evento `Enabled` `0553211f-094a-4936-a6bf-79c76b9d0161` fue negativo real de la regla de suspensión. La API `put_bucket_lifecycle_configuration` aparece en Event History como `PutBucketLifecycle`. Una segunda ejecución `4a4f2c3230` produjo expiración de treinta días (`12000e05-4d44-48f4-b312-cea6636f99f4`, negativo real) y después de un día (`1f710075-49dc-4757-b37c-273a9ab66779`, positivo).
 
 En Backup, una política sobre un vault sin recovery points concedió al mismo actor `backup:DeleteRecoveryPoint` con `Resource: "*"` (`7ac39848-6374-4858-91a8-6b6c22ead362`). Una primera política con `Resource` igual al ARN del vault (`aca36eee-50d9-4690-8f27-67865ccce098`) fue aceptada pero no activó la regla, porque esa forma no prueba el mismo alcance. La primera comprobación de limpieza con `DescribeBackupVault` devolvió `AccessDeniedException`; `ListBackupVaults` confirmó que el vault había desaparecido. El script usa ahora esa lista para verificar limpieza y terminó `cleanup=ok` en la última ejecución. El evento de escritura no prueba una eliminación ni un aumento efectivo de permisos.
 

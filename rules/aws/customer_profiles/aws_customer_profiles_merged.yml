@@ -1,0 +1,20 @@
+title: AWS Customer Profiles identities merged
+id: 693fa20b-cd2c-4e42-8e30-d98ef87706db
+status: experimental
+description: MergeProfiles combined one or more source customer profiles into a main profile. Review the authorized case and resulting associations; AWS says a completed merge cannot be undone.
+x_hacktricks_technique_id: aws-tech-699a143ab353933a
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L126
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: MergeProfiles
+    event.outcome: success
+    request.customer_profiles_profiles_merged: true
+  condition: selection
+level: high
+falsepositives:
+- Approved customer identity deduplication

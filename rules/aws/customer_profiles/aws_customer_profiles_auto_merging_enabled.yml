@@ -1,0 +1,20 @@
+title: AWS Customer Profiles automatic merging enabled
+id: 57475a1d-b6ea-4432-9c44-f0bda2b36f15
+status: experimental
+description: UpdateDomain enabled automatic profile merging. Review matching criteria and prior settings before inferring a new exposure; resulting merges are asynchronous and not proved by this event.
+x_hacktricks_technique_id: aws-tech-45f41bcdf618d07e
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L151
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: UpdateDomain
+    event.outcome: success
+    request.customer_profiles_auto_merging_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved matching configuration change
