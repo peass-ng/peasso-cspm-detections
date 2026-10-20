@@ -1,0 +1,23 @@
+title: CloudWatch resource tag removed
+id: 5bd6c23f-8a6b-4241-b9fe-b77a736d718e
+status: experimental
+description: A successful UntagResource call removed a tag from a CloudWatch resource.
+  Impact depends on tag based access or automation rules.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L108
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: UntagResource
+    event.outcome: success
+    request.cloudwatch_resource_tag_removed: true
+  condition: selection
+falsepositives:
+- Approved resource tagging
+level: low
+tags:
+- attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-4b46a670045da0f9
