@@ -1,0 +1,20 @@
+title: Lightsail DNS record updated
+id: 9af8d56f-351c-4c34-869c-0259f1aad209
+status: experimental
+description: A successful request changed a Lightsail DNS record. The event does not prove the zone is delegated or that traffic was redirected.
+x_hacktricks_technique_id: aws-tech-12ea98b206519d46
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: UpdateDomainEntry
+    event.outcome: success
+    request.lightsail_domain_entry_updated: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized application DNS change.

@@ -1,0 +1,20 @@
+title: Lightsail DNS record created
+id: a5d07fb3-6c6b-4288-9cec-8942aa44fd73
+status: experimental
+description: A successful request added a Lightsail DNS record. The event does not prove the zone is delegated or that traffic was redirected.
+x_hacktricks_technique_id: aws-tech-9f1e98c8ace6ac04
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L109
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: CreateDomainEntry
+    event.outcome: success
+    request.lightsail_domain_entry_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized application DNS setup.

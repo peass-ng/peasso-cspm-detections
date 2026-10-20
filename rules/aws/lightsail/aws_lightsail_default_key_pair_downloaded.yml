@@ -1,0 +1,20 @@
+title: Lightsail default key pair downloaded
+id: 0e48b4c4-10b5-4d1a-b575-bc0a93b76857
+status: experimental
+description: A successful request downloaded the regional default SSH key pair. CloudTrail omits the returned private key, so the event alone does not prove instance access.
+x_hacktricks_technique_id: aws-tech-a7c5df3302bc8060
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L72
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: DownloadDefaultKeyPair
+    event.outcome: success
+    request.lightsail_default_key_pair_downloaded: true
+  condition: selection
+level: low
+falsepositives:
+- Authorized administrator recovery of the default SSH key.
