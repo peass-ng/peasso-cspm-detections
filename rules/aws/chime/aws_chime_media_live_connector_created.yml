@@ -1,0 +1,20 @@
+title: Chime SDK media live connector created
+id: e333a0c1-5818-427e-930a-e60183fcdee8
+status: experimental
+description: A successful media live connector creation selected an RTMP sink for a Chime SDK meeting. CloudTrail hides the URL and does not prove that any media reached a streaming destination.
+x_hacktricks_technique_id: aws-chime-media-live-connector-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L199
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: CreateMediaLiveConnectorPipeline
+    event.outcome: success
+    request.chime_media_live_connector_created: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved meeting streaming workflow

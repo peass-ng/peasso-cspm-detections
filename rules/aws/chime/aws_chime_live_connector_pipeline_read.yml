@@ -1,0 +1,20 @@
+title: Chime SDK recently created live connector read
+id: 4c285197-5f7b-49b7-94a4-3e4c3d9bd4ff
+status: experimental
+description: A successful GetMediaPipeline request matched the exact ID of a live connector created in the same account and region within 24 hours. The API can return an RTMP URL; CloudTrail omits this read response and cannot prove the key was present or used.
+x_hacktricks_technique_id: aws-chime-live-connector-pipeline-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L60
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: GetMediaPipeline
+    event.outcome: success
+    request.chime_live_connector_pipeline_read: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved live-stream controller configuration read
