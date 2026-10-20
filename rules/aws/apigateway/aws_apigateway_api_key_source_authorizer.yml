@@ -1,0 +1,23 @@
+title: API Gateway REST API key source changed to authorizer
+id: 71aba2a7-b7b3-4b5e-b1ee-8fa056deda12
+status: experimental
+description: >
+  A successful REST API update changed apiKeySource to AUTHORIZER. Review the
+  authorizer and deployment history; the configuration event alone does not
+  show that the change reached a deployed stage or bypassed a key requirement.
+x_hacktricks_technique_id: aws-apigateway-api-key-source-authorizer
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L397
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateRestApi
+    event.outcome: success
+    request.apigateway_api_key_source_authorizer: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved migration to authorizer-provided usage identifiers.

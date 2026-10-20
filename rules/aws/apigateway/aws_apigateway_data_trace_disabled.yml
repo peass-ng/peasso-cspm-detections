@@ -1,0 +1,22 @@
+title: API Gateway REST stage data tracing disabled
+id: 2d3841c5-3fb2-4b18-a504-c45165dfb92b
+status: experimental
+description: >
+  A successful REST stage update disabled wildcard method data tracing.
+  Compare the previous setting and logging role before inferring loss of logs.
+x_hacktricks_technique_id: aws-apigateway-data-trace-disabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L435
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_data_trace_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved telemetry or privacy setting change.

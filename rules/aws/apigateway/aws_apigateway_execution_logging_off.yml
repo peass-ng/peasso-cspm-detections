@@ -1,0 +1,22 @@
+title: API Gateway REST stage execution logging set to OFF
+id: 90b3449d-8b78-4238-9b8d-a167f0e17956
+status: experimental
+description: >
+  A successful REST stage update set wildcard method execution logging to OFF.
+  Confirm previous logging configuration before inferring loss of active logs.
+x_hacktricks_technique_id: aws-apigateway-execution-logging-off
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L435
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_execution_logging_off: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved change to execution logging or a stage without a logging role.
