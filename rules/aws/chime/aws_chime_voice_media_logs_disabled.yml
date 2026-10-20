@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector media metric logging disabled
+id: 976a2828-e741-4dae-9c23-c40d2ef1d0bb
+status: experimental
+description: A successful PutVoiceConnectorLoggingConfiguration set media metric logging to false for a Voice Connector, reducing media quality and activity evidence.
+x_hacktricks_technique_id: aws-chime-voice-media-logs-disable
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: PutVoiceConnectorLoggingConfiguration
+    event.outcome: success
+    request.chime_voice_media_logs_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved logging policy changes

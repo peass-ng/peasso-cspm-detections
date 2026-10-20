@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector origination route enabled
+id: acac99cb-818c-4e95-8734-d55a1c289385
+status: experimental
+description: A successful PutVoiceConnectorOrigination enabled at least one SIP route. Compare host, port and priority with approved routing; the event does not prove a call was routed.
+x_hacktricks_technique_id: aws-chime-voice-origination-route
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: PutVoiceConnectorOrigination
+    event.outcome: success
+    request.chime_voice_origination_route_enabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved inbound SIP routing changes

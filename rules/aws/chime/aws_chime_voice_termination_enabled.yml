@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector termination enabled with source CIDRs
+id: 81109514-dfc2-4ff6-8d9b-25bdf7275e5a
+status: experimental
+description: A successful PutVoiceConnectorTermination enabled outbound SIP termination with an allowed source CIDR list. The event does not prove a call occurred or that the list widened from its prior state.
+x_hacktricks_technique_id: aws-chime-voice-termination-cidrs
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: PutVoiceConnectorTermination
+    event.outcome: success
+    request.chime_voice_termination_enabled_with_cidrs: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved SIP trunk setup or maintenance
