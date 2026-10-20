@@ -1,0 +1,25 @@
+title: External IoT certificate registered active without a CA
+id: ac041fe6-c294-425a-869a-213862e0b2fe
+status: experimental
+description: >
+  A successful RegisterCertificateWithoutCA registered an active externally
+  generated certificate. The event proves the new device identity but not
+  IoT policy scope or credential-provider use. Certificate PEM is not emitted.
+x_hacktricks_technique_id: aws-tech-9fb706c20752275f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md#L134
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: RegisterCertificateWithoutCA
+    event.outcome: success
+    request.iot_external_certificate_registered_active: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved onboarding of an externally generated device certificate.
+tags:
+  - attack.persistence

@@ -1,0 +1,25 @@
+title: IoT fleet provisioning template enabled with an IAM role
+id: a5ec8edf-f50a-44ae-afe4-991cd8574740
+status: experimental
+description: >
+  A successful CreateProvisioningTemplate created an enabled template with
+  an IAM role. CloudTrail omitted the template body in the observed event, so
+  inspect the template before claiming broad certificate provisioning.
+x_hacktricks_technique_id: aws-tech-965d01c0d18aed7a
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md#L75
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: CreateProvisioningTemplate
+    event.outcome: success
+    request.iot_enabled_provisioning_template_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved fleet provisioning rollout.
+tags:
+  - attack.persistence
