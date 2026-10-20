@@ -1,0 +1,26 @@
+title: SQS queue permits SNS delivery from any topic in its account
+id: 47e56de1-98bc-4d63-b77b-a9857d1d4ec5
+status: experimental
+description: >
+  An accepted queue policy allows sns.amazonaws.com to send messages using
+  SourceAccount but no specific SourceArn. This permits other topics in that
+  account to deliver after subscription; review the approved topic set.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/aws-sqs-sns-injection.md#L25
+  - https://docs.aws.amazon.com/sns/latest/dg/subscribe-sqs-queue-to-sns-topic.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_sns_account_wide_send_grant: true
+  condition: selection
+falsepositives:
+  - Intentional multi-topic subscriptions within one AWS account.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sqs-sns-account-wide-send-grant

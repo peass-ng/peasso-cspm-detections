@@ -1,0 +1,26 @@
+title: SQS queue permits SNS delivery without source restriction
+id: 2658fc66-8c9d-427d-8130-52cc8bac6c1a
+status: experimental
+description: >
+  An accepted queue policy grants sns.amazonaws.com SendMessage without a
+  source condition. Any permitted SNS subscription can potentially deliver
+  messages to this queue; the policy event alone does not prove injection.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/aws-sqs-sns-injection.md#L25
+  - https://docs.aws.amazon.com/sns/latest/dg/subscribe-sqs-queue-to-sns-topic.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_sns_unscoped_send_grant: true
+  condition: selection
+falsepositives:
+  - Approved multi-topic SNS fanout to this queue.
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-sqs-sns-unscoped-send-grant
