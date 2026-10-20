@@ -1,10 +1,16 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-20. Revisión AWS actual: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud) `47c375ae496ae89f81936f47ab1cb84885c88373`. La instantánea ya publicada en producción usa la fuente histórica `fd9bf8863bf7a36de10b8695d366a53a9063c81c` y el paquete [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections) `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Esta rama aislada sigue la revisión AWS y contiene 525 reglas, 497 de AWS; la aplicación de la PR 34 fijará la revisión inmutable de esta rama para revisión, sin afirmar despliegue de esas reglas nuevas.
+Actualizado: 2026-10-20. Revisión AWS actual: [HackTricks Cloud](https://github.com/HackTricks-wiki/hacktricks-cloud/tree/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud) `47c375ae496ae89f81936f47ab1cb84885c88373`. La instantánea ya publicada en producción usa la fuente histórica `fd9bf8863bf7a36de10b8695d366a53a9063c81c` y el paquete [peasso-cspm-detections](https://github.com/peass-ng/peasso-cspm-detections) `7a68ae12cc83f85780ecccfc178176b742a16043` con 172 reglas. Esta rama aislada sigue la revisión AWS y contiene 530 reglas, 502 de AWS; la aplicación de la PR 34 fijará la revisión inmutable de esta rama para revisión, sin afirmar despliegue de esas reglas nuevas.
 
 **Integración posterior al release:** las reglas de esta rama aislada están fijadas por commit y digest en la PR 34 del CSPM, con carga remota verificada. Las PR de reglas y aplicación siguen abiertas; el paquete de producción permanece en la instantánea anterior hasta su revisión y despliegue coordinado.
 
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
+
+### Cinco rutas CodePipeline (2026-10-20)
+
+Un laboratorio propio con pipeline V2, fuente S3, acción de aprobación y proyecto CodeBuild reprodujo cinco rutas de HackTricks: [creación con rol de servicio](rules/aws/codepipeline/aws_codepipeline_same_account_role_created.yml), [ejecución con variables](rules/aws/codepipeline/aws_codepipeline_execution_variables_supplied.yml), [habilitación de transición entrante](rules/aws/codepipeline/aws_codepipeline_inbound_transition_enabled.yml), [aprobación manual](rules/aws/codepipeline/aws_codepipeline_manual_approval_submitted.yml) y [reintento de etapa fallida](rules/aws/codepipeline/aws_codepipeline_failed_stage_retry_submitted.yml). Se verificó el uso de una variable sintética mediante un objeto marcador propio, el avance tras liberar la transición y la aprobación, y el éxito del reintento sobre la misma ejecución después de corregir una condición sintética. CloudTrail entregó los cinco tipos de llamada aceptada y las cinco reglas coincidieron con eventos reales. Las reglas individuales indican solicitudes aceptadas; el efecto posterior se verificó por separado en el laboratorio. Los valores de variables y tokens de aprobación quedan en recibos privados.
+
+La limpieza independiente confirmó ausentes el pipeline, el proyecto, el bucket versionado y los cuatro roles; no hubo errores de limpieza. La prueba usa el perfil `naxusai-admin` y eventos de gestión en `us-east-1`. La prueba pública usa derivados sintéticos. Las ejecuciones preliminares con fallos de permisos o espera también terminaron con recursos ausentes.
 
 ### Cinco rutas CloudFormation de entrada mutable y StackSets (2026-10-20)
 
