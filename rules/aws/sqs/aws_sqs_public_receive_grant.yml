@@ -1,0 +1,26 @@
+title: SQS queue policy allows public message reads
+id: 348f51db-e825-45b1-b596-5b0553ac288f
+status: experimental
+description: >
+  An accepted queue policy unconditionally grants ReceiveMessage to every
+  principal on this queue. Receiving can disclose and hide messages; the
+  policy event alone does not establish that a message was read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-sqs-unauthenticated-enum/README.md#L15
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_public_receive_grant: true
+  condition: selection
+falsepositives:
+  - An intentionally public queue reader, which should be rare and reviewed.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-sqs-public-receive-grant

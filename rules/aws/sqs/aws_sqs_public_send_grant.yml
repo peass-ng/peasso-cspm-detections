@@ -1,0 +1,26 @@
+title: SQS queue policy allows public message submission
+id: 89cc3caa-16f4-42ed-8650-317981720589
+status: experimental
+description: >
+  An accepted queue policy unconditionally grants SendMessage to every
+  principal on this queue. Validate whether public submission is intended;
+  the policy event alone does not establish that a message was sent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-sqs-unauthenticated-enum/README.md#L21
+  - https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: SetQueueAttributes
+    event.outcome: success
+    request.sqs_public_send_grant: true
+  condition: selection
+falsepositives:
+  - An intentionally public message intake queue.
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-sqs-public-send-grant
