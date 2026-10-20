@@ -1,0 +1,22 @@
+title: Self-managed CloudFormation StackSet created with custom roles
+id: 29227b0f-f66b-48c5-9fd2-c0c6d64f142b
+status: experimental
+description: >
+  A successful CreateStackSet selected a same-account administration role and
+  an execution role name under the self-managed permission model.
+x_hacktricks_technique_id: aws-tech-a55461eeb06ef0b0
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L171
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CreateStackSet
+    event.outcome: success
+    request.cfn_stackset_self_managed_roles_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized self-managed StackSet deployment.

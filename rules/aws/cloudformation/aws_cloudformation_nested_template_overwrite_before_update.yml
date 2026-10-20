@@ -1,0 +1,24 @@
+title: Possible nested template overwrite before CloudFormation update
+id: 40b943bd-e28b-4181-b006-af54d27413de
+status: experimental
+description: >
+  A template-shaped S3 object was overwritten by one principal before another
+  principal updated a stack using its previous template. The correlation is
+  same-account and cannot prove that the S3 key belongs to the nested stack.
+  S3 PutObject requires CloudTrail data events for the bucket.
+x_hacktricks_technique_id: aws-tech-e3b84a06baaa415c
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L206
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CloudFormationInputChangedBeforeUpdate
+    event.outcome: success
+    request.cfn_template_object_overwrite_before_update: true
+  condition: selection
+level: low
+falsepositives:
+  - Unrelated S3 template uploads and stack updates in the same account and hour.

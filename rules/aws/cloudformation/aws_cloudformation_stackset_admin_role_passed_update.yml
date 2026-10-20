@@ -1,0 +1,23 @@
+title: CloudFormation StackSet updated with an administration role
+id: 6c159389-62e2-4b7c-8812-e67ca1ad898b
+status: experimental
+description: >
+  A successful UpdateStackSet explicitly passed a same-account administration
+  role. The event alone does not prove privilege escalation or final instance
+  update success. The omitted-role variant was rejected by AWS in a live test.
+x_hacktricks_technique_id: aws-tech-a55461eeb06ef0b0
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L171
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: UpdateStackSet
+    event.outcome: success
+    request.cfn_stackset_admin_role_passed_update: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized StackSet template update using an approved administration role.
