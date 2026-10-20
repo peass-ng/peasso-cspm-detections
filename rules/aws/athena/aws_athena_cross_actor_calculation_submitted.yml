@@ -1,0 +1,22 @@
+title: Athena Spark calculation submitted by a different principal
+id: 0dcefab5-270b-58cb-a173-cddd5612ee41
+status: experimental
+description: An accepted Athena API request matched a bounded role/workgroup or cross-principal
+  notebook/session correlation. Review approved Spark operators and execution-role
+  permissions; the event alone does not prove unauthorized code or token use.
+x_hacktricks_technique_id: aws-tech-a42f0bbd7c4e773d
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md#L51
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaSparkStartCalculationExecution
+    event.outcome: success
+    request.athena_cross_actor_calculation_submitted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved collaborative notebook operations or authorized workgroup provisioning.

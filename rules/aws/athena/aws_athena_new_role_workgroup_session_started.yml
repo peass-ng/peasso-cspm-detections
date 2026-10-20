@@ -1,0 +1,22 @@
+title: Athena Spark session started in newly created role-bearing workgroup
+id: 1af598a2-40fc-57ee-86f3-ecf06e6e11f0
+status: experimental
+description: An accepted Athena API request matched a bounded role/workgroup or cross-principal
+  notebook/session correlation. Review approved Spark operators and execution-role
+  permissions; the event alone does not prove unauthorized code or token use.
+x_hacktricks_technique_id: aws-tech-4726af89a530071f
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaSparkStartSession
+    event.outcome: success
+    request.athena_new_role_workgroup_session_started: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved collaborative notebook operations or authorized workgroup provisioning.
