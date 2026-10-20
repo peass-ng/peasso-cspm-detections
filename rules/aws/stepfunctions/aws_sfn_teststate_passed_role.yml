@@ -1,0 +1,26 @@
+title: Step Functions TestState executes with an IAM role
+id: 98413c72-2b1c-4799-97aa-621481d4e29c
+status: experimental
+description: >
+  A TestState request using an IAM role completed successfully. CloudTrail
+  redacts the tested state definition and input, so inspect the role and
+  downstream API activity before attributing a specific action.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md#L41
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_TestState.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: TestState
+    event.outcome: success
+    request.sfn_teststate_passed_role: true
+  condition: selection
+falsepositives:
+  - Authorized state testing with a dedicated execution role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sfn-teststate-passed-role
