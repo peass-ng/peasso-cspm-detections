@@ -1,0 +1,26 @@
+title: CodeArtifact npm package metadata updated
+id: e83d493f-12f3-478d-ae55-cb48e75e53c9
+status: experimental
+description: >
+  A package-manager client updated npm package metadata for one version.
+  CloudTrail does not include the dist-tag value; inspect package inventory
+  before concluding that latest or another tag moved to this version.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codeartifact-privesc/README.md#L5
+  - https://docs.aws.amazon.com/codeartifact/latest/ug/npm-tags.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: PutPackageMetadata
+    event.outcome: success
+    request.codeartifact_npm_metadata_updated: true
+  condition: selection
+falsepositives:
+  - Approved npm dist-tag or other package metadata maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-codeartifact-npm-package-metadata-updated
