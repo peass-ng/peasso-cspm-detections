@@ -4,7 +4,7 @@ status: experimental
 description: A successful CreateAppInstanceAdmin promoted an AppInstanceUser or bot within its own AppInstance. This grants service-level administrator status; it does not add IAM permissions or prove channel access without the bearer and messaging actions.
 x_hacktricks_technique_id: aws-chime-create-app-instance-admin
 references:
-  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-chime-privesc/README.md#L13
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-chime-sdk-persistence/README.md#L29
   - https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_CreateAppInstanceAdmin.html
 logsource:
   product: aws
