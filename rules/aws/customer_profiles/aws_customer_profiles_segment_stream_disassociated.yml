@@ -1,0 +1,21 @@
+title: AWS Customer Profiles segment Kinesis stream disassociated
+id: b544a559-cf41-4623-a07c-a07821634138
+status: experimental
+description: DisassociateStreamForSegments removed the domain stream association; AWS says active subscriptions eventually stop. Verify later delivery and subscription state privately.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_DisassociateStreamForSegments.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DisassociateStreamForSegments
+    event.outcome: success
+    request.customer_profiles_segment_stream_disassociated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved segment-stream migration
