@@ -1,0 +1,21 @@
+title: CloudFormation change set prepared against another actor stored-role stack
+id: 95e54535-fe56-497c-846c-e59a9b6afb7f
+status: experimental
+description: >
+  A different actor prepared a change set without a role ARN within one hour after a stack was created with a service role. This indicates possible reuse of the stored role; inspect the proposed changes and approvals before claiming privilege escalation. Older stacks require inventory enrichment beyond this correlation.
+x_hacktricks_technique_id: aws-cloudformation-change-set-stored-role-without-passrole
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L220
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CloudFormationCrossActorStoredRoleChangeSetCreated
+    event.outcome: success
+    request.cfn_cross_actor_stored_role_change_set_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved deployment or operational signaling by another authorized principal.

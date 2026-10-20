@@ -1,0 +1,22 @@
+title: ECR Public repository grants image publishing to an IAM role
+id: 3704fd7b-4ff8-47ef-881f-bf64c5762cd7
+status: experimental
+description: A successful ECR Public repository-policy replacement granted PutImage to a same-account IAM role. Review whether the role is an approved publisher; policy text and ARN are excluded from normalized evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L169
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr-public.amazonaws.com
+    event.name: SetRepositoryPolicy
+    event.outcome: success
+    request.ecr_public_specific_image_publisher_granted: true
+  condition: selection
+falsepositives:
+  - Approved delegation to a publishing role
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-tech-bbcdb983ab6af416

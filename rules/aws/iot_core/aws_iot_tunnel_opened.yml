@@ -1,0 +1,24 @@
+title: IoT secure tunnel opened
+id: 37057165-3fb0-46be-abea-801f85098b8c
+status: experimental
+description: >
+  A successful OpenTunnel created a secure tunnel. The event alone does not
+  prove a destination agent connected or any remote service was accessed.
+x_hacktricks_technique_id: aws-tech-c86b6351f2dac78d
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md#L279
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsecuredtunneling.amazonaws.com
+    event.name: OpenTunnel
+    event.outcome: success
+    request.iot_tunnel_opened: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized remote support session.
+tags:
+  - attack.lateral-movement

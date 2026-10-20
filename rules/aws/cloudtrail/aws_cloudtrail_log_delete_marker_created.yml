@@ -1,0 +1,26 @@
+title: CloudTrail log object hidden by delete marker
+id: 889ad220-51d4-45c4-a8aa-c7ca39b95c61
+status: experimental
+description: >
+  An accepted DeleteObject data event on a versioned CloudTrail log key
+  returned a delete marker. Ordinary reads no longer see the current log;
+  prior object versions remain recoverable unless separately deleted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L373
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailLogDeleteMarkerCreated
+    event.outcome: success
+    request.cloudtrail_log_delete_marker_created: true
+  condition: selection
+falsepositives:
+  - Approved log cleanup with recovery available through versioning.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-985dd9bf85ac1095

@@ -1,0 +1,26 @@
+title: Lambda function logs redirected from default group
+id: 5aa8c5fc-5854-498b-877f-5b27d28c30c7
+status: experimental
+description: >
+  A successful UpdateFunctionConfiguration set a nondefault LoggingConfig
+  log group, confirmed in the service response. The event proves the routing
+  change but not that any logs were delivered or read.
+x_hacktricks_technique_id: aws-tech-5eb6e58afccbe4d6
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-loggingconfig-redirection.md#L1
+  - https://docs.aws.amazon.com/lambda/latest/dg/monitoring-cloudwatchlogs-loggroups.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionConfiguration20150331v2
+    event.outcome: success
+    request.lambda_log_group_redirected: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved centralized logging configuration.
+tags:
+  - attack.collection

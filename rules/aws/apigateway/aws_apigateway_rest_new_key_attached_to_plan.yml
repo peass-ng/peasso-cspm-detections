@@ -1,0 +1,22 @@
+title: Newly created API Gateway REST key attached to a usage plan
+id: 4b0a99ea-29ef-5393-922c-0cb39c6eccef
+status: experimental
+description: A newly created enabled API key was attached to a usage plan by
+  the same principal within one hour. Review whether the key and plan are approved;
+  other method authorization can still block access.
+x_hacktricks_technique_id: aws-tech-0449ecb218bcfdce
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestNewKeyAttachedToPlan
+    event.outcome: success
+    request.apigateway_new_key_attached_to_plan: true
+  condition: selection
+level: high
+falsepositives:
+- Approved API key rotation or onboarding to a usage plan.

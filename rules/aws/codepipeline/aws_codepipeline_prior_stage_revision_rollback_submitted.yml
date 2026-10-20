@@ -1,0 +1,21 @@
+title: CodePipeline prior stage revision rollback submitted
+id: 46297842-d871-5b0a-84d1-105267a8fc0f
+status: experimental
+description: >
+  A successful RollbackStage returned a new execution ID for a prior target execution. The rule observes replay initiation, not its final result.
+x_hacktricks_technique_id: aws-tech-00caaba18a37e955
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L177
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: RollbackStage
+    event.outcome: success
+    request.pipeline_prior_stage_revision_rollback_submitted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized rollback to a known good revision.

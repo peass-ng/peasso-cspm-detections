@@ -1,0 +1,20 @@
+title: ECR image tag moved to a different digest
+id: cece2e6c-2074-4050-bad8-9f4c616621f4
+status: experimental
+description: Two successful PutImage events within seven days assigned different image digests to the same repository tag. This proves a tag change, not downstream workload execution.
+x_hacktricks_technique_id: aws-tech-cff05f620e8221a1
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L188
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: PutImage
+    event.outcome: success
+    request.ecr_image_tag_digest_changed: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized image release or rollback.

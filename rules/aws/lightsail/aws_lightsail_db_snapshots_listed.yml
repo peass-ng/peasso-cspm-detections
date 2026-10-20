@@ -1,0 +1,20 @@
+title: Lightsail database snapshots enumerated
+id: e9a07107-5c1c-423c-8990-aecf7ded2d44
+status: experimental
+description: A successful request listed Lightsail relational database snapshots. CloudTrail omitted the returned list and does not prove a particular snapshot existed.
+x_hacktricks_technique_id: aws-tech-fe3e8d11519124a3
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: GetRelationalDatabaseSnapshots
+    event.outcome: success
+    request.lightsail_db_snapshots_listed: true
+  condition: selection
+level: low
+falsepositives:
+- Authorized backup inventory.

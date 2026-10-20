@@ -1,0 +1,24 @@
+title: CloudWatch Contributor Insights rule definition written
+id: c2d7ff2e-2562-4898-9cfc-4d95b721ac0d
+status: experimental
+description: A successful PutInsightRule request created or replaced a Contributor
+  Insights rule definition. Review the source log groups and contributor keys against
+  approved monitoring.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L350
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: PutInsightRule
+    event.outcome: success
+    request.cloudwatch_insight_rule_definition_written: true
+  condition: selection
+falsepositives:
+- Approved Contributor Insights configuration
+level: medium
+tags:
+- attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-2e79fb230397ae9a

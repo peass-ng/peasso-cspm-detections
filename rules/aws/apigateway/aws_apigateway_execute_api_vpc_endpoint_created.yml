@@ -1,0 +1,24 @@
+title: Execute API interface VPC endpoint created
+id: e68b06bf-62dd-4db6-9251-e8557007c35d
+status: experimental
+description: >
+  A successful EC2 CreateVpcEndpoint created an interface endpoint for the
+  regional execute-api service. This can create a path to private REST APIs;
+  correlate with approved VPC endpoints, API resource policies and invocation
+  logs before claiming access to a private API.
+x_hacktricks_technique_id: aws-apigateway-private-api-vpc-endpoint-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L70
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateVpcEndpoint
+    event.outcome: success
+    request.apigateway_execute_api_vpc_endpoint_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved private API endpoint for an application VPC.

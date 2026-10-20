@@ -1,0 +1,23 @@
+title: CloudWatch Logs historical export task started
+id: 99d13eca-1038-40f7-bb9f-b8163083c0e9
+status: experimental
+description: A successful CreateExportTask call started a historical log-group export to an S3 bucket. The event alone does not prove task completion or object delivery; compare destination with approved export buckets.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md#L120
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateExportTask.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: CreateExportTask
+    event.outcome: success
+    request.cloudwatch_logs_history_export_started: true
+  condition: selection
+falsepositives:
+  - Approved log archive export
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-tech-9584f6279d9d9277

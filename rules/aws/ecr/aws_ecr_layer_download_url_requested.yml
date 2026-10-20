@@ -1,0 +1,20 @@
+title: ECR image layer download URL requested
+id: 3a17a404-a6c0-4d6e-9d35-37708c0775db
+status: experimental
+description: A successful GetDownloadUrlForLayer request named a repository and layer digest. CloudTrail omitted the signed URL; this event alone does not prove the layer was downloaded.
+x_hacktricks_technique_id: aws-tech-0286780459ed4382
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: GetDownloadUrlForLayer
+    event.outcome: success
+    request.ecr_layer_download_url_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized container image pull.

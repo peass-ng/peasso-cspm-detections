@@ -1,0 +1,25 @@
+title: Lambda event source mapping created for a function
+id: 06a05215-b05e-4857-9ce5-832f06922adb
+status: experimental
+description: >
+  A successful CreateEventSourceMapping attached a supported event source
+  to a function. The event identifies both resources; it does not prove that
+  the unchanged function executed sensitive behavior.
+x_hacktricks_technique_id: aws-tech-e3e0a1400e060b83
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-event-source-mapping-hijack.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: CreateEventSourceMapping20150331
+    event.outcome: success
+    request.lambda_event_source_mapping_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved new Lambda event integration.
+tags:
+  - attack.execution

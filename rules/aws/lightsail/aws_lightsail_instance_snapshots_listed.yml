@@ -1,0 +1,20 @@
+title: Lightsail instance snapshots enumerated
+id: 55209093-e485-48dd-b5c0-9d9532042402
+status: experimental
+description: A successful request listed Lightsail instance snapshots. CloudTrail omits the returned list; the event does not prove any particular snapshot existed.
+x_hacktricks_technique_id: aws-tech-1fd2cf32c68254af
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: GetInstanceSnapshots
+    event.outcome: success
+    request.lightsail_instance_snapshots_listed: true
+  condition: selection
+level: low
+falsepositives:
+- Authorized inventory or backup review.

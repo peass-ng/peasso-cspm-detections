@@ -3,7 +3,7 @@ id: 28b93e48-b6e6-4df5-81af-5a6e773ae30d
 status: experimental
 description: A successful IAM UpdateAccessKey call set another user's access key status to Active. The event does not prove the key was previously inactive, used afterward, or changed effective permissions.
 references:
-  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#iamupdateaccesskey
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L523
   - https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccessKey.html
 logsource:
   product: aws

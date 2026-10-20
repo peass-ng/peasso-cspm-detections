@@ -1,0 +1,21 @@
+title: CodePipeline custom action jobs polled
+id: 0aca15ca-8569-5d1e-b599-e4b93bad1129
+status: experimental
+description: >
+  A successful PollForJobs request targeted a custom action type. CloudTrail does not show whether a job or artifact credentials were returned.
+x_hacktricks_technique_id: aws-tech-fa561fe5766bc85c
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md#L71
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: PollForJobs
+    event.outcome: success
+    request.pipeline_custom_jobs_polled: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized custom action worker polling its job queue.

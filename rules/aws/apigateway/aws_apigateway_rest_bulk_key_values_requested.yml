@@ -1,0 +1,23 @@
+title: API Gateway REST API key values requested in bulk
+id: e98923c3-bb90-4e1e-8172-db3414d08a1c
+status: experimental
+description: >
+  A successful GetApiKeys request set includeValues=true. CloudTrail records
+  that the values were requested but omits the response; review the caller's
+  approved role without putting key material into an alert.
+x_hacktricks_technique_id: aws-apigateway-rest-bulk-key-values-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L489
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: GetApiKeys
+    event.outcome: success
+    request.apigateway_rest_bulk_key_values_requested: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved inventory or key recovery by an authorized operator.

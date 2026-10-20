@@ -1,0 +1,27 @@
+title: CloudTrail historical log copied over itself with customer key
+id: 72e55ff0-db91-46d2-9f61-69470fc6a357
+status: experimental
+description: >
+  An accepted S3 CopyObject data event replaced a versioned CloudTrail log key
+  with a new version encrypted under an explicit KMS key. An earlier CreateTrail
+  linked the bucket to that account's trail. Older versions are not changed by
+  the copy and may remain recoverable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-logging-s3-info.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailHistoricalLogCopiedWithCustomerKey
+    event.outcome: success
+    request.cloudtrail_historical_log_cmk_copy: true
+  condition: selection
+falsepositives:
+  - Approved re-encryption of log objects with retained old versions.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2

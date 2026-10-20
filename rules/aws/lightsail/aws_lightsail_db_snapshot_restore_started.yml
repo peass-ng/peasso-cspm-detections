@@ -1,0 +1,20 @@
+title: Lightsail database creation from snapshot started
+id: dd4b2a49-649c-4ecf-ab24-effa1afc6ddb
+status: experimental
+description: A successful request started creation of a Lightsail database from a snapshot. The management event alone does not prove the restored database became available or contained readable data.
+x_hacktricks_technique_id: aws-tech-fe3e8d11519124a3
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: CreateRelationalDatabaseFromSnapshot
+    event.outcome: success
+    request.lightsail_db_snapshot_restore_started: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized database recovery.

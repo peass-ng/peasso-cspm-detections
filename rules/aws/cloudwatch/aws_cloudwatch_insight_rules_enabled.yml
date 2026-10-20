@@ -1,0 +1,23 @@
+title: CloudWatch Contributor Insights rules enabled
+id: 8bd0b7fa-6b7d-4788-9680-c55e64156d85
+status: experimental
+description: A successful EnableInsightRules request enabled one or more Contributor
+  Insights rules. Review whether the rule definitions and monitored sources are approved.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L375
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: EnableInsightRules
+    event.outcome: success
+    request.cloudwatch_insight_rules_enabled: true
+  condition: selection
+falsepositives:
+- Approved monitoring enablement
+level: low
+tags:
+- attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-42250fca637033ff

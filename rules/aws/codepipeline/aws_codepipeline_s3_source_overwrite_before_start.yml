@@ -1,0 +1,21 @@
+title: CodePipeline configured S3 source overwritten before start
+id: 47673be7-b92f-5ccb-8230-1d84553df71a
+status: experimental
+description: >
+  A successful S3 PutObject data event matched the configured source bucket and key before a subsequent StartPipelineExecution. This requires S3 data-event logging and does not prove the build used that version.
+x_hacktricks_technique_id: aws-tech-7f94a2d806ec8ce5
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L204
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: CodePipelineS3SourceOverwriteBeforeStart
+    event.outcome: success
+    request.pipeline_s3_source_overwrite_before_start: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized source artifact publication followed by a pipeline run.

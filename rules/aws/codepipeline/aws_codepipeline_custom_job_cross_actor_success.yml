@@ -1,0 +1,21 @@
+title: CodePipeline custom job success reported by a different actor
+id: 5ff207ce-1039-5edf-a0a1-4620ea105597
+status: experimental
+description: >
+  A successful PutJobSuccessResult followed an InProgress AcknowledgeJob for the same job ID by another actor. This is a job ownership change; it does not prove validation was skipped.
+x_hacktricks_technique_id: aws-tech-aa6021866324c46a
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L280
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: CodePipelineCustomJobCrossActorSuccess
+    event.outcome: success
+    request.pipeline_custom_job_cross_actor_success: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized handoff between separate custom-action worker identities.

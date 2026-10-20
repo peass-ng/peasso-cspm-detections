@@ -1,0 +1,21 @@
+title: CodePipeline action execution details read requested
+id: 6bf6af04-911f-5329-b034-03570224f44c
+status: experimental
+description: >
+  A successful ListActionExecutions request read action history. The CloudTrail event does not reveal resolved configuration or output variables.
+x_hacktricks_technique_id: aws-tech-589130b76ab0b8c2
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md#L35
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: ListActionExecutions
+    event.outcome: success
+    request.pipeline_action_executions_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized monitoring or deployment tooling reading action history.

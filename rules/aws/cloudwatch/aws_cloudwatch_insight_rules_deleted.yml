@@ -1,0 +1,23 @@
+title: CloudWatch Contributor Insights rules deleted
+id: f9cf4a02-cb7f-4f08-8d47-921826275d08
+status: experimental
+description: A successful DeleteInsightRules request deleted one or more Contributor
+  Insights rules. The event does not prove loss of alerts or downstream effects.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L350
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DeleteInsightRules
+    event.outcome: success
+    request.cloudwatch_insight_rules_deleted: true
+  condition: selection
+falsepositives:
+- Approved monitoring decommissioning
+level: high
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-tech-2e79fb230397ae9a

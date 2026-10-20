@@ -1,0 +1,20 @@
+title: Lightsail instance creation from snapshot started
+id: 1f8c174c-0c7b-4a7d-a785-5e21d10d3577
+status: experimental
+description: A successful request started creation of an instance from a snapshot. The management event does not prove the new instance reached running state or its contents were read.
+x_hacktricks_technique_id: aws-tech-1fd2cf32c68254af
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: CreateInstancesFromSnapshot
+    event.outcome: success
+    request.lightsail_instance_snapshot_restore_started: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized recovery or migration.

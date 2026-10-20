@@ -1,0 +1,21 @@
+title: CloudFormation stack parameters read
+id: 25a79f10-9777-43f9-90b4-c681a40c42d7
+status: experimental
+description: >
+  A successful DescribeStacks requested a named stack. Its parameters and outputs can reveal configuration values when operators place them there; NoEcho values are masked. Review the stack sensitivity and approved readers before treating this as disclosure.
+x_hacktricks_technique_id: aws-cloudformation-describe-stacks-parameters
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-data-disclosure-post-exploitation/README.md#L31
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: DescribeStacks
+    event.outcome: success
+    request.cfn_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved infrastructure inventory or deployment review.

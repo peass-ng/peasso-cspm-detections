@@ -1,6 +1,6 @@
 """Run five disposable IAM audit probes; print no keys or passwords.
 
-Usage: python3 scripts/live_iam_batch.py --profile naxusai-admin
+Usage: python3 scripts/live_iam_batch.py --profile AWS_LAB_PROFILE
 All resources are uniquely prefixed and removed in a finally block.
 """
 

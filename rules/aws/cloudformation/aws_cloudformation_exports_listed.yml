@@ -1,0 +1,21 @@
+title: CloudFormation regional exports listed
+id: 0542a656-d588-4e3d-b2f0-d94709c1eb06
+status: experimental
+description: >
+  A successful ListExports enumerated regional stack output exports. This is a broad configuration read; check whether any export contains sensitive data and whether the actor is an approved reader.
+x_hacktricks_technique_id: aws-cloudformation-list-exports
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-data-disclosure-post-exploitation/README.md#L47
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: ListExports
+    event.outcome: success
+    request.cfn_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved infrastructure inventory or deployment review.

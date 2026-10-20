@@ -1,0 +1,23 @@
+title: CloudFormation StackSet instance deployment triggered in the event region
+id: 96f2eda5-8828-4ea1-93d2-18f93289463b
+status: experimental
+description: >
+  CreateStackInstances targeted the event region. CloudTrail omitted the account
+  list in the observed request, so this rule cannot establish the target account.
+  This observes the trigger, not the final instance operation result.
+x_hacktricks_technique_id: aws-tech-a55461eeb06ef0b0
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L171
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CreateStackInstances
+    event.outcome: success
+    request.cfn_stackset_region_instances_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized StackSet instance rollout.

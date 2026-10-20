@@ -6,7 +6,7 @@ description: >
   from the main deployment. Review both deployment definitions and release plan.
 x_hacktricks_technique_id: aws-apigateway-canary-traffic-another-deployment
 references:
-  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L118
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L118
 logsource:
   product: aws
   service: cloudtrail

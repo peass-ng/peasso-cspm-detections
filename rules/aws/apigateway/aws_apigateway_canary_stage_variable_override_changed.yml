@@ -1,0 +1,23 @@
+title: API Gateway REST canary stage variable override changed
+id: 8334fa28-186f-41bb-a81a-12012d2bedbe
+status: experimental
+description: >
+  A successful REST stage update changed a canary stage variable override.
+  Compare the live override and integration with an approved release; CloudTrail
+  masks the variable value and the event alone does not prove traffic delivery.
+x_hacktricks_technique_id: aws-apigateway-canary-stage-variable-override
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L118
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_canary_stage_variable_override_changed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved canary release or endpoint override.

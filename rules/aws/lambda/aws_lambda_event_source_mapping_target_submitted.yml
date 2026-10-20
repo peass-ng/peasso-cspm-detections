@@ -1,0 +1,25 @@
+title: Lambda event source mapping target submitted
+id: 3ddf6ab7-d69a-44af-a963-f17f1b5c7964
+status: experimental
+description: >
+  A successful UpdateEventSourceMapping supplied a function target for a
+  mapping. CloudTrail lacks the prior target in this event; compare earlier
+  mapping state before claiming traffic diversion.
+x_hacktricks_technique_id: aws-tech-4070f0b25b0b233f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-event-source-mapping-hijack.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateEventSourceMapping20150331
+    event.outcome: success
+    request.lambda_event_source_mapping_target_submitted: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved mapping maintenance or redeployment.
+tags:
+  - attack.collection

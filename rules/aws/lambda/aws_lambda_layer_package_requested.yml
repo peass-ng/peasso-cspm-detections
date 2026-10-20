@@ -1,0 +1,25 @@
+title: Lambda layer deployment package requested
+id: 8bda26bf-d28a-488e-84b4-4e7df92b00e2
+status: experimental
+description: >
+  A successful GetLayerVersion returned a temporary layer archive URL to the
+  caller. The CloudTrail event names the layer and version but omits the URL
+  and cannot prove the subsequent archive download.
+x_hacktricks_technique_id: aws-tech-29217ebcf5db422b
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md#L188
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: GetLayerVersion20181031
+    event.outcome: success
+    request.lambda_layer_package_requested: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved layer inspection or deployment tooling.
+tags:
+  - attack.collection

@@ -1,0 +1,27 @@
+title: CloudTrail log customer key disabled
+id: b3bc2894-3803-428f-90d5-54a362f4f611
+status: experimental
+description: >
+  A successful KMS DisableKey targeted a customer managed key previously
+  associated with a CloudTrail log destination in the ingested event window.
+  This can make logs encrypted under that key unreadable and interrupt future
+  delivery; verify actual affected objects and GetTrailStatus separately.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/encrypting-cloudtrail-log-files-with-aws-kms.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: CloudTrailLogCustomerKeyDisabled
+    event.outcome: success
+    request.cloudtrail_log_cmk_disabled: true
+  condition: selection
+falsepositives:
+  - Approved shutdown or emergency suspension of a log key.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2

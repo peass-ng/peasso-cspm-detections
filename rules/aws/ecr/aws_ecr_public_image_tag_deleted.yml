@@ -1,0 +1,22 @@
+title: ECR Public image tag deleted
+id: 72caf499-23fd-4ed5-9c80-20b47d9d038d
+status: experimental
+description: A successful BatchDeleteImage response confirmed deletion of an explicitly requested tag from a public repository. Review approved release retention; other tags or image digests may remain.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L405
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr-public.amazonaws.com
+    event.name: BatchDeleteImage
+    event.outcome: success
+    request.ecr_public_image_tag_deleted: true
+  condition: selection
+falsepositives:
+  - Approved image cleanup
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-88462f694e871afe

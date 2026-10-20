@@ -1,0 +1,27 @@
+title: S3 object copied over itself using customer-provided encryption key
+id: 0f4b346b-590e-49c6-826e-b7da6ac0ab58
+status: experimental
+description: >
+  An accepted S3 CopyObject data event used the same source and destination
+  key and applied SSE-C to the resulting version. This can replace the
+  current readable object with one that requires an attacker-held key;
+  older versions may remain recoverable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L394
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: S3ObjectCopiedOverItselfWithCustomerKey
+    event.outcome: success
+    request.s3_object_ssec_self_copy: true
+  condition: selection
+falsepositives:
+  - Approved re-encryption or migration of an object to SSE-C.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-dff7e5647f79a82d

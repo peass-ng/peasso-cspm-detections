@@ -1,0 +1,28 @@
+title: CloudTrail log bucket short expiration configured
+id: 2ecb40d5-0b55-4980-9cf2-5e660388fe32
+status: experimental
+description: >
+  A successful S3 lifecycle write configured one-to-seven-day current-object
+  expiration on a bucket identified by an earlier trail configuration event.
+  The matching prefix covers that account's CloudTrail logs. On versioned
+  buckets, expiration can leave older versions recoverable; this event alone
+  does not prove that any log was deleted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L295
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-expire-general-considerations.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailLogBucketShortExpirationConfigured
+    event.outcome: success
+    request.cloudtrail_log_bucket_short_expiration: true
+  condition: selection
+falsepositives:
+  - Approved short retention on an isolated test trail.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-d1c7fc01dae48554

@@ -1,0 +1,25 @@
+title: IoT fleet provisioning claim issued
+id: 2954d132-8e03-43e2-a56b-091a17d8c000
+status: experimental
+description: >
+  A successful CreateProvisioningClaim issued a temporary bootstrap
+  certificate for the named template. CloudTrail showed the certificate ID,
+  not its private key or subsequent RegisterThing calls.
+x_hacktricks_technique_id: aws-tech-965d01c0d18aed7a
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md#L75
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: CreateProvisioningClaim
+    event.outcome: success
+    request.iot_provisioning_claim_issued: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized device bootstrap.
+tags:
+  - attack.persistence

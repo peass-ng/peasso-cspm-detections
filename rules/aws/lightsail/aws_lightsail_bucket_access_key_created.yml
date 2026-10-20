@@ -1,0 +1,21 @@
+title: Lightsail bucket access key created
+id: 68aa17b4-c4c9-5c53-91bb-1faa7c20e021
+status: experimental
+description: >
+  A successful CreateBucketAccessKey returned an active key for a bucket. Secret key material is excluded from detections; raw CloudTrail responses should be handled as sensitive.
+x_hacktricks_technique_id: aws-tech-038a146adb4791da
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L58
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: CreateBucketAccessKey
+    event.outcome: success
+    request.lightsail_bucket_access_key_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized bucket integration key rotation.

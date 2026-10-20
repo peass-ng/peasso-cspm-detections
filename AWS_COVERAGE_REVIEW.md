@@ -2,25 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **160**. Total headings: **785**.
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md) (15 headings)
-
-- \`iam:PassRole\` , \`sagemaker:CreateNotebookInstance\`, \`sagemaker:CreatePresignedNotebookInstanceUrl\`
-- \`sagemaker:CreatePresignedNotebookInstanceUrl\`
-- \`s3:PutObject\` on configured training or processing code (job creation optional)
-- \`ecr:PutImage\` on a mutable Processing image (later job required)
-- \`sagemaker:CreateProcessingJob\`, \`iam:PassRole\`
-- \`sagemaker:CreateTrainingJob\`, \`iam:PassRole\`
-- \`sagemaker:CreateHyperParameterTuningJob\`, \`iam:PassRole\`
-- \`sagemaker:UpdateUserProfile\`, \`iam:PassRole\`, \`sagemaker:CreateApp\`, \`sagemaker:CreatePresignedDomainUrl\`, (\`sagemaker:DeleteApp\`)
-- \`sagemaker:UpdateDomain\`, \`sagemaker:CreateUserProfile\`, \`sagemaker:CreateApp\`, \`iam:PassRole\`, \`sagemaker:CreatePresignedDomainUrl\`, (\`sagemaker:DeleteApp\`)
-- \`sagemaker:CreateApp\`, \`sagemaker:CreatePresignedDomainUrl\`
-- \`sagemaker:UpdateClusterSoftware\` — replace HyperPod nodes with a custom AMI
-- \`sagemaker:UpdateNotebookInstanceLifecycleConfig\` — stored code execution as the notebook role
-- Set Lifecycle Configuration on Notebook Instances
-- Set Lifecycle Configuration on SageMaker Studio
-- SageMaker Model Registry supply-chain injection via CreateModelPackage(Approved)
+Pages with at least three level-three headings and no direct YAML reference: **140**. Total headings: **653**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -39,76 +21,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`identitystore:CreateUser\` / \`sso-directory:CreateUser\` (+ group membership / assignment)
 - \`sso-admin:CreateTrustedTokenIssuer\` (+ \`CreateApplication\` / \`PutApplicationGrant\`) — impersonate any user via a rogue trusted token issuer
 - \`account-access:CreateEntitlement\` — assign an existing IAM role to a controlled Identity Center user
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md) (12 headings)
-
-- \`lightsail:DownloadDefaultKeyPair\`
-- \`lightsail:GetInstanceAccessDetails\`
-- \`lightsail:CreateBucketAccessKey\`
-- \`lightsail:GetRelationalDatabaseMasterUserPassword\`
-- \`lightsail:UpdateRelationalDatabase\`
-- \`lightsail:OpenInstancePublicPorts\`
-- \`lightsail:PutInstancePublicPorts\`
-- \`lightsail:SetResourceAccessForBucket\`
-- \`lightsail:UpdateBucket\`
-- \`lightsail:UpdateContainerService\`
-- \`lightsail:CreateDomainEntry\`
-- \`lightsail:UpdateDomainEntry\`
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md) (11 headings)
-
-- Access Sensitive Information
-- Restore old DB snapshots
-- Restore Instance Snapshots
-- \`lightsail:DownloadDefaultKeyPair\`
-- \`lightsail:CreateBucketAccessKey\`
-- \`lightsail:GetRelationalDatabaseMasterUserPassword\`
-- \`lightsail:UpdateRelationalDatabase\`
-- \`lightsail:OpenInstancePublicPorts\`
-- \`lightsail:PutInstancePublicPorts\`
-- \`lightsail:SetResourceAccessForBucket\`
-- \`lightsail:UpdateBucket\`
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md) (11 headings)
-
-- \`codebuild:StartBuild\` | \`codebuild:StartBuildBatch\`
-- \`codebuild:RetryBuild\` — Re-execute a completed build under its stored role
-- \`codebuild:StartCommandExecution\` — Execute in a running sandbox
-- \`codebuild:StartSandboxConnection\` — Open an interactive shell in a running sandbox
-- \`iam:PassRole\`, \`codebuild:CreateProject\`, (\`codebuild:StartBuild\` | \`codebuild:StartBuildBatch\`)
-- \`iam:PassRole\`, \`codebuild:UpdateProject\`, (\`codebuild:StartBuild\` | \`codebuild:StartBuildBatch\`)
-- \`codebuild:UpdateProject\`, (\`codebuild:StartBuild\` | \`codebuild:StartBuildBatch\`)
-- SSM
-- \`s3:PutObject\` on a configured S3 source (\`codebuild:StartBuild\` optional)
-- Poison a \`SECRETS_MANAGER\` or \`PARAMETER_STORE\` environment value
-- \`codebuild:BatchGetProjects\`, \`codebuild:BatchGetBuilds\` — Read build environment values
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md) (11 headings)
-
-- \`iam:PassRole\`, \`codepipeline:CreatePipeline\`, \`codebuild:CreateProject\`, \`codepipeline:StartPipelineExecution\`
-- \`codebuild:UpdateProject\`, \`codepipeline:UpdatePipeline\`, \`codepipeline:StartPipelineExecution\`
-- \`codepipeline:StartPipelineExecution\` — inject a V2 pipeline variable
-- \`codepipeline:RetryStageExecution\` — Replay a failed privileged stage
-- \`codepipeline:EnableStageTransition\` — Release an execution waiting at a disabled transition
-- \`codepipeline:OverrideStageCondition\` — Bypass an active stage condition
-- \`codepipeline:RollbackStage\` — Replay a prior successful stage revision
-- \`s3:PutObject\` on a configured S3 source (\`codepipeline:StartPipelineExecution\` optional)
-- \`codepipeline:PutApprovalResult\` — bypass a manual gate
-- \`codepipeline:PutJobSuccessResult\` — bypass a zero-output custom-action gate
-- \`codepipeline:PollForJobs\`
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md) (10 headings)
-
-- Trigger an existing IoT Device Management Command
-- Read a device shadow
-- \`iot:GetJobDocument\` — read plaintext fleet job payloads
-- Read and manipulate IoT Jobs through the device data plane
-- Receive MQTT telemetry and messages
-- Take over an existing tunnel with \`iot:RotateTunnelAccessToken\`
-- \`iot:CreateTopicRule\` + \`iam:PassRole\` — durable fleet-wide MQTT exfiltration
-- Cross-service pivot: publish into an existing IoT rule and Lambda
-- Open a managed tunnel to a device
-- Publish commands or forged telemetry
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md) (10 headings)
 
@@ -146,28 +58,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Poison the product BOM through an import job
 - Poison or delete dataset rows with real-time events
 - Destructive deletion and operational denial
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-sagemaker-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sagemaker-persistence/README.md) (8 headings)
-
-- Set Lifecycle Configuration on Notebook Instances
-- Set Lifecycle Configuration on SageMaker Studio
-- Reverse Shell via Lifecycle Configuration
-- \`sagemaker:UpdateNotebookInstanceLifecycleConfig\` — stored code execution as the notebook role
-- Payload Example:
-- Canvas cross-account model registry backdoor (UpdateUserProfile.ModelRegisterSettings)
-- Model Registry resource policy (PutModelPackageGroupPolicy)
-- Payload Example:
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md) (8 headings)
-
-- Read customer PII and source records
-- Export a customer segment
-- Import or poison profile data
-- Abuse bulk upload authority
-- Irreversibly merge identities
-- Weaponize identity-resolution settings
-- Trigger customer communications and downstream automation
-- Delete or disrupt customer data
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eks-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eks-post-exploitation/README.md) (8 headings)
 
@@ -334,15 +224,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - **Backdoor Launch Configuration**
 - Backdoor Instances
 - EC2 ReplaceRootVolume Task (Stealth Backdoor)
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md) (6 headings)
-
-- Recover API keys and query the GraphQL endpoint
-- Read environment secrets and export the schema
-- Hijack resolver, function or data-source behavior
-- Overwrite GraphQL API environment variables
-- Remove the AppSync WAF association
-- \`appsync:UpdateGraphqlApi\` + \`appsync:CreateApiKey\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md) (6 headings)
 
@@ -602,14 +483,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Tamper with SiteWise Edge collection
 - Poison asset telemetry with \`BatchPutAssetPropertyValue\`
 
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-event-source-mapping-hijack.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-event-source-mapping-hijack.md) (5 headings)
-
-- \`lambda:CreateEventSourceMapping\` — attach a source to an existing privileged function
-- \`lambda:UpdateEventSourceMapping\` — redirect an existing mapping
-- Impact
-- Required permissions
-- Steps
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md) (5 headings)
 
 - Mine stored utterances and conversation analytics
@@ -697,13 +570,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`logs:CreateScheduledQuery\` + \`iam:PassRole\` — recurring log exfiltration to S3
 - \`logs:PutSubscriptionFilter\` — forward private logs through a preauthorized destination
 
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-customer-profiles-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-customer-profiles-persistence/README.md) (4 headings)
-
-- Stream every profile change to Kinesis
-- Persist segment-membership notifications
-- Maintain a scheduled ingestion workflow
-- Persist through event-trigger automation
-
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md) (4 headings)
 
 - \`aws-auth\` ConfigMap mapping (legacy, CloudTrail-invisible)
@@ -724,13 +590,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`redshift:ModifyCluster\` - reset the provisioned-cluster master password
 - \`redshift-serverless:UpdateWorkgroup\` - open a network path to a planted credential
 - \`redshift:AuthorizeEndpointAccess\` - retain a cross-account private route
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md) (4 headings)
-
-- \`logs:GetLogEvents\`, \`logs:FilterLogEvents\` — Read application and audit logs
-- \`logs:GetLogRecord\`, \`logs:GetQueryResults\` — alternate log-data paths
-- \`rum:GetAppMonitorData\` — read browser and user-session telemetry
-- \`logs:CreateExportTask\` — bulk-export a whole log group's history to S3
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md) (4 headings)
 
@@ -830,20 +689,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Redirect future recordings
 - Manipulate or disrupt live sessions
 
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md) (4 headings)
-
-- \`lambda:ListFunctions\` and \`lambda:ListVersionsByFunction\` — read plaintext environment variables
-- \`lambda:GetFunction\` — Download a function deployment package
-- \`lambda:GetFunctionConfiguration\` — Read environment variables
-- \`lambda:GetLayerVersion\` — Download layer code
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-loggingconfig-redirection.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-loggingconfig-redirection.md) (4 headings)
-
-- Required permissions
-- Steps
-- Impact
-- Notes
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md) (4 headings)
 
 - \`license-manager:CheckoutBorrowLicense\` / \`CheckoutLicense\` — consume or steal seller-issued entitlements
@@ -892,13 +737,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Use victim keys as a payment-cryptography oracle
 - Disable or schedule deletion of payment keys
 - Redirect an application alias
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-configuration-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-configuration-access-post-exploitation/README.md) (4 headings)
-
-- \`sagemaker:DescribeAppImageConfig\` and \`sagemaker:ListAppImageConfigs\` — read plaintext container variables
-- \`sagemaker:DescribeModel\` — inference-environment secret disclosure
-- \`sagemaker:DescribeTrainingJob\` — Read training configuration and environment values
-- \`sagemaker:CreatePresignedMlflowTrackingServerUrl\`, \`sagemaker-mlflow:AccessUI\`, \`sagemaker-mlflow:SearchExperiments\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-lake-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-lake-post-exploitation/README.md) (4 headings)
 
@@ -1022,12 +860,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Read stored extension configuration
 - Enumerate other principals' Cloud Control requests
 - Disable or redirect a CloudFormation Hook
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md) (3 headings)
-
-- \`codepipeline:GetPipeline\`, \`codepipeline:GetPipelineExecution\` — read default and resolved variables
-- \`codepipeline:PollForJobs\`
-- \`codepipeline:GetJobDetails\` — known-job artifact credentials
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-user-pools-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-user-pools-post-exploitation/README.md) (3 headings)
 
@@ -1197,18 +1029,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`workmailmessageflow:GetRawMessageContent\` / \`PutRawMessageContent\` — steal or rewrite in-transit email
 - Abusing WorkMail to bypass SES sandbox
 
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appsync-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appsync-privesc/README.md) (3 headings)
-
-- \`appsync:CreateDataSource\`, \`iam:PassRole\` — drive an arbitrary role through a GraphQL field
-- \`appsync:UpdateDataSource\` + \`appsync:UpdateResolver\` + \`iam:PassRole\`
-- Hijack resolver, function or data-source behavior
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md) (3 headings)
-
-- \`athena:StartCalculationExecution\` — Execute code in an existing Spark session
-- \`athena:GetSessionEndpoint\` — Take over an active Spark Connect session
-- \`athena:CreatePresignedNotebookUrl\` — Take over a running Spark notebook
-
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-batch-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-batch-privesc/README.md) (3 headings)
 
 - \`batch:RegisterJobDefinition\`, \`iam:PassRole\` (+ \`batch:SubmitJob\`) — run a container as a passed role
@@ -1251,20 +1071,8 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Publish a higher component version
 - Discovery with and without list permissions
 
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md) (3 headings)
-
-- \`iot:CreateRoleAlias\` / \`UpdateRoleAlias\` + \`iam:PassRole\` → assume an arbitrary role via a device certificate
-- \`iot:CreateProvisioningTemplate\` + \`iam:PassRole\` + \`iot:CreateProvisioningClaim\` → self-replenishing fleet of attacker certificates
-- \`iot:RegisterCertificateWithoutCA\` → register an attacker-generated (BYO) certificate as a device identity
-
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-pca-connector-ad-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-pca-connector-ad-privesc/README.md) (3 headings)
 
 - \`pca-connector-ad:CreateTemplate\` — publish a malicious certificate template (ESC1 / ESC9)
 - \`pca-connector-ad:UpdateTemplate\` — weaken an existing legitimate template in place
 - \`pca-connector-ad:CreateTemplateGroupAccessControlEntry\` — grant enrollment to an attacker-chosen AD group
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-service-catalog-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-service-catalog-privesc/README.md) (3 headings)
-
-- Required conditions
-- Example
-- Discovery without list permissions

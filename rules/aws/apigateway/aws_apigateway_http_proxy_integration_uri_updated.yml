@@ -1,0 +1,23 @@
+title: API Gateway HTTP API proxy integration URI updated
+id: 1b6fd690-c60f-4228-8502-e0a45f9e354a
+status: experimental
+description: >
+  A successful HTTP API UpdateIntegration assigned a public HTTP(S) URI to an
+  HTTP_PROXY integration. Compare the route's approved backend and stage
+  deployment mode; this event alone does not identify an attacker endpoint.
+x_hacktricks_technique_id: aws-apigateway-http-proxy-integration-redirect
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L146
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateIntegration
+    event.outcome: success
+    request.apigateway_http_proxy_integration_uri_updated: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved HTTP API backend migration or release.

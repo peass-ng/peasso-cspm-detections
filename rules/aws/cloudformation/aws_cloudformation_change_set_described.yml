@@ -1,0 +1,21 @@
+title: CloudFormation pending change set described
+id: a2916f4a-7558-4ee0-9a29-c456e503f6b4
+status: experimental
+description: >
+  A successful DescribeChangeSet requested a named pending change set. The response may expose proposed parameters; the event alone does not establish a sensitive value or execution.
+x_hacktricks_technique_id: aws-cloudformation-describe-change-set
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-data-disclosure-post-exploitation/README.md#L61
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: DescribeChangeSet
+    event.outcome: success
+    request.cfn_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved infrastructure inventory or deployment review.

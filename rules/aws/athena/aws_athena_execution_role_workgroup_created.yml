@@ -1,0 +1,22 @@
+title: Athena Spark workgroup bound to an execution role
+id: fb0de527-24ce-5fe1-8d27-aa6b1b4e1fe6
+status: experimental
+description: An accepted Athena API request matched a bounded role/workgroup or cross-principal
+  notebook/session correlation. Review approved Spark operators and execution-role
+  permissions; the event alone does not prove unauthorized code or token use.
+x_hacktricks_technique_id: aws-tech-4726af89a530071f
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaSparkExecutionRoleWorkGroupCreated
+    event.outcome: success
+    request.athena_spark_execution_role_bound: true
+  condition: selection
+level: low
+falsepositives:
+- Approved collaborative notebook operations or authorized workgroup provisioning.

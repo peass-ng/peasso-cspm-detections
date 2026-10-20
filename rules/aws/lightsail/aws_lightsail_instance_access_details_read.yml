@@ -1,0 +1,21 @@
+title: Lightsail instance access details requested
+id: 4c71e3da-2c5c-56c0-adb7-a986524341d9
+status: experimental
+description: >
+  A successful GetInstanceAccessDetails request targeted an instance. CloudTrail omitted the returned access material, so the event alone does not prove credential exposure.
+x_hacktricks_technique_id: aws-tech-6e6a1a5355011894
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L22
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: GetInstanceAccessDetails
+    event.outcome: success
+    request.lightsail_instance_access_details_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized console or support access to an instance.

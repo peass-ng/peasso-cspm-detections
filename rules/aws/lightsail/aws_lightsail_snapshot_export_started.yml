@@ -1,0 +1,20 @@
+title: Lightsail snapshot export to EC2 started
+id: bd045c00-c291-4017-a9ba-3a40adc0e33c
+status: experimental
+description: A successful request started export of a Lightsail snapshot to EC2. The management event alone does not prove an AMI or EBS snapshot was completed.
+x_hacktricks_technique_id: aws-tech-1fd2cf32c68254af
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: ExportSnapshot
+    event.outcome: success
+    request.lightsail_snapshot_export_started: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized migration to EC2.

@@ -1,0 +1,25 @@
+title: IoT job document read
+id: 24a4390a-06ef-4902-aacb-45364de6a877
+status: experimental
+description: >
+  A successful GetJobDocument requested a known job's stored document.
+  The API returned the document to the caller, but CloudTrail omitted its
+  contents; the event does not establish that the document held secrets.
+x_hacktricks_technique_id: aws-tech-7a0671666f4c1392
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md#L58
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: GetJobDocument
+    event.outcome: success
+    request.iot_job_document_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved fleet operations reviewing an IoT job.
+tags:
+  - attack.collection

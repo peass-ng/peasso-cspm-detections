@@ -1,0 +1,20 @@
+title: ECR authorization token requested
+id: e53cc5e4-0903-450b-a565-1ae50afd725b
+status: experimental
+description: A successful GetAuthorizationToken request minted an ECR registry credential for the caller. It does not prove repository access or an image pull.
+x_hacktricks_technique_id: aws-tech-0286780459ed4382
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: GetAuthorizationToken
+    event.outcome: success
+    request.ecr_authorization_token_requested: true
+  condition: selection
+level: low
+falsepositives:
+- Authorized registry login.

@@ -1,0 +1,26 @@
+title: AppConfig hosted configuration rollback submitted
+id: 09efd5cd-2e3a-43bb-8a80-43af2e8dbb2d
+status: experimental
+description: A StartDeployment request selected an older hosted version than a
+  previously completed deployment of the same application, environment and
+  profile. This identifies a rollback request, not its intent or downstream
+  consumer effect; the new rollout may still be in progress.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L142
+- https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-deploying.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: AppConfigHostedVersionRollbackSubmitted
+    event.outcome: success
+    request.appconfig_hosted_version_rollback_submitted: true
+  condition: selection
+falsepositives:
+- Authorized rollback after a failed or unsafe release
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-tech-0b1e7893c95031b9

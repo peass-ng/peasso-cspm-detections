@@ -1,0 +1,22 @@
+title: Athena Spark 3.5 session endpoint requested by a different principal
+id: 67530582-dc19-56dc-a5fd-c502d5d7af15
+status: experimental
+description: An accepted GetSessionEndpoint request matched a recently started
+  Spark 3.5 session owned by another principal in the same account and region.
+  Review approved session operators; CloudTrail does not prove use of the bearer token.
+x_hacktricks_technique_id: aws-tech-c65c8f67ddf8f9f5
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaSpark35CrossActorGetSessionEndpoint
+    event.outcome: success
+    request.athena_spark35_cross_actor_endpoint_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized shared Spark Connect sessions operated by another principal.

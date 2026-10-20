@@ -1,0 +1,25 @@
+title: IoT role alias repointed to another IAM role
+id: cd49bfb2-0d67-45fc-93ad-dddb200afda4
+status: experimental
+description: >
+  A successful UpdateRoleAlias requested an IAM role binding for an existing
+  alias. The event does not prove the previous role, policy scope, or later
+  credential vending.
+x_hacktricks_technique_id: aws-tech-bfbd349a8467fe8c
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md#L18
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: UpdateRoleAlias
+    event.outcome: success
+    request.iot_role_alias_repointed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized rotation of a device credential role.
+tags:
+  - attack.privilege-escalation
