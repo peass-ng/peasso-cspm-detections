@@ -1,0 +1,26 @@
+title: CloudTrail log customer key explicitly set
+id: 27d18225-625a-4dcc-8a35-641c08b21601
+status: experimental
+description: >
+  A successful UpdateTrail explicitly selected a same-account customer
+  managed KMS key and returned it in the trail configuration. This event
+  alone cannot prove a change from the prior key or any log unavailability.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/encrypting-cloudtrail-log-files-with-aws-kms.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: CloudTrailLogCustomerKeyExplicitlySet
+    event.outcome: success
+    request.cloudtrail_log_customer_key_explicitly_set: true
+  condition: selection
+falsepositives:
+  - Approved trail key rotation or initial encryption setup.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2

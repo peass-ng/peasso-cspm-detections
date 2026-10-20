@@ -1,0 +1,27 @@
+title: CloudTrail log bucket default customer key configured
+id: 983a36dd-773b-4ceb-a80d-258e4485b704
+status: experimental
+description: >
+  A successful PutBucketEncryption selected a same-account customer managed
+  KMS key as the default for a bucket linked to a trail. This is a key
+  dependency observation; it does not prove a change from an older key or
+  that existing log objects were re-encrypted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/encrypting-cloudtrail-log-files-with-aws-kms.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailLogBucketCustomerKeyConfigured
+    event.outcome: success
+    request.cloudtrail_log_bucket_customer_key_configured: true
+  condition: selection
+falsepositives:
+  - Approved key management or log bucket encryption setup.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2
