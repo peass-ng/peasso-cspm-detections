@@ -1,0 +1,25 @@
+title: Lambda function deployment package requested
+id: a9496079-eff2-4eb6-976f-05f98406e315
+status: experimental
+description: >
+  A successful GetFunction request returned a temporary package download URL
+  to the caller. CloudTrail omitted the URL and cannot prove that the archive
+  was subsequently downloaded.
+x_hacktricks_technique_id: aws-tech-45024e065bdc01a2
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md#L134
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: GetFunction20150331v2
+    event.outcome: success
+    request.lambda_function_package_requested: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved code inspection or deployment workflow.
+tags:
+  - attack.collection

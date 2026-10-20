@@ -1,0 +1,24 @@
+title: Lambda function versions listed with possible environment disclosure
+id: 2f795c50-2910-4c36-ac03-528b13066225
+status: experimental
+description: >
+  A successful ListVersionsByFunction call can return environment variables
+  for a known function. CloudTrail omitted the returned values.
+x_hacktricks_technique_id: aws-tech-4535d96f55586eb6
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: ListVersionsByFunction20150331
+    event.outcome: success
+    request.lambda_versions_listed: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved version inventory or deployment tooling.
+tags:
+  - attack.credential-access
