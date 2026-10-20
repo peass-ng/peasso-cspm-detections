@@ -6,7 +6,7 @@ description: >
   tracing state and related logging changes to determine telemetry impact.
 x_hacktricks_technique_id: aws-apigateway-stage-tracing-disabled
 references:
-  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L433
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L433
 logsource:
   product: aws
   service: cloudtrail
