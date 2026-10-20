@@ -1,0 +1,24 @@
+title: S3 object version legal hold changed
+id: 291951fd-0550-4279-a8d9-170151459d34
+status: experimental
+description: >
+  Successful object data event changes legal hold for a version. CloudTrail omits whether the submitted status was ON or OFF.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L484
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectLegalHold.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutObjectLockLegalHold
+    event.outcome: success
+    request.s3_object_legal_hold_changed: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-9840ff5427c1444e

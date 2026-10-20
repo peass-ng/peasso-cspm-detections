@@ -1,0 +1,24 @@
+title: S3 object version retention changed
+id: 5df2e422-8e15-4320-82fa-f87e69471497
+status: experimental
+description: >
+  Successful object data event changes version retention. CloudTrail omits the mode and retain-until date; inspect current state for impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L484
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectRetention.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutObjectLockRetention
+    event.outcome: success
+    request.s3_object_retention_changed: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-9840ff5427c1444e
