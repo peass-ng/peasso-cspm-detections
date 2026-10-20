@@ -1,0 +1,20 @@
+title: AWS Customer Profiles upload job stopped
+id: 61322b27-4b6e-4091-a530-a65f002cbc44
+status: experimental
+description: StopUploadJob accepted a request to interrupt a bulk import. Review the job terminal state and imported record count for actual effect.
+x_hacktricks_technique_id: aws-customer-profiles-upload-job-stop
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L172
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: StopUploadJob
+    event.outcome: success
+    request.customer_profiles_upload_job_stopped: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved cancellation of a failed import.

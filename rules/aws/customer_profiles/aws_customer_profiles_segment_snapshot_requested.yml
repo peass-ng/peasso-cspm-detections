@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment snapshot export requested
+id: e2f2b282-1d4a-4d70-a044-75ffa02f40f4
+status: experimental
+description: CreateSegmentSnapshot accepted a role and S3 destination for asynchronous export of a segment. Check the job and destination objects before inferring completed data transfer.
+x_hacktricks_technique_id: aws-customer-profiles-segment-snapshot-export
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L38
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: CreateSegmentSnapshot
+    event.outcome: success
+    request.customer_profiles_segment_snapshot_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Approved segment export.

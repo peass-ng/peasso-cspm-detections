@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment estimate requested
+id: 18700055-148e-429c-8ecf-821a779208fc
+status: experimental
+description: CreateSegmentEstimate requested an asynchronous count for a segment query. Query contents are omitted from the detector and the event does not prove completion.
+x_hacktricks_technique_id: aws-customer-profiles-segment-estimate-request
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L31
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: CreateSegmentEstimate
+    event.outcome: success
+    request.customer_profiles_segment_estimate_requested: true
+  condition: selection
+level: low
+falsepositives:
+- Approved segment sizing.

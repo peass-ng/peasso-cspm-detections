@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment snapshot status read
+id: 8464958a-c2aa-4dfd-bc2d-f2e084b48333
+status: experimental
+description: GetSegmentSnapshot read the state of a particular segment export. The management event omits the returned status and is useful for correlating with an export request.
+x_hacktricks_technique_id: aws-customer-profiles-segment-snapshot-status
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L47
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: GetSegmentSnapshot
+    event.outcome: success
+    request.customer_profiles_segment_snapshot_status_read: true
+  condition: selection
+level: low
+falsepositives:
+- Approved export status check.

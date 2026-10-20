@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment estimate accessed
+id: 172106bd-24db-40a6-bcb9-028a65fc414c
+status: experimental
+description: GetSegmentEstimate read an estimate result. CloudTrail omits the returned count, so this event proves access but not a particular population size.
+x_hacktricks_technique_id: aws-customer-profiles-segment-estimate-read
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L31
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: GetSegmentEstimate
+    event.outcome: success
+    request.customer_profiles_segment_estimate_accessed: true
+  condition: selection
+level: low
+falsepositives:
+- Approved segment sizing read.
