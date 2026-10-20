@@ -1,0 +1,20 @@
+title: AWS Customer Profiles history read accepted
+id: 1fb6e68f-20cd-41c6-a086-c7ad75beb743
+status: experimental
+description: ListProfileHistoryRecords queried a profile's change history. Compare actor with approved investigation roles; the event does not prove records were returned.
+x_hacktricks_technique_id: aws-tech-0b6f29e84f5ac102
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: ListProfileHistoryRecords
+    event.outcome: success
+    request.customer_profiles_read_observed: true
+  condition: selection
+level: low
+falsepositives:
+- Approved profile history investigations

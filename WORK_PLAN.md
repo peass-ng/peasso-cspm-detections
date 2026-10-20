@@ -6,6 +6,14 @@ Actualizado: 2026-10-20. Fuente fijada: [HackTricks Cloud](https://github.com/Ha
 
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
 
+### Tanda Customer Profiles de cinco lecturas (2026-10-20)
+
+En un dominio desechable con un perfil, un objeto y un atributo calculado sintéticos se probaron `SearchProfiles`, `BatchGetProfile`, `ListProfileObjects`, `ListProfileHistoryRecords` y `ListCalculatedAttributesForProfile`. Las respuestas privadas confirmaron búsqueda, lote con un ID válido y uno ausente, objeto, historial y atributo propio. CloudTrail registró las cinco lecturas con actor, cuenta, región y dominio exactos; las cinco reglas coincidieron en el detector CSPM. El lector de atributos requirió paginar más allá de las definiciones estándar. Los intentos de preparación y el final acabaron con el dominio ausente; en el final también se comprobaron ausentes tipo de objeto y definición calculada. No se publican claves de búsqueda, cuerpos, respuestas ni PII.
+
+Estas reglas son observaciones de acceso. Sin una lista de lectores aprobados ni evidencia de uso posterior, ninguna demuestra robo de datos. El corpus de [post-explotación Customer Profiles](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L15) contiene más variantes de lectura e ingesta por revisar.
+
+Reglas: [búsqueda](rules/aws/customer_profiles/aws_customer_profiles_search_profiles.yml), [lote](rules/aws/customer_profiles/aws_customer_profiles_batch_get_profile.yml), [objetos](rules/aws/customer_profiles/aws_customer_profiles_list_profile_objects.yml), [historial](rules/aws/customer_profiles/aws_customer_profiles_list_history.yml) y [atributos](rules/aws/customer_profiles/aws_customer_profiles_list_calculated_attributes.yml).
+
 ### Tanda Kinesis de cinco llamadas de datos (2026-10-20)
 
 Un stream, un consumidor y un trail temporales probaron `PutRecord`, `PutRecords`, `GetShardIterator`, `GetRecords` y `SubscribeToShard`. Dos canarios obtuvieron secuencias y se leyeron; la suscripción se aceptó y cerró. CloudTrail entregó cinco eventos de datos con actor, cuenta, región y recurso exactos; cinco reglas coincidieron en el detector CSPM. Sin guardar payloads ni iteradores, una auditoría independiente confirmó stream, consumidor, trail y bucket ausentes.
