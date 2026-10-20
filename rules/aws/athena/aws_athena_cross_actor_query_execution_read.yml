@@ -1,0 +1,21 @@
+title: Athena query execution metadata read by another principal
+id: e3fb15e6-e123-4cc5-ab47-6f7088d37527
+status: experimental
+description: A principal read metadata for a query started by another principal within 24 hours. The SDK can return SQL and output location; CloudTrail omits the response and the rule does not copy them.
+x_hacktricks_technique_id: aws-tech-f91d9bbc069c6e44
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-query-disclosure-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_GetQueryExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaCrossActorGetQueryExecution
+    event.outcome: success
+    request.athena_cross_actor_query_execution_read: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved analyst or administrator reviewing another user's query

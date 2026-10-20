@@ -1,0 +1,21 @@
+title: Athena query runtime statistics read by another principal
+id: 89202a9b-6078-4814-a4d0-0bb779ceee78
+status: experimental
+description: A principal read runtime statistics for another principal's query within 24 hours. The event proves access to statistics only and does not disclose SQL or rows.
+x_hacktricks_technique_id: aws-tech-f91d9bbc069c6e44
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-query-disclosure-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_GetQueryRuntimeStatistics.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaCrossActorGetQueryRuntimeStatistics
+    event.outcome: success
+    request.athena_cross_actor_runtime_statistics_read: true
+  condition: selection
+level: low
+falsepositives:
+- Approved operations monitoring

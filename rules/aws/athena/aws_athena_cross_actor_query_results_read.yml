@@ -1,0 +1,21 @@
+title: Athena query results requested by another principal
+id: 3cf65290-df4d-4394-a6e4-96f1c4fb1369
+status: experimental
+description: GetQueryResults succeeded for a query started by another principal within 24 hours. A live test confirmed rows for a role with S3 access and failure for a role explicitly denied S3 access. CloudTrail omits rows; direct S3 reads are a separate path.
+x_hacktricks_technique_id: aws-tech-f91d9bbc069c6e44
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-query-disclosure-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_GetQueryResults.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaCrossActorGetQueryResults
+    event.outcome: success
+    request.athena_cross_actor_query_results_read: true
+  condition: selection
+level: high
+falsepositives:
+- Approved collaborator reading shared query output

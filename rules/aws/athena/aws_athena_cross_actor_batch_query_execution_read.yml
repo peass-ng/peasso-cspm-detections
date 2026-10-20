@@ -1,0 +1,21 @@
+title: Athena query execution batch read includes another principal's query
+id: 715f741a-5d29-476d-9d2c-42ea2345bc0d
+status: experimental
+description: BatchGetQueryExecution included a query started by another principal within 24 hours. CloudTrail omits the returned SQL and result configuration; review authorized shared access.
+x_hacktricks_technique_id: aws-tech-f91d9bbc069c6e44
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-query-disclosure-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_BatchGetQueryExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaCrossActorBatchGetQueryExecution
+    event.outcome: success
+    request.athena_cross_actor_batch_query_execution_read: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved batch query audit or operations tooling

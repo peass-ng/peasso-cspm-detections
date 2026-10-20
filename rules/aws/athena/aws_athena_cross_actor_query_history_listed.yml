@@ -1,0 +1,21 @@
+title: Athena workgroup query history listed after another principal ran a query
+id: d733a91e-9927-4d82-9e4d-f44bba1ad5b7
+status: experimental
+description: A different principal listed workgroup query IDs within one hour of a query start. CloudTrail omits the list response; this indicates access, not which IDs the caller saw.
+x_hacktricks_technique_id: aws-tech-f91d9bbc069c6e44
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-query-disclosure-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_ListQueryExecutions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: AthenaCrossActorListQueryExecutions
+    event.outcome: success
+    request.athena_cross_actor_query_listed: true
+  condition: selection
+level: low
+falsepositives:
+- Approved shared workgroup administration or monitoring
