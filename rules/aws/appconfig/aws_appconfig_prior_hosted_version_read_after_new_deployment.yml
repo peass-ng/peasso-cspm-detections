@@ -1,0 +1,26 @@
+title: Earlier AppConfig hosted version read after newer version deployed
+id: 7d3e2b61-b2e3-4212-ae6d-acc713529e55
+status: experimental
+description: A principal read an earlier hosted AppConfig version after another
+  principal started and immediately completed deployment of a newer version for
+  the same application and profile. Other environments may still use the earlier
+  version. CloudTrail does not show the returned bytes.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L21
+- https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_GetHostedConfigurationVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: AppConfigPriorHostedVersionReadAfterNewDeployment
+    event.outcome: success
+    request.appconfig_prior_hosted_version_read_after_new_deployment: true
+  condition: selection
+falsepositives:
+- Authorized audit or rollback preparation reading an older version
+level: low
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-d4a1cfa3b6a0c214
