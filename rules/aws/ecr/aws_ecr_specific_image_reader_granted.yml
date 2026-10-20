@@ -1,0 +1,20 @@
+title: ECR repository image-read grant added
+id: c980ae77-3436-4fef-aaa0-cc6848b39975
+status: experimental
+description: A successful SetRepositoryPolicy request granted BatchGetImage to a named IAM role. The event does not prove the role pulled an image.
+x_hacktricks_technique_id: aws-tech-8f93146f59d180f9
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L106
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: SetRepositoryPolicy
+    event.outcome: success
+    request.ecr_specific_image_reader_granted: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized image consumer onboarding.
