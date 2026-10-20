@@ -1,4 +1,4 @@
-title: IAM signing certificate deactivated
+title: IAM signing certificate set-inactive request accepted
 id: 568dfe26-26d9-54c2-9b2e-41f467c00f77
 status: experimental
 description: An accepted UpdateSigningCertificate IAM request named a credential target.

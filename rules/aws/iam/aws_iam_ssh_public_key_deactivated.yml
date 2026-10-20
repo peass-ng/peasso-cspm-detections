@@ -1,4 +1,4 @@
-title: IAM SSH public key deactivated
+title: IAM SSH public key set-inactive request accepted
 id: 10f9d2d8-5475-5db8-9774-df0f28467a02
 status: experimental
 description: An accepted UpdateSSHPublicKey IAM request named a credential target.
