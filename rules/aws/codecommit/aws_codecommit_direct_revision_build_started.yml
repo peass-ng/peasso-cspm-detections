@@ -1,0 +1,26 @@
+title: CodeCommit GitPush revision started in a direct CodeBuild project
+id: be8089e4-f855-4cba-82dc-cafc0671e55f
+status: experimental
+description: A successful transferred GitPush to a repository was followed by a
+  direct CodeBuild start for the same commit. The build source location names that
+  repository. This proves build start, not build completion, malicious intent or a
+  privilege difference between the pusher and service role.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codecommit-pipeline-source-privesc/README.md#L86
+- https://docs.aws.amazon.com/codebuild/latest/userguide/create-project.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: CodeCommitDirectRevisionBuildStarted
+    event.outcome: success
+    request.codecommit_direct_revision_build_started: true
+  condition: selection
+falsepositives:
+- Approved source publication followed by routine build execution
+level: medium
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-tech-4b5f80e3f3b17896

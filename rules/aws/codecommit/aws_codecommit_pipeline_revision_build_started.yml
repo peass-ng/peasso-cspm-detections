@@ -1,0 +1,28 @@
+title: CodeCommit GitPush revision started in a CodePipeline CodeBuild action
+id: dd5e53c2-dcad-4ad1-98b3-4f12bf7ef835
+status: experimental
+description: A successful transferred GitPush to a branch was followed by a CodePipeline
+  execution and CodeBuild start whose resolved source revision is the pushed commit.
+  The observed pipeline definition connects that repository and branch to the build
+  project. This proves build start, not build completion, malicious intent or a
+  privilege difference between the pusher and service role.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codecommit-pipeline-source-privesc/README.md#L15
+- https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-CodeCommit.html
+- https://docs.aws.amazon.com/codepipeline/latest/userguide/triggering.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: CodeCommitPipelineRevisionBuildStarted
+    event.outcome: success
+    request.codecommit_pipeline_revision_build_started: true
+  condition: selection
+falsepositives:
+- Approved source publication followed by routine pipeline execution
+level: medium
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-tech-2f66b4824a5b967b
