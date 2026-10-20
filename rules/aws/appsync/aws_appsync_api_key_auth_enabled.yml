@@ -1,0 +1,21 @@
+title: AppSync GraphQL API primary authentication changed to API key
+id: 2c1bc2d0-daa8-464c-98e0-ff1cfb61db9a
+status: experimental
+description: UpdateGraphqlApi accepted API_KEY as primary authentication for one API. Field directives can still restrict API key use; review the effective schema and approved change.
+x_hacktricks_technique_id: aws-tech-c94b156714c02ba9
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L131
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_UpdateGraphqlApi.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateGraphqlApi
+    event.outcome: success
+    request.appsync_api_key_auth_enabled: true
+  condition: selection
+level: high
+falsepositives:
+- Approved API key authentication for a development GraphQL API

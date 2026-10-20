@@ -1,0 +1,21 @@
+title: AppSync resolver definition submitted in update
+id: 0d76f4b8-b76d-4b4e-844a-c63c46d6e0a0
+status: experimental
+description: UpdateResolver submitted a code or mapping-template definition and returned the exact resolver ARN. CloudTrail masks the body; review before and after state and field execution separately.
+x_hacktricks_technique_id: aws-tech-6218fd3d45fa9f48
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L73
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_UpdateResolver.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateResolver
+    event.outcome: success
+    request.appsync_resolver_definition_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved resolver deployment
