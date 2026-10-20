@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights configuration read
+id: 6a818ea8-c688-4674-8d88-138f9125ad04
+status: experimental
+description: A successful exact-identifier read requested Media Insights configuration. CloudTrail omits the response, so role and processor contents must come from API inventory.
+x_hacktricks_technique_id: aws-chime-insights-configuration-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: GetMediaInsightsPipelineConfiguration
+    event.outcome: success
+    request.chime_insights_configuration_read: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved analytics inventory read
