@@ -1,0 +1,25 @@
+title: IoT role alias created for an IAM role
+id: 46ceffbf-d319-4b7b-9148-dd2ed252e7fa
+status: experimental
+description: >
+  A successful CreateRoleAlias attached an IAM role to a new IoT credential
+  provider alias. The event proves the binding request, not certificate use
+  or that the role has privileged permissions.
+x_hacktricks_technique_id: aws-tech-a89de2b547151b83
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-core-privesc/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: CreateRoleAlias
+    event.outcome: success
+    request.iot_role_alias_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved device credential provider onboarding.
+tags:
+  - attack.privilege-escalation

@@ -1,0 +1,27 @@
+title: IoT message routing rule created
+id: 1712b009-fa03-42ff-8b93-0ae47ac5bf5e
+status: experimental
+description: >
+  A successful CreateTopicRule installed a new IoT routing rule. CloudTrail
+  exposed only ruleName in the observed accepted event; inspect the rule
+  inventory to establish SQL filters, target action and passed role before
+  claiming fleet-wide interception or exfiltration.
+x_hacktricks_technique_id: aws-tech-85cada5b3eb48e93
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md#L212
+  - https://docs.aws.amazon.com/iot/latest/developerguide/iot-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: CreateTopicRule
+    event.outcome: success
+    request.iot_topic_rule_created: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved IoT rule deployment for telemetry processing.
+tags:
+  - attack.collection
