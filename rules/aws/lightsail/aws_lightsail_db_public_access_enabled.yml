@@ -1,0 +1,20 @@
+title: Lightsail database public access enabled
+id: c2779130-3b01-4f46-8b99-f58eabfedd0b
+status: experimental
+description: A successful UpdateRelationalDatabase request enabled public access. The management event does not prove that a remote client connected.
+x_hacktricks_technique_id: aws-tech-3d59618f81959528
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L154
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: UpdateRelationalDatabase
+    event.outcome: success
+    request.lightsail_db_public_access_enabled: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized temporary external administration.
