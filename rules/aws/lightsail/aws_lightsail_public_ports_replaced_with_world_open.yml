@@ -1,0 +1,21 @@
+title: Lightsail public port set replaced with a world-accessible port
+id: 1812fa8d-53d4-5eb8-b9b6-950ceb500a86
+status: experimental
+description: >
+  PutInstancePublicPorts successfully set a port list containing a world-accessible CIDR. The request replaces prior port rules; the event alone does not show which previous rules were removed.
+x_hacktricks_technique_id: aws-tech-651f6532b6438855
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L74
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: PutInstancePublicPorts
+    event.outcome: success
+    request.lightsail_public_ports_replaced_with_world_open: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized firewall policy replacement.

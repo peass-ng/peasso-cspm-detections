@@ -1,0 +1,21 @@
+title: Lightsail instance granted access to a bucket
+id: 4d82b8cc-ce01-57a1-b120-910e755ea6d6
+status: experimental
+description: >
+  SetResourceAccessForBucket successfully allowed an instance to access the named Lightsail bucket. This is a resource grant, not proof of object reads.
+x_hacktricks_technique_id: aws-tech-3c27a939eeb2905e
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L78
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: SetResourceAccessForBucket
+    event.outcome: success
+    request.lightsail_bucket_instance_access_granted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized application storage attachment.
