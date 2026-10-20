@@ -1,0 +1,26 @@
+title: Step Functions Map Run sets nonzero failure tolerance
+id: f4eac269-3e95-4624-ab05-518b4ab8d6a6
+status: experimental
+description: >
+  A Map Run update set a nonzero tolerated failure count or percentage. This
+  permits some failed child executions; compare its prior policy and approval
+  before treating the change as a bypass.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L496
+  - https://docs.aws.amazon.com/step-functions/latest/dg/state-map-distributed.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UpdateMapRun
+    event.outcome: success
+    request.sfn_map_run_nonzero_failure_tolerance: true
+  condition: selection
+falsepositives:
+  - Approved retry or partial failure allowance during a batch workflow.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-sfn-map-run-nonzero-failure-tolerance

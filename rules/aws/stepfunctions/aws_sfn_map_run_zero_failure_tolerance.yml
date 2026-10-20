@@ -1,0 +1,25 @@
+title: Step Functions Map Run sets zero failure tolerance
+id: 1b62cbcd-e82d-4e37-b82f-0f24f398f971
+status: experimental
+description: >
+  A Map Run update set toleratedFailureCount or toleratedFailurePercentage to
+  zero. One failed item can then fail the Map Run and disrupt its parent workflow.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L496
+  - https://docs.aws.amazon.com/step-functions/latest/dg/state-map-distributed.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UpdateMapRun
+    event.outcome: success
+    request.sfn_map_run_zero_failure_tolerance: true
+  condition: selection
+falsepositives:
+  - Approved strict failure policy for a running Map Run.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sfn-map-run-zero-failure-tolerance
