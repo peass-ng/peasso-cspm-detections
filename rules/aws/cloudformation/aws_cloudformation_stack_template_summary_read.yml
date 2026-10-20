@@ -1,0 +1,21 @@
+title: CloudFormation template summary read
+id: 2c534779-717e-475c-8e06-4a1a653a57d9
+status: experimental
+description: >
+  A successful GetTemplateSummary requested a named stack. Parameter defaults can appear in the summary; review approved readers and template contents before claiming exposure.
+x_hacktricks_technique_id: aws-cloudformation-get-template-summary
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-data-disclosure-post-exploitation/README.md#L31
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: GetTemplateSummary
+    event.outcome: success
+    request.cfn_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved infrastructure inventory or deployment review.
