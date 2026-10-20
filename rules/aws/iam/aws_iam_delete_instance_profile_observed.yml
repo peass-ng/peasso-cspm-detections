@@ -1,0 +1,21 @@
+title: IAM instance profile deleted
+id: 58939940-2d9e-5b7f-8013-702f41bed3c0
+status: experimental
+description: An accepted DeleteInstanceProfile IAM API call named its target. Confirm
+  previous state and dependent access before treating this as hostile disruption.
+x_hacktricks_technique_id: aws-tech-f4cc1e45d2f1fc5e
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L321
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteInstanceProfile
+    event.outcome: success
+    request.iam_credential_deletion_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IAM administration, credential rotation or decommissioning.

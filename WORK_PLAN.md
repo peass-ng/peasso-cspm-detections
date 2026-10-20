@@ -6,6 +6,12 @@ Actualizado: 2026-10-20. Fuente fijada: [HackTricks Cloud](https://github.com/Ha
 
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados.
 
+### Tanda IAM de cinco rutas adicionales de eliminación de credenciales (2026-10-20)
+
+En una cuenta de laboratorio, un usuario, rol, perfil de instancia y certificado propios permitieron probar `DeleteLoginProfile`, `DeleteServiceSpecificCredential`, `RemoveRoleFromInstanceProfile`, `DeleteInstanceProfile` y `DeleteServerCertificate`. Las cinco llamadas produjeron el efecto esperado según las API de lectura de IAM. CloudTrail entregó cinco eventos de administración aceptados con los campos de destino exactos y las cinco reglas nuevas coincidieron con el motor CSPM. Cuatro reintentos de limpieza rechazados produjeron cero coincidencias. Una auditoría separada confirmó ausentes usuario, rol, perfil y certificado. La contraseña, la credencial de servicio y la clave privada del certificado no aparecen en reglas, pruebas ni este plan.
+
+Las reglas indican una operación aceptada con destino nombrado. No prueban intención, acceso a una carga de trabajo ni interrupción real. Siguen pendientes otros tipos de certificado, eliminación de proveedores federados, perfiles asociados a instancias reales y la correlación de ráfagas de destrucción. [Fuente HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L321).
+
 ### Tanda IAM de seis rutas de eliminación de credenciales e identidades (2026-10-20)
 
 Un usuario, grupo y rol propios recién creados permitieron verificar `DeleteAccessKey`, `DeleteSSHPublicKey`, `RemoveUserFromGroup`, `DeleteUser`, `DeleteRole` y `DeleteGroup` con `naxusai-admin`. Las seis llamadas produjeron el efecto esperado según lecturas independientes de IAM. CloudTrail entregó un evento de éxito por ruta con actor, cuenta y destino; los dos intentos posteriores de limpieza de rol y grupo devolvieron `NoSuchEntityException` y no activaron reglas. La regla existente cubre `DeleteAccessKey`; se añaden reglas para las otras cinco rutas. Dos intentos de laboratorio terminaron con una auditoría separada que confirmó ausentes ambos usuarios, grupos y roles. La primera ejecución se detuvo después de dos rutas por un método de SDK equivocado, y el bloque de limpieza eliminó todos sus recursos antes de repetir.
