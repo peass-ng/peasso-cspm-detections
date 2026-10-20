@@ -1,0 +1,22 @@
+title: ECR Public repository deleted
+id: 16534fb7-1187-4339-bcf2-a66a90f82041
+status: experimental
+description: A successful DeleteRepository response confirmed removal of the named ECR Public repository. Review approved decommissioning; downstream availability was not observed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L405
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr-public.amazonaws.com
+    event.name: DeleteRepository
+    event.outcome: success
+    request.ecr_public_repository_deleted: true
+  condition: selection
+falsepositives:
+  - Approved repository decommissioning
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-88462f694e871afe

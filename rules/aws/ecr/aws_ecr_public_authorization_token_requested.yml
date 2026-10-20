@@ -1,0 +1,22 @@
+title: ECR Public authorization token requested
+id: 740002ff-dca5-4412-82d6-0a82fb572b3f
+status: experimental
+description: A successful ECR Public authorization-token request was accepted. The token is absent from detection evidence and this event alone does not identify a repository or prove an image push.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L85
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr-public.amazonaws.com
+    event.name: GetAuthorizationToken
+    event.outcome: success
+    request.ecr_public_authorization_token_requested: true
+  condition: selection
+falsepositives:
+  - Approved image publication workflow
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-tech-0dc452a58d10f2a3
