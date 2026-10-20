@@ -1,0 +1,23 @@
+title: CloudWatch Logs results read using a known query ID
+id: bd83cb3d-2b48-4fd3-a127-9ebed1e18a40
+status: experimental
+description: A successful GetQueryResults call used an existing query ID. This event does not prove which rows were returned or identify who started the query; the ID is excluded from normalized evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md#L39
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: GetQueryResults
+    event.outcome: success
+    request.cloudwatch_logs_known_query_results_read: true
+  condition: selection
+falsepositives:
+  - Approved Logs Insights result retrieval
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-tech-5e2a654870e11e8c

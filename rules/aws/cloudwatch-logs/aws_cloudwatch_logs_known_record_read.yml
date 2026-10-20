@@ -1,0 +1,23 @@
+title: CloudWatch Logs record read using a known pointer
+id: fc22e136-4196-4098-9ac9-22e74bd1c492
+status: experimental
+description: A successful GetLogRecord call used an opaque log-record pointer. The pointer and returned record are excluded from evidence; this event does not reveal the originating group.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md#L39
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: GetLogRecord
+    event.outcome: success
+    request.cloudwatch_logs_known_record_read: true
+  condition: selection
+falsepositives:
+  - Approved record drilldown during investigation
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-tech-5e2a654870e11e8c

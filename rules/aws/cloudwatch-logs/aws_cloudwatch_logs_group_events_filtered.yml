@@ -1,0 +1,23 @@
+title: CloudWatch Logs group events filtered
+id: b47c3759-bfd7-4abb-bab9-5a2b87ec82a9
+status: experimental
+description: A successful FilterLogEvents call searched a named log group. Returned messages are absent from detection evidence; review principal and approved log-data access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: FilterLogEvents
+    event.outcome: success
+    request.cloudwatch_logs_group_events_filtered: true
+  condition: selection
+falsepositives:
+  - Approved search of application or audit logs
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-tech-f556245e494dbcf4
