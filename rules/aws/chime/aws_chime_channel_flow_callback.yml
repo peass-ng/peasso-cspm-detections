@@ -1,0 +1,20 @@
+title: Chime SDK channel flow processor callback
+id: bbd3c85e-451a-4bbc-88d3-c0b2451f43f7
+status: experimental
+description: A successful ChannelFlowCallback shows a processor responded for a channel message. The event proves processing, not interception by an unauthorized party or content modification.
+x_hacktricks_technique_id: aws-chime-channel-flow-callback
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L218
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: ChannelFlowCallback
+    event.outcome: success
+    request.chime_channel_flow_callback: true
+  condition: selection
+level: low
+falsepositives:
+  - Normal processor callbacks

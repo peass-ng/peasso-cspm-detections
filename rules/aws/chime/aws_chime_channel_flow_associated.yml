@@ -1,0 +1,20 @@
+title: Chime SDK channel associated with Lambda flow
+id: 27073075-0baa-4d71-93ba-0a6ee40bbd87
+status: experimental
+description: A successful AssociateChannelFlow attached a processor flow to one channel. New standard messages can then pass through its Lambda processor; this event does not prove message content was altered.
+x_hacktricks_technique_id: aws-chime-channel-flow-associate
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L218
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: AssociateChannelFlow
+    event.outcome: success
+    request.chime_channel_flow_associated: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved channel processing rollout

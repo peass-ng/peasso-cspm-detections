@@ -1,0 +1,20 @@
+title: Chime SDK Lambda channel flow updated
+id: 07494751-7b54-4e2e-a9df-d3c2af771866
+status: experimental
+description: A successful UpdateChannelFlow submitted a Lambda processor configuration. Compare it with approved flow configuration to determine whether the processor or fallback behavior changed.
+x_hacktricks_technique_id: aws-chime-channel-flow-update
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L218
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: UpdateChannelFlow
+    event.outcome: success
+    request.chime_channel_flow_updated: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved channel-flow maintenance
