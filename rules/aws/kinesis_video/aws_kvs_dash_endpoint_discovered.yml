@@ -1,0 +1,20 @@
+title: AWS Kinesis Video DASH session endpoint discovered
+id: 0939a7ec-b6f9-4fd3-8f87-a708f922e55e
+status: experimental
+description: A principal obtained the DASH session data endpoint for a video stream. The request does not prove a session URL was issued or media was viewed.
+x_hacktricks_technique_id: aws-kvs-dash-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L63
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_dash_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved DASH player setup

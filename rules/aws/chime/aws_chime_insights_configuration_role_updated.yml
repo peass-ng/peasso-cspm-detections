@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights resource role updated
+id: 64afa9f7-c582-47d4-a0c7-d06b0801a181
+status: experimental
+description: A successful configuration update submitted and returned a resource-access role. This event alone does not prove a change from prior state or role use.
+x_hacktricks_technique_id: aws-chime-insights-configuration-role-updated
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: UpdateMediaInsightsPipelineConfiguration
+    event.outcome: success
+    request.chime_insights_configuration_role_updated: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved analytics configuration change

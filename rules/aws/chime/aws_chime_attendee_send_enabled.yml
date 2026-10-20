@@ -1,0 +1,20 @@
+title: Chime SDK attendee send capability set
+id: f03b2c83-a07f-42bc-b61a-e03a68083ab9
+status: experimental
+description: UpdateAttendeeCapabilities set at least one audio, video or content capability to Send or SendReceive. This event does not establish the previous capability or active media transmission.
+x_hacktricks_technique_id: aws-chime-attendee-send-capability
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L284
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: UpdateAttendeeCapabilities
+    event.outcome: success
+    request.chime_attendee_send_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved attendee media grants

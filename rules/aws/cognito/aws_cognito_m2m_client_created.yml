@@ -1,0 +1,21 @@
+title: AWS Cognito secret-bearing M2M app client created
+id: 47f3b314-019e-4a5a-9a4f-21d730feb9ab
+status: experimental
+description: A principal successfully created an app client with a secret, only ALLOW_CLIENT_TOKEN_AUTH, and custom scopes. The event does not prove a token was minted or that a downstream API accepted it.
+x_hacktricks_technique_id: aws-cognito-m2m-client-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cognito-persistence/README.md#L48
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-user-pools-post-exploitation/README.md#L19
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: CreateUserPoolClient
+    event.outcome: success
+    request.cognito_m2m_client_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved machine application registration

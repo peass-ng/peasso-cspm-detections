@@ -1,0 +1,20 @@
+title: AWS Kinesis Video image endpoint discovered
+id: e4d3e3bc-a6e5-4631-8e5e-e041cf2b7caf
+status: experimental
+description: A principal obtained the GET_IMAGES data endpoint for a video stream. The request does not prove images exist or were read.
+x_hacktricks_technique_id: aws-kvs-get-images-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L63
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_get_images_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved image consumer setup

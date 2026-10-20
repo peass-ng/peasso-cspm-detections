@@ -1,0 +1,24 @@
+title: S3 object read through Access Point
+id: 95259b77-bb55-4cb2-9bc7-ec41be17ec87
+status: experimental
+description: >
+  Successful object data event names an Access Point used for a read. Review approved readers and bucket policy delegation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-s3-persistence/README.md#L40
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: GetObject
+    event.outcome: success
+    request.s3_access_point_object_read: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: low
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-tech-85930f3418c472fe

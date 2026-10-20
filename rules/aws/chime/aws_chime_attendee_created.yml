@@ -1,0 +1,20 @@
+title: Chime SDK attendee created with join token
+id: 1ea4e836-b7af-485c-a6d4-968b3e76ded0
+status: experimental
+description: A successful CreateAttendee minted an attendee join token for one meeting. The event proves token issuance to the API caller, not a media join.
+x_hacktricks_technique_id: aws-chime-attendee-create-token
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L19
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: CreateAttendee
+    event.outcome: success
+    request.chime_attendee_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved meeting admission workflows

@@ -1,0 +1,20 @@
+title: AWS DynamoDB all-attributes GSI creation accepted
+id: a1a06816-a5fa-48d6-8540-b6c70a30521b
+status: experimental
+description: A principal successfully requested a GSI with ALL projection. This can create a new read path after backfill; the event does not prove the index became active or was queried.
+x_hacktricks_technique_id: aws-dynamodb-all-projection-gsi-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L458
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: UpdateTable
+    event.outcome: success
+    request.dynamodb_all_projection_gsi_created: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved new secondary index

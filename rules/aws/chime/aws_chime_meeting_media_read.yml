@@ -1,0 +1,20 @@
+title: Chime SDK meeting media placement read
+id: f0165768-6d4b-416d-86ad-8d9761267e69
+status: experimental
+description: A successful GetMeeting read meeting media placement. This can support use of a separate attendee token; the event alone is an information read.
+x_hacktricks_technique_id: aws-chime-meeting-media-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L33
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: GetMeeting
+    event.outcome: success
+    request.chime_meeting_media_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved meeting controller reads

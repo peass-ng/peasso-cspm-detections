@@ -1,0 +1,20 @@
+title: Chime SDK media pipeline deleted
+id: 81e7632b-7c5c-4bdf-aa0f-f0fca5641adc
+status: experimental
+description: A successful DeleteMediaPipeline request targeted an exact pipeline ID. It may stop a live connector or other pipeline; the event alone does not identify its former type.
+x_hacktricks_technique_id: aws-chime-media-pipeline-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L199
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: DeleteMediaPipeline
+    event.outcome: success
+    request.chime_media_pipeline_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved pipeline teardown

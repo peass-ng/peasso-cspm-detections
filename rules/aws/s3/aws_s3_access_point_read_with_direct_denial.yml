@@ -1,0 +1,24 @@
+title: S3 Access Point read despite direct bucket denial
+id: 6998d3d7-da0a-42b0-ae96-2ef0a2a5d17c
+status: experimental
+description: >
+  Same actor and object have a direct bucket GetObject denial and successful Access Point GetObject within thirty minutes. Equal CloudTrail timestamps do not establish order or intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-s3-persistence/README.md#L40
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: S3AccessPointReadWithDirectBucketDenial
+    event.outcome: success
+    request.s3_access_point_read_with_direct_denial: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-tech-85930f3418c472fe

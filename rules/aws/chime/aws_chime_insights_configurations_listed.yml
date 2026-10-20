@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights configurations listed
+id: 0cf14397-0251-4b2f-afca-4c0e4313b58b
+status: experimental
+description: A successful list request enumerated Media Insights configurations. CloudTrail omits returned inventory.
+x_hacktricks_technique_id: aws-chime-insights-configurations-listed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: ListMediaInsightsPipelineConfigurations
+    event.outcome: success
+    request.chime_insights_configurations_listed: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved analytics administration or inventory scan

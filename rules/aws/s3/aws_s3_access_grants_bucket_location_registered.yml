@@ -1,0 +1,24 @@
+title: S3 Access Grants bucket location registered with IAM role
+id: a11d0fcf-50b4-4907-ba56-2815f2b7078c
+status: experimental
+description: >
+  A successful location registration maps an S3 bucket to an IAM role. It does not prove a grant or credential use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L942
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location-register.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CreateAccessGrantsLocation
+    event.outcome: success
+    request.s3_access_grants_bucket_location_registered: true
+  condition: selection
+falsepositives:
+  - Approved S3 access or browser configuration change.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-tech-fbe93bde8589ab13

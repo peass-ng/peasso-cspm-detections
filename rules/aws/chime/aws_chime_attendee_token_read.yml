@@ -1,0 +1,20 @@
+title: Chime SDK attendee token retrieved
+id: c0322ef4-a598-463f-94c5-6fca351807de
+status: experimental
+description: A successful GetAttendee returned an attendee object that includes its join token. CloudTrail records the read but does not establish subsequent media access.
+x_hacktricks_technique_id: aws-chime-attendee-token-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L21
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: GetAttendee
+    event.outcome: success
+    request.chime_attendee_token_read: true
+  condition: selection
+level: high
+falsepositives:
+  - Authorized attendee support or meeting controller reads

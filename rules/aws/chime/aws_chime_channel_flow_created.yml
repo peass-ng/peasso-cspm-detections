@@ -1,0 +1,20 @@
+title: Chime SDK Lambda channel flow created
+id: 280ea3e4-81dd-4bb8-9aa4-f3205a27b911
+status: experimental
+description: A successful CreateChannelFlow registered a same-account Lambda processor. It can inspect standard messages after association with a channel; creation alone does not activate it.
+x_hacktricks_technique_id: aws-chime-channel-flow-create
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L218
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: CreateChannelFlow
+    event.outcome: success
+    request.chime_channel_flow_created: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved message-processing deployment

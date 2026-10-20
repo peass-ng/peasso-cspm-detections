@@ -1,0 +1,20 @@
+title: AWS Kinesis Video signaling channel short message TTL set
+id: dfbecc2d-a8af-4e5d-8810-28588be17465
+status: experimental
+description: A signaling channel update set the undelivered-message TTL to five through ten seconds. This can reduce the time available for peers to receive signaling messages; the event does not show the prior TTL or prove disruption.
+x_hacktricks_technique_id: aws-kvs-signaling-short-ttl-set
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L200
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateSignalingChannel
+    event.outcome: success
+    request.kvs_signaling_short_ttl_set: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved low-latency signaling configuration

@@ -1,0 +1,20 @@
+title: AWS Cognito user-pool log delivery destinations cleared
+id: dab85847-edda-4b84-8156-5e8a1d93e696
+status: experimental
+description: A principal successfully set an empty log delivery configuration and CloudTrail returned no destinations. Compare earlier configuration before concluding logs were removed.
+x_hacktricks_technique_id: aws-cognito-log-delivery-cleared
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L65
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: SetLogDeliveryConfiguration
+    event.outcome: success
+    request.cognito_log_delivery_cleared: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved logging destination migration

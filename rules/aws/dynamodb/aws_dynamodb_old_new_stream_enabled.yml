@@ -1,0 +1,20 @@
+title: AWS DynamoDB old and new item image stream enabled
+id: 971ad5c1-00f9-490a-9494-acd078d4280c
+status: experimental
+description: A principal successfully requested NEW_AND_OLD_IMAGES DynamoDB Streams on a table. Later item changes can expose both item images; this management event alone does not prove any stream records were read.
+x_hacktricks_technique_id: aws-dynamodb-old-new-stream-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L275
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: UpdateTable
+    event.outcome: success
+    request.dynamodb_old_new_stream_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved change data capture configuration

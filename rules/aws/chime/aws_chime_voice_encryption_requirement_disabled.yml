@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector encryption requirement disabled
+id: 37f36eb4-1fcd-48cb-9f9f-c6cd2798aea2
+status: experimental
+description: A successful update set RequireEncryption to false on a Voice Connector. This is the accepted configuration, not proof that a call used unencrypted media.
+x_hacktricks_technique_id: aws-chime-voice-encryption-requirement-disabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: UpdateVoiceConnector
+    event.outcome: success
+    request.chime_voice_encryption_requirement_disabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved telephony compatibility change

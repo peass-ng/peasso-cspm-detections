@@ -1,0 +1,20 @@
+title: AWS DynamoDB on demand backup created
+id: 325395e3-605e-4785-a25a-26ecc44f08ee
+status: experimental
+description: A principal successfully requested an on demand backup of a DynamoDB table. The CloudTrail event may omit the backup ARN and does not itself prove the backup reached AVAILABLE.
+x_hacktricks_technique_id: aws-dynamodb-backup-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L570
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: CreateBackup
+    event.outcome: success
+    request.dynamodb_backup_created: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved backup job

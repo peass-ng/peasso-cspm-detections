@@ -1,0 +1,20 @@
+title: AWS Kinesis Video archived fragment endpoint discovered
+id: f13da092-2bdb-4c8d-8143-2f5605d84053
+status: experimental
+description: A principal obtained the data endpoint for listing archived media fragments. The call does not prove that archived fragments were listed or retrieved.
+x_hacktricks_technique_id: aws-kvs-list-fragments-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L63
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_list_fragments_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved archived media inventory

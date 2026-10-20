@@ -1,0 +1,20 @@
+title: Chime SDK media pipelines listed
+id: 8ccfecb8-37fa-42ee-b8ef-0d6e024ed3fb
+status: experimental
+description: A successful ListMediaPipelines request enumerated pipeline inventory. CloudTrail omits the response and does not reveal which pipeline IDs were returned.
+x_hacktricks_technique_id: aws-chime-media-pipelines-listed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L60
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: ListMediaPipelines
+    event.outcome: success
+    request.chime_media_pipelines_listed: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved operations or inventory scan

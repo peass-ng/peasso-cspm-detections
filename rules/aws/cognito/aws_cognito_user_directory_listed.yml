@@ -1,0 +1,20 @@
+title: AWS Cognito user directory listed
+id: 2f1fd466-86ac-4f4b-8c5a-d890b187495e
+status: experimental
+description: A principal successfully called ListUsers on a user pool. CloudTrail does not reveal how many users were returned or their attributes; review the actor and any request filter.
+x_hacktricks_technique_id: aws-cognito-user-directory-listed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L27
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: ListUsers
+    event.outcome: success
+    request.cognito_user_directory_listed: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved identity administration or directory sync
