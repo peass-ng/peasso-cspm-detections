@@ -1,0 +1,21 @@
+title: AWS Service Catalog new artifact provisioned by its creator
+id: 1ec67a68-efae-4b30-9943-f1892d775d5d
+status: experimental
+description: The same actor created an artifact and requested provisioning of that exact artifact within one hour. Provisioning is asynchronous; inspect the record and stack before inferring launch-role effect.
+x_hacktricks_technique_id: aws-servicecatalog-artifact-provision-launch-role
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-service-catalog-privesc/README.md#L17
+- https://docs.aws.amazon.com/servicecatalog/latest/adminguide/constraints-launch.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicecatalog.amazonaws.com
+    event.name: ProvisionProduct
+    event.outcome: success
+    request.servicecatalog_artifact_created_then_provisioned: true
+  condition: selection
+level: high
+falsepositives:
+- An administrator publishes and launches an approved product version.

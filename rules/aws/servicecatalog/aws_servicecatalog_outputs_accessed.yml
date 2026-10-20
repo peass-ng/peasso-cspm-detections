@@ -1,0 +1,20 @@
+title: AWS Service Catalog provisioned product outputs accessed
+id: 149b3a17-68c7-4a0b-a875-c0c03012802b
+status: experimental
+description: An accepted request read a provisioned product's CloudFormation outputs. CloudTrail omits the returned values; review access to outputs that may contain secrets.
+x_hacktricks_technique_id: aws-tech-cccddcb7e811f623
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-service-catalog-appregistry-post-exploitation/README.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicecatalog.amazonaws.com
+    event.name: GetProvisionedProductOutputs
+    event.outcome: success
+    request.servicecatalog_outputs_accessed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved output retrieval for troubleshooting.

@@ -1,0 +1,21 @@
+title: AWS Service Catalog portfolio IAM name pattern granted
+id: 692895ba-b5a7-41e0-b19d-a1750d40798b
+status: experimental
+description: An accepted IAM name pattern association can grant current or future matching principals access to a portfolio. Review the pattern and any shared accounts.
+x_hacktricks_technique_id: aws-servicecatalog-portfolio-principal-pattern
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-service-catalog-privesc/README.md#L126
+- https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_sharing_how-to-share.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicecatalog.amazonaws.com
+    event.name: AssociatePrincipalWithPortfolio
+    event.outcome: success
+    request.servicecatalog_principal_pattern_granted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved principal name sharing in a controlled portfolio.

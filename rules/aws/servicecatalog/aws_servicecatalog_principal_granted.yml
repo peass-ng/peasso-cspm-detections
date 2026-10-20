@@ -1,0 +1,20 @@
+title: AWS Service Catalog portfolio principal granted access
+id: 8eb8f179-ea52-4df2-b9b7-ce4a047094ad
+status: experimental
+description: An accepted principal association granted an exact IAM principal access to a portfolio. Review whether that principal should be able to launch its products.
+x_hacktricks_technique_id: aws-tech-c4e6ee7c5467ef83
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-service-catalog-privesc/README.md#L126
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicecatalog.amazonaws.com
+    event.name: AssociatePrincipalWithPortfolio
+    event.outcome: success
+    request.servicecatalog_principal_granted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved portfolio access grant.
