@@ -1,0 +1,23 @@
+title: B2BI partnership read
+id: f9a00b21-0000-4000-8000-000000000006
+status: experimental
+description: >
+  GetPartnership requested contact details and capability links of a trading relationship.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-b2bi-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biPartnershipRead
+    event.outcome: success
+    request.b2bi_partnership_read: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration or incident response.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-b2bi-partnership-read
