@@ -1,0 +1,30 @@
+title: Greengrass core connectivity changed
+id: 16700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful UpdateConnectivityInfo changed the endpoints advertised for a
+  Greengrass core. Review whether the new address belongs to the approved
+  device network. This control-plane event does not prove that a client device
+  discovered or connected to the endpoint.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-greengrass-post-exploitation/README.md#L64
+  - https://docs.aws.amazon.com/greengrass/v2/APIReference/API_UpdateConnectivityInfo.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: greengrass.amazonaws.com
+    event.name: UpdateConnectivityInfo
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved core endpoint update during a network change.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-greengrass-connectivity-updated
+x_cloudtrail_raw: true

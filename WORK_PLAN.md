@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 164 que superaron sus pruebas se publican en el catálogo principal; los lotes 165 y 166 están validados y listos para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 166 que superaron sus pruebas están publicadas en `main`; el lote 167 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 167: cambio de conectividad Greengrass
+
+Se creó una cosa IoT propia sin certificado, grupo ni dispositivo conectado. `UpdateConnectivityInfo` v1 publicó temporalmente la dirección reservada `192.0.2.1` y `GetConnectivityInfo` confirmó el cambio. La prueba valida únicamente la actualización del plano de control de la [ruta de redirección de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-greengrass-post-exploitation/README.md#L64), sin tráfico de clientes ni interceptación.
+
+CloudTrail entregó 12 eventos propios, incluidos dos `UpdateConnectivityInfo` aceptados: el de prueba y el que sustituyó el destino por `127.0.0.1`. La regla produjo dos coincidencias reales, cero con las otras llamadas y cero con 12 variantes negativas de denegación, categoría, lectura, origen, nombre y tipo de evento. Los hallazgos conservan solo un hash de destino; no muestran direcciones. Recibos privados 0600: `/tmp/peasso-b167-connectivity-private.json`, `/tmp/peasso-b167-connectivity-events-private.json` y `/tmp/peasso-b167-validation-private.json`.
+
+La cosa IoT se borró y `DescribeThing` confirmó su ausencia. Greengrass siguió devolviendo un registro de conectividad huérfano, incluso después de borrar la cosa. Las API v1 y v2 rechazaron una lista vacía para eliminar la última entrada; el registro se dejó en `127.0.0.1`. **La limpieza de metadatos Greengrass queda incompleta** y requiere seguimiento. No se creó core device ni existe dispositivo asociado. La [guía AWS de gestión de endpoints](https://docs.aws.amazon.com/greengrass/v2/developerguide/manage-core-device-endpoints.html) describe la eliminación de endpoints en la consola, pero este ensayo no pudo conseguirla por API. No repetir este experimento hasta resolver la limpieza del metadato residual.
 
 ## Lote 166: componente y despliegue Greengrass en grupo vacío
 
