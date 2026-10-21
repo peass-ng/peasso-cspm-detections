@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 121: B2BI, capability, partnership y selección de transformer (PR pendientes)
+## Lote 121: B2BI, capability, partnership y selección de transformer ([PR de reglas 56](https://github.com/peass-ng/peasso-cspm-detections/pull/56), [PR de aplicación 77](https://github.com/peass-ng/PEASSo-CSPM/pull/77); integración pendiente)
 
 Un primer laboratorio creó perfil, transformer activo, capability y partnership propios, un bucket S3 vacío para las rutas de configuración y una identidad temporal limitada a `UpdateCapability` y `UpdatePartnership`. Pasaron 9/9 comprobaciones de preparación, lectura, enumeración y actualización. Ambos `Get*` se denegaron a la identidad limitada, pero las dos actualizaciones sin cambio material devolvieron la configuración completa. `DeletePartnership` y `DeleteCapability` se aceptaron durante la limpieza. Una configuración B2BI escribió un objeto en el bucket propio: se borró antes de eliminar el bucket. La auditoría independiente confirmó 9/9 ausencias o listados sin recursos propios; la API de borrado de la clave temporal respondió correctamente. El grupo de logs vended de B2BI preexistente quedó intacto; no hay delivery, delivery source ni delivery destination activos en la cuenta de prueba.
 
