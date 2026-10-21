@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 122: B2BI, transformer persistente y etiquetas (PR pendientes)
+## Lote 122: B2BI, transformer persistente y etiquetas ([PR de reglas 57](https://github.com/peass-ng/peasso-cspm-detections/pull/57), [PR de aplicación 78](https://github.com/peass-ng/PEASSo-CSPM/pull/78); integración pendiente)
 
 Un laboratorio propio creó un transformer inactivo con mapping JSONata sintético, lo activó, creó una capability y una partnership asociadas, leyó las etiquetas de la capability, añadió una etiqueta temporal y la retiró. Pasaron 7/7 comprobaciones. CloudTrail entregó nueve eventos propios seleccionados; siete reglas nuevas dieron nueve coincidencias reales, incluidas tres lecturas de etiquetas. La creación y activación del transformer son las primeras fases de la cadena de persistencia B2BI; la selección de un transformer por una capability ya tiene señal específica en el lote 121. Las creaciones de capability y partnership son señales de configuración, sin afirmar por sí solas intención maliciosa. No se procesó ningún documento EDI ni se tocó una relación comercial ajena. Pasaron tres tests sintéticos dirigidos y la suite completa de detección (**1603 tests**); los siete enlaces nuevos a la fuente son válidos y no se encontraron identificadores privados en los archivos públicos cambiados.
 
