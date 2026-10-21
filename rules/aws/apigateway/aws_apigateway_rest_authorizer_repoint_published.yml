@@ -1,0 +1,23 @@
+title: REST API Lambda authorizer change published
+id: 86ce32da-a10f-4b27-a6fd-0fcbb622157a
+status: experimental
+description: An accepted UpdateAuthorizer changed the Lambda URI and a subsequent CreateDeployment published the REST API. Inspect the prior authorizer and test decisions before calling it an authorization bypass.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md#L88
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_CreateDeployment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestAuthorizerRepointPublished
+    event.outcome: success
+    request.apigateway_rest_authorizer_repoint_published: true
+  condition: selection
+falsepositives:
+  - Approved API authorizer or backend deployment
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-apigateway-rest-authorizer-repoint-published

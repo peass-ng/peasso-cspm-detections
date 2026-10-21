@@ -1,0 +1,24 @@
+title: REST API method authorization removed and published
+id: fa943e60-7d63-4076-93cd-8928014a7d98
+status: experimental
+description: An accepted UpdateMethod set authorizationType NONE and a subsequent CreateDeployment published the REST API. The event alone does not prove the previous authorization type or exposure of a sensitive backend.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md#L88
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_CreateDeployment.html
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_UpdateMethod.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestMethodAuthorizerRemovedPublished
+    event.outcome: success
+    request.apigateway_rest_method_authorizer_removed_published: true
+  condition: selection
+falsepositives:
+  - Approved API authorizer or backend deployment
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-apigateway-rest-method-authorizer-removed-published
