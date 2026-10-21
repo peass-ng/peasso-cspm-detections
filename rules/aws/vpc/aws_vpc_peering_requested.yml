@@ -1,0 +1,22 @@
+title: VPC peering connection requested
+id: a5454f57-b8fc-4eb3-9a80-03e786fd57ad
+status: experimental
+description: A VPC peering request linked two named VPCs. Whether it crosses accounts and offers reachability requires account context and routing checks.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L62
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateVpcPeeringConnection
+    event.outcome: success
+    request.vpc_peering_requested: true
+  condition: selection
+falsepositives:
+  - Approved network peering
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vpc-peering-requested

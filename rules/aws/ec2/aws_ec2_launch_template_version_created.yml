@@ -1,0 +1,22 @@
+title: EC2 launch template version created
+id: 929bce1f-584b-47a3-806a-ee2ccd947928
+status: experimental
+description: A new launch template version was accepted. CloudTrail may omit user data, so the event does not prove malicious startup code.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L114
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateLaunchTemplateVersion
+    event.outcome: success
+    request.launch_template_version_created: true
+  condition: selection
+falsepositives:
+  - Approved instance deployment
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-launch-template-version-created

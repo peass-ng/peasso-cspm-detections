@@ -1,0 +1,22 @@
+title: VPC peering DNS resolution option changed
+id: e2a313a6-c678-4251-87fe-6b9a83a488d7
+status: experimental
+description: A peering connection accepted DNS resolution from the remote VPC. This alone does not grant traffic access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L62
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyVpcPeeringConnectionOptions
+    event.outcome: success
+    request.vpc_peering_dns_enabled: true
+  condition: selection
+falsepositives:
+  - Approved private DNS configuration
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vpc-peering-dns-enabled

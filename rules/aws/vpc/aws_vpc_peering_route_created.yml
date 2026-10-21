@@ -1,0 +1,22 @@
+title: Route to VPC peering connection created
+id: 1f5b298b-82a4-47b5-9f5a-701375c646c3
+status: experimental
+description: A route table accepted a CIDR destination through a VPC peering connection. Network access also depends on reciprocal routes and security policy.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L62
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateRoute
+    event.outcome: success
+    request.vpc_peering_route_created: true
+  condition: selection
+falsepositives:
+  - Approved network route
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vpc-peering-route-created

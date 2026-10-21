@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **133**. Total headings: **617**.
+Pages with at least three level-three headings and no direct YAML reference: **130**. Total headings: **605**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -203,15 +203,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`amplify:UpdateApp\`, \`amplify:StartJob\`
 - \`amplify:UpdateBranch\`, \`amplify:StartJob\` — Branch-scoped build code execution
 - \`amplify:UpdateApp\` + \`iam:PassRole\` — repoint the app onto a more-privileged role
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md) (6 headings)
-
-- VPN
-- VPC Peering
-- Spot Fleet Request
-- **Backdoor Launch Configuration**
-- Backdoor Instances
-- EC2 ReplaceRootVolume Task (Stealth Backdoor)
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md) (6 headings)
 
@@ -774,14 +765,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Disabled controls / standards persist
 - Persistent blindness at the routing/aggregation layer
 
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md) (3 headings)
-
-Estado: revisión de fuentes completada; ocho rutas relacionadas en el lote 97 local. Sin laboratorio ni reglas verificadas todavía.
-
-- Persist an attacker-controlled OIDC trust source
-- Persist application access with a Cedar policy
-- Persist through a policy-store alias mapping
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md) (3 headings)
 
 - \`appstream:UpdateImagePermissions\` — share and clone a private golden image cross-account
@@ -949,14 +932,6 @@ Estado: revisión de fuentes completada; ocho rutas relacionadas en el lote 97 l
 - Recon: read the responders' view of the incident
 - Erase and rewrite the incident (timeline & record sabotage)
 - Anti-forensics: destroy all Incident Manager data (\`DeleteReplicationSet\`)
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md) (3 headings)
-
-Estado: revisión de fuentes completada; ocho rutas relacionadas en el lote 97 local. Sin laboratorio ni reglas verificadas todavía.
-
-- Read the complete application authorization model
-- Use authorization decisions as a policy oracle
-- Delete or corrupt the authorization store
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md) (3 headings)
 

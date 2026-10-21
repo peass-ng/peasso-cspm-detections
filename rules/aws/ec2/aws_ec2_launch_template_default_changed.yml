@@ -1,0 +1,22 @@
+title: EC2 launch template default version changed
+id: 827f68e4-784b-4452-9228-a78c00b31ffd
+status: experimental
+description: The default launch template version changed. Existing instances do not change, but future launches using the default can.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L114
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyLaunchTemplate
+    event.outcome: success
+    request.launch_template_default_changed: true
+  condition: selection
+falsepositives:
+  - Approved launch template rollout
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-launch-template-default-changed
