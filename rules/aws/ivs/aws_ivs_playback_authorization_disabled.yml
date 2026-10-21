@@ -1,0 +1,23 @@
+title: IVS playback authorization disabled
+id: f9a00b14-0000-4000-8000-000000000005
+status: experimental
+description: >
+  UpdateChannel changed authorized to false on a channel. This can permit future unauthenticated playback; no viewer traffic is implied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ivs-persistence/README.md#L119
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsPlaybackAuthorizationDisabled
+    event.outcome: success
+    request.ivs_playback_authorization_disabled: true
+  condition: selection
+falsepositives:
+  - Approved IVS administration or media operations.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-ivs-playback-authorization-disabled

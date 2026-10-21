@@ -1,0 +1,23 @@
+title: IVS stream key read
+id: f9a00b14-0000-4000-8000-000000000001
+status: experimental
+description: >
+  GetStreamKey returns a publishing credential. CloudTrail records the successful read but omits the response value; this signal does not prove media was published.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStreamKeyRead
+    event.outcome: success
+    request.ivs_stream_key_read: true
+  condition: selection
+falsepositives:
+  - Approved IVS administration or media operations.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-ivs-stream-key-read

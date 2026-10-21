@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **121**. Total headings: **560**.
+Pages with at least three level-three headings and no direct YAML reference: **119**. Total headings: **553**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -576,13 +576,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Inject a wireless-device downlink
 - Firmware and group-delivery abuse
 
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md) (4 headings)
-
-- Recover publishing and playback capabilities
-- Mine stream, stage and participant history
-- Redirect future recordings
-- Manipulate or disrupt live sessions
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md) (4 headings)
 
 - \`license-manager:CheckoutBorrowLicense\` / \`CheckoutLicense\` — consume or steal seller-issued entitlements
@@ -692,12 +685,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Backdoor an instance
 - Backdoor in Version
 - New backdoored version
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-ivs-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ivs-persistence/README.md) (3 headings)
-
-- Import an offline real-time token-signing key
-- Import a private-playback signing key
-- Preserve publishing access with an ingest configuration
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-security-hub-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-security-hub-persistence/README.md) (3 headings)
 
