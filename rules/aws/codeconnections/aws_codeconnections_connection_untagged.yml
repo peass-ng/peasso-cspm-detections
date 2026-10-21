@@ -1,0 +1,23 @@
+title: CodeConnections connection untagged
+id: 12800000-0000-4000-8000-000000000008
+status: experimental
+description: >
+  UntagResource removed one or more connection tags. The event alone does not prove an authorization effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeconnections.amazonaws.com
+    event.name: CodeConnectionsConnectionUntagged
+    event.outcome: success
+    request.codeconnections_connection_untagged: true
+  condition: selection
+falsepositives:
+  - Approved tagging cleanup.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-codeconnections-connection-untagged
