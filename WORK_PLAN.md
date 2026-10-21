@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 167 que superaron sus pruebas están publicadas en `main`; el lote 168 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 168 que superaron sus pruebas están publicadas en `main`; el lote 169 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 169: sustitución de backend en Cloud Map
+
+Un namespace HTTP y servicio Cloud Map propios, sin zona DNS ni consumidores, recibieron una instancia sintética en `192.0.2.1:8080`. La primera operación asíncrona terminó `SUCCESS`; `GetInstance` confirmó los atributos. Una segunda `RegisterInstance` con el mismo ID terminó `SUCCESS` y `GetInstance` confirmó el cambio a `192.0.2.2:8081`. Esto prueba que la [ruta de sobrescritura descrita por HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md#L19) reemplaza atributos de un backend propio; no hubo tráfico redirigido, DNS ni datos de terceros.
+
+CloudTrail entregó 19 eventos propios de Cloud Map, incluidas las dos inscripciones aceptadas. La regla nueva produjo dos coincidencias reales y cero con las demás llamadas o 12 variantes negativas de denegación, categoría, lectura, origen, nombre y tipo de evento. El evento de una inscripción aislada no diferencia creación de sobrescritura: requiere comparar estado o historial; la regla alerta sobre ambos cambios. Los hallazgos contienen objetivo opaco, no direcciones. `UpdateInstanceCustomHealthStatus` devolvió `ServiceNotFound` en este servicio HTTP, así que la segunda [ruta de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md#L63) sigue pendiente de ensayo aceptado, posiblemente con otro tipo de servicio o una espera de propagación. No se publica una regla como validada para ese cambio.
+
+El desregistro terminó `SUCCESS`; se borraron servicio y namespace, y `GetService` y `GetNamespace` devolvieron ausencia. Recibos privados 0600: `/tmp/peasso-b169-cloudmap-private.json`, `/tmp/peasso-b169-cloudmap-events-private.json` y `/tmp/peasso-b169-validation-private.json`.
 
 ## Lote 168: namespace de Entity Resolution
 
@@ -15494,10 +15502,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 40 | 6 | 23 | 62 |
-| `aws-post-exploitation` | 254 | 89 | 72 | 88 | 5 |
+| `aws-post-exploitation` | 254 | 90 | 72 | 87 | 5 |
 | `aws-privilege-escalation` | 135 | 40 | 20 | 29 | 46 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **171** | **113** | **167** | **127** |
+| **Total** | **578** | **172** | **113** | **166** | **127** |
 
 ## Pages requiring semantic review
 
@@ -15623,7 +15631,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md) | 7 | 7 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-billing-conductor-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-billing-conductor-post-exploitation/README.md) | 5 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-control-handler-role-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-control-handler-role-post-exploitation/README.md) | 4 | 0 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-data-access-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-csv-injection-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-csv-injection-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md) | 3 | 1 |
