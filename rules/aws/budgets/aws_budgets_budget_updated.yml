@@ -1,0 +1,27 @@
+title: AWS budget updated
+id: 15400000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful UpdateBudget changed a budget. Raising its limit or narrowing its scope can delay cost alerts or automated responses. This event-only rule does not compare prior and new values; verify the change against the approved budget and notification configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L172
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: budgets.amazonaws.com
+    event.name: UpdateBudget
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved budget limit or scope maintenance.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-budgets-budget-updated
+x_cloudtrail_raw: true

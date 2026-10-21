@@ -1,0 +1,27 @@
+title: AWS budget deleted
+id: 15400000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful DeleteBudget removed a cost or usage budget and any alerting tied to it. Review whether the budget was an approved financial or automated containment control and whether a replacement exists.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L172
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DeleteBudget.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: budgets.amazonaws.com
+    event.name: DeleteBudget
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved budget retirement or replacement.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-budgets-budget-deleted
+x_cloudtrail_raw: true

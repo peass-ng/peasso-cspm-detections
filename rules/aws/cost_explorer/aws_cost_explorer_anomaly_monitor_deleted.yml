@@ -1,0 +1,27 @@
+title: Cost anomaly monitor deleted
+id: 15400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful DeleteAnomalyMonitor removed a Cost Explorer anomaly monitor. Spend in its former scope is no longer evaluated by that monitor. Confirm that another approved monitor provides the intended coverage; this event does not show the former scope.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L105
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DeleteAnomalyMonitor.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ce.amazonaws.com
+    event.name: DeleteAnomalyMonitor
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved monitor replacement or decommissioning.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cost-explorer-anomaly-monitor-deleted
+x_cloudtrail_raw: true

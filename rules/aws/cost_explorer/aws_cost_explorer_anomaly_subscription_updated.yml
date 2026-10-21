@@ -1,0 +1,27 @@
+title: Cost anomaly alert subscription updated
+id: 15400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful UpdateAnomalySubscription changed a Cost Explorer alert subscription. A caller can redirect recipients or raise the threshold to suppress notifications. This event-only rule does not compare old and new values; inspect the approved recipient and threshold state before concluding that alerts were weakened.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L138
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ce.amazonaws.com
+    event.name: UpdateAnomalySubscription
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved alert threshold or recipient maintenance.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cost-explorer-anomaly-subscription-updated
+x_cloudtrail_raw: true

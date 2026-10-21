@@ -1,0 +1,27 @@
+title: AWS budget notification deleted
+id: 15400000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  A successful DeleteNotification removed one alert from a budget. The budget may remain visible while the removed alert no longer notifies its subscribers. Check remaining notifications and approved replacements.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L172
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DeleteNotification.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: budgets.amazonaws.com
+    event.name: DeleteNotification
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved budget alert maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-budgets-notification-deleted
+x_cloudtrail_raw: true

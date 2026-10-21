@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **107**. Total headings: **494**.
+Pages with at least three level-three headings and no direct YAML reference: **106**. Total headings: **490**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -448,13 +448,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Query unified logs and traces through the default Dataset
 - \`cloudwatch:UpdateIntegration\` — rebind an external integration
 - \`cloudwatch:UpdateAlert\` — hijack a scheduled query and its notifications
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md) (4 headings)
-
-- Export recurring detailed cost and resource data to S3
-- Deleting / narrowing cost anomaly monitors
-- Killing the alert path (subscriptions)
-- Neutralizing Budgets and budget actions
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md) (4 headings)
 
