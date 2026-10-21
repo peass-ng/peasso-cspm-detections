@@ -1,0 +1,24 @@
+title: AWS DynamoDB Failed transaction requests previous item image
+id: c0b1c6c3-421c-4d56-ba34-ae57a8a492d2
+status: experimental
+description: A TransactWriteItems Update requested ALL_OLD on condition failure and
+  the transaction was canceled. CloudTrail does not include the cancellation response
+  or prove an old image was returned.
+x_hacktricks_technique_id: aws-dynamodb-transaction-old-image-on-failure
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L381
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: TransactWriteItems
+    event.outcome: failure
+    request.dynamodb_transaction_old_image_on_failure: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: medium
+tags:
+- attack.collection
