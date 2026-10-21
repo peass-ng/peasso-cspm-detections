@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 130: License Manager, configuración propia y límite duro (integración pendiente)
+## Lote 130: License Manager, configuración propia y límite duro ([PR de reglas 65](https://github.com/peass-ng/peasso-cspm-detections/pull/65), [PR de aplicación 86](https://github.com/peass-ng/PEASSo-CSPM/pull/86); integración pendiente)
 
 Dos laboratorios aislados crearon cada uno una configuración de licencia `Instance` propia, sin asociarla a instancias ni AMI y sin iniciar suscripciones de pago. `UpdateLicenseConfiguration` redujo el cupo de cinco a uno y habilitó el límite duro; `GetLicenseConfiguration` comprobó ambos valores. Se restauró el cupo de cinco con límite suave y se verificó otra vez. También se probaron consultas de uso, asociaciones y etiquetas, con adición y retirada de una etiqueta propia. En el primer ensayo `ListLicenseConfigurations` rechazó combinar `LicenseConfigurationArns` con `MaxResults`; todas las demás rutas pasaron y la configuración se borró. La repetición quitó esa combinación, pasó 14/14 comprobaciones y borró su configuración. Dos auditorías independientes confirmaron 2/2 ausencias cada una. El cambio de límite solo afectó a configuraciones sin consumo asociado: no se atribuye un bloqueo real de lanzamientos EC2. [Fuente HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110).
 
