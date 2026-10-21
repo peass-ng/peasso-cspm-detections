@@ -1,0 +1,23 @@
+title: Lex V2 role backed Lambda hook configured
+id: 13700000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A bot service-role selection was followed within one hour by attaching a Lambda hook to that bot. Review both grants and the hook's downstream authority.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L189
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: BotRoleAndHookConfigured
+    event.outcome: success
+    request.lex_role_hook_configured: true
+  condition: selection
+falsepositives:
+  - Approved bot deployment that changes its role and code hook together.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-lex-v2-role-backed-hook-configured
