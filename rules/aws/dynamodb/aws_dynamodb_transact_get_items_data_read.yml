@@ -2,11 +2,12 @@ title: AWS DynamoDB TransactGetItems data event observed
 id: 59c746c2-9f40-42ac-9ff0-17a7f5823a99
 status: experimental
 description: An accepted TransactGetItems request targeted a DynamoDB table. This
-  API has a separate IAM permission from GetItem; the event does not prove returned
-  item values.
+  API authorizes each Get member with dynamodb:GetItem; the event does not prove
+  returned item values.
 x_hacktricks_technique_id: aws-dynamodb-transact-get-items-data-read
 references:
 - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L105
+- https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis-iam.html
 logsource:
   product: aws
   service: cloudtrail
