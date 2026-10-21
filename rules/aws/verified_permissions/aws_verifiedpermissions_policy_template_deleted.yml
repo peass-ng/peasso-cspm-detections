@@ -2,12 +2,12 @@ title: Verified Permissions policy template deleted
 id: 17700000-0000-4000-8000-000000000003
 status: experimental
 description: >
-  A Cedar policy template was deleted. This can disrupt linked application
-  authorization. Determine whether linked policies existed and inspect the
-  approved change and resulting application decisions.
+  A Cedar policy template was deleted. AWS also deletes policies linked to
+  that template, which can revoke application access. Check whether linked
+  policies existed and compare authorization decisions before and after.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
-  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-templates-edit.html
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_DeletePolicyTemplate.html
 logsource:
   product: aws
   service: cloudtrail
