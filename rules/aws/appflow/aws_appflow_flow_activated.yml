@@ -1,0 +1,23 @@
+title: AppFlow flow activated
+id: 12600000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  StartFlow activated a flow without returning an execution ID. Its trigger type and any later recurring runs need configuration and execution-record checks.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appflow-persistence/README.md#L38
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowFlowActivated
+    event.outcome: success
+    request.appflow_flow_activated: true
+  condition: selection
+falsepositives:
+  - Approved schedule or event flow activation.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appflow-flow-activated

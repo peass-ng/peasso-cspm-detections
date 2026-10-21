@@ -1,0 +1,23 @@
+title: AppFlow flow execution history read
+id: 12600000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  DescribeFlowExecutionRecords queried an existing flow execution history. The response is omitted from CloudTrail.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowFlowExecutionRecordsRead
+    event.outcome: success
+    request.appflow_flow_execution_records_read: true
+  condition: selection
+falsepositives:
+  - Authorized execution troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-appflow-flow-execution-records-read

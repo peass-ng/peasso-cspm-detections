@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **117**. Total headings: **546**.
+Pages with at least three level-three headings and no direct YAML reference: **115**. Total headings: **536**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -112,16 +112,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - S3
 - Dynamo
 - EMR
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md) (7 headings)
-
-- Discover integration topology and sensitive schemas
-- Run an existing flow through its stored authority
-- Hijack or destroy a connector profile
-- Inject records through an S3 source
-- Broaden or poison a flow with \`UpdateFlow\`
-- Disrupt or erase integrations
-- \`CreateFlow\`/\`UpdateFlow\` + \`iam:PassRole\` to AWS Glue catalog authority
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md) (7 headings)
 
@@ -666,12 +656,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - WorkDocs activity, metadata, and content-read chain
 - \`workdocs:AddResourcePermissions\`
 - \`workdocs:UpdateUser\`
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-appflow-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appflow-persistence/README.md) (3 headings)
-
-- Persist by replacing connector-profile credentials
-- Convert an existing flow into a recurring job
-- Plant a new scheduled flow through an existing connector profile
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-elastic-beanstalk-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-elastic-beanstalk-persistence/README.md) (3 headings)
 
