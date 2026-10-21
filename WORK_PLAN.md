@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 140: Device Farm, lectura de configuración, URL de TestGrid y borrado (integración pendiente)
+## Lote 140: Device Farm, lectura de configuración, URL de TestGrid y borrado ([PR de reglas 75](https://github.com/peass-ng/peasso-cspm-detections/pull/75), [PR de aplicación 96](https://github.com/peass-ng/PEASSo-CSPM/pull/96); integración pendiente)
 
 Se ensayaron ocho rutas de la [página de post explotación Device Farm](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L43) en `us-west-2` con proyectos, cargas, un usuario IAM y un TestGrid propios. El laboratorio inicial pasó 10/10 comprobaciones: `GetProject` devolvió una variable sintética, `ListUploads` y `GetUpload` encontraron una especificación propia, y `CreateTestGridUrl` emitió un endpoint firmado. El laboratorio limitado pasó 10/10: un usuario temporal leyó esa variable, enumeró cargas, obtuvo y usó la URL de `GetUpload` para descargar exclusivamente el texto sintético, enumeró una lista vacía de runs y creó una URL de TestGrid; `DeleteUpload` y `DeleteTestGridProject` se le denegaron. No se abrió ningún navegador ni sesión física, ni se intentó alcanzar una aplicación privada.
 
