@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 117: IVS, composición y límites IAM de grabación (en curso; aislado)
+## Lote 117: IVS, composición y límites IAM de grabación ([PR de reglas 52](https://github.com/peass-ng/peasso-cspm-detections/pull/52), [PR de aplicación 73](https://github.com/peass-ng/PEASSo-CSPM/pull/73); integración pendiente)
 
 Una identidad temporal con `ivs:StartComposition` sobre un stage y un encoder propios, sin permiso sobre el canal de destino, obtuvo una composición `STARTING`. `GetChannel` fue denegado; `GetComposition`, `ListCompositions` y `StopComposition` administrativos se aceptaron. Las cinco comprobaciones pasaron. CloudTrail entregó 22 eventos propios y cinco reglas nuevas produjeron nueve coincidencias. La parada pasó a estado `STOPPED`; el encoder solo se pudo borrar tras terminar esa transición. La auditoría independiente confirmó 9/9 recursos ausentes o, para la composición histórica, terminal. IVS no expone borrado de composiciones históricas; quedó únicamente el registro `STOPPED`, sin ejecución ni facturación activa. No hubo participantes ni media publicada: el ensayo prueba la creación de la composición y su destino, no una emisión visible.
 
