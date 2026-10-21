@@ -1,0 +1,24 @@
+title: Lex V2 bot alias created with Lambda hook
+id: 13800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  CreateBotAlias configured an enabled Lambda hook at alias creation. An enabled
+  intent and a runtime invocation are needed for the Lambda to run.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L220
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: BotAliasHookCreated
+    event.outcome: success
+    request.lex_bot_alias_hook_created: true
+  condition: selection
+falsepositives:
+  - Approved Lambda hook configuration on a new alias.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-lex-v2-bot-alias-hook-created
