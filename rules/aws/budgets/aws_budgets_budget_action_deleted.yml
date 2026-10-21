@@ -1,0 +1,27 @@
+title: Budget action deleted
+id: 15500000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful DeleteBudgetAction removed a budget action. An attacker can remove a cost-containment response this way. Inspect the deleted action and approved change record before treating this event as evasion.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L172
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DeleteBudgetAction.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: budgets.amazonaws.com
+    event.name: DeleteBudgetAction
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved removal of an obsolete budget action.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-budgets-budget-action-deleted
+x_cloudtrail_raw: true

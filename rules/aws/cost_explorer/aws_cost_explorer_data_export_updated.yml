@@ -1,0 +1,27 @@
+title: Billing data export updated
+id: 15500000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful UpdateExport changed a recurring billing data export. Review the current SQL query, selected table properties and S3 destination against the approved state. This event-only rule does not determine whether the change increased data exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L95
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DataExports_UpdateExport.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bcm-data-exports.amazonaws.com
+    event.name: UpdateExport
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved billing report maintenance.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-cost-explorer-data-export-updated
+x_cloudtrail_raw: true

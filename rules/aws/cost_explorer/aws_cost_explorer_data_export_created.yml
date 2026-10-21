@@ -1,0 +1,27 @@
+title: Billing data export created
+id: 15500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateExport configured a recurring AWS Billing and Cost Management data export. Review its SQL columns, table settings, S3 bucket owner and destination against approved exports. The management event alone does not prove delivery or cross-account access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cost-explorer-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DataExports_CreateExport.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bcm-data-exports.amazonaws.com
+    event.name: CreateExport
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved billing report provisioning.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-cost-explorer-data-export-created
+x_cloudtrail_raw: true
