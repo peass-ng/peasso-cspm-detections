@@ -1,0 +1,26 @@
+title: Keyspaces table restored into a new table
+id: 14400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  RestoreTable succeeded for a Keyspaces table target. The operation can recreate data in a new table; this event alone does not prove that anyone read the restored contents.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L210
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: RestoreTable
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Cassandra::Table
+  condition: selection
+falsepositives:
+  - Approved point-in-time recovery or disaster recovery exercise.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-keyspaces-table-restored
+x_cloudtrail_raw: true
