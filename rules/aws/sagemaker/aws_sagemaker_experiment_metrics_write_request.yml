@@ -1,0 +1,27 @@
+title: SageMaker experiment trial metrics write requested
+id: 14800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A BatchPutMetrics API request succeeded against a SageMaker experiment trial component. Individual metric items may still fail, and this event alone does not establish fraudulent values. Review response errors, the writer, component state and metric history.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md#L437
+  - https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_metrics_BatchPutMetrics.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: metrics-sagemaker.amazonaws.com
+    event.name: BatchPutMetrics
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::SageMaker::ExperimentTrialComponent
+  condition: selection
+falsepositives:
+  - Approved training run or experiment instrumentation.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sagemaker-experiment-metrics-write-request
+x_cloudtrail_raw: true
