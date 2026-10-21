@@ -1,0 +1,23 @@
+title: Device Farm TestGrid sessions listed
+id: 14100000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  ListTestGridSessions succeeded for a desktop testing project. The caller can discover session identifiers for later action and artifact reads; this event alone does not prove that a session existed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: TestGridSessionsListed
+    event.outcome: success
+    request.devicefarm_testgrid_sessions_listed: true
+  condition: selection
+falsepositives:
+  - Approved browser test inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-devicefarm-testgrid-sessions-listed
