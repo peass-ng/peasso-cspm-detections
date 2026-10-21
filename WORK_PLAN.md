@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-21. Los lotes de reglas hasta el 144 y las reglas independientes ya presentes en `main` se consolidan en el catálogo principal. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-21. Las reglas de los lotes hasta el 152 que superaron sus pruebas se publican en el catálogo principal; los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
 
 ## Lote 152: lectura de Feature Store a partir de evento real conservado
 
