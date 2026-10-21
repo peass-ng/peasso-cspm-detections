@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 127: AppFlow con rol limitado, escritura ciega S3 y recurrencia (integración pendiente)
+## Lote 127: AppFlow con rol limitado, escritura ciega S3 y activación programada ([PR de reglas 62](https://github.com/peass-ng/peasso-cspm-detections/pull/62), [PR de aplicación 83](https://github.com/peass-ng/PEASSo-CSPM/pull/83); integración pendiente)
 
 Dos laboratorios aislados crearon sendos flujos S3→S3 con buckets, objetos y roles temporales propios. Un rol asumido con una política de sesión que sólo permitía `appflow:StartFlow` sobre el flujo exacto inició una transferencia correcta mientras `ListBucket` y `GetObject` fueron denegados. Otra sesión con sólo `s3:PutObject` en el prefijo de origen escribió un CSV sintético y no pudo leerlo; una nueva ejecución del flujo entregó ese registro al bucket destino. Así se verificó la reutilización de la autoridad almacenada en AppFlow y la inyección ciega con permisos limitados, sin datos de cliente.
 
