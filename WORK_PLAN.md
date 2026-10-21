@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 116: IVS, destinos de grabación y configuración S3 (en curso; aislado)
+## Lote 116: IVS, destinos de grabación y configuración S3 ([PR de reglas 51](https://github.com/peass-ng/peasso-cspm-detections/pull/51), [PR de aplicación 72](https://github.com/peass-ng/PEASSo-CSPM/pull/72); integración pendiente)
 
 El laboratorio propio probó 8/8 rutas de crear y leer configuraciones de grabación de canal y stage, asociarlas a recursos propios y desasociarlas. Usó dos buckets S3 únicos, sin emisión ni participantes; ningún objeto de media se grabó. La creación de la configuración de canal creó un rol de servicio IVS que se eliminó al terminar; la configuración de stage añadió una política al bucket propio, eliminado después. La limpieza acabó sin errores y una auditoría independiente confirmó 12/12 recursos ausentes, incluidos buckets y rol. CloudTrail entregó 29 eventos propios: ocho reglas nuevas detectaron 13 llamadas aceptadas, incluidas las desasociaciones adicionales de limpieza. Pasaron dos tests sintéticos dirigidos y la suite completa de detección (**1584 tests**). No se afirma que una grabación llegara al destino ni que una cuenta ajena pudiera leerla.
 
