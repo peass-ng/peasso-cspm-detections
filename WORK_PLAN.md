@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 120: B2BI, lecturas, actualización como oráculo y borrado (PR pendientes)
+## Lote 120: B2BI, lecturas, actualización como oráculo y borrado ([PR de reglas 55](https://github.com/peass-ng/peasso-cspm-detections/pull/55), [PR de aplicación 76](https://github.com/peass-ng/PEASSo-CSPM/pull/76); integración pendiente)
 
 Se crearon un perfil y un transformer B2BI propios, sin documentos EDI ni acuerdos con terceros. Pasaron 8/8 comprobaciones de creación, lectura y actualización; además, se aceptaron `DeleteProfile` y `DeleteTransformer` durante la limpieza. Una identidad temporal con solo `UpdateProfile` y `UpdateTransformer` sobre los ARN exactos recibió `AccessDenied` en ambos `Get*`, pero las dos actualizaciones sin cambio material devolvieron los objetos completos a esa identidad. CloudTrail entregó 18 eventos propios seleccionados, incluidos los dos rechazos sin ID de recurso en el cuerpo; ocho reglas nuevas dieron 12 coincidencias sobre llamadas aceptadas y ninguna sobre los rechazos. Las reglas de actualización detectan la escritura y su posible uso como oráculo, pero el evento aislado no prueba que faltara permiso `Get*` ni que se extrajeran datos ajenos.
 
