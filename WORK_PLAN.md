@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 132: License Manager, asociación de licencia a una AMI propia (validación en curso)
+## Lote 132: License Manager, asociación de licencia a una AMI propia ([PR de reglas 67](https://github.com/peass-ng/peasso-cspm-detections/pull/67), [PR de aplicación 88](https://github.com/peass-ng/PEASSo-CSPM/pull/88); integración pendiente)
 
 Un laboratorio aislado creó un volumen vacío de 1 GiB, su snapshot, una AMI propia y una configuración de licencia `Instance` con límite suave. `UpdateLicenseSpecificationsForResource` añadió la configuración a la AMI y `ListLicenseSpecificationsForResource` confirmó la asociación. La misma API retiró la configuración y una segunda consulta confirmó su ausencia. Pasaron 8/9 comprobaciones de API y efecto; la consulta inversa `ListAssociationsForLicenseConfiguration` fue aceptada, pero aún no reflejaba la asociación en el instante de lectura. No se lanzó una instancia ni se comprobó un bloqueo de arranque. [Técnica HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119), [API oficial](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_UpdateLicenseSpecificationsForResource.html).
 
