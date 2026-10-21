@@ -1,0 +1,23 @@
+title: Static Cedar permit policy created in Verified Permissions
+id: a166a58b-59b8-43c5-94b3-51af35dd2d05
+status: experimental
+description: A successful CreatePolicy response reported a static Permit policy in a policy store. CloudTrail omits the submitted Cedar statement, so this event does not prove an unconditional grant or use by an application.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md#L40
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: CreatePolicy
+    event.outcome: success
+    request.vp_static_permit_policy_created: true
+  condition: selection
+falsepositives:
+  - Approved application authorization change
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vp-static-permit-policy-created

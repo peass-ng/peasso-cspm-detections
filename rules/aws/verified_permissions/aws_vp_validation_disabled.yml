@@ -1,0 +1,23 @@
+title: Verified Permissions policy store validation set to OFF
+id: 90e29b0d-86f8-4551-9a4b-7145d07d601d
+status: experimental
+description: UpdatePolicyStore accepted validation mode OFF. The event does not prove the prior mode, whether an existing policy became valid, or whether an application changed behavior.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: UpdatePolicyStore
+    event.outcome: success
+    request.vp_validation_disabled: true
+  condition: selection
+falsepositives:
+  - Approved compatibility change during a policy migration
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-vp-validation-disabled

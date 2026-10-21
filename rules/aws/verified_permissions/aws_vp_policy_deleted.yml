@@ -1,0 +1,23 @@
+title: Verified Permissions policy deleted
+id: d00e0822-b7c9-44dd-9bd8-46ea859e1814
+status: experimental
+description: An accepted DeletePolicy request removed a named Cedar policy from a policy store. The event alone does not show whether that policy had granted or denied access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_DeletePolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: DeletePolicy
+    event.outcome: success
+    request.vp_policy_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement or rollback of a policy
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-vp-policy-deleted
