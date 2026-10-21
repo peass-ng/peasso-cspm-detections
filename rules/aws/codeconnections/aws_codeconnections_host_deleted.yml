@@ -1,0 +1,24 @@
+title: CodeConnections host deleted
+id: 12900000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  DeleteHost removed a CodeConnections host. Impact on integrations depends on whether an active connection used that host.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L23
+  - https://docs.aws.amazon.com/codeconnections/latest/APIReference/API_DeleteHost.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeconnections.amazonaws.com
+    event.name: CodeConnectionsHostDeleted
+    event.outcome: success
+    request.codeconnections_host_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused host.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-codeconnections-host-deleted
