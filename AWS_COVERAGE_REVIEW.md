@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **127**. Total headings: **588**.
+Pages with at least three level-three headings and no direct YAML reference: **125**. Total headings: **579**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -230,15 +230,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`elasticbeanstalk:TerminateEnvironment\`
 - \`elasticbeanstalk:DeleteApplication\`
 - \`elasticbeanstalk:DescribeEnvironmentResources\`, \`elasticloadbalancing:ModifyLoadBalancerAttributes\`, \`s3:PutBucketPolicy\`, \`s3:ListBucket\`, \`s3:GetObject\` to enable ALB access logs exfiltration
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/aws-resource-policy-principal-validation.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/aws-resource-policy-principal-validation.md) (6 headings)
-
-- What this technique is
-- Preconditions and safety
-- Service matrix
-- CLI operations
-- When list permissions are denied
-- Interpreting results
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md) (6 headings)
 
@@ -954,12 +945,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Required permissions
 - Exploitation
 - Also relevant: \`config:PutRemediationConfigurations\` + \`iam:PassRole\` (classic PassRole)
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dynamodb-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dynamodb-privesc/README.md) (3 headings)
-
-- \`dynamodb:PutResourcePolicy\`, and optionally \`dynamodb:GetResourcePolicy\`
-- Post Exploitation
-- TODO: Read data abusing data Streams
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-image-builder-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-image-builder-privesc/README.md) (3 headings)
 
