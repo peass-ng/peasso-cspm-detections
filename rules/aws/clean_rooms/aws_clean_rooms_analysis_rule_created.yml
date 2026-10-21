@@ -1,0 +1,27 @@
+title: Clean Rooms analysis rule created
+id: 16200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateConfiguredTableAnalysisRule attached a new analysis policy to a configured table. Review its rule type, allowed columns, functions and privacy constraints against the approved collaboration baseline. This event alone does not prove a type switch, weakened policy or data disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md#L158
+  - https://docs.aws.amazon.com/clean-rooms/latest/apireference/API_CreateConfiguredTableAnalysisRule.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cleanrooms.amazonaws.com
+    event.name: CreateConfiguredTableAnalysisRule
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved setup of a Clean Rooms collaboration.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-clean-rooms-analysis-rule-created
+x_cloudtrail_raw: true
