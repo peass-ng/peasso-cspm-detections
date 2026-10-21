@@ -1,0 +1,23 @@
+title: IVS live stream stopped
+id: f9a00b15-0000-4000-8000-000000000005
+status: experimental
+description: >
+  StopStream requested termination of an active channel stream. Compare with stream lifecycle evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsLiveStreamStopped
+    event.outcome: success
+    request.ivs_live_stream_stopped: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ivs-live-stream-stopped

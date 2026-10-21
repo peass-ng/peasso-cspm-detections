@@ -1,0 +1,23 @@
+title: IVS stream key created
+id: f9a00b15-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateStreamKey minted a new channel publishing credential. Investigate creation outside approved rotation; the event does not prove the key was used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L154
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStreamKeyCreated
+    event.outcome: success
+    request.ivs_stream_key_created: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-stream-key-created

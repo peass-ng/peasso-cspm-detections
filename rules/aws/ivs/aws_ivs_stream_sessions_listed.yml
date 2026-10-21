@@ -1,0 +1,23 @@
+title: IVS stream sessions listed
+id: f9a00b15-0000-4000-8000-000000000006
+status: experimental
+description: >
+  ListStreamSessions queried current or historical channel sessions. The event does not disclose the returned records.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L52
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStreamSessionsListed
+    event.outcome: success
+    request.ivs_stream_sessions_listed: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-ivs-stream-sessions-listed
