@@ -1,0 +1,23 @@
+title: License Manager hard limit requested
+id: 13000000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  An accepted UpdateLicenseConfiguration requested LicenseCountHardLimit=true with a numeric count. This event alone does not prove EC2 launches were blocked.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationHardLimitSet
+    event.outcome: success
+    request.license_configuration_hard_limit_set: true
+  condition: selection
+falsepositives:
+  - Approved hard-limit policy change.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-license-manager-configuration-hard-limit-set

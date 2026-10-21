@@ -1,0 +1,24 @@
+title: License Manager configuration created
+id: 13000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateLicenseConfiguration accepted a new self-managed license configuration. Creation alone does not restrict an EC2 resource or prove consumption.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/license-manager/latest/APIReference/API_CreateLicenseConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationCreated
+    event.outcome: success
+    request.license_configuration_created: true
+  condition: selection
+falsepositives:
+  - Approved license configuration provisioning.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-license-manager-configuration-created

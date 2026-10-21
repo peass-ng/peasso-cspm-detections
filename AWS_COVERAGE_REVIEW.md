@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **114**. Total headings: **531**.
+Pages with at least three level-three headings and no direct YAML reference: **113**. Total headings: **527**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -550,13 +550,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Stealth property theft through a configured connector
 - Bulk metadata export to S3
 - Property and relationship poisoning
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md) (4 headings)
-
-- \`license-manager:CheckoutBorrowLicense\` / \`CheckoutLicense\` — consume or steal seller-issued entitlements
-- \`license-manager:CreateGrant\` — distribute license operations to an external AWS account
-- \`license-manager:UpdateLicenseConfiguration\` / \`UpdateLicenseSpecificationsForResource\` — tamper with license enforcement
-- User-subscription mutations — create charges, deny licensed access or authorize a directory user
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md) (4 headings)
 

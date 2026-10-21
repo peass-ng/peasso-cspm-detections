@@ -1,0 +1,23 @@
+title: License Manager configuration usage read
+id: 13000000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  ListUsageForLicenseConfiguration queried consumption of one license configuration. The response was omitted from CloudTrail.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationUsageRead
+    event.outcome: success
+    request.license_configuration_usage_read: true
+  condition: selection
+falsepositives:
+  - Authorized usage accounting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-license-manager-configuration-usage-read

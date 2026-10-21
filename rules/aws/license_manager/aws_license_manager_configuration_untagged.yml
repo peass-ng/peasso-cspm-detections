@@ -1,0 +1,23 @@
+title: License Manager configuration untagged
+id: 13000000-0000-4000-8000-000000000009
+status: experimental
+description: >
+  UntagResource removed license-configuration tags. The event alone does not prove an authorization effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L136
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationUntagged
+    event.outcome: success
+    request.license_configuration_untagged: true
+  condition: selection
+falsepositives:
+  - Approved license metadata cleanup.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-license-manager-configuration-untagged
