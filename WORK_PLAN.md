@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-21. Los lotes de reglas hasta el 143 y las reglas independientes ya presentes en `main` se consolidan en el catálogo principal. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-21. Los lotes de reglas hasta el 144 y las reglas independientes ya presentes en `main` se consolidan en el catálogo principal. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 145: lectura de esquemas de sistema Keyspaces (integración en curso)
+
+Se creó una tabla sintética propia y un trail con bucket propios en `us-east-1`. El primer selector de datos `Select` se limitó al prefijo de ARN `system*` y a la identidad administradora exacta usada en el laboratorio. Se consultaron por CQL `system_schema.keyspaces`, `system_schema.tables` y `system_schema.columns`; devolvieron respectivamente 5, 1 y 3 filas, pero no se guardaron ni publicaron los nombres devueltos. También se aceptaron `ListKeyspaces`, `ListTables`, `GetTable` y `ListTagsForResource` sobre el entorno propio; no se afirma cobertura de esas cuatro rutas SDK. Después de varios minutos sin entrega, se amplió el selector solo para la misma identidad y acción `Select`, manteniendo `AWS::Cassandra::Table`, para comprobar cómo CloudTrail atribuye el recurso. Los nueve eventos finalmente entregados apuntaban todos a tablas `system*` y llevaban `rawquery` en los parámetros. La ampliación no incluyó actividades de otras identidades.
+
+La regla nueva de nivel bajo utiliza `x_cloudtrail_raw: true` y un prefijo literal `/keyspace/system` que el CSPM evalúa sin copiar el ARN ni la consulta al hallazgo. Nueve eventos reales de sistema dieron nueve coincidencias; un `Select` real sobre una tabla de usuario del lote 143 dio cero. Una lectura individual puede ser inicio normal del driver, por lo que el hallazgo requiere línea base de principal y tasa antes de interpretarse como reconocimiento. La [fuente HackTricks fijada](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L214) describe la utilidad de `system_schema` para obtener metadatos. El catálogo previsto suma 1078 reglas, 1050 de AWS.
+
+El trail, bucket, logs, tabla y keyspace se eliminaron; lecturas independientes comprobaron las cuatro ausencias. Los eventos con identificadores de cuenta y las consultas completas permanecen privados. Sigue pendiente medir el efecto de reactivar PITR tras desactivarlo y el resto de técnicas AWS; el selector opcional de datos Cassandra debe habilitarse en las cuentas donde se quiera detectar esta lectura.
 
 ## Lote 144: restauración PITR de Keyspaces con regla declarativa (integración en curso)
 

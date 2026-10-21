@@ -1,0 +1,28 @@
+title: Keyspaces system schema selected
+id: 14500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful Select data event targeted a Keyspaces system table. Schema reads can reveal table and column metadata, but Cassandra drivers also read system tables during normal startup. Review the principal, source and query rate before inferring reconnaissance.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L214
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: Select
+    event.category: Data
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::Cassandra::Table
+    resource.path_scope_checked: true
+  condition: selection
+falsepositives:
+  - Cassandra driver startup and approved schema inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-keyspaces-system-schema-selected
+x_cloudtrail_raw: true
+x_cloudtrail_resource_path_prefix: /keyspace/system
