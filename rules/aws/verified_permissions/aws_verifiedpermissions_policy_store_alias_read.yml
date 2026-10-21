@@ -1,0 +1,29 @@
+title: Verified Permissions policy store alias read
+id: 18300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted GetPolicyStoreAlias call read an alias used to resolve a policy
+  store. CloudTrail names the alias but omits the returned mapping; compare
+  with the authorized alias inventory to determine what the caller learned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-verified-permissions-privesc/README.md#L73
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-store-aliases-retrieve.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: GetPolicyStoreAlias
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::VerifiedPermissions::PolicyStoreAlias
+  condition: selection
+falsepositives:
+  - Approved alias inventory or deployment validation.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-store-alias-read
+x_cloudtrail_raw: true
