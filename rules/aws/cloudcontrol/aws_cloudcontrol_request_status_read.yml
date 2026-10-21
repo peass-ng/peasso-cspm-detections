@@ -1,0 +1,27 @@
+title: Cloud Control resource request status read
+id: 15300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful GetResourceRequestStatus read Cloud Control operation metadata. A request token obtained from ListResourceRequests or another source can reveal the status and target of an operation created by a different principal. This event alone does not establish who created the request; compare it with the original operation and approved monitoring workflows.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-registry-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudcontrolapi.amazonaws.com
+    event.name: GetResourceRequestStatus
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved deployment monitoring or troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-cloudcontrol-request-status-read
+x_cloudtrail_raw: true

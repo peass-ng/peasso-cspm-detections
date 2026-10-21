@@ -1,0 +1,27 @@
+title: Cloud Control resource requests listed
+id: 15300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful ListResourceRequests enumerated Cloud Control operations. The API can expose identifiers and status details for requests created by other principals in the same account and Region. This event alone does not prove another principal's request was returned; compare the reader with expected deployment roles and request creators.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-registry-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ListResourceRequests.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudcontrolapi.amazonaws.com
+    event.name: ListResourceRequests
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved deployment monitoring or troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-cloudcontrol-requests-listed
+x_cloudtrail_raw: true
