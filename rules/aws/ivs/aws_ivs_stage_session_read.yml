@@ -1,0 +1,23 @@
+title: IVS real-time stage session read
+id: f9a00b18-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetStageSession queried detailed stage-session history. CloudTrail omits the returned record.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L52
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStageSessionRead
+    event.outcome: success
+    request.ivs_stage_session_read: true
+  condition: selection
+falsepositives:
+  - Approved IVS support, investigation or stage administration.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-ivs-stage-session-read

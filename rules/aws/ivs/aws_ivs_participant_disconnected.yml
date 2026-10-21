@@ -1,0 +1,23 @@
+title: IVS stage participant disconnected
+id: f9a00b18-0000-4000-8000-000000000006
+status: experimental
+description: >
+  DisconnectParticipant accepted a participant ID on a stage. Correlate with session state to confirm the effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsParticipantDisconnected
+    event.outcome: success
+    request.ivs_participant_disconnected: true
+  condition: selection
+falsepositives:
+  - Approved IVS support, investigation or stage administration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ivs-participant-disconnected
