@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **103**. Total headings: **472**.
+Pages with at least three level-three headings and no direct YAML reference: **102**. Total headings: **469**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -694,12 +694,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Anonymous web-session issuance
 - ACL reconnaissance and authorized document extraction
 - Public-document and retrieval poisoning with \`BatchPutDocument\`
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resilience-hub-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resilience-hub-post-exploitation/README.md) (3 headings)
-
-- Read concentrated application, dependency and failure-mode topology
-- Reuse a stored invoker role for indirect infrastructure discovery
-- Poison topology, resilience policy and recommendation state
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rtb-fabric-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rtb-fabric-post-exploitation/README.md) (3 headings)
 

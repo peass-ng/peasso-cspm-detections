@@ -1,0 +1,26 @@
+title: Resilience Hub application template read
+id: 15900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful DescribeAppVersionTemplate read an application's resilience topology template. Correlate this read with caller permissions and subsequent changes; the event itself does not include the returned topology.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resilience-hub-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resiliencehub.amazonaws.com
+    event.name: DescribeAppVersionTemplate
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved resilience architecture review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-resilience-hub-app-template-read
+x_cloudtrail_raw: true

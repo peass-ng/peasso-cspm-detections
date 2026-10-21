@@ -1,0 +1,26 @@
+title: Resilience Hub draft template replaced
+id: 15900000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful PutDraftAppVersionTemplate changed a draft resilience topology. Compare the current template with an approved snapshot before concluding that resources or failure paths were hidden. This event does not prove publication.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resilience-hub-post-exploitation/README.md#L93
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resiliencehub.amazonaws.com
+    event.name: PutDraftAppVersionTemplate
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved resilience topology editing.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-resilience-hub-draft-template-replaced
+x_cloudtrail_raw: true

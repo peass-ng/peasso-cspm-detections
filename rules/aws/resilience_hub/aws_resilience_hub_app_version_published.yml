@@ -1,0 +1,26 @@
+title: Resilience Hub application version published
+id: 15900000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful PublishAppVersion made a draft resilience topology available as a released version. Compare the released template with approved architecture before concluding that it was poisoned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resilience-hub-post-exploitation/README.md#L93
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resiliencehub.amazonaws.com
+    event.name: PublishAppVersion
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved resilience application release.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-resilience-hub-app-version-published
+x_cloudtrail_raw: true
