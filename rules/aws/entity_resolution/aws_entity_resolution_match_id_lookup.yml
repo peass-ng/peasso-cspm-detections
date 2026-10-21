@@ -1,0 +1,27 @@
+title: Entity Resolution match ID looked up
+id: 16500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetMatchId queried membership in an indexed Entity Resolution matching workflow. Review the caller and lookup volume for unauthorized identity probing. The CloudTrail event does not contain the returned Match ID, and one accepted lookup does not establish bulk enumeration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L39
+  - https://docs.aws.amazon.com/entityresolution/latest/userguide/find-match-id.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: GetMatchId
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application lookup of indexed customer records.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-entity-resolution-match-id-lookup
+x_cloudtrail_raw: true
