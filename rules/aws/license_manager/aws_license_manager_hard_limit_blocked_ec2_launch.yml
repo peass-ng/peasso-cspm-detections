@@ -1,0 +1,24 @@
+title: License Manager hard limit blocked EC2 launch
+id: 13300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  EC2 RunInstances was rejected with Client.InvalidState because the associated License Manager license count was exceeded. This proves a launch denial, not a running instance termination.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119
+  - https://docs.aws.amazon.com/license-manager/latest/userguide/license-rules.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: LicenseCountBlockedRunInstances
+    event.outcome: failure
+    request.license_count_blocked_run_instances: true
+  condition: selection
+falsepositives:
+  - Approved hard license enforcement on an AMI.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-license-manager-hard-limit-blocked-ec2-launch
