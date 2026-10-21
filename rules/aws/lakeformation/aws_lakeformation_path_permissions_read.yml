@@ -1,0 +1,26 @@
+title: Lake Formation path permissions read
+id: 15600000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful GetEffectivePermissionsForPath read Lake Formation grants for an S3 location. Correlate the read with subsequent registration or grant changes to assess reconnaissance.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L141
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: GetEffectivePermissionsForPath
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved location permissions audit.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-lakeformation-path-permissions-read
+x_cloudtrail_raw: true

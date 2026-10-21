@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **106**. Total headings: **490**.
+Pages with at least three level-three headings and no direct YAML reference: **105**. Total headings: **482**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -44,17 +44,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Bypass CloudTrail
 - EKS Ransom?
 - \`eks:UpdateClusterConfig\` — expose the API server to the internet
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md) (8 headings)
-
-- \`lakeformation:PutDataLakeSettings\` — add a data lake administrator
-- \`lakeformation:GrantPermissions\` — grant catalog or table access to self
-- Register an S3 location under a privileged role
-- Recon — settings, registered locations and grants
-- \`lakeformation:GetDataAccess\` — abuse an authorized external-engine session
-- \`lakeformation:UpdateLFTagExpression\` — widen existing LF-TBAC grants
-- Grant to \`IAM_Allowed_Principals\` — downgrade an existing resource
-- \`glue:PutResourcePolicy\` — expose Data Catalog metadata cross-account
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md) (8 headings)
 

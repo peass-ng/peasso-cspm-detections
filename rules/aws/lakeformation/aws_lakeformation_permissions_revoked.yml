@@ -1,0 +1,26 @@
+title: Lake Formation permissions revoked
+id: 15600000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful RevokePermissions removed Lake Formation access from a principal. Review the affected principal and resource for unauthorized disruption. The event alone does not prove that a service lost access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L95
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: RevokePermissions
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved data lake access removal.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-lakeformation-permissions-revoked
+x_cloudtrail_raw: true

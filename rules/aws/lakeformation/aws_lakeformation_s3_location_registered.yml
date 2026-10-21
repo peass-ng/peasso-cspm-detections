@@ -1,0 +1,27 @@
+title: Lake Formation S3 location registered
+id: 15600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful RegisterResource added an S3 location to Lake Formation. Review its registration role and withPrivilegedAccess request flag, then compare role authority and location grants with approved data access. This event alone does not prove that data was read or that privileged access was requested.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L104
+  - https://docs.aws.amazon.com/lake-formation/latest/dg/register-location.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: RegisterResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved onboarding of a data lake location.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lakeformation-s3-location-registered
+x_cloudtrail_raw: true

@@ -1,0 +1,26 @@
+title: Lake Formation permissions granted
+id: 15600000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful GrantPermissions changed Lake Formation access to a catalog resource. Review the target principal, resource, granted privileges and grant options. The event alone does not prove that governed data was read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L56
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: GrantPermissions
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved data lake access grant.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-lakeformation-permissions-granted
+x_cloudtrail_raw: true

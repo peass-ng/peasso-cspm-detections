@@ -1,0 +1,26 @@
+title: Lake Formation permissions inventoried
+id: 15600000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  A successful ListPermissions enumerated Lake Formation grants visible to the caller. Correlate repeated reads and subsequent permission changes before treating this routine administrative read as reconnaissance.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L141
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: ListPermissions
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved permissions audit.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-lakeformation-permissions-listed
+x_cloudtrail_raw: true

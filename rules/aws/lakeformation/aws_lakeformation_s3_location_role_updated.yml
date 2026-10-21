@@ -1,0 +1,26 @@
+title: Lake Formation S3 registration role updated
+id: 15600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful UpdateResource changed the role of a registered S3 location. Compare the new role and the registered prefix with approved Lake Formation settings. The event alone does not prove broader access or a subsequent data read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lakeformation-post-exploitation/README.md#L104
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lakeformation.amazonaws.com
+    event.name: UpdateResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved location role maintenance.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-lakeformation-s3-location-role-updated
+x_cloudtrail_raw: true
