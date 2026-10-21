@@ -1,0 +1,23 @@
+title: B2BI capability created
+id: f9a00b22-0000-4000-8000-000000000003
+status: experimental
+description: >
+  CreateCapability registered transformer and S3 locations for an EDI workflow. Compare with approved configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-b2b-data-interchange-enum.md#L5
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biCapabilityCreated
+    event.outcome: success
+    request.b2bi_capability_created: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-b2bi-capability-created

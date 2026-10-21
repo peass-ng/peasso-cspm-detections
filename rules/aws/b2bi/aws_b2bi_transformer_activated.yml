@@ -1,0 +1,23 @@
+title: B2BI transformer activated
+id: f9a00b22-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateTransformer made an EDI transformer active. This can prepare a replacement for an existing capability.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-b2bi-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biTransformerActivated
+    event.outcome: success
+    request.b2bi_transformer_activated: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-b2bi-transformer-activated
