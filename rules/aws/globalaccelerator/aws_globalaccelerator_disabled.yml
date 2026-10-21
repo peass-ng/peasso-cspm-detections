@@ -1,0 +1,23 @@
+title: Global Accelerator disabled
+id: 484bd4ea-75ab-4e31-874b-976a81daa106
+status: experimental
+description: A successful UpdateAccelerator disabled the accelerator. Confirm whether this was an authorized traffic shutdown.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/work-with-standard-accelerators.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: UpdateAccelerator
+    event.outcome: success
+    request.ga_accelerator_disabled: true
+  condition: selection
+falsepositives:
+  - Approved accelerator shutdown
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-disabled
