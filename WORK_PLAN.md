@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 139: Route 53 Profiles y límites de disponibilidad de Kendra y Timestream (integración pendiente)
+## Lote 139: Route 53 Profiles y límites de disponibilidad de Kendra y Timestream ([PR de reglas 74](https://github.com/peass-ng/peasso-cspm-detections/pull/74), [PR de aplicación 95](https://github.com/peass-ng/PEASSo-CSPM/pull/95); integración pendiente)
 
 La ruta Lex `AMAZON.KendraSearchIntent` sigue sin verificación de extremo a extremo. En la cuenta de laboratorio, `ListIndices` no mostró índices y `CreateIndex` con `DEVELOPER_EDITION` devolvió `NotAuthorizedException` indicando que Kendra ya no acepta clientes nuevos. [AWS documenta el cierre a clientes nuevos desde el 30 de julio de 2026](https://docs.aws.amazon.com/kendra/latest/dg/kendra-availability-change.html). No se creó ni cobró un índice; una lectura independiente confirmó ausentes el índice y el rol temporal del intento. No se presentará una regla de efecto Kendra como verificada con datos reales de esta cuenta. La técnica permanece pendiente para una cuenta existente que ya disponga de Kendra.
 
