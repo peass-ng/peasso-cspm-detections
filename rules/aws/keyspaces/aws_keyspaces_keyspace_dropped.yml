@@ -1,0 +1,27 @@
+title: Amazon Keyspaces keyspace deleted
+id: 14600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful DropKeyspace management event removed a Keyspaces keyspace. Deleting a keyspace also deletes all its tables; investigate unexpected principals and confirm whether recovery was planned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L303
+  - https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.clean-up.keyspace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: DropKeyspace
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Cassandra::Keyspace
+  condition: selection
+falsepositives:
+  - Approved teardown of a disposable or retired keyspace.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-keyspaces-keyspace-dropped
+x_cloudtrail_raw: true
