@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""List every AWS attack-category page without a direct rule reference.
+"""Append or refresh the AWS attack-page census inside WORK_PLAN.md.
 
 This is a source triage queue, not a claim that a page is undetected.
 Run with a local clone containing the pinned HackTricks Cloud commit.
@@ -15,6 +15,8 @@ import subprocess
 
 
 SOURCE_COMMIT = "47c375ae496ae89f81936f47ab1cb84885c88373"
+START = "<!-- AWS_ATTACK_PAGE_CENSUS_START -->"
+END = "<!-- AWS_ATTACK_PAGE_CENSUS_END -->"
 CATEGORIES = (
     "aws-cross-account-attacks",
     "aws-persistence",
@@ -90,10 +92,19 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-repo", type=Path, required=True)
     parser.add_argument("--rules-root", type=Path, default=Path(__file__).resolve().parents[1] / "rules" / "aws")
-    parser.add_argument("--output", type=Path, default=Path(__file__).resolve().parents[1] / "AWS_ATTACK_PAGE_CENSUS.md")
+    parser.add_argument("--plan", type=Path, default=Path(__file__).resolve().parents[1] / "WORK_PLAN.md")
     args = parser.parse_args()
     result = render(args.source_repo.resolve(), args.rules_root.resolve())
-    args.output.write_text(result, encoding="utf-8")
+    plan = args.plan.read_text(encoding="utf-8")
+    if START in plan or END in plan:
+        if plan.count(START) != 1 or plan.count(END) != 1:
+            raise ValueError("Malformed AWS census markers")
+        before, rest = plan.split(START, 1)
+        _, after = rest.split(END, 1)
+        plan = before.rstrip() + "\n\n" + START + "\n" + result + END + after
+    else:
+        plan = plan.rstrip() + "\n\n" + START + "\n" + result + END + "\n"
+    args.plan.write_text(plan, encoding="utf-8")
     print(f"source_census_rows={result.count(chr(10) + '| [')}")
 
 
