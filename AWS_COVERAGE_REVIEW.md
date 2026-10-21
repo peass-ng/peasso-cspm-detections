@@ -776,6 +776,8 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md) (3 headings)
 
+Estado: revisión de fuentes completada; ocho rutas relacionadas en el lote 97 local. Sin laboratorio ni reglas verificadas todavía.
+
 - Persist an attacker-controlled OIDC trust source
 - Persist application access with a Cedar policy
 - Persist through a policy-store alias mapping
@@ -949,6 +951,8 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Anti-forensics: destroy all Incident Manager data (\`DeleteReplicationSet\`)
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md) (3 headings)
+
+Estado: revisión de fuentes completada; ocho rutas relacionadas en el lote 97 local. Sin laboratorio ni reglas verificadas todavía.
 
 - Read the complete application authorization model
 - Use authorization decisions as a policy oracle
