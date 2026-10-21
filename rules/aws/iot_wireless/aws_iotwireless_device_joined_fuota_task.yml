@@ -1,0 +1,24 @@
+title: IoT Wireless device joined FUOTA task
+id: 12300000-0000-4000-8000-000000000024
+status: experimental
+description: >
+  AssociateWirelessDeviceWithFuotaTask added a device to an individual firmware update task. Association does not prove firmware delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md#L98
+  - https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_AssociateWirelessDeviceWithFuotaTask.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessDeviceJoinedFuotaTask
+    event.outcome: success
+    request.iotwireless_device_joined_fuota_task: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet or firmware rollout administration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iotwireless-device-joined-fuota-task
