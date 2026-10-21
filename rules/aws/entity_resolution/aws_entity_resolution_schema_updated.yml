@@ -1,0 +1,27 @@
+title: Entity Resolution schema mapping updated
+id: 16300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful UpdateSchemaMapping changed an Entity Resolution input schema. Compare field types, hashing flags, groups and match keys with the approved definition. This event alone does not prove corrupted matches or that a matching job subsequently ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L118
+  - https://docs.aws.amazon.com/entityresolution/latest/apireference/API_UpdateSchemaMapping.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: UpdateSchemaMapping
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved schema mapping maintenance.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-entity-resolution-schema-mapping-updated
+x_cloudtrail_raw: true

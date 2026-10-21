@@ -1,0 +1,27 @@
+title: Entity Resolution schema mappings listed
+id: 16300000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful ListSchemaMappings enumerated Entity Resolution schema mappings. Review whether this principal should discover identity-data schema names. CloudTrail records the list request, not the returned schemas or access to underlying records.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11
+  - https://docs.aws.amazon.com/entityresolution/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: ListSchemaMappings
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved schema inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-schemas-listed
+x_cloudtrail_raw: true

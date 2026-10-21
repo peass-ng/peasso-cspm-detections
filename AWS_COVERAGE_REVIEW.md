@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **100**. Total headings: **459**.
+Pages with at least three level-three headings and no direct YAML reference: **99**. Total headings: **455**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -438,13 +438,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Enumerate cluster configuration, instances, and bootstrap artifacts
 - Weaken EMR Block Public Access with \`PutBlockPublicAccessConfiguration\`
 - Destroy a cluster with \`SetTerminationProtection\` and \`TerminateJobFlows\`
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md) (4 headings)
-
-- Use GetMatchId as a record-membership oracle
-- Redirect one ID-mapping run to a new S3 destination
-- Start a stored matching workflow
-- Poison schema or workflow configuration
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md) (4 headings)
 

@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 161 que superaron sus pruebas se publican en el catálogo principal; el soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 162 que superaron sus pruebas se publican en el catálogo principal; el soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 163: lectura y cambio de esquema en Entity Resolution
+
+Se creó una asignación de esquema exclusivamente sintética con identificador y correo de prueba. `GetSchemaMapping` y `ListSchemaMappings` confirmaron su presencia; `UpdateSchemaMapping` cambió la marca `hashed` del correo y otra lectura confirmó el nuevo valor. No había tabla Glue, datos personales reales ni matching workflow, y no se ejecutó ningún trabajo. `DeleteSchemaMapping` y un `GetSchemaMapping` posterior confirmaron el borrado. [HackTricks, reconocimiento](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11), [alteración de esquema](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L118).
+
+CloudTrail entregó siete eventos propios: creación, tres `GetSchemaMapping` (una lectura posterior al borrado denegada), actualización, borrado y `ListSchemaMappings`. Este último llegó con más retraso que los demás. Las tres reglas nuevas dieron cuatro coincidencias reales y cero con las otras llamadas o 28 variantes negativas de error, categoría, lectura y fuente. Los hallazgos usan identificador opaco y no muestran la definición de campos. Recibo y eventos completos privados 0600: `/tmp/peasso-b163-entity-schema-private.json` y `/tmp/peasso-b163-entity-schema-events-private.json`.
+
+Tras publicar, el catálogo sumará 1123 reglas, 1095 de AWS; la cola sin referencia directa bajará a 99 páginas y 455 encabezados. Permanecen pendientes `GetMatchId` con flujo propio, redirección de salida, cambios de workflow y las demás rutas AWS.
 
 ## Lote 162: cambio de fuente y sustitución de regla en Clean Rooms
 

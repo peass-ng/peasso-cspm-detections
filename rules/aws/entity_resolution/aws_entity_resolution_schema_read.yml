@@ -1,0 +1,27 @@
+title: Entity Resolution schema mapping read
+id: 16300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetSchemaMapping read an Entity Resolution input schema. Review whether this principal should discover identity column semantics and matching configuration. CloudTrail records the request, not the returned schema contents or access to any underlying data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11
+  - https://docs.aws.amazon.com/entityresolution/latest/apireference/API_GetSchemaMapping.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: GetSchemaMapping
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved schema inventory or workflow administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-schema-mapping-read
+x_cloudtrail_raw: true
