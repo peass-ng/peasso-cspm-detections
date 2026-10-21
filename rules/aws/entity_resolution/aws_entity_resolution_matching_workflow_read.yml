@@ -1,0 +1,26 @@
+title: Entity Resolution matching workflow read
+id: 16400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetMatchingWorkflow read a matching workflow configuration. Review whether the caller should discover input schema, execution role and output destination. The event does not include the returned configuration or underlying records.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: GetMatchingWorkflow
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved matching workflow administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-matching-workflow-read
+x_cloudtrail_raw: true

@@ -1,0 +1,26 @@
+title: Entity Resolution matching jobs listed
+id: 16400000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful ListMatchingJobs enumerated jobs for an Entity Resolution matching workflow. Review whether this caller should inspect workflow execution history; the CloudTrail event does not include the returned job details or output records.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L94
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: ListMatchingJobs
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workflow status dashboard or administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-matching-jobs-listed
+x_cloudtrail_raw: true
