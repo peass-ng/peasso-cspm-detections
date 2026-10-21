@@ -1,0 +1,26 @@
+title: Amplify app configuration read
+id: 15800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetApp read an Amplify app configuration. The API response can contain plaintext environment variables; CloudTrail does not establish their contents. Correlate with caller authorization and subsequent use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amplify.amazonaws.com
+    event.name: GetApp
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application configuration inspection.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-amplify-app-configuration-read
+x_cloudtrail_raw: true

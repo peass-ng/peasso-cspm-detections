@@ -1,0 +1,26 @@
+title: Amplify branch configuration read
+id: 15800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful GetBranch read an Amplify branch configuration, whose API response may contain plaintext branch environment variables. The event does not expose those values.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amplify.amazonaws.com
+    event.name: GetBranch
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved branch configuration inspection.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-amplify-branch-configuration-read
+x_cloudtrail_raw: true

@@ -1,0 +1,26 @@
+title: Amplify branch updated
+id: 15800000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful UpdateBranch changed an Amplify branch. Review environment variables and build specification against approved state. This event-only signal does not prove a build ran or that code executed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md#L175
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amplify.amazonaws.com
+    event.name: UpdateBranch
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved branch maintenance.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-amplify-branch-updated
+x_cloudtrail_raw: true

@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **104**. Total headings: **479**.
+Pages with at least three level-three headings and no direct YAML reference: **103**. Total headings: **472**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -148,16 +148,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Add or replace an attacker-controlled identity provider
 - Re-enable clipboard, download, upload and print channels
 - Redirect or disable session and URL logging
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md) (7 headings)
-
-- \`amplify:GetApp\`, \`amplifybackend:CreateToken\` — Mint an Amplify Studio login
-- \`amplify:GetApp\`, \`amplifybackend:GetToken\` — Recover a live Studio login
-- \`amplify:GetApp\`, \`amplify:GetBranch\`, \`amplify:ListApps\`, \`amplify:ListBranches\`, \`amplify:GetJob\` — Read deployment variables and build logs
-- \`amplify:GetArtifactUrl\` — Download end-to-end test artifacts
-- \`amplify:UpdateApp\`, \`amplify:StartJob\`
-- \`amplify:UpdateBranch\`, \`amplify:StartJob\` — Branch-scoped build code execution
-- \`amplify:UpdateApp\` + \`iam:PassRole\` — repoint the app onto a more-privileged role
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ami-store-s3-exfiltration.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ami-store-s3-exfiltration.md) (6 headings)
 

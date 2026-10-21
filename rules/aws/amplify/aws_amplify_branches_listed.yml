@@ -1,0 +1,26 @@
+title: Amplify branches listed
+id: 15800000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful ListBranches inventoried branches and may have returned their environment variables. The event does not show which values were returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-amplify-privesc/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amplify.amazonaws.com
+    event.name: ListBranches
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved branch inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-amplify-branches-listed
+x_cloudtrail_raw: true
