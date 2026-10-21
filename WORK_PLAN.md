@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 118: IVS, historial y desconexión de participantes (en curso; aislado)
+## Lote 118: IVS, historial y desconexión de participantes ([PR de reglas 53](https://github.com/peass-ng/peasso-cspm-detections/pull/53), [PR de aplicación 74](https://github.com/peass-ng/PEASSo-CSPM/pull/74); integración pendiente)
 
 Se inició una emisión RTMPS de vídeo y audio sintéticos sobre un stage y una configuración de ingestión propios. Pasaron 8/8 comprobaciones: sesión activa, `ListStageSessions`, `GetStageSession`, `ListParticipants`, `GetParticipant`, `ListParticipantEvents` (dos eventos devueltos), `DisconnectParticipant` y desasociación automática de la ingestión. El emisor terminó y se borraron stage e ingestión; la auditoría independiente confirmó 4/4 recursos ausentes. Solo se desconectó el participante del laboratorio, sin usuarios ajenos. CloudTrail entregó 15 eventos propios; seis reglas nuevas coincidieron con las seis llamadas del historial y desconexión. Pasaron tres tests sintéticos dirigidos y la suite completa de detección (**1590 tests**). Quedan por probar la réplica entre stages, los cortes publicitarios y las demás rutas IVS señaladas en el plan.
 
