@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 137: Lex V2, `iam:PassRole` y hook de Lambda (en curso)
+## Lote 137: Lex V2, `iam:PassRole` y hook de Lambda ([PR de reglas 72](https://github.com/peass-ng/peasso-cspm-detections/pull/72), [PR de aplicación 93](https://github.com/peass-ng/PEASSo-CSPM/pull/93); integración pendiente)
 
 Un laboratorio aislado creó dos bots Lex, cinco roles IAM temporales, una Lambda y un bucket propios. Desde el rol de construcción, `CreateBot` y `UpdateBot` fueron denegados al seleccionar el segundo rol de servicio sin `iam:PassRole`. Tras conceder `PassRole` solo para ese rol y `iam:PassedToService=lexv2.amazonaws.com`, ambas llamadas fueron aceptadas, y `DescribeBot` confirmó el cambio de rol. Tres denegaciones de `CreateBot` después del cambio de política precedieron a su propagación; no se cuentan como efecto. El intent propio habilitó el fulfillment hook, una versión numerada se desplegó en un alias propio y el rol limitado actualizó el alias para adjuntar la función. [Cadena de rol y hook](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L189).
 
