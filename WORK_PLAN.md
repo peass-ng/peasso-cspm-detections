@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 134: License Manager, asociación directa a una instancia propia (validación en curso)
+## Lote 134: License Manager, asociación directa a una instancia propia ([PR de reglas 69](https://github.com/peass-ng/peasso-cspm-detections/pull/69), [PR de aplicación 90](https://github.com/peass-ng/PEASSo-CSPM/pull/90); integración pendiente)
 
 Un laboratorio aislado inició una `t3.nano` propia desde una AMI pública de Amazon Linux, sin IP pública, nueva entrada de red ni clave SSH, y creó una configuración `Instance` con cupo cinco y límite suave. `UpdateLicenseSpecificationsForResource` añadió esa configuración al ARN de la instancia; `ListLicenseSpecificationsForResource` confirmó la asociación y `GetLicenseConfiguration` mostró una licencia consumida. La misma API retiró la especificación, una segunda lectura confirmó su ausencia y el consumo volvió a cero. Pasaron 6/6 comprobaciones de API y efecto. El laboratorio no modificó la AMI pública ni los recursos de otros clientes. [Técnica HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110), [API oficial](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_UpdateLicenseSpecificationsForResource.html).
 
