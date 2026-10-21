@@ -4,6 +4,8 @@ Actualizado: 2026-10-21. Revisión AWS actual: [HackTricks Cloud](https://github
 
 **Integración posterior al release:** los catálogos de los lotes 80–92 y 93 tienen commits y digest inmutables y sus pines correspondientes en PR de aplicación. Los lotes 94 y 95 siguen aislados y aún no son entrada del release. Las notas históricas que dicen «local» o «excluido» describen el estado en el momento de cada ensayo.
 
+La [cola de revisión de páginas sin referencia directa](AWS_COVERAGE_REVIEW.md) se actualizó después del lote 95: **133 páginas y 617 encabezados**, frente a 140/653 en el corte anterior. Se retiraron siete páginas que ya tienen al menos una referencia en YAML AWS; esto no implica que todas las técnicas de esas páginas estén cubiertas. El script `scripts/refresh_aws_coverage_review.py` repite el filtro después de cada lote sin atribuir cobertura semántica.
+
 Los identificadores de cuenta `999999999999` en este plan son sustituciones sintéticas; los recibos originales de pruebas permanecen privados. `AWS_LAB_PROFILE` es un marcador genérico para el perfil configurado por el operador, no un nombre de perfil literal.
 
 ### Próxima tanda EC2/SSM: seis rutas pendientes (lote 96, preparación local)

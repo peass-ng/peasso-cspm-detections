@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **140**. Total headings: **653**.
+Pages with at least three level-three headings and no direct YAML reference: **133**. Total headings: **617**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -34,18 +34,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`sagemaker:StartPipelineExecution\` — inject parameters into privileged steps
 - \`sagemaker:RetryPipelineExecution\` — Replay failed steps and stored parameters
 - \`datazone:CreateUserProfile\` (and \`iam:GetUser\` for project assignment without an existing profile)
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md) (9 headings)
-
-- Legacy Amazon Chime \`CreateApiKey\` (retired)
-- Steal attendee join tokens and enter a meeting
-- \`chime:GetMediaPipeline\` — recover an RTMP publishing key
-- Read private channel history or impersonate a logical user
-- Capture or externally relay an active meeting
-- Install a channel flow to intercept or alter messages
-- Voice Connector and SIP media application takeover
-- Change attendee media capabilities
-- \`chime:CreateMediaInsightsPipelineConfiguration\` + \`iam:PassRole\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-supply-chain-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-supply-chain-post-exploitation/README.md) (9 headings)
 
@@ -242,24 +230,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Evidence Example
 - Required IAM Permissions
 - Data export
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md) (6 headings)
-
-- Requirements
-- Variables
-- Create EIC Endpoint
-- Allow traffic from EIC Endpoint to target instance
-- Inject ephemeral SSH key and open tunnel
-- Recover instance profile credentials
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-managed-prefix-list-backdoor.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-managed-prefix-list-backdoor.md) (6 headings)
-
-- Summary
-- Impact
-- Requirements
-- Variables
-- Attack Steps
-- Evidence
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md) (6 headings)
 
@@ -619,20 +589,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Replace a private connection's trusted certificate chain
 - Disable and re-enable the Operator App with an attacker IdP
 
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eip-hijack-impersonation.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eip-hijack-impersonation.md) (4 headings)
-
-- Summary
-- Prerequisites
-- Attack
-- Impact
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md) (4 headings)
-
-- Summary
-- Option A – S3 Gateway VPC Endpoint
-- Option B – Interface VPC Endpoint for API Gateway (execute-api)
-- Impact
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md) (4 headings)
 
 - Keep a compromised cluster alive with termination controls
@@ -787,13 +743,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Repoint the execution role: \`airflow:UpdateEnvironment\` + \`iam:PassRole\`
 - Write a DAG file into an MWAA environment's DAG bucket and run code as its execution role
 
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md) (4 headings)
-
-- Task Resources
-- \`states:TestState\` & \`iam:PassRole\`
-- \`states:CreateStateMachine\` & \`iam:PassRole\` & (\`states:StartExecution\` | \`states:StartSyncExecution\`)
-- \`states:UpdateStateMachine\` & (not always required) \`iam:PassRole\`
-
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md) (4 headings)
 
 - \`workdocs:CreateUser\`
@@ -860,12 +809,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Read stored extension configuration
 - Enumerate other principals' Cloud Control requests
 - Disable or redirect a CloudFormation Hook
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-user-pools-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-user-pools-post-exploitation/README.md) (3 headings)
-
-- Add an app-client secret and mint an M2M token
-- Inflate regional API capacity and cost
-- Disable and delete the secondary replica
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md) (3 headings)
 
