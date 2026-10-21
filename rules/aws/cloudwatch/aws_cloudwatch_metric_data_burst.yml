@@ -1,0 +1,20 @@
+title: AWS CloudWatch custom metric write burst
+id: a17bdb3d-8adc-4333-90da-6385d1141baa
+status: experimental
+description: Five successful PutMetricData data events from the same principal to one namespace occurred within one minute. This can add telemetry noise; it does not establish that the values are false.
+x_hacktricks_technique_id: aws-cloudwatch-metric-data-write-burst
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricDataWriteBurst
+    event.outcome: success
+    request.cloudwatch_metric_data_burst: true
+  condition: selection
+level: medium
+falsepositives:
+  - Expected high frequency metric publisher

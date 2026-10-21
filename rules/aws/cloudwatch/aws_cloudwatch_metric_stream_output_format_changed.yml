@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream output format changed
+id: 3c4bad4b-9dc2-4493-b0a1-9a43554c4d58
+status: experimental
+description: Two accepted definitions of the same metric stream use different output formats within one hour. Downstream consumers may fail to parse the new format; verify their behavior separately.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-output-format-changed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamOutputFormatChanged
+    event.outcome: success
+    request.cloudwatch_metric_stream_format_changed: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved downstream schema migration

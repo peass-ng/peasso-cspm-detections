@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream delivery role rebound
+id: 05850239-79c8-472e-8c41-8132aec6c25f
+status: experimental
+description: Two accepted definitions of the same metric stream use different IAM delivery roles within one hour. This changes which role CloudWatch assumes for Firehose writes.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-role-rebound
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamRoleRebound
+    event.outcome: success
+    request.cloudwatch_metric_stream_role_rebound: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved delivery role rotation

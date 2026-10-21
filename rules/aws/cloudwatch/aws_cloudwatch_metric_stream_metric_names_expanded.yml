@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream metric names expanded
+id: 0924353b-34f8-47e2-a49d-240691b3744f
+status: experimental
+description: Two accepted definitions of the same stream show a strict expansion of metric names in one explicit include namespace within one hour. Same-second writes cannot be ordered.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-metric-names-expanded
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamMetricNamesExpanded
+    event.outcome: success
+    request.cloudwatch_metric_names_expanded: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved additional metric export
