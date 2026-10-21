@@ -1,0 +1,28 @@
+title: Verified Permissions policy store metadata read
+id: 17900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  GetPolicyStore read a store's metadata. Review callers outside approved
+  authorization administration; CloudTrail omits the returned details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: GetPolicyStore
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::VerifiedPermissions::PolicyStore
+  condition: selection
+falsepositives:
+  - Approved policy store inventory or deployment.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-store-read
+x_cloudtrail_raw: true

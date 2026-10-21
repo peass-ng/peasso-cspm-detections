@@ -1,0 +1,29 @@
+title: Verified Permissions schema read
+id: 17900000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetSchema retrieved the entity and action schema of a policy store. It can
+  reveal the application's authorization vocabulary. CloudTrail identifies
+  the read but omits the schema returned to the caller.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: GetSchema
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::VerifiedPermissions::PolicyStore
+  condition: selection
+falsepositives:
+  - Approved schema review or application deployment.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-verifiedpermissions-schema-read
+x_cloudtrail_raw: true

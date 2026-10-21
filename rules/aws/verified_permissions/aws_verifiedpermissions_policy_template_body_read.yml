@@ -1,0 +1,29 @@
+title: Verified Permissions policy template body read
+id: 17900000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  GetPolicyTemplate returned a Cedar policy template to the caller. The
+  observed CloudTrail response omitted the body, so compare the reader with
+  approved policy authors and assess the template through a separate inventory.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicyTemplate.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: GetPolicyTemplate
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::VerifiedPermissions::PolicyStore
+  condition: selection
+falsepositives:
+  - Approved Cedar template review.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-template-body-read
+x_cloudtrail_raw: true
