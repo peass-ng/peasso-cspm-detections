@@ -1,0 +1,23 @@
+title: Custom SSM compliance item marked compliant
+id: 23ca6d3b-687d-4d85-ab2a-daf124eeaa7e
+status: experimental
+description: An accepted PutComplianceItems request marked at least one item COMPLIANT under a custom compliance type on a managed instance. The CloudTrail management event proves the write was accepted, not that the underlying control was actually satisfied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L956
+  - https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_PutComplianceItems.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: PutComplianceItems
+    event.outcome: success
+    request.custom_compliance_marked_compliant: true
+  condition: selection
+falsepositives:
+  - Approved custom compliance reporting by a trusted automation role
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-ssm-custom-compliance-marked-compliant

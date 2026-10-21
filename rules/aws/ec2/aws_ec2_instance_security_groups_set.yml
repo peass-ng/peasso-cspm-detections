@@ -1,0 +1,23 @@
+title: EC2 instance security group set replaced
+id: 8c21cd3d-41a1-4bd7-a6c3-b2e93e1659b8
+status: experimental
+description: A successful ModifyInstanceAttribute request supplied a nonempty security group set for an EC2 instance. CloudTrail does not show the previous set or prove that any resulting group permits access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L1705
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceAttribute.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyInstanceAttribute
+    event.outcome: success
+    request.instance_security_group_set_supplied: true
+  condition: selection
+falsepositives:
+  - Approved network configuration or workload migration
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-ec2-instance-security-groups-set
