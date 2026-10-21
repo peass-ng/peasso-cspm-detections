@@ -1,0 +1,29 @@
+title: Verified Permissions policy template updated
+id: 17700000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A Cedar policy template was updated. The change propagates to every linked
+  policy and can broaden application actions or conditions. The observed
+  CloudTrail event omitted Cedar text, so compare the template and decisions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-verified-permissions-privesc/README.md#L14
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-templates-edit.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: UpdatePolicyTemplate
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::VerifiedPermissions::PolicyStore
+  condition: selection
+falsepositives:
+  - Approved change to linked application policies.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-template-updated
+x_cloudtrail_raw: true

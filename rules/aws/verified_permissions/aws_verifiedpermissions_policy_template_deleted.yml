@@ -1,29 +1,29 @@
-title: Verified Permissions policy store deleted
-id: 17500000-0000-4000-8000-000000000003
+title: Verified Permissions policy template deleted
+id: 17700000-0000-4000-8000-000000000003
 status: experimental
 description: >
-  A Verified Permissions policy store was deleted. Applications using it can
-  lose their authorization model; correlate with the approved teardown and
-  application error rates.
+  A Cedar policy template was deleted. This can disrupt linked application
+  authorization. Determine whether linked policies existed and inspect the
+  approved change and resulting application decisions.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
-  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/monitoring-cloudtrail.html
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-templates-edit.html
 logsource:
   product: aws
   service: cloudtrail
 detection:
   selection:
     event.source: verifiedpermissions.amazonaws.com
-    event.name: DeletePolicyStore
+    event.name: DeletePolicyTemplate
     event.category: Management
     event.outcome: success
     event.read_only: false
     resource.type: AWS::VerifiedPermissions::PolicyStore
   condition: selection
 falsepositives:
-  - Approved application retirement or policy store replacement.
-level: high
+  - Approved policy template retirement.
+level: medium
 tags:
   - attack.impact
-x_hacktricks_technique_id: aws-verifiedpermissions-policy-store-deleted
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-template-deleted
 x_cloudtrail_raw: true
