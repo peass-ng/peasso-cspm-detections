@@ -1,0 +1,30 @@
+title: Verified Permissions policy store alias deleted
+id: 17600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An alias for a Verified Permissions policy store was deleted. Applications
+  using the alias can fail authorization; a later creation with the same name
+  can point them to a different store. Review both events and application
+  errors or decisions. HardDelete allows immediate name reuse.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-verified-permissions-privesc/README.md#L73
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-store-aliases-delete.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: DeletePolicyStoreAlias
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::VerifiedPermissions::PolicyStoreAlias
+  condition: selection
+falsepositives:
+  - Approved alias retirement or migration.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-store-alias-deleted
+x_cloudtrail_raw: true

@@ -1,0 +1,30 @@
+title: Verified Permissions policy store alias created
+id: 17600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An alias was bound to a Verified Permissions policy store. Applications that
+  use the alias can inherit that store's authorization model. A create shortly
+  after deletion of the same alias can rebind an application to a different
+  store; compare the approved mapping and subsequent decisions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-verified-permissions-privesc/README.md#L73
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-store-aliases.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: CreatePolicyStoreAlias
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::VerifiedPermissions::PolicyStoreAlias
+  condition: selection
+falsepositives:
+  - Approved application alias deployment or migration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-store-alias-created
+x_cloudtrail_raw: true

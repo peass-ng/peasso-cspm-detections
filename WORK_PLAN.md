@@ -1,6 +1,12 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 175 que superaron sus pruebas están publicadas en `main`. Los normalizadores Artifact y Lambda se integraron en el CSPM mediante las PR 113 y 114; los eventos reales se volvieron a probar con ese `main` (12 pruebas dirigidas y seis coincidencias). El soporte del evento de inicio de sesión se integró mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 176 que superaron sus pruebas están publicadas en `main`. Los normalizadores Artifact y Lambda se integraron en el CSPM mediante las PR 113 y 114; los eventos reales se volvieron a probar con ese `main` (12 pruebas dirigidas y seis coincidencias). El soporte del evento de inicio de sesión se integró mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 176: sustitución de alias de Verified Permissions
+
+Dos almacenes de políticas propios, sin aplicación consumidora, sirvieron para probar la [ruta de alias de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-verified-permissions-privesc/README.md#L73). Se creó un alias propio para el almacén A; `GetPolicyStoreAlias` confirmó A. Un `DeletePolicyStoreAlias` con `HardDelete` permitió recrear el mismo nombre apuntando a B y la lectura confirmó B. La [documentación de AWS](https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-store-aliases-delete.html) aclara que el borrado predeterminado es blando y reserva el nombre 24 horas, mientras que `HardDelete` lo libera inmediatamente, aunque la resolución puede tardar en propagarse. No se cambió ningún alias existente ni se probó una aplicación consumidora; la señal demuestra la sustitución del mapeo, no que una aplicación haya aceptado un permiso nuevo.
+
+CloudTrail entregó dos `CreatePolicyStoreAlias` y dos `DeletePolicyStoreAlias` aceptados. Los eventos de creación incluyen el alias y el almacén, y los de borrado el alias y el modo `HardDelete`. Dos reglas de auditoría sobre el alias tipado dieron cuatro coincidencias reales y cero con 24 variantes negativas; los cuatro hallazgos comparten un hash de objetivo y permiten correlacionar la secuencia sin publicar el alias. Se hard-borró el alias final y ambos almacenes. `GetPolicyStore` confirmó la ausencia de ambos y `GetPolicyStoreAlias` la ausencia del alias. Recibo privado 0600: `/tmp/peasso-b176-verified-alias-private.json`.
 
 ## Lote 175: políticas Cedar y borrado en Verified Permissions
 
@@ -8,7 +14,7 @@ En un almacén de políticas propio y desechable se creó una política que perm
 
 CloudTrail entregó siete eventos del almacén final: dos `CreatePolicy`, un `UpdatePolicy`, dos `DeletePolicy`, un `CreatePolicyStore` y un `DeletePolicyStore`. Los eventos de creación y actualización **omiten el texto Cedar de la solicitud**, pese a lo que sugiere el texto del origen; las reglas no afirman conocer si la política concreta fue permisiva. Cuatro reglas de auditoría aceptada para crear, actualizar y borrar políticas y para borrar almacenes dieron seis coincidencias reales y cero con 36 variantes negativas. Los objetivos son hashes; las decisiones se verificaron por API y no por CloudTrail, que no registra `IsAuthorized` como evento de gestión predeterminado. Se requiere comparar instantáneas de políticas y decisiones para confirmar daño. Recibo privado 0600: `/tmp/peasso-b175-verified-private.json`.
 
-Pendientes Verified Permissions: plantilla y políticas enlazadas, identidad OIDC propia, cambio de alias con propagación, registro optativo de eventos de decisión y efectos en una aplicación consumidora.
+Pendientes Verified Permissions: plantilla y políticas enlazadas, identidad OIDC propia, propagación del cambio de alias a una aplicación consumidora, registro optativo de eventos de decisión y efectos en la aplicación.
 
 ## Lote 174: versión de capa Lambda compartida públicamente
 
