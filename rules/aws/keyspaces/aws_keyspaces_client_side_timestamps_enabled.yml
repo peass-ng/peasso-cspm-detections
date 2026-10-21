@@ -1,0 +1,24 @@
+title: Keyspaces client-side timestamps enabled on a table
+id: 14700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted AlterTable enabled client-side timestamps for a Keyspaces table. This setting cannot be turned off and lets writers provide their own timestamps; investigate whether the change was authorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L303
+  - https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesClientSideTimestampsEnabled
+    event.outcome: success
+    request.keyspaces_client_side_timestamps_enabled: true
+  condition: selection
+falsepositives:
+  - Approved migration to client-side timestamp writes.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-keyspaces-client-side-timestamps-enabled
