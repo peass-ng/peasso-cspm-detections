@@ -1,0 +1,24 @@
+title: License Manager ami license specifications read
+id: 13200000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ListLicenseSpecificationsForResource inspected the license configurations associated with an AMI.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119
+  - https://docs.aws.amazon.com/license-manager/latest/APIReference/API_UpdateLicenseSpecificationsForResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: AmiLicenseSpecificationsRead
+    event.outcome: success
+    request.ami_license_specifications_read: true
+  condition: selection
+falsepositives:
+  - Approved AMI license audit.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-license-manager-ami-license-specifications-read

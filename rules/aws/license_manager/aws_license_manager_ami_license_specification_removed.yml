@@ -1,0 +1,24 @@
+title: License Manager ami license specification removed
+id: 13200000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateLicenseSpecificationsForResource accepted one or more license-configuration removals from an AMI. This can change future license enforcement for launches.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119
+  - https://docs.aws.amazon.com/license-manager/latest/APIReference/API_UpdateLicenseSpecificationsForResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: AmiLicenseSpecificationRemoved
+    event.outcome: success
+    request.ami_license_specification_removed: true
+  condition: selection
+falsepositives:
+  - Approved AMI license governance change.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-license-manager-ami-license-specification-removed
