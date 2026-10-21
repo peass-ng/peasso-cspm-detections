@@ -1,0 +1,30 @@
+title: Cloud Map instance custom health changed
+id: 17000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful UpdateInstanceCustomHealthStatus changed the reported health
+  of a Cloud Map service instance. An unhealthy update can remove a backend
+  from healthy-only discovery; a healthy update can restore it. Review the
+  caller and approved backend health source.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md#L63
+  - https://docs.aws.amazon.com/cloud-map/latest/api/API_UpdateInstanceCustomHealthStatus.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicediscovery.amazonaws.com
+    event.name: UpdateInstanceCustomHealthStatus
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved custom health monitoring or recovery.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-cloudmap-instance-custom-health-changed
+x_cloudtrail_raw: true

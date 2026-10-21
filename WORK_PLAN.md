@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 168 que superaron sus pruebas están publicadas en `main`; el lote 169 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 169 que superaron sus pruebas están publicadas en `main`; el lote 170 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 170: cambio de salud personalizada en Cloud Map
+
+Se creó otro namespace HTTP propio sin DNS, un servicio con `HealthCheckCustomConfig` y una instancia sintética. El primer `UpdateInstanceCustomHealthStatus(UNHEALTHY)` devolvió `ServiceNotFound` tras el registro asíncrono; un reintento cinco segundos después fue aceptado. Las lecturas de `GetInstancesHealthStatus` reflejaron `UNHEALTHY` tras propagación. La restauración `HEALTHY` fue aceptada antes de desregistrar y borrar todo. Esto comprueba la [ruta de retirada de backend de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md#L63) sobre servicio propio, sin clientes ni tráfico afectado. La lectura del efecto tardó más que la aceptación de la API.
+
+CloudTrail entregó 23 eventos propios: dos cambios de salud aceptados, uno rechazado, 15 sondeos de estado y operaciones de configuración y limpieza. El evento aceptado no incluyó recurso tipado; el rechazado sí llevaba `AWS::ServiceDiscovery::Service`, por lo que la regla nueva exige el sobre sin recurso y éxito. Produjo dos coincidencias reales, cero con las otras llamadas o 12 variantes negativas; sus hallazgos no muestran nombres del laboratorio. El desregistro y la eliminación del namespace terminaron `SUCCESS`; `GetService` y `GetNamespace` confirmaron ambas ausencias. Recibos privados 0600: `/tmp/peasso-b170-cloudmap-health-private.json`, `/tmp/peasso-b170-cloudmap-health-events-private.json` y `/tmp/peasso-b170-validation-private.json`.
+
+Este lote resuelve el ensayo aceptado que quedó pendiente en el lote 169. El servicio HTTP y la ausencia de clientes no prueban impacto sobre tráfico real.
 
 ## Lote 169: sustitución de backend en Cloud Map
 
