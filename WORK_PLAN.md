@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 133: License Manager, bloqueo real de `RunInstances` por límite duro (validación en curso)
+## Lote 133: License Manager, bloqueo real de `RunInstances` por límite duro ([PR de reglas 68](https://github.com/peass-ng/peasso-cspm-detections/pull/68), [PR de aplicación 89](https://github.com/peass-ng/PEASSo-CSPM/pull/89); integración pendiente)
 
 Un laboratorio aislado creó una AMI desde un snapshot vacío de 1 GiB, una configuración `Instance` propia con cupo uno y límite suave, y la asoció a esa AMI. El primer `RunInstances` con `t3.nano`, sin IP pública ni acceso de entrada nuevo, fue aceptado; `GetLicenseConfiguration` pasó de cero a una licencia consumida. `UpdateLicenseConfiguration` activó entonces el límite duro manteniendo el cupo en uno. El segundo `RunInstances` sobre la misma AMI fue rechazado con `Client.InvalidState`; el mensaje de AWS indicó que se excedía el recuento de licencias. No se creó una segunda instancia. Esta comparación prueba el bloqueo de un lanzamiento adicional en este laboratorio, sin atribuir terminaciones de instancias existentes. [Técnica HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L119), [comportamiento documentado por AWS](https://docs.aws.amazon.com/license-manager/latest/userguide/license-rules.html).
 
