@@ -1,0 +1,27 @@
+title: SageMaker Feature Store record written
+id: 15000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful PutRecord data event wrote to a SageMaker Feature Store group. A caller could poison features used by models; this event alone does not establish that values were malicious. Review the writer, record provenance and expected feature distribution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md#L386
+  - https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.name: PutRecord
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::SageMaker::FeatureGroup
+  condition: selection
+falsepositives:
+  - Approved feature ingestion or correction.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sagemaker-feature-store-record-written
+x_cloudtrail_raw: true
