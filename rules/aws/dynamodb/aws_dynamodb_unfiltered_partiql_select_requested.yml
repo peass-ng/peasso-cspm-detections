@@ -1,0 +1,24 @@
+title: AWS DynamoDB Unfiltered PartiQL SELECT requested
+id: 3a7f25b9-259e-49bc-97d9-aa2c0761f590
+status: experimental
+description: An accepted ExecuteStatement carried SELECT * FROM a table without a
+  WHERE clause. CloudTrail marks this API readOnly false even for SELECT; returned
+  rows are not logged.
+x_hacktricks_technique_id: aws-dynamodb-unfiltered-partiql-select-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L222
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: ExecuteStatement
+    event.outcome: success
+    request.dynamodb_unfiltered_partiql_select: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: medium
+tags:
+- attack.collection
