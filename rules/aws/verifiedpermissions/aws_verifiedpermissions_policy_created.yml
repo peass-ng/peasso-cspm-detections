@@ -1,0 +1,30 @@
+title: Verified Permissions policy created
+id: 17500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A policy was created in a Verified Permissions policy store. A permit policy
+  can grant durable application access, but CloudTrail omits the Cedar statement
+  in observed CreatePolicy events. Compare the policy inventory and application
+  decisions to determine the scope and effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md#L40
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: CreatePolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::VerifiedPermissions::PolicyStore
+  condition: selection
+falsepositives:
+  - Approved application policy deployment.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-verifiedpermissions-policy-created
+x_cloudtrail_raw: true
