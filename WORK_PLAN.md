@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 126: AppFlow S3, flujo bajo demanda y activación programada (integración pendiente)
+## Lote 126: AppFlow S3, flujo bajo demanda y activación programada ([PR de reglas 61](https://github.com/peass-ng/peasso-cspm-detections/pull/61), [PR de aplicación 82](https://github.com/peass-ng/PEASSo-CSPM/pull/82); integración pendiente)
 
 Dos laboratorios aislados usaron exclusivamente buckets y flujos propios. El primer `CreateFlow` fue rechazado durante la validación del acceso al origen S3; se borraron sus dos buckets y la auditoría independiente confirmó 3/3 ausencias. En la repetición, un flujo S3→S3 leyó una fila CSV sintética de un bucket propio y dejó un objeto en el bucket destino propio. Se comprobaron `DescribeFlow`, `ListFlows`, `DescribeFlowExecutionRecords`, la ejecución bajo demanda por `StartFlow`, el cambio a disparador `Scheduled` mediante `UpdateFlow`, otra activación con `StartFlow`, `StopFlow` y `DeleteFlow`. La limpieza borró el flujo, ambos objetos y ambos buckets sin errores; la auditoría independiente confirmó 5/5 ausencias. CloudTrail entregó el `CreateFlow` aceptado tras un retraso, además de 13 eventos propios; nueve reglas nuevas produjeron once coincidencias reales de nueve tipos y ninguna sobre el `CreateFlow` o el `StopFlow` rechazados.
 
