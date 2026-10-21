@@ -1,0 +1,20 @@
+title: AWS Firehose S3 destination bucket changed
+id: 8f262747-175f-46cf-ab97-cc850565f5af
+status: experimental
+description: Strictly ordered accepted CreateDeliveryStream and UpdateDestination records for one stream contain different S3 buckets within one hour. Destination access and record delivery require separate verification.
+x_hacktricks_technique_id: aws-firehose-s3-destination-bucket-changed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-data-firehose-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: firehose.amazonaws.com
+    event.name: FirehoseS3DestinationChanged
+    event.outcome: success
+    request.firehose_s3_destination_changed: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved S3 bucket migration

@@ -1,0 +1,20 @@
+title: AWS SNS Firehose subscription confirmed
+id: a7377712-fc9b-488d-b3c1-e1a40b1a35d6
+status: experimental
+description: A successful same-account SNS Subscribe request configured a Firehose endpoint and delivery role and returned a subscription ARN. Verify topic ownership, filters and actual delivery separately.
+x_hacktricks_technique_id: aws-sns-firehose-subscription-confirmed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-firehose-exfil.md#L34
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SNSFirehoseSubscriptionConfirmed
+    event.outcome: success
+    request.sns_firehose_subscription_confirmed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved SNS to Firehose integration

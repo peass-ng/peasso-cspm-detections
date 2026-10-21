@@ -1,0 +1,20 @@
+title: AWS Firehose record batch write accepted
+id: 7452f413-14c9-4d9e-a11a-f5402fc4a747
+status: experimental
+description: A successful Firehose PutRecordBatch data event indicates a batch request was accepted. CloudTrail can omit FailedPutCount, so individual record success must be checked separately; a reported nonzero count is excluded.
+x_hacktricks_technique_id: aws-firehose-record-batch-write-accepted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-firehose-post-exploitation/README.md#L40
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: firehose.amazonaws.com
+    event.name: FirehosePutRecordBatchAccepted
+    event.outcome: success
+    request.firehose_put_record_batch: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved batch producer

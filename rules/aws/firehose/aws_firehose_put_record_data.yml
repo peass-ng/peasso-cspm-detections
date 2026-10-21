@@ -1,0 +1,20 @@
+title: AWS Firehose direct record ingested
+id: 304057bb-ccd9-4541-b9ad-f7ef34b7ea67
+status: experimental
+description: A successful Firehose PutRecord data event indicates direct ingestion into a stream. It requires opt-in CloudTrail data events and does not prove that the record is malicious.
+x_hacktricks_technique_id: aws-firehose-direct-record-ingested
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-firehose-post-exploitation/README.md#L40
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: firehose.amazonaws.com
+    event.name: FirehosePutRecordAccepted
+    event.outcome: success
+    request.firehose_put_record: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved data producer

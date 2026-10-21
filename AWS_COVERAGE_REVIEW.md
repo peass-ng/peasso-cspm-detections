@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **125**. Total headings: **579**.
+Pages with at least three level-three headings and no direct YAML reference: **123**. Total headings: **572**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -657,13 +657,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Remove or redirect a legitimate subscriber
 - Disable collection, retention, or organization onboarding
 
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-firehose-exfil.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-firehose-exfil.md) (4 headings)
-
-- Requirements
-- Attack Steps (same-account example)
-- Impact
-- Related Bucket-Name Hijack Variant
-
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workdocs-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workdocs-post-exploitation/README.md) (4 headings)
 
 - WorkDocs activity, metadata, and content-read chain
@@ -765,12 +758,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Bulk current and historical case-data collection
 - Corrupt case workflow and evidence
 - Disable or widen case event publishing
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-firehose-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-firehose-post-exploitation/README.md) (3 headings)
-
-- Read delivery topology and trust relationships
-- Inject or poison records
-- Delete the delivery stream
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md) (3 headings)
 

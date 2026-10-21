@@ -1,0 +1,20 @@
+title: AWS SNS Firehose subscription role rebound
+id: ac81c58e-bbcf-49d8-a120-8761e7777404
+status: experimental
+description: A successful SetSubscriptionAttributes request changed the IAM delivery role from a strictly earlier observed same-account Firehose Subscribe event within one hour. Same-second writes are not ordered.
+x_hacktricks_technique_id: aws-sns-firehose-subscription-role-rebound
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-firehose-exfil.md#L34
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SNSFirehoseDeliveryRoleRebound
+    event.outcome: success
+    request.sns_firehose_role_rebound: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved subscription role rotation
