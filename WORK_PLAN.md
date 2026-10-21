@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 129: host CodeConnections pendiente y etiquetas (integración pendiente)
+## Lote 129: host CodeConnections pendiente y etiquetas ([PR de reglas 64](https://github.com/peass-ng/peasso-cspm-detections/pull/64), [PR de aplicación 85](https://github.com/peass-ng/PEASSo-CSPM/pull/85); integración pendiente)
 
 Un laboratorio aislado creó un host `GitHubEnterpriseServer` propio con un endpoint reservado `.invalid`, sin configuración VPC ni instalación externa. `CreateHost`, `GetHost`, `ListHosts`, tres lecturas de etiquetas, `TagResource` y `UntagResource` fueron aceptados y sus ocho comprobaciones pasaron; el host permaneció `PENDING`. `DeleteHost` lo eliminó y una auditoría independiente confirmó 2/2 ausencias. No se creó conexión con el host, endpoint accesible ni acceso a repositorios. [Fuente de topología y etiquetas CodeConnections](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L23), [API oficial del host pendiente](https://docs.aws.amazon.com/codeconnections/latest/APIReference/API_CreateHost.html).
 
