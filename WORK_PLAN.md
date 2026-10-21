@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 131: License Manager, licencias emitidas y consumo propio (validación en curso)
+## Lote 131: License Manager, licencias emitidas y consumo propio ([PR de reglas 66](https://github.com/peass-ng/peasso-cspm-detections/pull/66), [PR de aplicación 87](https://github.com/peass-ng/PEASSo-CSPM/pull/87); integración pendiente)
 
 Dos laboratorios aislados crearon licencias emitidas por el ensayo con una sola clave KMS asimétrica propia. Cada licencia permitió `CheckoutBorrowLicense` y `CheckoutLicense` provisional sobre un único derecho sintético; los cuatro tokens de consumo se devolvieron con `CheckInLicense`. `GetLicenseUsage` mostró consumo cero al terminar. La licencia del primer ensayo y la segunda figuran `DELETED` en lecturas independientes, y la clave está inhabilitada en `PendingDeletion` con una espera de siete días autorizada. No se consumió software de terceros ni se usó el artefacto de préstamo fuera de AWS. El checkout provisional devolvió un token de consumo, pero no un `SignedToken`; las reglas no exigen ese campo para esta ruta. [Técnica de préstamo y checkout](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L15), [firma con KMS](https://docs.aws.amazon.com/license-manager/latest/userguide/license-signing.html).
 
