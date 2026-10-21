@@ -1,0 +1,23 @@
+title: B2BI profile updated
+id: f9a00b20-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateProfile can change a business profile and return its complete fields to the caller even without GetProfile permission. The event alone does not prove a read-permission gap or changed data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-b2bi-post-exploitation/README.md#L49
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biProfileUpdated
+    event.outcome: success
+    request.b2bi_profile_updated: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration or incident response.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-b2bi-profile-updated
