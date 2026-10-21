@@ -1,0 +1,20 @@
+title: AWS DynamoDB Kinesis destination enabled
+id: bfbcd7ce-378b-4967-bfb4-289085d7d71e
+status: experimental
+description: A principal successfully requested a DynamoDB table to stream item changes into a Kinesis stream. The event alone does not prove the destination reached ACTIVE or that any records were delivered.
+x_hacktricks_technique_id: aws-dynamodb-kinesis-destination-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L656
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: EnableKinesisStreamingDestination
+    event.outcome: success
+    request.dynamodb_kinesis_destination_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved change data capture
