@@ -1,0 +1,23 @@
+title: Keyspaces table rows selected
+id: 14300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful Select data event targeted a user table. CloudTrail records the request, not returned rows; review the principal, source and query scope before attributing extraction.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L232
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesTableSelect
+    event.outcome: success
+    request.keyspaces_table_select: true
+  condition: selection
+falsepositives:
+  - Approved application read from the table.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-keyspaces-table-select

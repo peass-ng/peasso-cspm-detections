@@ -1,0 +1,23 @@
+title: Keyspaces CDC records requested
+id: 14300000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  GetRecords succeeded for a CDC stream. CloudTrail omits the returned changes and their count; the same request can return an empty batch. Review whether the principal is an approved CDC consumer.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L248
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesRecordsRequested
+    event.outcome: success
+    request.keyspaces_records_requested: true
+  condition: selection
+falsepositives:
+  - Approved CDC consumer poll.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-keyspaces-records-requested

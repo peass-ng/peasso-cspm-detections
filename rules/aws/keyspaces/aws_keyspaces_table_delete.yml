@@ -1,0 +1,23 @@
+title: Keyspaces table row deleted
+id: 14300000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful Delete data event removed a row or columns from a table. Correlate with approved retention workflows and application audit logs before inferring destructive intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L281
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesTableDelete
+    event.outcome: success
+    request.keyspaces_table_delete: true
+  condition: selection
+falsepositives:
+  - Approved application deletion or retention cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-keyspaces-table-delete

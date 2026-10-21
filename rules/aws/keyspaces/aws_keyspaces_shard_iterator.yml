@@ -1,0 +1,23 @@
+title: Keyspaces CDC shard iterator obtained
+id: 14300000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  GetShardIterator succeeded for a CDC stream. This is preparation for reading changes; it does not establish that any records were returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L248
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesShardIterator
+    event.outcome: success
+    request.keyspaces_shard_iterator: true
+  condition: selection
+falsepositives:
+  - Approved CDC consumer startup.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-keyspaces-shard-iterator
