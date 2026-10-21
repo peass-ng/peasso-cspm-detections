@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **110**. Total headings: **513**.
+Pages with at least three level-three headings and no direct YAML reference: **109**. Total headings: **507**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -200,15 +200,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`elasticbeanstalk:TerminateEnvironment\`
 - \`elasticbeanstalk:DeleteApplication\`
 - \`elasticbeanstalk:DescribeEnvironmentResources\`, \`elasticloadbalancing:ModifyLoadBalancerAttributes\`, \`s3:PutBucketPolicy\`, \`s3:ListBucket\`, \`s3:GetObject\` to enable ALB access logs exfiltration
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md) (6 headings)
-
-- Restore-table boundary is not a \`Select\` bypass
-- Recover account-wide schema metadata through system-table access
-- Read sensitive table rows with \`cassandra:Select\`
-- Exfiltrate future changes through CDC without table \`Select\`
-- Blindly poison or delete rows with \`cassandra:Modify\`
-- Disable PITR or alter security-sensitive table settings
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md) (6 headings)
 

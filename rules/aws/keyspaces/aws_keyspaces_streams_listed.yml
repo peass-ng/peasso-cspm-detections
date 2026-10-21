@@ -1,0 +1,23 @@
+title: Keyspaces CDC streams inventoried
+id: 14200000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  ListStreams succeeded for one named table. It shows stream discovery, not that records existed or were read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L76
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesStreamsListed
+    event.outcome: success
+    request.keyspaces_streams_listed: true
+  condition: selection
+falsepositives:
+  - Approved CDC consumer inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-keyspaces-streams-listed

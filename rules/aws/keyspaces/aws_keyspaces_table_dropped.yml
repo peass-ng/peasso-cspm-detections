@@ -1,0 +1,24 @@
+title: Keyspaces table dropped
+id: 14200000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  DropTable succeeded for one named table. This can remove application data and interrupt readers; CloudTrail does not establish the deleted table was production data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L158
+  - https://docs.aws.amazon.com/keyspaces/latest/APIReference/API_DeleteTable.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesTableDropped
+    event.outcome: success
+    request.keyspaces_table_dropped: true
+  condition: selection
+falsepositives:
+  - Approved table retirement or disposable lab cleanup.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-keyspaces-table-dropped

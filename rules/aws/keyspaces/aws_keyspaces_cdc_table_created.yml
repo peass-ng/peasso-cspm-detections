@@ -1,0 +1,23 @@
+title: Keyspaces table created with CDC enabled
+id: 14200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateTable accepted a new table with change data capture enabled. Review whether stream consumers and exposed change images were intended; this event alone does not show a record was consumed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L76
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesCdcTableCreated
+    event.outcome: success
+    request.keyspaces_cdc_table_created: true
+  condition: selection
+falsepositives:
+  - Approved change data capture on a new table.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-keyspaces-cdc-table-created

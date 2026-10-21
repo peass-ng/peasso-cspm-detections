@@ -1,0 +1,23 @@
+title: Keyspaces change data capture disabled
+id: 14200000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  AlterTable accepted a change disabling CDC on one table. Downstream consumers may lose future change records; confirm whether the stream was still needed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L158
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cassandra.amazonaws.com
+    event.name: KeyspacesCdcDisabled
+    event.outcome: success
+    request.keyspaces_cdc_disabled: true
+  condition: selection
+falsepositives:
+  - Approved retirement of CDC.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-keyspaces-cdc-disabled
