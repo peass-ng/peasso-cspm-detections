@@ -1,0 +1,23 @@
+title: Inspector filter deleted
+id: 6f95d5bd-e44f-46f9-896e-19412fd2c995
+status: experimental
+description: >
+  Accepted DeleteFilter on an Inspector filter. Review whether this removed an approved triage or security automation control.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L150
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorFilterDeleted
+    event.outcome: success
+    request.inspector_filter_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of a filter.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-filter-deleted

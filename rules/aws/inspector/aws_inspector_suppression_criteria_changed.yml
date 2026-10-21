@@ -1,0 +1,23 @@
+title: Inspector suppression filter criteria changed
+id: 71e49605-af67-434c-b961-a6aa9f9b5149
+status: experimental
+description: >
+  A SUPPRESS filter received different criteria from its earlier observed state within one hour. The previous filter event must be in the input; this does not prove that any finding was affected.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L150
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorSuppressionCriteriaChanged
+    event.outcome: success
+    request.inspector_suppression_criteria_changed: true
+  condition: selection
+falsepositives:
+  - Approved filter scope revision.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-suppression-criteria-changed

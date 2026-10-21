@@ -1,0 +1,23 @@
+title: Inspector filter tag removed
+id: 255163f8-9aea-407f-a1c0-a5f001fc329d
+status: experimental
+description: >
+  Accepted UntagResource on an Inspector filter. Security impact depends on automation or access policies using the removed tag.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L312
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorFilterUntagged
+    event.outcome: success
+    request.inspector_filter_untagged: true
+  condition: selection
+falsepositives:
+  - Approved filter tag maintenance.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-filter-untagged

@@ -1,0 +1,23 @@
+title: Inspector filter tagged
+id: 6c4cb0da-2237-4c67-9656-abe967eb95be
+status: experimental
+description: >
+  Accepted TagResource on an Inspector filter. Security impact depends on automation or access policies using the changed tag.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L312
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorFilterTagged
+    event.outcome: success
+    request.inspector_filter_tagged: true
+  condition: selection
+falsepositives:
+  - Approved filter ownership or cost tag update.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-filter-tagged
