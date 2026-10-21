@@ -1,0 +1,28 @@
+title: Entity Resolution ID namespace deleted
+id: 16800000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  A successful DeleteIdNamespace removed an identity-mapping source or
+  target. Review whether the removal was approved and whether workflows
+  depended on the namespace.
+references:
+  - https://docs.aws.amazon.com/entityresolution/latest/apireference/API_DeleteIdNamespace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: DeleteIdNamespace
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved removal of a retired namespace.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-entity-resolution-id-namespace-deleted
+x_cloudtrail_raw: true

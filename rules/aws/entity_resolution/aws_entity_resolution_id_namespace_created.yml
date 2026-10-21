@@ -1,0 +1,29 @@
+title: Entity Resolution ID namespace created
+id: 16800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateIdNamespace registered an identity-mapping source or
+  target. Review its input tables, matching method, role and account boundary.
+  This event alone does not prove that an ID-mapping job ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L139
+  - https://docs.aws.amazon.com/entityresolution/latest/apireference/API_CreateIdNamespace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: CreateIdNamespace
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved identity-resolution configuration.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-entity-resolution-id-namespace-created
+x_cloudtrail_raw: true

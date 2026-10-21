@@ -1,0 +1,28 @@
+title: Entity Resolution ID namespace read
+id: 16800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful GetIdNamespace read identity-mapping configuration. It can
+  reveal source tables, matching settings and delegated role targets; the
+  CloudTrail event alone does not expose the returned records.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: GetIdNamespace
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::EntityResolution::IdNamespace
+  condition: selection
+falsepositives:
+  - Approved namespace inventory or review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-id-namespace-read
+x_cloudtrail_raw: true

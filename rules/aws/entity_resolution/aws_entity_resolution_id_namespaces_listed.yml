@@ -1,0 +1,28 @@
+title: Entity Resolution ID namespaces listed
+id: 16800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful ListIdNamespaces enumerated the account's identity-mapping
+  namespaces. Review unexpected callers; account-wide inventory is also a
+  common administrative operation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-entity-resolution-post-exploitation/README.md#L11
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entityresolution.amazonaws.com
+    event.name: ListIdNamespaces
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved namespace inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-entity-resolution-id-namespaces-listed
+x_cloudtrail_raw: true
