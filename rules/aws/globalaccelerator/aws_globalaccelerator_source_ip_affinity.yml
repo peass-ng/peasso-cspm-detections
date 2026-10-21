@@ -1,0 +1,23 @@
+title: Global Accelerator listener source IP affinity selected
+id: 484bd4ea-75ab-4e31-874b-976a81daa201
+status: experimental
+description: A successful UpdateListener selected SOURCE_IP affinity. Compare prior affinity and endpoint behavior before assessing impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/global-accelerator-actions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: UpdateListener
+    event.outcome: success
+    request.ga_source_ip_affinity: true
+  condition: selection
+falsepositives:
+  - Approved Global Accelerator configuration or inventory operation
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-source-ip-affinity

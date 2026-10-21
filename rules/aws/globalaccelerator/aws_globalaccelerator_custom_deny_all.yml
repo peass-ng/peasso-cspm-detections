@@ -1,0 +1,23 @@
+title: Global Accelerator custom routing subnet traffic denied
+id: 484bd4ea-75ab-4e31-874b-976a81daa207
+status: experimental
+description: A successful DenyCustomRoutingTraffic denied all destinations in a subnet endpoint. Review whether this was an approved shutdown.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/global-accelerator-actions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: DenyCustomRoutingTraffic
+    event.outcome: success
+    request.ga_custom_deny_all: true
+  condition: selection
+falsepositives:
+  - Approved Global Accelerator configuration or inventory operation
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-custom-deny-all
