@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric alarm SNS action redirected
+id: 96a2de43-b329-4fb8-b931-51099d7c3f20
+status: experimental
+description: An accepted metric alarm update replaced a previously configured SNS topic with another SNS topic. The preceding configuration must be available within one hour; topic ownership and delivery are not established by CloudTrail alone.
+x_hacktricks_technique_id: aws-cloudwatch-metric-alarm-actions-redirected
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricAlarmActionsRedirected
+    event.outcome: success
+    request.cloudwatch_alarm_actions_redirected: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved notification destination migration

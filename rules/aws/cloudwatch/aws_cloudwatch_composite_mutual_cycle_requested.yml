@@ -1,0 +1,20 @@
+title: AWS CloudWatch mutual composite alarm cycle requested
+id: f19024ea-73a1-41a3-a42a-60a9704d5a53
+status: experimental
+description: Two accepted composite alarm definitions within one hour reference each other, creating a mutual dependency. The detector requires both configuration events and does not infer longer cycles.
+x_hacktricks_technique_id: aws-cloudwatch-composite-mutual-cycle-requested
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: CompositeAlarmMutualCycleRequested
+    event.outcome: success
+    request.cloudwatch_composite_mutual_cycle: true
+  condition: selection
+level: medium
+falsepositives:
+  - Temporary composite alarm test

@@ -1,0 +1,20 @@
+title: AWS CloudWatch alarm forced with SNS action configured
+id: e6572411-e276-4f4d-967d-82ea0a41e565
+status: experimental
+description: A principal forced an alarm to ALARM after recent events configured an SNS action and enabled alarm actions. CloudTrail alone records the calls; delivery requires destination-side evidence.
+x_hacktricks_technique_id: aws-cloudwatch-forced-alarm-with-sns-action
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L221
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: ForcedAlarmWithSnsAction
+    event.outcome: success
+    request.cloudwatch_forced_alarm_sns_action: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved alarm action test

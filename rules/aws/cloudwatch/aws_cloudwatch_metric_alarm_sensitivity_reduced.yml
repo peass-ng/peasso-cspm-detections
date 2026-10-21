@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric alarm sensitivity reduced
+id: 49fbc381-17e9-4e0c-8cba-c9510ef239ec
+status: experimental
+description: An accepted metric alarm update increased both threshold and required evaluation periods compared with a preceding configuration event for the same alarm. The correlation requires both events within one hour and does not prove a real alert was missed.
+x_hacktricks_technique_id: aws-cloudwatch-metric-alarm-sensitivity-reduced
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricAlarmSensitivityReduced
+    event.outcome: success
+    request.cloudwatch_alarm_sensitivity_reduced: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved alarm threshold change
