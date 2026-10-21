@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream started
+id: 9b909bb8-f2f0-4fe3-a089-b732bef0e808
+status: experimental
+description: A principal successfully requested a Metric Stream to start. Review this event with preceding stop and destination changes; the call alone does not prove records were delivered.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-started
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L434
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: StartMetricStreams
+    event.outcome: success
+    request.cloudwatch_metric_stream_started: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved maintenance resumption
