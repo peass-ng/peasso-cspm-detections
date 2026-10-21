@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **128**. Total headings: **594**.
+Pages with at least three level-three headings and no direct YAML reference: **127**. Total headings: **588**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -248,15 +248,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Exfiltrate future changes through CDC without table \`Select\`
 - Blindly poison or delete rows with \`cassandra:Modify\`
 - Disable PITR or alter security-sensitive table settings
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-prometheus-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-prometheus-post-exploitation/README.md) (6 headings)
-
-- Discover internal systems and sensitive label values
-- Steal rule and Alertmanager definitions
-- Blind metric and alert poisoning with \`aps:RemoteWrite\`
-- Poison recording and alerting rules
-- Inject alerts or silence notifications through the runtime API
-- Reroute alerts or disable observability
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md) (6 headings)
 

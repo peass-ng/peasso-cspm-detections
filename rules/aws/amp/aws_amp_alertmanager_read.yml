@@ -1,0 +1,23 @@
+title: AMP Alertmanager definition read
+id: 484bd4ea-75ab-4e31-874b-976a81daa303
+status: experimental
+description: A successful DescribeAlertManagerDefinition read the workspace alert routing definition. Review whether the actor needed this topology.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-prometheus-post-exploitation/README.md
+  - https://docs.aws.amazon.com/prometheus/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: aps.amazonaws.com
+    event.name: DescribeAlertManagerDefinition
+    event.outcome: success
+    request.amp_alertmanager_read: true
+  condition: selection
+falsepositives:
+  - Approved workspace maintenance or incident investigation
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-amp-alertmanager-read
