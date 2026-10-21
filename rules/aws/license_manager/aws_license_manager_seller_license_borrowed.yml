@@ -1,0 +1,23 @@
+title: License Manager seller license borrowed
+id: 13100000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  CheckoutBorrowLicense accepted a borrow checkout and returned a signed offline artifact and consumption token. This event does not prove use outside AWS.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicenseBorrowed
+    event.outcome: success
+    request.seller_license_borrowed: true
+  condition: selection
+falsepositives:
+  - Approved offline entitlement checkout.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-license-manager-seller-license-borrowed

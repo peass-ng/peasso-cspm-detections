@@ -1,0 +1,23 @@
+title: License Manager seller license created
+id: 13100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateLicense accepted a seller-issued license. Creation alone does not prove an entitlement was consumed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicenseCreated
+    event.outcome: success
+    request.seller_license_created: true
+  condition: selection
+falsepositives:
+  - Approved license issuance.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-license-manager-seller-license-created
