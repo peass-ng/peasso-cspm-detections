@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **130**. Total headings: **605**.
+Pages with at least three level-three headings and no direct YAML reference: **129**. Total headings: **599**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -320,15 +320,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - \`ec2:AssociateClientVpnTargetNetwork\` + \`ec2:CreateClientVpnRoute\` — attach Client VPN to a VPC and extend reachable networks
 - \`ec2:ApplySecurityGroupsToClientVpnTargetNetwork\` — rebind Client VPN to a trusted security group
 - \`ec2:ModifyClientVpnEndpoint\` — hijack client DNS/routing and suppress connection logs
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md) (6 headings)
-
-- \`apigateway:POST\`
-- \`apigateway:GET\`
-- \`apigateway:UpdateRestApiPolicy\` / \`apigateway:PATCH\`
-- \`apigateway:PUT\`, \`apigateway:POST\` (and sometimes \`iam:PassRole\`)
-- \`apigateway:PATCH\`, \`apigateway:POST\`
-- \`apigateway:PATCH\` on a REST VPC link does not permit NLB redirection
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md) (6 headings)
 

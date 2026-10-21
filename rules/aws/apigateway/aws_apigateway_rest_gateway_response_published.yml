@@ -1,9 +1,9 @@
-title: API Gateway REST gateway response template published
+title: API Gateway REST gateway response change published
 id: fd8041ca-8d58-54b9-a7f3-ab3ec5a5a18c
 status: experimental
-description: A gateway response template or header was changed and the same
-  principal deployed the REST API within one hour. Inspect the approved response;
-  template contents are excluded from this detection.
+description: A gateway response template, header or status code was changed and
+  the same principal deployed the REST API within one hour. Inspect the approved
+  response; template contents are excluded from this detection.
 x_hacktricks_technique_id: aws-tech-ecfc77e22d599728
 references:
 - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L192
