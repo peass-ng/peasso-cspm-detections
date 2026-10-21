@@ -1,0 +1,29 @@
+title: AWS Artifact report metadata read
+id: 17300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful GetReportMetadata read details of a specific AWS Artifact
+  report. Review unusual callers and old or unrelated report targets. The
+  report document is not returned by this operation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-artifact-post-exploitation/README.md#L45
+  - https://docs.aws.amazon.com/artifact/latest/ug/cloudtrail-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: artifact.amazonaws.com
+    event.name: GetReportMetadata
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::Artifact::Report
+  condition: selection
+falsepositives:
+  - Approved compliance report review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-artifact-report-metadata-read
+x_cloudtrail_raw: true

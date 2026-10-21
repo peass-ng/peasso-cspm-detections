@@ -1,0 +1,29 @@
+title: AWS Artifact report versions listed
+id: 17300000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful ListReportVersions enumerated versions of a specific Artifact
+  report. This can identify older documents for subsequent access; no
+  document content is returned by this call.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-artifact-post-exploitation/README.md#L45
+  - https://docs.aws.amazon.com/artifact/latest/APIReference/API_ListReportVersions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: artifact.amazonaws.com
+    event.name: ListReportVersions
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::Artifact::Report
+  condition: selection
+falsepositives:
+  - Approved report version review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-artifact-report-versions-listed
+x_cloudtrail_raw: true

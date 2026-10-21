@@ -1,0 +1,27 @@
+title: Lambda layer version shared publicly
+id: 17400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted AddLayerVersionPermission granted every AWS account access to
+  GetLayerVersion on this layer version. The request and returned policy must
+  agree, and an organization-limited grant is excluded. This exposes the layer
+  package but does not prove that another account downloaded it.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L359
+  - https://docs.aws.amazon.com/lambda/latest/api/API_AddLayerVersionPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: AddLayerVersionPermission20181031
+    event.outcome: success
+    request.lambda_public_layer_version_grant: true
+  condition: selection
+falsepositives:
+  - Approved distribution of a layer to every AWS account.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-lambda-layer-version-shared-publicly

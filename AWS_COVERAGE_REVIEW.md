@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **98**. Total headings: **451**.
+Pages with at least three level-three headings and no direct YAML reference: **97**. Total headings: **448**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -568,12 +568,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - \`appstream:UpdateImagePermissions\` — share and clone a private golden image cross-account
 - \`appstream:CreateExportImageTask\` + \`iam:PassRole\` — turn a private image into an EC2 AMI
 - \`appstream:UpdateStack\` — re-enable client data-transfer channels
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-artifact-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-artifact-post-exploitation/README.md) (3 headings)
-
-- Assurance Assistant inquiry and questionnaire exfiltration
-- \`artifact:GetTermForReport\` + \`artifact:GetReport\` — download confidential compliance reports
-- Accept or terminate Artifact agreements
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-data-access-post-exploitation/README.md) (3 headings)
 

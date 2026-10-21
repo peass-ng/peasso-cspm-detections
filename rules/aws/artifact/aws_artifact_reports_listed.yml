@@ -1,0 +1,29 @@
+title: AWS Artifact reports listed
+id: 17300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful ListReports enumerated available AWS Artifact reports. The
+  returned IDs can support later targeted report access; this event alone
+  does not indicate terms acceptance or document download.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-artifact-post-exploitation/README.md#L45
+  - https://docs.aws.amazon.com/artifact/latest/APIReference/API_ListReports.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: artifact.amazonaws.com
+    event.name: ListReports
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::Artifact::Report
+  condition: selection
+falsepositives:
+  - Approved compliance report inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-artifact-reports-listed
+x_cloudtrail_raw: true
