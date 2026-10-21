@@ -1,0 +1,24 @@
+title: SageMaker pipeline started with parameter overrides
+id: 14900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  StartPipelineExecution succeeded with one or more explicit parameter values. A caller can influence existing pipeline steps when those parameters control sensitive inputs or destinations; review the pipeline definition, supplied values and caller.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md#L504
+  - https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StartPipelineExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.name: SageMakerPipelineParametersOverridden
+    event.outcome: success
+    request.sagemaker_pipeline_parameter_override: true
+  condition: selection
+falsepositives:
+  - Approved parameterized pipeline execution.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-sagemaker-pipeline-parameter-override
