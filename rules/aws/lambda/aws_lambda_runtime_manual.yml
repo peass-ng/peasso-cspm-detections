@@ -1,0 +1,23 @@
+title: Lambda runtime version manually pinned
+id: 57220d0c-97b1-435e-9a4d-8d768162979e
+status: experimental
+description: >
+  An accepted PutRuntimeManagementConfig selected Manual with an explicit runtime ARN, pinning the function runtime.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L144
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaRuntimePinnedManual
+    event.outcome: success
+    request.lambda_runtime_manual: true
+  condition: selection
+falsepositives:
+  - Approved runtime rollback or compatibility pin.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-runtime-manual

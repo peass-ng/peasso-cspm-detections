@@ -1,0 +1,23 @@
+title: Lambda configuration updated after layer attachment
+id: 305b7d78-c542-4cac-9e14-029c1aa96ede
+status: experimental
+description: >
+  The same caller updated function configuration after attaching a layer, while the layer remained attached. CloudTrail omits environment names and values, so this does not prove AWS_LAMBDA_EXEC_WRAPPER was set; compare live configuration with an approved baseline.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaConfigFollowupAfterLayer
+    event.outcome: success
+    request.lambda_config_followup_after_layer: true
+  condition: selection
+falsepositives:
+  - Approved configuration update shortly after a layer rollout.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-config-followup-after-layer

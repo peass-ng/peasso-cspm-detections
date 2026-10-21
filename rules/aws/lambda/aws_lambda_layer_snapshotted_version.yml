@@ -1,0 +1,23 @@
+title: Lambda version published with a recently attached layer
+id: be2bed25-52c0-439e-a8c0-7062df64d6ce
+status: experimental
+description: >
+  A published function version retained a layer attached by the same caller within one hour. Review the immutable version artifact and approved deployment.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L64
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaLayerSnapshottedInVersion
+    event.outcome: success
+    request.lambda_layer_snapshotted_version: true
+  condition: selection
+falsepositives:
+  - Approved version publication after layer deployment.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-layer-snapshotted-version

@@ -1,0 +1,23 @@
+title: Lambda runtime updates deferred until function update
+id: be671a2e-9511-4fdb-8a7b-64e7431f5a50
+status: experimental
+description: >
+  An accepted PutRuntimeManagementConfig selected FunctionUpdate, deferring runtime patch adoption until a function update.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L144
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaRuntimeDeferredUntilFunctionUpdate
+    event.outcome: success
+    request.lambda_runtime_function_update: true
+  condition: selection
+falsepositives:
+  - Approved controlled runtime rollout.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-runtime-function-update
