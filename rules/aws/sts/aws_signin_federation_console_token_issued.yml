@@ -1,0 +1,27 @@
+title: Federation console sign-in token issued
+id: 16100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful GetSigninToken issued a token usable to construct a federated console URL. Review the federated identity and whether this broker action was approved. This event does not prove that the URL was opened or that ConsoleLogin succeeded.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sts-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-aws-console-sign-in-events.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: signin.amazonaws.com
+    event.name: GetSigninToken
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved federation identity broker issuing console access URLs.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-signin-federation-console-token-issued
+x_cloudtrail_raw: true
