@@ -1,0 +1,23 @@
+title: IVS composition configuration read
+id: f9a00b17-0000-4000-8000-000000000004
+status: experimental
+description: >
+  GetComposition queried source stage and destination topology. The CloudTrail response omits those details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-ivs-enum.md#L39
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsCompositionRead
+    event.outcome: success
+    request.ivs_composition_read: true
+  condition: selection
+falsepositives:
+  - Approved IVS composition administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ivs-composition-read

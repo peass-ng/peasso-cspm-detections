@@ -1,0 +1,23 @@
+title: IVS composition to channel started
+id: f9a00b17-0000-4000-8000-000000000002
+status: experimental
+description: >
+  StartComposition accepted a source stage, encoder and channel destination. Review the exact source-to-destination mapping; the event does not prove media was published.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L308
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsCompositionToChannelStarted
+    event.outcome: success
+    request.ivs_composition_to_channel_started: true
+  condition: selection
+falsepositives:
+  - Approved IVS composition administration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ivs-composition-to-channel-started

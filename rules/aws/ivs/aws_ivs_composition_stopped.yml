@@ -1,0 +1,23 @@
+title: IVS composition stopped
+id: f9a00b17-0000-4000-8000-000000000003
+status: experimental
+description: >
+  StopComposition requested termination of a composition. Compare with lifecycle state and approved broadcast windows.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L308
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsCompositionStopped
+    event.outcome: success
+    request.ivs_composition_stopped: true
+  condition: selection
+falsepositives:
+  - Approved IVS composition administration.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ivs-composition-stopped
