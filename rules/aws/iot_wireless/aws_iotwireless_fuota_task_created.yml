@@ -1,0 +1,23 @@
+title: IoT Wireless FUOTA task created
+id: 12300000-0000-4000-8000-000000000015
+status: experimental
+description: >
+  CreateFuotaTask staged a firmware over the air update with an image and service role. No device delivery is implied by creation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md#L98
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessFuotaTaskCreated
+    event.outcome: success
+    request.iotwireless_fuota_task_created: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet administration or troubleshooting.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iotwireless-fuota-task-created

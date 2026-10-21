@@ -1,0 +1,23 @@
+title: IoT Wireless multicast group read
+id: 12300000-0000-4000-8000-000000000013
+status: experimental
+description: >
+  GetMulticastGroup inspected group state and configuration. Review unusual fleet discovery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-iot-wireless-enum.md#L37
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessMulticastGroupRead
+    event.outcome: success
+    request.iotwireless_multicast_group_read: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet administration or troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iotwireless-multicast-group-read
