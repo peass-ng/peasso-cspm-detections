@@ -1,0 +1,30 @@
+title: Resource Explorer view searched
+id: 17200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful Search queried Resource Explorer through a view. The index can
+  return metadata from services the caller cannot enumerate directly. AWS
+  redacts the query and filters from CloudTrail, so this event does not show
+  which resources were returned. Review the caller and scope of the view.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-inventory-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/resource-explorer/latest/userguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resource-explorer-2.amazonaws.com
+    event.name: Search
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::ResourceExplorer2::View
+  condition: selection
+falsepositives:
+  - Approved resource inventory through a constrained view.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-resource-explorer-view-searched
+x_cloudtrail_raw: true

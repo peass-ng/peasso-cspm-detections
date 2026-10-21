@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 170 que superaron sus pruebas están publicadas en `main`; el lote 171 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 171 que superaron sus pruebas están publicadas en `main`; el lote 172 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 172: oráculo de metadatos Resource Explorer
+
+Un parámetro SSM sintético propio con etiqueta de laboratorio y una vista Resource Explorer que filtraba por esa etiqueta permitieron ensayar la [búsqueda de metadatos de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-inventory-post-exploitation/README.md#L19). Un usuario temporal con `GetView` y `Search` únicamente sobre esa vista recibió `AccessDeniedException` al intentar `ssm:DescribeParameters` filtrado al parámetro propio, pero `Search` devolvió exactamente un resultado: ese parámetro. No se consultaron nombres ni recursos ajenos. El primer `CreateView` fue rechazado porque faltaba `IncludedProperties=tags`; ese intento borró el parámetro. El segundo incluyó la propiedad y se limpió por completo.
+
+CloudTrail entregó cinco eventos propios Resource Explorer, incluida una búsqueda aceptada. En el evento real `Search` se atribuyó a `AWS::ResourceExplorer2::View`, `QueryString` quedó `***` y la respuesta fue nula. La regla dio una coincidencia y ninguna con los otros eventos ni seis variantes negativas. La vista y la consulta no aparecen en el objetivo o evidencia del hallazgo; el actor sí identifica al usuario de laboratorio por diseño. Se borraron clave, política/usuario IAM, vista y parámetro. `GetUser`, `ListViews` y `GetParameter` comprobaron las tres ausencias; `GetView` devolvió `UnauthorizedException` tras el borrado. Recibos privados 0600: `/tmp/peasso-b172-resource-explorer-private.json`, `/tmp/peasso-b172-resource-explorer-events-private.json` y `/tmp/peasso-b172-validation-private.json`.
+
+La [ruta `DeleteResourceExplorerSetup`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-setup-post-exploitation/README.md#L19) permanece pendiente de una cuenta dedicada: la cuenta actual ya tiene índices compartidos y esa API puede eliminar índices y vistas de regiones enteras. No se ejecutó contra ellos.
 
 ## Lote 171: lectura de trabajo de Amplify UI Builder
 
@@ -56,9 +64,9 @@ Tras publicar ambos lotes, el catálogo sumará 1132 reglas, 1104 de AWS. La col
 
 ## Inventario ampliado de páginas de ataques
 
-El [censo de páginas de ataque](#aws-attack-page-source-census) al final de este plan amplía el triaje a todas las páginas Markdown de persistencia, pos explotación, escalada, ataques entre cuentas y enumeración sin autenticación del commit fuente fijado. Son 578 páginas: 173 con una referencia YAML directa y 405 sin ella. Entre esas 405, 113 tienen al menos tres encabezados H3, 165 tienen uno o dos y 127 ninguno. Estos números **no** equivalen a técnicas pendientes: puede haber rutas ya cubiertas bajo otra página, varias rutas distintas en una página referenciada o páginas de navegación. Sirven para que las páginas cortas y los ataques entre cuentas no desaparezcan del plan. Las páginas de enumeración de servicios y de información básica siguen pendientes de un inventario semántico separado.
+El [censo de páginas de ataque](#aws-attack-page-source-census) al final de este plan amplía el triaje a todas las páginas Markdown de persistencia, pos explotación, escalada, ataques entre cuentas y enumeración sin autenticación del commit fuente fijado. Son 578 páginas: 174 con una referencia YAML directa y 404 sin ella. Entre esas 404, 113 tienen al menos tres encabezados H3, 164 tienen uno o dos y 127 ninguno. Estos números **no** equivalen a técnicas pendientes: puede haber rutas ya cubiertas bajo otra página, varias rutas distintas en una página referenciada o páginas de navegación. Sirven para que las páginas cortas y los ataques entre cuentas no desaparezcan del plan. Las páginas de enumeración de servicios y de información básica siguen pendientes de un inventario semántico separado.
 
-La página de App Mesh permanece en el censo histórico, pero [AWS retiró el servicio el 30 de septiembre de 2026](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html) e indica que sus recursos ya no son accesibles. Su ruta `UpdateRoute` se clasifica como retirada y no se creará infraestructura nueva para ensayarla después del fin de servicio. Si se conservan registros históricos, su detección requiere un análisis distinto al del catálogo activo.
+Las páginas de App Mesh y Proton permanecen en el censo histórico, pero [AWS retiró App Mesh el 30 de septiembre de 2026](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html) y [Proton el 7 de octubre de 2026](https://docs.aws.amazon.com/proton/latest/userguide/proton-end-of-support.html). AWS indica que ya no se puede acceder a los recursos de esos servicios. Sus rutas `UpdateRoute`, `CreateEnvironment` y `CreateComponent` se clasifican como retiradas; no se creará infraestructura nueva para ensayarlas después del fin de servicio. La infraestructura que Proton hubiera desplegado antes de su retirada puede seguir funcionando, pero sus riesgos se revisan en los servicios subyacentes. Si se conservan registros históricos, su detección requiere un análisis distinto al del catálogo activo.
 
 ## Lote 164: configuración y ejecución de matching en Entity Resolution
 
@@ -15518,10 +15526,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 40 | 6 | 23 | 62 |
-| `aws-post-exploitation` | 254 | 91 | 72 | 86 | 5 |
+| `aws-post-exploitation` | 254 | 92 | 72 | 85 | 5 |
 | `aws-privilege-escalation` | 135 | 40 | 20 | 29 | 46 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **173** | **113** | **165** | **127** |
+| **Total** | **578** | **174** | **113** | **164** | **127** |
 
 ## Pages requiring semantic review
 
@@ -15748,7 +15756,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-q-in-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-q-in-connect-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md) | 5 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md) | 3 | 2 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-inventory-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-inventory-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-tag-inventory-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-tag-inventory-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-arc-routing-control-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-arc-routing-control-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md) | 4 | 2 |
