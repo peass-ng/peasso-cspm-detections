@@ -1,0 +1,27 @@
+title: VPC Lattice service network VPC association created
+id: 15700000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful CreateServiceNetworkVpcAssociation requested a network path from a VPC to a service network. Compare both resources against approved associations and verify the resulting status. The event alone does not prove that a private service was invoked or that its authorization policy allowed access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/vpc-lattice/latest/APIReference/API_CreateServiceNetworkVpcAssociation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: vpc-lattice.amazonaws.com
+    event.name: CreateServiceNetworkVpcAssociation
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved service network connectivity.
+level: low
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-vpc-lattice-service-network-vpc-association-created
+x_cloudtrail_raw: true

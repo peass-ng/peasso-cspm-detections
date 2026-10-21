@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **105**. Total headings: **482**.
+Pages with at least three level-three headings and no direct YAML reference: **104**. Total headings: **479**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -740,12 +740,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Recon: read the responders' view of the incident
 - Erase and rewrite the incident (timeline & record sabotage)
 - Anti-forensics: destroy all Incident Manager data (\`DeleteReplicationSet\`)
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md) (3 headings)
-
-- \`vpc-lattice-svcs:Invoke\` — access an IAM-authenticated private service
-- \`vpc-lattice:CreateAccessLogSubscription\` — exfiltrate service-network request metadata
-- \`vpc-lattice:CreateServiceNetworkVpcAssociation\` — obtain network reachability into a service network
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-wickr-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-wickr-post-exploitation/README.md) (3 headings)
 

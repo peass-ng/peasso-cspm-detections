@@ -1,6 +1,14 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-21. Las reglas de los lotes hasta el 156 que superaron sus pruebas se publican en el catálogo principal; los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-21. Las reglas de los lotes hasta el 157 que superaron sus pruebas se publican en el catálogo principal; los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 157: destino de logs y asociación de VPC en VPC Lattice
+
+Un laboratorio en `us-east-1` creó una red de servicios vacía, una VPC y un bucket S3 propios. `CreateAccessLogSubscription` configuró el bucket como destino y `GetAccessLogSubscription` confirmó la configuración. `CreateServiceNetworkVpcAssociation` conectó la VPC con la red, y `GetServiceNetworkVpcAssociation` llegó a `ACTIVE`. No había servicios, clientes ni tráfico; no se afirma entrega de logs, invocación de una aplicación privada ni acceso a datos. La [fuente HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpc-lattice-post-exploitation/README.md#L48) describe ambas rutas; las [API de AWS](https://docs.aws.amazon.com/vpc-lattice/latest/APIReference/API_CreateServiceNetworkVpcAssociation.html) confirman la semántica de asociación.
+
+CloudTrail Event History entregó las dos creaciones aceptadas como eventos `Management`, escritura, sin `resources`; entregó también el borrado de la asociación, que no coincidió con las reglas. Dos señales declarativas obtuvieron dos coincidencias reales y ninguna en doce variantes negativas de error, categoría, lectura y fuente. Los hallazgos solo contienen hash del evento, sin nombres, ARN ni identificadores del laboratorio. La lectura del destino y asociación aprobados sigue siendo necesaria para valorar cada alerta.
+
+Se eliminaron la asociación, suscripción, red, VPC y bucket; `GetServiceNetworkVpcAssociation`, `GetAccessLogSubscription`, `GetServiceNetwork`, `DescribeVpcs` y `HeadBucket` confirmaron sus ausencias. Recibos privados 0600: `/tmp/peasso-b157-lattice-private.json` y `/tmp/peasso-b157-lattice-events-private.json`. El catálogo suma 1104 reglas, 1076 de AWS; la cola de páginas sin referencia directa baja a 104 páginas y 479 encabezados. Pendientes: invocación de un servicio propio desde una VPC asociada con logs opcionales habilitados, comprobación de entrega de logs, políticas de autorización y todas las demás técnicas AWS.
 
 ## Lote 156: registro, permisos y reconocimiento de Lake Formation
 
