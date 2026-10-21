@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 119: IVS, inserción de cortes publicitarios (PR de reglas y aplicación pendientes)
+## Lote 119: IVS, inserción de cortes publicitarios ([PR de reglas 54](https://github.com/peass-ng/peasso-cspm-detections/pull/54), [PR de aplicación 75](https://github.com/peass-ng/PEASSo-CSPM/pull/75); integración pendiente)
 
 Con un canal MPEG-TS, emisión sintética y configuraciones IVS y MediaTailor desechables, se aceptaron 8/8 comprobaciones: crear y leer la configuración MediaTailor, crear, leer y enumerar la configuración de anuncios IVS, asociarla al canal, emitir y llamar a `InsertAdBreak` con cinco segundos. CloudTrail entregó 13 eventos propios seleccionados; siete reglas nuevas produjeron nueve coincidencias reales sobre llamadas aceptadas. No hubo espectadores ni se comprobó que un anuncio se entregara. Una respuesta VAST vacía estuvo en un bucket privado propio durante el ensayo. Tras resolver dos conflictos transitorios de borrado, la auditoría independiente confirmó 5/5 recursos propios ausentes: canal, clave de emisión, configuración IVS, configuración MediaTailor y bucket. Queda solo el historial de CloudTrail. Las reglas aíslan el evento aceptado y las operaciones de preparación; las lecturas y enumeraciones son señales de bajo nivel que requieren contexto. La suite completa pasó **1593 tests** y, tras añadir un caso de URL malformada, cuatro tests dirigidos pasaron. Los siete enlaces de fuente nuevos son válidos y el cambio público no contiene identificadores privados detectados.
 
