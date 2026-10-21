@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 141: sesiones TestGrid y de dispositivo físico Device Farm (integración pendiente)
+## Lote 141: sesiones TestGrid y de dispositivo físico Device Farm ([PR de reglas 76](https://github.com/peass-ng/peasso-cspm-detections/pull/76), [PR de aplicación 97](https://github.com/peass-ng/PEASSo-CSPM/pull/97); integración pendiente)
 
 Un TestGrid desechable inició una sesión real de Chrome mediante la URL firmada de `CreateTestGridUrl`. Se ejecutó únicamente una página `data:` con texto sintético: `driver.title` y una lectura de DOM demostraron que el endpoint firmado permitía comandos WebDriver. `ListTestGridSessions` mostró la sesión propia, `GetTestGridSession` la leyó, `ListTestGridSessionActions` devolvió cinco acciones, y `ListTestGridSessionArtifacts` devolvió un LOG y un VIDEO. Pasaron 10/10 comprobaciones; `driver.quit()` cerró la sesión, se borró el proyecto y una lectura independiente confirmó ausentes el proyecto y la sesión. No había VPC asociada: esta prueba demuestra control de navegador, pero no acceso a una aplicación privada. [Ruta TestGrid](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L43).
 
