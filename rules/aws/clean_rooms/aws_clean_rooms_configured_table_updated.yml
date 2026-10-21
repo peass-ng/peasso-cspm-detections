@@ -1,0 +1,26 @@
+title: Clean Rooms configured table updated
+id: 16000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful UpdateConfiguredTable changed a Clean Rooms configured table. Compare its Glue reference, allowed columns and analysis method with approved settings. This event-only signal does not determine which field changed or prove any collaboration query accessed the data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cleanrooms.amazonaws.com
+    event.name: UpdateConfiguredTable
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved data collaboration table maintenance.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-clean-rooms-configured-table-updated
+x_cloudtrail_raw: true

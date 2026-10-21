@@ -1,0 +1,26 @@
+title: Clean Rooms analysis rule deleted
+id: 16000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful DeleteConfiguredTableAnalysisRule removed a configured table privacy rule. A delete followed by creation can switch rule types. Review the surrounding events and current rule state; deletion alone does not show a weakened control or a successful query.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md#L141
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cleanrooms.amazonaws.com
+    event.name: DeleteConfiguredTableAnalysisRule
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of a configured table rule.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-clean-rooms-analysis-rule-deleted
+x_cloudtrail_raw: true

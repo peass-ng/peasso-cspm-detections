@@ -1,0 +1,26 @@
+title: Clean Rooms analysis rule updated
+id: 16000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful UpdateConfiguredTableAnalysisRule changed a configured table privacy rule. Compare the new list, aggregation or custom policy with the approved version to determine whether data exposure increased. The event does not prove that a query ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md#L141
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cleanrooms.amazonaws.com
+    event.name: UpdateConfiguredTableAnalysisRule
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved privacy rule update.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-clean-rooms-analysis-rule-updated
+x_cloudtrail_raw: true

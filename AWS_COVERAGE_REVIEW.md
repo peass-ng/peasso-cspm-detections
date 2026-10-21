@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **102**. Total headings: **469**.
+Pages with at least three level-three headings and no direct YAML reference: **101**. Total headings: **462**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -98,16 +98,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - AWS - AgentCore Harness RCE via Indirect Prompt Injection
 - \`bedrock:UpdateGuardrail\` — strip a guardrail's policies while the application keeps using it
 - \`bedrock:DeleteModelInvocationLoggingConfiguration\` | \`bedrock:PutModelInvocationLoggingConfiguration\` — blind out the prompt/completion audit trail
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-clean-rooms-post-exploitation/README.md) (7 headings)
-
-- AWS Clean Rooms trust boundaries
-- Important non-findings and boundaries
-- Redirect stored SQL and ML output destinations with \`PassRole\`
-- Retarget a trusted configured table and widen its columns
-- Weaken or replace a configured-table analysis rule
-- Backdoor a configured audience model with a resource policy
-- Inflate or reset privacy and data-access budgets
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md) (7 headings)
 
