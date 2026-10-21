@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 115: IVS, emisión, sesiones y revocación (en curso; aislado)
+## Lote 115: IVS, emisión, sesiones y revocación ([PR de reglas 50](https://github.com/peass-ng/peasso-cspm-detections/pull/50), [PR de aplicación 71](https://github.com/peass-ng/PEASSo-CSPM/pull/71); integración pendiente)
 
 El laboratorio propio y desechable pasó 9/9 comprobaciones con un canal, una clave de reemplazo y un stage. Emitió vídeo y audio sintéticos durante menos de 80 segundos; `PutMetadata`, `ListStreamSessions`, `GetStreamSession` y `StopStream` se aceptaron mientras la emisión estaba activa. También se aceptaron `ListStreamKeys`, `CreateStreamKey`, `CreateParticipantToken`, `StartViewerSessionRevocation` y `BatchStartViewerSessionRevocation`. Las revocaciones usaron IDs sintéticos; no hubo espectadores reales ni se afirmó que una sesión ajena fuese expulsada. El proceso emisor terminó y la auditoría independiente encontró 6/6 recursos ausentes. CloudTrail entregó 24 eventos propios y las nueve reglas nuevas coincidieron con nueve eventos reales, uno por ruta. El registro marca las dos llamadas de revocación `readOnly: true`; el parser conserva esa forma observada. Pasaron tres tests sintéticos dirigidos y la suite completa de detección (**1582 tests**).
 
