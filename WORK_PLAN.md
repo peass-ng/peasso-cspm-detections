@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 128: CodeConnections, conexión pendiente y control de etiquetas (integración pendiente)
+## Lote 128: CodeConnections, conexión pendiente y control de etiquetas ([PR de reglas 63](https://github.com/peass-ng/peasso-cspm-detections/pull/63), [PR de aplicación 84](https://github.com/peass-ng/PEASSo-CSPM/pull/84); integración pendiente)
 
 Un laboratorio aislado creó una conexión GitHub propia en estado `PENDING`, sin completar OAuth ni asociar repositorios. Se aceptaron y comprobaron diez rutas: `CreateConnection`, `GetConnection`, `ListConnections`, `ListHosts`, `ListRepositoryLinks`, tres lecturas de `ListTagsForResource`, `TagResource` para añadir una etiqueta de aprobación y `UntagResource` para retirarla. La etiqueta se observó tras la adición y estuvo ausente tras la retirada. `DeleteConnection` eliminó la conexión y una auditoría independiente confirmó 2/2 ausencias. No se creó acceso al proveedor externo ni se probó un bypass ABAC efectivo. [Fuente de descubrimiento y etiquetas](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L23).
 
