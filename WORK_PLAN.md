@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 136: Lex V2 runtime y test sets (seis reglas verificadas; PR pendientes)
+## Lote 136: Lex V2 runtime y test sets ([PR de reglas 71](https://github.com/peass-ng/peasso-cspm-detections/pull/71), [PR de aplicación 92](https://github.com/peass-ng/PEASSo-CSPM/pull/92); integración pendiente)
 
 El laboratorio aislado creó un bot, un intent sintético y un alias propio sobre una versión numerada. Una traza CloudTrail de una sola región, con selectores avanzados de eventos de datos limitados al bot y al alias propios, aceptó la configuración. Con el alias propio y `en_US` habilitado, `RecognizeText`, `RecognizeUtterance` en modo texto, `GetSession`, `PutSession` y `DeleteSession` fueron aceptadas; una segunda lectura confirmó el atributo sintético modificado. La primera tentativa de selector rechazó un ARN exacto del alias de prueba, y su bot, rol, traza y bucket quedaron ausentes tras una comprobación independiente. [Técnica de sesión](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L128), [técnica de runtime y hook](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L75).
 
