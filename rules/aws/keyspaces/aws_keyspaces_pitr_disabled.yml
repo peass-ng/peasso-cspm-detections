@@ -2,9 +2,10 @@ title: Keyspaces point-in-time recovery disabled
 id: 14200000-0000-4000-8000-000000000004
 status: experimental
 description: >
-  AlterTable accepted a change disabling point-in-time recovery on one table. This narrows future recovery options; inspect authorization and the prior backup state.
+  AlterTable accepted a change disabling point-in-time recovery on one table. Re-enabling PITR starts a new recovery window and does not restore the prior backup history; inspect the authorization and prior backup state.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-keyspaces-post-exploitation/README.md#L158
+  - https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html
 logsource:
   product: aws
   service: cloudtrail
