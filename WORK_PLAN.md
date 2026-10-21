@@ -1,6 +1,6 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-## Lote 114: IVS, acceso a credenciales y persistencia (aislado; pendiente de publicación)
+## Lote 114: IVS, acceso a credenciales y persistencia ([PR de reglas 49](https://github.com/peass-ng/peasso-cspm-detections/pull/49); integración pendiente)
 
 Fuente: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`, páginas IVS post exploitation y persistence. Se probaron 11 llamadas sobre un canal y dos stages desechables con el perfil de laboratorio autorizado, sin emitir media ni crear S3 o configuraciones de grabación. El laboratorio verificó 11/11 comprobaciones y la auditoría independiente confirmó 10/10 ausencias/listados vacíos después de borrar todos los recursos propios. CloudTrail registró 32 eventos propios; nueve reglas nuevas en `rules/aws/ivs/` coincidieron con once eventos seleccionados. Tres tests sintéticos pasan.
 
