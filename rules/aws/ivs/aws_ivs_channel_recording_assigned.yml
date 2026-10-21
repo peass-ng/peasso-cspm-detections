@@ -1,0 +1,23 @@
+title: IVS channel recording destination assigned
+id: f9a00b16-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateChannel attached a recording configuration to a channel. Compare the pair with approved inventory; no recording is implied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsChannelRecordingAssigned
+    event.outcome: success
+    request.ivs_channel_recording_assigned: true
+  condition: selection
+falsepositives:
+  - Approved IVS recording administration.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-ivs-channel-recording-assigned

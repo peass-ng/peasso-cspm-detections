@@ -1,0 +1,23 @@
+title: IVS stage storage destination read
+id: f9a00b16-0000-4000-8000-000000000006
+status: experimental
+description: >
+  GetStorageConfiguration queried a stage recording destination. CloudTrail omits the returned configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStageStorageDestinationRead
+    event.outcome: success
+    request.ivs_stage_storage_destination_read: true
+  condition: selection
+falsepositives:
+  - Approved IVS recording administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ivs-stage-storage-destination-read

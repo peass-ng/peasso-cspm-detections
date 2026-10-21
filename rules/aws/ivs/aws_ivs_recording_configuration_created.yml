@@ -1,0 +1,23 @@
+title: IVS channel recording destination created
+id: f9a00b16-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateRecordingConfiguration registered an S3 destination for later channel recording. The event does not prove media was recorded or the bucket was attacker readable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsRecordingConfigurationCreated
+    event.outcome: success
+    request.ivs_recording_configuration_created: true
+  condition: selection
+falsepositives:
+  - Approved IVS recording administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-recording-configuration-created
