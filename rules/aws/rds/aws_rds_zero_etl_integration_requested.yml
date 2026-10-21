@@ -1,0 +1,21 @@
+title: AWS RDS zero ETL integration creation requested
+id: 5b1e8b20-37bd-4ae6-b8e1-69329584658f
+status: experimental
+description: An accepted CreateIntegration named an RDS source database or cluster and Redshift destination. Verify the integration state and target ownership; the API event alone does not prove replication of rows.
+x_hacktricks_technique_id: aws-rds-zero-etl-to-redshift
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L797
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateIntegration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: CreateIntegration
+    event.outcome: success
+    request.rds_zero_etl_integration_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved analytics replication setup

@@ -1,0 +1,25 @@
+title: Route 53 Profile DNS resource disassociation requested
+id: 13900000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  DisassociateResourceFromProfile accepted removal of a DNS resource from a
+  Profile. Confirm deletion and check whether it provided filtering, logging
+  or private resolution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-profiles-post-exploitation/README.md#L97
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53profiles.amazonaws.com
+    event.name: ProfileResourceDisassociated
+    event.outcome: success
+    request.route53_profile_resource_disassociated: true
+  condition: selection
+falsepositives:
+  - Approved DNS resource retirement.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-route53-profile-resource-disassociated

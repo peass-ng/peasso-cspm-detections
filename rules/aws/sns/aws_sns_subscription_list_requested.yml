@@ -1,0 +1,26 @@
+title: SNS topic subscription list requested
+id: 3a7fd4a5-2416-4956-a201-b013e851f49e
+status: experimental
+description: >
+  A principal successfully requested a topic's subscribers. CloudTrail
+  Event History did not include the returned endpoint list in the lab;
+  assess principal and topic context before treating this as disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-subscriber-disclosure-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: ListSubscriptionsByTopic
+    event.outcome: success
+    request.sns_subscription_list_requested: true
+  condition: selection
+falsepositives:
+  - Routine topic inventory or administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-sns-subscription-list-requested

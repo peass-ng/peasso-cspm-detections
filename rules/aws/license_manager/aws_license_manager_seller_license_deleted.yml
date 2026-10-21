@@ -1,0 +1,23 @@
+title: License Manager seller license deleted
+id: 13100000-0000-4000-8000-000000000012
+status: experimental
+description: >
+  DeleteLicense accepted deletion of a seller-issued license. The status can initially be PENDING_DELETE.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicenseDeleted
+    event.outcome: success
+    request.seller_license_deleted: true
+  condition: selection
+falsepositives:
+  - Approved license retirement.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-license-manager-seller-license-deleted

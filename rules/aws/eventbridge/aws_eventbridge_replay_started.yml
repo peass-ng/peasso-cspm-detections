@@ -1,0 +1,25 @@
+title: EventBridge archive replay started
+id: 5fb7212a-4e8c-4ce6-869a-ee635d8f3c40
+status: experimental
+description: >
+  StartReplay was accepted for an archive and a destination bus in this AWS
+  account. Replayed events can retrigger existing rules and targets. This
+  management event does not show archived payloads or prove target invocation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eventbridge-persistence/README.md#L25
+  - https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_StartReplay.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_replay_started: true
+  condition: selection
+falsepositives:
+  - Approved replay for incident recovery or event pipeline testing.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-eventbridge-start-replay

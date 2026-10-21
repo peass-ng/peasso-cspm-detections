@@ -1,0 +1,20 @@
+title: AWS Kinesis Video media ingestion endpoint discovered
+id: da63246a-f3aa-4d59-b9b6-d7cb62b311a1
+status: experimental
+description: A principal obtained the PUT_MEDIA ingestion endpoint for a video stream. The request is a precursor to media injection and does not prove fragments were uploaded.
+x_hacktricks_technique_id: aws-kvs-put-media-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L167
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_put_media_endpoint_discovered: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved producer initialization

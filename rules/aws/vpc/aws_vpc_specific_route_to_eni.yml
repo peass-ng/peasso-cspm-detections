@@ -1,0 +1,24 @@
+title: AWS VPC specific route directed to network interface
+id: 5389d26e-1e9b-4005-8ef0-ecc377356519
+status: experimental
+description: A CreateRoute or ReplaceRoute request directed a /24-or-more-specific
+  destination to an ENI. An unattached ENI can blackhole traffic; interception requires
+  an attached forwarding instance.
+x_hacktricks_technique_id: aws-vpc-specific-route-to-eni
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L1404
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name:
+    - CreateRoute
+    - ReplaceRoute
+    event.outcome: success
+    request.vpc_specific_route_to_eni: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved appliance routing

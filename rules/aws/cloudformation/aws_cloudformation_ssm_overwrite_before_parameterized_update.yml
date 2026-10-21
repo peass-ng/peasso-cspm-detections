@@ -1,0 +1,24 @@
+title: Parameterized CloudFormation update followed a cross-actor SSM overwrite
+id: 95ddc524-4221-40e0-b43b-75db5e24c1f0
+status: experimental
+description: >
+  An SSM parameter overwrite by one principal preceded a successful parameterized
+  CloudFormation UpdateStack by another principal within one hour. CloudTrail
+  omitted UsePreviousValue and the stack's SSM key in the observed request, so
+  this same-account heuristic cannot prove that the overwritten key fed the stack.
+x_hacktricks_technique_id: aws-tech-38c03177897868be
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L251
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CloudFormationInputChangedBeforeUpdate
+    event.outcome: success
+    request.cfn_ssm_overwrite_before_parameterized_update: true
+  condition: selection
+level: low
+falsepositives:
+  - Independent SSM and CloudFormation deployments in the same account and hour.

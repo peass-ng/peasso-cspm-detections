@@ -1,0 +1,20 @@
+title: AWS Cognito identity pool guest IAM role assigned
+id: c5be182d-c221-4730-b93e-87a06ab59796
+status: experimental
+description: A successful SetIdentityPoolRoles assigned an unauthenticated IAM role. Review whether the role and change were approved.
+x_hacktricks_technique_id: aws-cognito-identity-guest-role-set
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L36
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-identity.amazonaws.com
+    event.name: SetIdentityPoolRoles
+    event.outcome: success
+    request.cognito_identity_guest_role_set: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved Cognito configuration or credential rotation

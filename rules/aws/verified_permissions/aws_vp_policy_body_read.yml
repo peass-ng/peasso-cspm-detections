@@ -1,0 +1,25 @@
+title: Verified Permissions policy body retrieval requested
+id: c5c482f4-0d2f-4d6f-adc8-1f55fc4300b9
+status: experimental
+description: An accepted GetPolicy or BatchGetPolicy management read named a policy and its store. CloudTrail omits returned policy bodies; this signal does not prove which contents the caller received.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchGetPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name:
+      - GetPolicy
+      - BatchGetPolicy
+    event.outcome: success
+    request.vp_policy_body_read_requested: true
+  condition: selection
+falsepositives:
+  - Approved authorization model inventory or deployment review
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-vp-policy-body-read

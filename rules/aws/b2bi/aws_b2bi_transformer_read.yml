@@ -1,0 +1,23 @@
+title: B2BI transformer read
+id: f9a00b20-0000-4000-8000-000000000006
+status: experimental
+description: >
+  GetTransformer requested EDI transformation configuration. CloudTrail may omit the returned mapping and sample details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-b2bi-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biTransformerRead
+    event.outcome: success
+    request.b2bi_transformer_read: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration or incident response.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-b2bi-transformer-read

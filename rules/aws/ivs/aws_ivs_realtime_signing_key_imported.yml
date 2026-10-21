@@ -1,0 +1,23 @@
+title: IVS real-time signing key imported
+id: f9a00b14-0000-4000-8000-000000000006
+status: experimental
+description: >
+  ImportPublicKey established account and Region token-signing trust. The event does not prove an offline token was signed or used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ivs-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsRealtimeSigningKeyImported
+    event.outcome: success
+    request.ivs_realtime_signing_key_imported: true
+  condition: selection
+falsepositives:
+  - Approved IVS administration or media operations.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-realtime-signing-key-imported

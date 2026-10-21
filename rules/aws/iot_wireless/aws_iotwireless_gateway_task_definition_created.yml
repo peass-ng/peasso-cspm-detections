@@ -1,0 +1,23 @@
+title: IoT Wireless gateway update definition created
+id: 12300000-0000-4000-8000-000000000019
+status: experimental
+description: >
+  CreateWirelessGatewayTaskDefinition staged an update image and role for gateway tasks. The event alone does not prove a gateway task ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md#L98
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessGatewayTaskDefinitionCreated
+    event.outcome: success
+    request.iotwireless_gateway_task_definition_created: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet administration or troubleshooting.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iotwireless-gateway-task-definition-created

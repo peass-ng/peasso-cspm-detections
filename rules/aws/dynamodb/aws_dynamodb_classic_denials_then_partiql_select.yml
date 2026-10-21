@@ -1,0 +1,25 @@
+title: AWS DynamoDB Denied table reads followed by unfiltered PartiQL SELECT
+id: 31e4d855-90ed-41ba-bd38-975ff17c269f
+status: experimental
+description: The same actor received AccessDenied for Scan and another table read,
+  then requested SELECT * without WHERE on that table within 15 minutes. The sequence
+  is consistent with an alternate PartiQL read path; returned rows are not logged.
+x_hacktricks_technique_id: aws-dynamodb-classic-denials-then-partiql-select
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L241
+- https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis-iam.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: ClassicReadsDeniedThenPartiQLSelect
+    event.outcome: success
+    request.dynamodb_classic_denial_partiql_select: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: high
+tags:
+- attack.collection

@@ -1,0 +1,21 @@
+title: Athena named query SQL updated
+id: 8632fc25-607b-4055-9220-6309481c487e
+status: experimental
+description: UpdateNamedQuery accepted a new saved-query definition. The event omits the workgroup and masks SQL; review query inventory and downstream use before claiming execution.
+x_hacktricks_technique_id: aws-tech-78869dbaa6b8faee
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L82
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_UpdateNamedQuery.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: UpdateNamedQuery
+    event.outcome: success
+    request.athena_named_query_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved saved query maintenance

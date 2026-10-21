@@ -1,0 +1,24 @@
+title: API Gateway REST HTTP proxy integration published
+id: 32c2e937-41d1-4d3c-870e-4b86d4cb6dbb
+status: experimental
+description: A successful PutIntegration assigned an HTTPS HTTP_PROXY backend to a REST API method and a subsequent CreateDeployment published that API. The event pair does not prove the backend received traffic.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md#L49
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_PutIntegration.html
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_CreateDeployment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestHttpProxyIntegrationPublished
+    event.outcome: success
+    request.apigateway_rest_http_proxy_published: true
+  condition: selection
+falsepositives:
+  - Approved REST API backend migration
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-apigateway-rest-http-proxy-integration-published

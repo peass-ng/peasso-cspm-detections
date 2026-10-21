@@ -1,0 +1,21 @@
+title: AWS Customer Profiles segment membership subscription deleted
+id: 0a213659-c31d-4730-a9e6-56004c74d8ca
+status: experimental
+description: DeleteSegmentSubscription removed a segment membership subscription. If it was active, notifications should stop; verify prior status and delivery privately.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_DeleteSegmentSubscription.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteSegmentSubscription
+    event.outcome: success
+    request.customer_profiles_segment_subscription_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved subscription retirement

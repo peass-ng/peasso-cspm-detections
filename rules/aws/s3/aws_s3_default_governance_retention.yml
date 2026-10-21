@@ -1,0 +1,24 @@
+title: S3 bucket default governance retention configured
+id: a309b59e-25bc-4b50-9d70-adf92cc86b35
+status: experimental
+description: >
+  Successful configuration sets default GOVERNANCE retention for future versions. It does not prove any version was retained.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L484
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectLockConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketObjectLockConfiguration
+    event.outcome: success
+    request.s3_default_governance_retention: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-9840ff5427c1444e

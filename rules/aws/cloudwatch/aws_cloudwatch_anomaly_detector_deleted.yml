@@ -1,0 +1,25 @@
+title: CloudWatch single-metric anomaly detector deleted
+id: 801c077b-64cf-4fdf-aa04-d88872bb020d
+status: experimental
+description: >
+  An accepted DeleteAnomalyDetector targeted a named namespace, metric and
+  statistic. Check whether an approved alarm used it before inferring a
+  monitoring gap.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L251
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DeleteAnomalyDetector
+    event.outcome: success
+    request.anomaly_detector_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement or replacement of an anomaly detector.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-anomaly-detector-deleted

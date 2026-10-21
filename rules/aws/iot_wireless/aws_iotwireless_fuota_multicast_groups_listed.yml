@@ -1,0 +1,24 @@
+title: IoT Wireless FUOTA multicast groups listed
+id: 12300000-0000-4000-8000-000000000028
+status: experimental
+description: >
+  ListMulticastGroupsByFuotaTask enumerated groups attached to a firmware update task.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-iot-wireless-enum.md#L37
+  - https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_ListMulticastGroupsByFuotaTask.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessFuotaMulticastGroupsListed
+    event.outcome: success
+    request.iotwireless_fuota_multicast_groups_listed: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet or firmware rollout administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iotwireless-fuota-multicast-groups-listed

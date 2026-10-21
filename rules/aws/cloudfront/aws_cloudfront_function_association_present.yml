@@ -1,0 +1,21 @@
+title: AWS CloudFront distribution update contains an edge function association
+id: 27b852ca-0ea6-457f-9ea0-d01da620e3c3
+status: experimental
+description: A successful UpdateDistribution supplied a CloudFront Function association on a cache behavior. Review the function code and prior configuration to determine whether this association is new; the event alone does not prove malicious code or viewer traffic.
+x_hacktricks_technique_id: aws-cloudfront-edge-function-association
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md#L79
+  - https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudfront.amazonaws.com
+    event.name: UpdateDistribution
+    event.outcome: success
+    request.cloudfront_function_associated: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized edge function deployment or unrelated distribution update that retains an existing association

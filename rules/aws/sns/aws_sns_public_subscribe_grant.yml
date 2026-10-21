@@ -1,0 +1,26 @@
+title: SNS topic policy grants public Subscribe
+id: 74d6cb4e-2f7d-43e1-924a-1dc909a4bd71
+status: experimental
+description: >
+  An accepted topic policy unconditionally grants Subscribe to every principal.
+  Review whether broad subscription access is intended. The policy event does
+  not prove subscription confirmation or message delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-sns-unauthenticated-enum/README.md#L15
+  - https://docs.aws.amazon.com/sns/latest/dg/sns-security-best-practices.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetTopicAttributes
+    event.outcome: success
+    request.sns_public_subscribe_grant: true
+  condition: selection
+falsepositives:
+  - An intentionally public subscription topic.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-sns-public-subscribe-grant

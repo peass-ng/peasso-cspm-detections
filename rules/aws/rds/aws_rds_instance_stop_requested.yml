@@ -1,0 +1,20 @@
+title: AWS RDS DB instance stop accepted
+id: e53ce259-d7b9-4f04-a8a5-77d873ff1a1c
+status: experimental
+description: StopDBInstance accepted a stop request. Confirm the instance reached stopped state and whether the interruption was approved.
+x_hacktricks_technique_id: aws-rds-instance-stop-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L937
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: StopDBInstance
+    event.outcome: success
+    request.rds_instance_stop_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved DB cost-management stop

@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights resource role replaced
+id: 66f73a04-0b9d-4cc3-9d68-b8372079a09e
+status: experimental
+description: A configuration creation and later update within 24 hours used different same-account resource-access role ARNs on the exact configuration. It proves a changed binding, not role assumption.
+x_hacktricks_technique_id: aws-chime-insights-resource-role-rebound
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: UpdateMediaInsightsPipelineConfiguration
+    event.outcome: success
+    request.chime_insights_role_rebound: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved analytics role rotation

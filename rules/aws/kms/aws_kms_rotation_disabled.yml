@@ -1,0 +1,25 @@
+title: KMS automatic key rotation disabled
+id: 61d82286-9a9f-4b2b-aa29-872d2ef35536
+status: experimental
+description: >
+  DisableKeyRotation was accepted for a customer managed key. The audit event
+  proves the accepted request, but does not state whether rotation had been
+  enabled before the call; compare prior rotation status.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L470
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-disable-key-rotation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_rotation_disabled: true
+  condition: selection
+falsepositives:
+  - Approved rotation policy change for a test or retired key.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-kms-rotation-disabled

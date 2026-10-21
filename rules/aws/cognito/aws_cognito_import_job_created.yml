@@ -1,0 +1,20 @@
+title: AWS Cognito user import job created
+id: 01b407a4-e95a-47d9-8552-d48f5a3f38e0
+status: experimental
+description: A successful CreateUserImportJob prepared CSV-based user import with a CloudWatch logging role. Inspect the uploaded CSV and later job outcome; creation alone imports no users.
+x_hacktricks_technique_id: aws-cognito-user-import-job-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L625
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: CreateUserImportJob
+    event.outcome: success
+    request.cognito_import_job_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved directory migration

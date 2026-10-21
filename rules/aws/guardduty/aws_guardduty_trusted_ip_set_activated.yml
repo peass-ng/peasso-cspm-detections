@@ -1,0 +1,28 @@
+title: GuardDuty trusted IP list activation requested
+id: b57d7681-6e87-4221-8107-50dc9dfa2264
+status: experimental
+description: >
+  An accepted CreateIPSet or UpdateIPSet requested activation of a trusted
+  IP list. Review its S3 location and contents. The event does not prove
+  the set reached ACTIVE or suppressed any finding.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L92
+  - https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateIPSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name:
+      - CreateIPSet
+      - UpdateIPSet
+    event.outcome: success
+    request.trusted_ip_set_activation_requested: true
+  condition: selection
+falsepositives:
+  - Approved trusted office or scanning addresses in GuardDuty.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-guardduty-trusted-ip-set-activated

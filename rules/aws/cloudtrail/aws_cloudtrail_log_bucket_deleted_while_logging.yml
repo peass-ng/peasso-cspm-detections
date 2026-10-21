@@ -1,0 +1,27 @@
+title: CloudTrail log bucket deleted while trail logging
+id: cfd6c186-b698-45ee-b846-f37a6431f412
+status: experimental
+description: >
+  An accepted DeleteBucket operation removed a bucket associated with an
+  earlier CreateTrail and StartLogging, with no intervening StopLogging or
+  DeleteTrail in the ingested event window. Check GetTrailStatus for actual
+  delivery failure; the trail can still report IsLogging true.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L373
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_GetTrailStatus.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailLogBucketDeletedWhileLogging
+    event.outcome: success
+    request.cloudtrail_log_bucket_deleted_while_logging: true
+  condition: selection
+falsepositives:
+  - Approved trail migration after the log destination is emptied.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-985dd9bf85ac1095

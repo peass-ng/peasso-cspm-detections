@@ -1,0 +1,23 @@
+title: Recently published Lambda layer attached to a function
+id: 38bea4d4-e7fc-4e5d-a190-f1364dfdbe2b
+status: experimental
+description: >
+  A caller attached a layer version it had published within one hour. Inspect the layer artifact and function configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaFreshLayerAttached
+    event.outcome: success
+    request.lambda_fresh_layer_attached: true
+  condition: selection
+falsepositives:
+  - Approved release that publishes and attaches a layer.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-fresh-layer-attached

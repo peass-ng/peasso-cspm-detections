@@ -1,0 +1,20 @@
+title: AWS Kinesis stream records read requested
+id: 60570980-7f65-4cee-a089-c77593b80e41
+status: experimental
+description: A GetRecords data API request was accepted for a stream identified by the CloudTrail resource ARN. The call may return zero records; compare its principal and stream with the approved consumer inventory.
+x_hacktricks_technique_id: aws-tech-3993ca64a20efb04
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: GetRecords
+    event.outcome: success
+    request.kinesis_get_records: true
+  condition: selection
+level: low
+falsepositives:
+- Approved stream consumers fetching records

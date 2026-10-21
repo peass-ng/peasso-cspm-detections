@@ -1,0 +1,23 @@
+title: Device Farm remote device session read
+id: 14100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetRemoteAccessSession succeeded. The API may return interactive or Appium control endpoints for a running session, but CloudTrail omits the read response and this event alone does not prove an endpoint was present.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: RemoteAccessSessionRead
+    event.outcome: success
+    request.devicefarm_remote_session_read: true
+  condition: selection
+falsepositives:
+  - Approved operator polling of a remote session.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-devicefarm-remote-session-read

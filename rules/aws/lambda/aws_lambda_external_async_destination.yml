@@ -1,0 +1,28 @@
+title: Lambda async invocation destination set to another AWS account
+id: e5833906-e403-4ec1-9940-9a44e227c66c
+status: experimental
+description: >
+  An accepted async invocation configuration names a destination ARN in a
+  different account. Review the source execution role and approved recipients;
+  the configuration alone does not prove payload delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L299
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name:
+      - PutFunctionEventInvokeConfig
+      - UpdateFunctionEventInvokeConfig
+    event.outcome: success
+    request.lambda_external_async_destination: true
+  condition: selection
+falsepositives:
+  - Approved cross-account async processing or monitoring destination.
+level: medium
+tags:
+  - attack.exfiltration
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-external-async-destination

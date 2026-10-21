@@ -1,0 +1,26 @@
+title: Lambda event source mapping repointed to another function
+id: 3997231a-cb99-4e42-a929-0ac67f462422
+status: experimental
+description: >
+  A CreateEventSourceMapping and later UpdateEventSourceMapping for the
+  same mapping UUID and source show a different function target within
+  thirty minutes, without an intervening delete event in the ingested
+  window. This proves the requested mapping change, not data exfiltration.
+x_hacktricks_technique_id: aws-tech-4070f0b25b0b233f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-event-source-mapping-hijack.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaEventSourceMappingFunctionRepointed
+    event.outcome: success
+    request.lambda_mapping_function_repointed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved migration of an event source to another function.
+tags:
+  - attack.collection

@@ -1,0 +1,26 @@
+title: KMS customer key disabled
+id: 463cdfc6-495a-42c7-97cd-aa2300a23630
+status: experimental
+description: >
+  A successful KMS DisableKey operation identifies a customer managed key.
+  Dependent encryption and decryption operations can fail until re-enabled.
+  Confirm the key's prior state and affected services.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L448
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_DisableKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: DisableKey
+    event.outcome: success
+    request.kms_key_disabled: true
+  condition: selection
+falsepositives:
+  - Approved key suspension or retirement.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-key-disabled

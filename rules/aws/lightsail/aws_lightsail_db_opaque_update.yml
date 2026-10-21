@@ -1,0 +1,20 @@
+title: Lightsail database update with omitted change details
+id: f0a62444-f9ae-4ad4-80d8-19e1d9763c09
+status: experimental
+description: A successful UpdateRelationalDatabase event contained no visible changed attribute beyond applyImmediately. In the owned lab this represented a master password change, but CloudTrail omitted the password parameter, so the event alone cannot prove which attribute changed.
+x_hacktricks_technique_id: aws-tech-3d59618f81959528
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lightsail-post-exploitation/README.md#L154
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: UpdateRelationalDatabase
+    event.outcome: success
+    request.lightsail_db_opaque_update: true
+  condition: selection
+level: low
+falsepositives:
+- Authorized database maintenance with redacted parameters.

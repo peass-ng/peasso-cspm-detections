@@ -1,0 +1,20 @@
+title: AWS Resource Explorer default view associated
+id: e3544951-3957-4f5a-a9c0-7b8aa61227b5
+status: experimental
+description: A regional Resource Explorer default view association changed. Compare the selected ARN with the prior association and approved setup.
+x_hacktricks_technique_id: aws-resource-explorer-default-view-association
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-resource-explorer-default-view-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resource-explorer-2.amazonaws.com
+    event.name: AssociateDefaultView
+    event.outcome: success
+    request.resource_explorer_default_associated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved regional setup or restoration of a previous default

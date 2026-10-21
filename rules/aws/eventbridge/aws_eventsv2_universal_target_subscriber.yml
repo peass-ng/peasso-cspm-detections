@@ -1,0 +1,22 @@
+title: Enhanced EventBridge subscriber invokes AWS API through passed role
+id: 1513f73b-9412-46e1-80d8-eae039c10a73
+status: experimental
+description: A running enhanced-bus subscriber was created with a universal AWS SDK target and same-account delivery role. A matching event can cause that role to call the named API; inspect effective role permissions, target action, bus filter and approval. CloudTrail masks the configured input.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-privesc/README.md#L248
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-custom-bus-universal-targets.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_universal_target_subscriber: true
+  condition: selection
+falsepositives:
+  - Approved subscriber that automates a supported AWS API with a scoped role
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-eventsv2-universal-target-subscriber

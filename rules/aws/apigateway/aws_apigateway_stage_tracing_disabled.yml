@@ -1,0 +1,22 @@
+title: API Gateway REST stage tracing disabled
+id: 59250b47-faf8-4d7f-a58b-4e84b9d7f30d
+status: experimental
+description: >
+  A successful REST stage update set X-Ray tracing to false. Review prior
+  tracing state and related logging changes to determine telemetry impact.
+x_hacktricks_technique_id: aws-apigateway-stage-tracing-disabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L433
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_stage_tracing_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved change to stage tracing or observability cost controls.

@@ -1,0 +1,23 @@
+title: CodeConnections connection read
+id: 12800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetConnection requested one connection. CloudTrail Event History omitted the returned provider and status metadata.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L23
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeconnections.amazonaws.com
+    event.name: CodeConnectionsConnectionRead
+    event.outcome: success
+    request.codeconnections_connection_read: true
+  condition: selection
+falsepositives:
+  - Authorized connection inventory or troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-codeconnections-connection-read

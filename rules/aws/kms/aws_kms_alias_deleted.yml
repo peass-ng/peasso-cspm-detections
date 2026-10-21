@@ -1,0 +1,24 @@
+title: KMS alias deleted
+id: ed5ebfd9-ce44-4f26-98b7-fab5d8c1a914
+status: experimental
+description: >
+  DeleteAlias was accepted for an alias in this account. Deleting an alias can
+  disrupt clients that use its name, but this event does not show client use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L416
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-deletealias.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_alias_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused alias.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-alias-deleted

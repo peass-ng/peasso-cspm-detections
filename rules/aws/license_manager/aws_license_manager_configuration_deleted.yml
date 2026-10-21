@@ -1,0 +1,24 @@
+title: License Manager configuration deleted
+id: 13000000-0000-4000-8000-000000000010
+status: experimental
+description: >
+  DeleteLicenseConfiguration removed a license configuration. Impact on resource launches depends on prior associations and enforcement state.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/license-manager/latest/APIReference/API_DeleteLicenseConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationDeleted
+    event.outcome: success
+    request.license_configuration_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused configuration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-license-manager-configuration-deleted

@@ -1,0 +1,20 @@
+title: AWS Cognito user import job started
+id: 56572feb-6ead-4b9e-9faa-7cac125963bc
+status: experimental
+description: A successful StartUserImportJob began CSV-based user import. Query DescribeUserImportJob and logs to confirm imported users; this event alone does not prove completion.
+x_hacktricks_technique_id: aws-cognito-user-import-job-started
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L625
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: StartUserImportJob
+    event.outcome: success
+    request.cognito_import_job_started: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved directory migration

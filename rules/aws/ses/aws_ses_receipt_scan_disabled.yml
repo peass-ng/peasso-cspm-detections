@@ -1,0 +1,22 @@
+title: AWS SES receipt rule disables message scanning
+id: ece0d605-28d7-457d-9bbc-fb6c565708e5
+status: experimental
+description: An enabled SES receipt rule was created or updated with spam and virus scanning disabled. Compare with the previous rule configuration and approved routing.
+x_hacktricks_technique_id: aws-ses-receipt-scan-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ses-post-exploitation/README.md#L55
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ses.amazonaws.com
+    event.name:
+    - CreateReceiptRule
+    - UpdateReceiptRule
+    event.outcome: success
+    request.ses_receipt_scan_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved receipt routing without SES spam and virus scanning

@@ -1,0 +1,23 @@
+title: IVS channel endpoint read
+id: f9a00b14-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetChannel exposes ingest and playback endpoints. Investigate unexpected callers; the call alone does not prove playback or publishing.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsChannelEndpointRead
+    event.outcome: success
+    request.ivs_channel_endpoint_read: true
+  condition: selection
+falsepositives:
+  - Approved IVS administration or media operations.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ivs-channel-endpoint-read

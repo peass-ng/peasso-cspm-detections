@@ -1,0 +1,25 @@
+title: CloudFormation stack policy allows every update
+id: 36e4d7f0-f5e1-457e-ae5b-48fd9dcf235c
+status: experimental
+description: >
+  An accepted SetStackPolicy replaced a stack policy with one unconditional
+  statement allowing Update:* for every principal and resource. Review the
+  prior policy and later stack updates to assess the actual loss of protection.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudformation-privesc/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: SetStackPolicy
+    event.outcome: success
+    request.stack_policy_all_updates_allowed: true
+  condition: selection
+falsepositives:
+  - Approved stack policy reset before a planned deployment.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-cloudformation-stack-policy-all-updates-allowed

@@ -1,0 +1,22 @@
+title: IAM PutUserPermissionsBoundary accepted for a named target
+id: cd388a51-62b5-5b93-9f29-dee14bcb7173
+status: experimental
+description: A successful IAM PutUserPermissionsBoundary request named a target. Review
+  the prior state and effective access before treating this as an attack effect.
+x_hacktricks_technique_id: aws-tech-bc53ab276e1fb32f
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L772
+- https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPermissionsBoundary.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: PutUserPermissionsBoundary
+    event.outcome: success
+    request.iam_credential_boundary_action_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IAM administration, credential rotation or policy maintenance.

@@ -1,0 +1,24 @@
+title: Secondary private IPv4 moved between ENIs
+id: 4dd0964e-e592-48b2-89e6-c3bed98759d5
+status: experimental
+description: >
+  A successful assignment of a secondary private IPv4 followed a recent assignment or unassignment of the same IP on another ENI in the same account and Region. Actual packet flow is not established.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eni-secondary-ip-hijack.md#L11
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssignPrivateIpAddresses.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AssignPrivateIpAddresses
+    event.outcome: success
+    request.secondary_private_ip_moved_between_interfaces: true
+  condition: selection
+falsepositives:
+  - Approved failover of a secondary private IPv4.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-secondary-private-ip-moved-between-interfaces

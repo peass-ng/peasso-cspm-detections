@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream deleted
+id: e30e17c7-6a39-428e-8876-7226a03affb2
+status: experimental
+description: A principal successfully requested deletion of a Metric Stream. The event does not prove final removal until the stream is absent from the service.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: DeleteMetricStream
+    event.outcome: success
+    request.cloudwatch_metric_stream_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved metric stream retirement

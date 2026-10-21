@@ -1,0 +1,23 @@
+title: SSM document shared publicly with all accounts
+id: 8561bf54-0eab-4c7d-a531-d9b4097dc670
+status: experimental
+description: A successful ModifyDocumentPermission request granted Share permission to all for an SSM document. The event does not prove that anyone read the document or that it held sensitive content.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/README.md#L360
+  - https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-share-documents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: ModifyDocumentPermission
+    event.outcome: success
+    request.ssm_document_public_share_added: true
+  condition: selection
+falsepositives:
+  - Approved public distribution of a nonsensitive SSM document
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-ssm-document-shared-publicly

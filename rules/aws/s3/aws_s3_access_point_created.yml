@@ -1,0 +1,24 @@
+title: S3 Access Point created for bucket
+id: 7a285926-854e-45a0-b742-cdf99075b021
+status: experimental
+description: >
+  Successful creation names a bucket, but CloudTrail omits the new Access Point name. Creation alone grants no object access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-s3-persistence/README.md#L40
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CreateAccessPoint
+    event.outcome: success
+    request.s3_access_point_created: true
+  condition: selection
+falsepositives:
+  - Approved S3 access management or retention operation.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-tech-85930f3418c472fe

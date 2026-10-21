@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights pipeline created
+id: ea5e50c1-6170-4072-8cf1-92a2dab3eeff
+status: experimental
+description: A successful Media Insights pipeline creation used a configuration ARN and Kinesis Video runtime source. It does not prove data was available, the role was assumed or a processor ran.
+x_hacktricks_technique_id: aws-chime-insights-pipeline-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: CreateMediaInsightsPipeline
+    event.outcome: success
+    request.chime_insights_pipeline_created: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved call analytics session

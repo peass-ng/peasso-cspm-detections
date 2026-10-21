@@ -1,0 +1,22 @@
+title: SageMaker model configuration read
+id: ab68e4eb-17f3-5e8d-ab52-9047744b49a2
+status: experimental
+description: An accepted DescribeModel call read model configuration. Environment
+  values may be present; CloudTrail alone does not show whether secrets were returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-configuration-access-post-exploitation/README.md#L39
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_model_config_described: true
+  condition: selection
+falsepositives:
+- Routine model inspection by an authorized operator.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-sagemaker-model-config-read

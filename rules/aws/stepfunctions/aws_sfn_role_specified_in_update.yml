@@ -1,0 +1,26 @@
+title: Step Functions state machine update specifies an execution role
+id: 0b71e1de-2e1b-4cc0-81c6-49d0d652ef86
+status: experimental
+description: >
+  An accepted UpdateStateMachine request supplied an IAM execution role.
+  Compare the role with the previous revision; this event does not prove the
+  role changed or that the updated definition executed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md#L234
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_UpdateStateMachine.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UpdateStateMachine
+    event.outcome: success
+    request.sfn_role_specified_in_update: true
+  condition: selection
+falsepositives:
+  - Approved workflow revision that resubmits the existing role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sfn-role-specified-in-update

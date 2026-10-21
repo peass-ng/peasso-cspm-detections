@@ -1,0 +1,23 @@
+title: License Manager seller licenses listed
+id: 13100000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ListLicenses enumerated seller-issued licenses. This is discovery and does not prove checkout.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L42
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicensesListed
+    event.outcome: success
+    request.seller_licenses_listed: true
+  condition: selection
+falsepositives:
+  - Approved license inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-license-manager-seller-licenses-listed

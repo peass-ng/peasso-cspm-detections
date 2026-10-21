@@ -1,0 +1,26 @@
+title: CodeArtifact generic package version published
+id: 8bd880c3-6305-43fb-ab07-20f13795e84a
+status: experimental
+description: >
+  A generic package version was published in a CodeArtifact repository.
+  Compare the publisher and version with an approved release and correlate
+  later consumer reads before claiming dependency execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codeartifact-privesc/README.md#L5
+  - https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PublishPackageVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: PublishPackageVersion
+    event.outcome: success
+    request.codeartifact_generic_version_published: true
+  condition: selection
+falsepositives:
+  - An approved package release.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-codeartifact-generic-package-version-published

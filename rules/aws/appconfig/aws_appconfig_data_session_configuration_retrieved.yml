@@ -1,0 +1,27 @@
+title: AppConfig Data session followed by deployed configuration retrieval
+id: 1e519668-048c-43ab-ae4c-3842d9d60f78
+status: experimental
+description: The same principal started an AppConfig Data session and then called
+  GetLatestConfiguration for the exact configuration ARN within five minutes.
+  This indicates a completed retrieval request; CloudTrail redacts the token and
+  does not show the returned bytes. Compare the principal with approved readers.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L53
+- https://docs.aws.amazon.com/appconfig/latest/userguide/logging-using-cloudtrail.html
+- https://docs.aws.amazon.com/appconfig/latest/userguide/about-data-plane.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: AppConfigConfigurationSessionRetrieved
+    event.outcome: success
+    request.appconfig_data_session_configuration_retrieved: true
+  condition: selection
+falsepositives:
+- Normal application startup and configuration polling by an approved reader
+level: low
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-4f4f85444cc41684

@@ -1,0 +1,20 @@
+title: AWS Customer Profiles calculated attributes read accepted
+id: 6751a025-b0b1-4b4d-a876-07fb33eeb2bb
+status: experimental
+description: ListCalculatedAttributesForProfile queried derived attributes for a profile. Review reader authorization and result sensitivity; the event alone does not prove returned values.
+x_hacktricks_technique_id: aws-tech-0b6f29e84f5ac102
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: ListCalculatedAttributesForProfile
+    event.outcome: success
+    request.customer_profiles_read_observed: true
+  condition: selection
+level: low
+falsepositives:
+- Approved derived-attribute access

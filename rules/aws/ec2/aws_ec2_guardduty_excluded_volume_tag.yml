@@ -1,0 +1,23 @@
+title: GuardDuty malware scan exclusion tag set on an EBS volume
+id: 6df6ad3b-b3e9-43c6-b778-7805729d701c
+status: experimental
+description: A successful EC2 CreateTags request set GuardDutyExcluded=true on an EBS volume. The event does not prove Malware Protection was enabled, a scan was due, or a scan was skipped.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-guardduty-persistence/README.md
+  - https://docs.aws.amazon.com/guardduty/latest/ug/gdu-scanning-ec2-instance-with-findings.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateTags
+    event.outcome: success
+    request.guardduty_ebs_scan_exclusion_tag_set: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty malware-scan exception for this volume
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-ec2-guardduty-excluded-volume-tag

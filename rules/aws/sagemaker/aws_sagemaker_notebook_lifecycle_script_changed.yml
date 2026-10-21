@@ -1,0 +1,23 @@
+title: SageMaker notebook startup script updated
+id: e5094979-3b48-53bb-ae76-61c71b95c42b
+status: experimental
+description: An accepted lifecycle configuration update supplied a startup script.
+  The script can run with the notebook execution role on next start; the event does
+  not prove execution.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sagemaker-persistence/README.md#L74
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_lifecycle_script_changed: true
+  condition: selection
+falsepositives:
+- Approved notebook bootstrap or maintenance automation.
+level: medium
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-sagemaker-notebook-lifecycle-script-changed

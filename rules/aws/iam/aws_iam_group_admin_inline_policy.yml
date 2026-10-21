@@ -1,0 +1,22 @@
+title: Unconditional administrator inline policy written to IAM group
+id: 5bbbe1e1-83fd-41d9-92b0-75aa838e886a
+status: experimental
+description: >
+  A successful PutGroupPolicy wrote an unconditional wildcard-action and
+  wildcard-resource Allow to a group. Review membership and policy boundaries.
+x_hacktricks_technique_id: aws-iam-putgrouppolicy-admin-inline
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L283
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: PutGroupPolicy
+    event.outcome: success
+    request.iam_admin_grant_kind: group_inline
+  condition: selection
+level: high
+falsepositives:
+  - Approved administrator group policy update.

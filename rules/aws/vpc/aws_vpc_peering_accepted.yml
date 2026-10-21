@@ -1,0 +1,22 @@
+title: VPC peering connection accepted
+id: 968ec913-afe8-400a-bc7d-7daaf96730e2
+status: experimental
+description: A VPC peering connection was accepted. Routes and security policy still determine reachability.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L62
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AcceptVpcPeeringConnection
+    event.outcome: success
+    request.vpc_peering_accepted: true
+  condition: selection
+falsepositives:
+  - Approved network peering
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vpc-peering-accepted

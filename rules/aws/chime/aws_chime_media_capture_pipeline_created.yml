@@ -1,0 +1,20 @@
+title: Chime SDK media capture pipeline created
+id: 9966c00b-cd8d-40cd-bb6b-b0c6bb4246b5
+status: experimental
+description: A successful media capture pipeline creation selected a Chime SDK meeting and S3 bucket. CloudTrail does not prove that any participant media was captured or that objects reached the bucket.
+x_hacktricks_technique_id: aws-chime-media-capture-pipeline-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L185
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: CreateMediaCapturePipeline
+    event.outcome: success
+    request.chime_media_capture_pipeline_created: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved meeting recording workflow

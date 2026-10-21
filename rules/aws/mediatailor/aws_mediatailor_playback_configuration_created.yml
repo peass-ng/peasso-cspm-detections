@@ -1,0 +1,23 @@
+title: MediaTailor ad playback configuration created
+id: f9a00b19-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutPlaybackConfiguration registered an ad decision source and content source. Review unexpected changes; it does not prove an ad was delivered.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediatailor.amazonaws.com
+    event.name: MediaTailorPlaybackConfigurationCreated
+    event.outcome: success
+    request.mediatailor_playback_configuration_created: true
+  condition: selection
+falsepositives:
+  - Approved IVS or MediaTailor ad administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-mediatailor-playback-configuration-created

@@ -1,0 +1,21 @@
+title: AWS Customer Profiles standard profile created
+id: 2d592ff9-5c5e-4df0-8c7b-01e278d99fc2
+status: experimental
+description: CreateProfile accepted a standard-profile write. This is an observable data-integrity action, not proof of malicious data or downstream effect.
+x_hacktricks_technique_id: aws-tech-132b4254e96ea051
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L68
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_CreateProfile.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: CreateProfile
+    event.outcome: success
+    request.customer_profiles_profile_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved profile creation or import

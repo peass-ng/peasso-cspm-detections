@@ -1,0 +1,21 @@
+title: Pipeline created with a same-account service role
+id: 2fba0845-7bbc-52f4-8de2-9556749d1050
+status: experimental
+description: >
+  A successful CreatePipeline selected a role in the recipient account. This observes the role assignment, not execution or privilege escalation.
+x_hacktricks_technique_id: aws-tech-00484525f30ba903
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L21
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: CreatePipeline
+    event.outcome: success
+    request.pipeline_same_account_role_selected: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized pipeline deployment.

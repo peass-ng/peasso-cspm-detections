@@ -1,0 +1,23 @@
+title: IVS stream keys listed
+id: f9a00b15-0000-4000-8000-000000000002
+status: experimental
+description: >
+  ListStreamKeys enumerated channel publishing credentials. The list call alone does not reveal their secret values.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L154
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStreamKeysListed
+    event.outcome: success
+    request.ivs_stream_keys_listed: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ivs-stream-keys-listed

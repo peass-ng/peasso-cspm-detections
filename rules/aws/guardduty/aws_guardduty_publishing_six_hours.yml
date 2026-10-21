@@ -1,0 +1,23 @@
+title: GuardDuty finding publishing frequency set to six hours
+id: e1bdb907-2175-489a-8b99-28117985c11a
+status: experimental
+description: A successful UpdateDetector request explicitly set findingPublishingFrequency to SIX_HOURS. It does not prove the previous cadence, a later delayed delivery or unauthorized intent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-guardduty-post-exploitation/README.md#L357
+  - https://docs.aws.amazon.com/guardduty/latest/APIReference/API_UpdateDetector.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: guardduty.amazonaws.com
+    event.name: UpdateDetector
+    event.outcome: success
+    request.finding_frequency_six_hours_requested: true
+  condition: selection
+falsepositives:
+  - Approved GuardDuty finding publication schedule
+level: medium
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-guardduty-finding-frequency-six-hours

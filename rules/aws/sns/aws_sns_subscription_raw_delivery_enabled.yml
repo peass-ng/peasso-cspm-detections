@@ -1,0 +1,25 @@
+title: SNS subscription raw message delivery enabled
+id: 7bdb4a28-3f89-4d28-9144-e33499069362
+status: experimental
+description: >
+  An SNS subscription was changed to deliver raw messages. Compare endpoint
+  and filter configuration; raw delivery does not itself export data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sns-persistence/README.md#L116
+  - https://docs.aws.amazon.com/sns/latest/dg/sns-large-payload-raw-message-delivery.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetSubscriptionAttributes
+    event.outcome: success
+    request.sns_raw_delivery_enabled: true
+  condition: selection
+falsepositives:
+  - Approved raw delivery for an SQS or HTTP endpoint.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sns-subscription-raw-delivery-enabled

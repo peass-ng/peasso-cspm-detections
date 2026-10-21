@@ -1,0 +1,23 @@
+title: Lex V2 runtime text recognized
+id: 13600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  RecognizeText reached a Lex bot alias. This signal alone does not prove that a code hook ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L75
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: TextRecognized
+    event.outcome: success
+    request.lex_runtime_text_recognized: true
+  condition: selection
+falsepositives:
+  - Normal client conversation with the bot.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-lex-v2-runtime-text-recognized

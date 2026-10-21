@@ -1,0 +1,23 @@
+title: AWS Lambda new function connected to SQS event source
+id: 8264d204-c8c9-4f3a-a199-f6da6872b5cc
+status: experimental
+description: The creator connected a new function to an enabled SQS event source
+  mapping within ten minutes. The mapping permits trigger-driven execution under
+  the function role; observe the role and queue for actual privilege impact.
+x_hacktricks_technique_id: aws-lambda-new-function-sqs-mapping
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L199
+- https://docs.aws.amazon.com/lambda/latest/api/API_CreateEventSourceMapping.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: CreateEventSourceMapping20150331
+    event.outcome: success
+    request.lambda_new_function_sqs_mapping: true
+  condition: selection
+level: low
+falsepositives:
+- Approved new event-driven function deployment

@@ -1,0 +1,27 @@
+title: CloudTrail log delivery denied by bucket policy
+id: 82fe12b1-46a5-4acf-9439-ce74ae6c6227
+status: experimental
+description: >
+  A successful PutBucketPolicy added an explicit Deny of CloudTrail PutObject
+  to the log prefix of a bucket linked to an earlier trail configuration event.
+  Confirm delivery impact with GetTrailStatus.LatestDeliveryError because the
+  accepted policy event alone does not prove a failed delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L373
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_GetTrailStatus.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailLogDeliveryPolicyDenied
+    event.outcome: success
+    request.cloudtrail_log_delivery_policy_denied: true
+  condition: selection
+falsepositives:
+  - Approved test of CloudTrail delivery failure handling.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-985dd9bf85ac1095

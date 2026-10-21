@@ -1,0 +1,23 @@
+title: AWS DynamoDB Unfiltered Scan requested
+id: 92134cca-8cd9-4f28-beaf-25a7820a5e05
+status: experimental
+description: An accepted Scan request omitted filter and pagination-start parameters.
+  It can traverse a table; this single event does not prove complete extraction.
+x_hacktricks_technique_id: aws-dynamodb-unfiltered-scan-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L196
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: Scan
+    event.outcome: success
+    request.dynamodb_unfiltered_scan: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: medium
+tags:
+- attack.collection

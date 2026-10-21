@@ -1,0 +1,23 @@
+title: External OIDC identity source created in Verified Permissions
+id: 5de9725b-766a-47d2-b9e5-f70bd69ad1c4
+status: experimental
+description: CreateIdentitySource accepted an external OIDC issuer for a policy store. The event alone does not prove that a matching Cedar policy exists or that an application will submit the issuer's tokens.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md#L15
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: CreateIdentitySource
+    event.outcome: success
+    request.vp_oidc_source_created: true
+  condition: selection
+falsepositives:
+  - Approved onboarding of an application identity provider
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vp-oidc-identity-source-created

@@ -1,0 +1,26 @@
+title: IoT policy attached to newly registered external certificate
+id: 63f9b3f5-3ab8-4d6a-a2c0-66ed62495990
+status: experimental
+description: >
+  A successful AttachPolicy followed an active RegisterCertificateWithoutCA
+  for the exact certificate, account, region and actor within thirty minutes.
+  CloudTrail omitted the policy document; the match does not prove it grants
+  AssumeRoleWithCertificate or any other particular action.
+x_hacktricks_technique_id: aws-tech-9fb706c20752275f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md#L134
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iot.amazonaws.com
+    event.name: IoTExternalCertificatePolicyAttached
+    event.outcome: success
+    request.iot_external_certificate_policy_attached: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized registration and policy attachment for a new device.
+tags:
+  - attack.persistence

@@ -1,0 +1,22 @@
+title: S3 Tables bucket policy principal validation contrast
+id: 484bd4ea-75ab-4e31-874b-976a81daa403
+status: experimental
+description: An accepted table bucket policy and a failed otherwise identical policy differed only in IAM principal. Review possible principal enumeration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/aws-resource-policy-principal-validation.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: ResourcePolicyPrincipalValidationProbe
+    event.outcome: failure
+    request.resource_policy_principal_validation_pair: true
+  condition: selection
+falsepositives:
+  - Approved policy validation or resource access administration
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-s3tables-resource-policy-principal-validation

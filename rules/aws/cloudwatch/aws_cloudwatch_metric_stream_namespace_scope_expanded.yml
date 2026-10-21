@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream namespace scope expanded
+id: 7bc2fa14-038a-4c59-aae1-cf9d9687fd8c
+status: experimental
+description: A successful Metric Stream update added namespaces to a previously observed include-only filter. Both accepted definitions must be visible in the same account and region within one hour; same-second writes are not ordered.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-namespace-scope-expanded
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamNamespaceScopeExpanded
+    event.outcome: success
+    request.cloudwatch_metric_stream_scope_expanded: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved namespace onboarding

@@ -1,0 +1,21 @@
+title: Athena workgroup created with an S3 result location
+id: 9b7ad17f-714e-4b7b-979f-8c009612141d
+status: experimental
+description: CreateWorkGroup succeeded with an S3 output location. The event proves configured output, not queries or access to the underlying data. Compare the bucket with approved destinations.
+x_hacktricks_technique_id: aws-tech-32b0fa6cc10727f9
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L33
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_CreateWorkGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: CreateWorkGroup
+    event.outcome: success
+    request.athena_workgroup_result_output_configured: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved analytical workgroup provisioning

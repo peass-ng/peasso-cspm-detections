@@ -1,0 +1,20 @@
+title: AWS SNS Firehose subscription role configured
+id: c65d6af5-766e-47fd-adc8-e878fcc7a155
+status: experimental
+description: A successful SetSubscriptionAttributes request supplied a new SubscriptionRoleArn. The event alone does not prove the previous role or delivery effect.
+x_hacktricks_technique_id: aws-sns-firehose-subscription-role-configured
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/aws-sns-firehose-exfil.md#L34
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SNSFirehoseDeliveryRoleConfigured
+    event.outcome: success
+    request.sns_firehose_role_configured: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved subscription role rotation

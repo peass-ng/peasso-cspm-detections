@@ -1,0 +1,24 @@
+title: CloudWatch dashboard body written
+id: 2e99fb2c-a911-4e69-8183-6169d59ff5a5
+status: experimental
+description: A successful PutDashboard request created or replaced a dashboard body.
+  Review the submitted change against an approved version; this event alone does not
+  prove users viewed the new dashboard.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L327
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: PutDashboard
+    event.outcome: success
+    request.cloudwatch_dashboard_body_written: true
+  condition: selection
+falsepositives:
+- Approved dashboard update
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-tech-41ee9d18d184ff2d

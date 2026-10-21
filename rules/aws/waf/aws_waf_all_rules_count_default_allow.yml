@@ -1,0 +1,26 @@
+title: WAF Web ACL has only Count rules with default Allow
+id: 18f43bb4-3ab7-4359-81a4-a3884720b607
+status: experimental
+description: >
+  An accepted Web ACL update sets all rules to Count while the default
+  action is Allow. The ACL records matches but none of these rules block
+  traffic. Compare the previous version before calling this a downgrade.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-waf-persistence/README.md#L54
+  - https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-rule-actions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateWebACL
+    event.outcome: success
+    request.waf_all_rules_count_default_allow: true
+  condition: selection
+falsepositives:
+  - Web ACL intentionally used only for monitoring.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-all-rules-count-default-allow

@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream Firehose destination configured
+id: 31bea73d-4d87-4cec-8c1d-b70eed093768
+status: experimental
+description: A principal successfully requested creation or update of a CloudWatch Metric Stream with a same-account Firehose destination and IAM role. The management event does not prove delivery or destination ownership beyond this account.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-firehose-configured
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamFirehoseConfigured
+    event.outcome: success
+    request.cloudwatch_metric_stream_firehose_configured: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved metric export pipeline

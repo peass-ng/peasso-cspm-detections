@@ -1,0 +1,27 @@
+title: AWS Backup vault policy grants caller recovery-point deletion
+id: c5829076-72c4-4852-98bb-1ce0998cc204
+status: experimental
+description: >
+  A successful PutBackupVaultAccessPolicy call allowed the caller's IAM
+  principal to DeleteRecoveryPoint with Resource *. The event proves the
+  policy write, not that a recovery point was deleted or that the grant
+  increased effective permissions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-backup-post-exploitation/README.md#L184
+  - https://docs.aws.amazon.com/aws-backup/latest/APIReference/API_PutBackupVaultAccessPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: backup.amazonaws.com
+    event.name: PutBackupVaultAccessPolicy
+    event.outcome: success
+    request.backup_self_delete_grant: true
+  condition: selection
+falsepositives:
+  - Approved grant to a backup operator that submitted the change.
+level: high
+tags:
+  - attack.privilege_escalation
+x_hacktricks_technique_id: aws-backup-vault-self-delete-grant

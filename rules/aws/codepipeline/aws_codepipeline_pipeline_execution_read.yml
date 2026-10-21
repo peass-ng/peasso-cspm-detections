@@ -1,0 +1,21 @@
+title: CodePipeline execution detail read requested
+id: d9ed5f2c-74ac-5e92-ba11-17815e825223
+status: experimental
+description: >
+  A successful GetPipelineExecution request read one pipeline execution. The CloudTrail event does not include resolved variable values.
+x_hacktricks_technique_id: aws-tech-061b20edddfd8b9e
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: GetPipelineExecution
+    event.outcome: success
+    request.pipeline_execution_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Authorized CI or investigation reading execution status.

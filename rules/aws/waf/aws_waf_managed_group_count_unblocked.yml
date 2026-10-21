@@ -1,0 +1,26 @@
+title: WAF managed rule group overridden to Count with default Allow
+id: 91ef2a13-64e0-46c5-ab6f-2797bc5394c5
+status: experimental
+description: >
+  An accepted Web ACL update overrides a managed rule group to Count while
+  the default is Allow and no submitted rule has a direct blocking action.
+  Compare the previous version to determine whether this was a downgrade.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-waf-persistence/README.md#L54
+  - https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-rule-group-override-options.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateWebACL
+    event.outcome: success
+    request.waf_managed_group_count_unblocked: true
+  condition: selection
+falsepositives:
+  - Web ACL deliberately running a managed group in monitoring mode.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-managed-group-count-unblocked

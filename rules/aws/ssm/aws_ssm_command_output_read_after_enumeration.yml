@@ -1,0 +1,23 @@
+title: AWS SSM command output read after command enumeration
+id: 17642d19-6433-43c6-b431-9fd07a78ecbb
+status: experimental
+description: A principal listed command history and then requested output for a
+  command on a managed node within ten minutes. CloudTrail omits the returned
+  stdout and stderr; approved troubleshooting can have the same sequence.
+x_hacktricks_technique_id: aws-ssm-command-output-read-after-enumeration
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ssm-parameter-and-command-access-post-exploitation/README.md#L116
+- https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetCommandInvocation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: GetCommandInvocation
+    event.outcome: success
+    request.ssm_command_output_read_after_enumeration: true
+  condition: selection
+level: low
+falsepositives:
+- Approved troubleshooting of a recently listed command

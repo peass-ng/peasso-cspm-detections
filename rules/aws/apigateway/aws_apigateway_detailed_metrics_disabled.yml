@@ -1,0 +1,22 @@
+title: API Gateway REST stage detailed metrics disabled
+id: 4d35f98d-e3a9-443a-88ce-7958ef58db4c
+status: experimental
+description: >
+  A successful REST stage update disabled wildcard method detailed metrics.
+  Review the prior setting and monitoring requirements for this stage.
+x_hacktricks_technique_id: aws-apigateway-detailed-metrics-disabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L435
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_detailed_metrics_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved monitoring cost or cardinality change.

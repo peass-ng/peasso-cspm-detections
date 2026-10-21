@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric alarm actions cleared
+id: d718ef0a-4315-48c1-8681-c573d1ab4c2f
+status: experimental
+description: An accepted metric alarm update cleared all alarm actions that appeared in a preceding configuration event for the same alarm within one hour.
+x_hacktricks_technique_id: aws-cloudwatch-metric-alarm-actions-cleared
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricAlarmActionsCleared
+    event.outcome: success
+    request.cloudwatch_alarm_actions_cleared: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved alarm action removal

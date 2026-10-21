@@ -1,0 +1,29 @@
+title: CloudTrail log customer key deletion scheduled
+id: eb33ce82-9636-4d0b-856b-aad83c4bfcfe
+status: experimental
+description: >
+  A successful ScheduleKeyDeletion placed a customer managed key previously
+  associated with a CloudTrail log destination into PendingDeletion. KMS
+  cryptographic calls are rejected in this state; a recently read S3 object
+  can remain temporarily readable, so verify log access independently.
+  Permanent deletion occurs after the mandatory waiting period unless
+  cancellation intervenes.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: CloudTrailLogCustomerKeyDeletionScheduled
+    event.outcome: success
+    request.cloudtrail_log_cmk_deletion_scheduled: true
+  condition: selection
+falsepositives:
+  - Approved retirement of a CloudTrail log key after migration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2

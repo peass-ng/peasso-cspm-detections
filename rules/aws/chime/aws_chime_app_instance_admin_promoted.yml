@@ -1,0 +1,21 @@
+title: AWS Chime SDK AppInstance identity promoted to administrator
+id: a51f1780-1b79-4dc4-bb9e-62581706d4f5
+status: experimental
+description: A successful CreateAppInstanceAdmin promoted an AppInstanceUser or bot within its own AppInstance. This grants service-level administrator status; it does not add IAM permissions or prove channel access without the bearer and messaging actions.
+x_hacktricks_technique_id: aws-chime-create-app-instance-admin
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-chime-sdk-persistence/README.md#L29
+  - https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_CreateAppInstanceAdmin.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: CreateAppInstanceAdmin
+    event.outcome: success
+    request.chime_app_instance_admin_promoted: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved AppInstance administrator provisioning

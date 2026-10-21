@@ -1,0 +1,20 @@
+title: Lightsail container ECR image-puller role activated
+id: 97b4e504-821f-418c-956d-07457ed06850
+status: experimental
+description: UpdateContainerService accepted activation of the service ECR image-puller role. The event does not prove an ECR repository granted that role access or that any image was pulled.
+x_hacktricks_technique_id: aws-tech-4382c18486f49d18
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: UpdateContainerService
+    event.outcome: success
+    request.lightsail_ecr_image_puller_role_activated: true
+  condition: selection
+level: medium
+falsepositives:
+- Authorized private registry integration.

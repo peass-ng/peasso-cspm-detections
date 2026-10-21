@@ -1,0 +1,21 @@
+title: Athena query started in a recently created workgroup with result output
+id: 57f3bab1-96bd-4b31-8249-d30caeb90f75
+status: experimental
+description: The same actor started a query within one hour of creating a workgroup with an S3 result location. CloudTrail confirms query start only; check query status, current workgroup configuration and result bucket before claiming export.
+x_hacktricks_technique_id: aws-tech-32b0fa6cc10727f9
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L33
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_StartQueryExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: StartQueryExecutionInNewWorkGroup
+    event.outcome: success
+    request.athena_new_workgroup_query_started: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved query immediately after workgroup provisioning

@@ -1,0 +1,20 @@
+title: AWS Customer Profiles batch profile read accepted
+id: a8986f93-cf52-487e-abeb-28f1a5521b69
+status: experimental
+description: BatchGetProfile queried one or more profile IDs. Compare actor with approved readers; individual profile IDs may fail or be absent even when the API call succeeds.
+x_hacktricks_technique_id: aws-tech-0b6f29e84f5ac102
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: BatchGetProfile
+    event.outcome: success
+    request.customer_profiles_read_observed: true
+  condition: selection
+level: low
+falsepositives:
+- Approved batch profile access

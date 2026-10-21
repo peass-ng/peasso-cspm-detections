@@ -1,0 +1,21 @@
+title: Lightsail instance port opened to the Internet
+id: b6880ca5-771e-5b13-b9a5-9f36b8341996
+status: experimental
+description: >
+  OpenInstancePublicPorts successfully added a TCP, UDP, or all-protocol port range with a world-accessible CIDR. It does not prove a service is listening.
+x_hacktricks_technique_id: aws-tech-d6b557eecd171753
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L70
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: OpenInstancePublicPorts
+    event.outcome: success
+    request.lightsail_public_port_opened: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized public service exposure.

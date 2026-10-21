@@ -1,0 +1,23 @@
+title: IAM MFA device deactivated
+id: 6d499589-732f-407b-b71b-03e5c3c8f53d
+status: experimental
+description: A successful DeactivateMFADevice call removed an MFA device from an IAM user. Review remaining devices and sign-in policy before inferring MFA loss for the user.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L458
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeactivateMFADevice
+    event.outcome: success
+    request.iam_mfa_deactivated: true
+  condition: selection
+falsepositives:
+  - Approved device replacement or user retirement
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-iam-mfa-device-deactivated

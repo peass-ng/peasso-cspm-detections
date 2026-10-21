@@ -1,0 +1,20 @@
+title: AWS ECS task scale-in protection enabled
+id: 5dd46f52-e4a9-48be-9204-c5fe1862212b
+status: experimental
+description: ECS accepted protection of one or more service tasks against scale-in. Review actor, task ownership and expiration.
+x_hacktricks_technique_id: aws-ecs-task-protection-enabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ecs-persistence/README.md#L94
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecs.amazonaws.com
+    event.name: UpdateTaskProtection
+    event.outcome: success
+    request.ecs_task_protection_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved temporary protection during a deployment or long-running job

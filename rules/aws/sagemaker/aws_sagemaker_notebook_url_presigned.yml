@@ -1,0 +1,22 @@
+title: SageMaker notebook URL issued
+id: 7470c833-12fd-5eab-90ec-1d7cfca88a35
+status: experimental
+description: A presigned notebook URL was issued. Review the recipient and notebook
+  access context; the event does not prove that the URL was used.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L50
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_notebook_url_presigned: true
+  condition: selection
+falsepositives:
+- Routine authorized notebook access.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-sagemaker-notebook-url-presigned

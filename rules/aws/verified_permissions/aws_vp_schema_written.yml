@@ -1,0 +1,23 @@
+title: Verified Permissions policy store schema written
+id: 75db9b08-5f95-4011-94db-45f2fbde5fa5
+status: experimental
+description: A successful PutSchema response confirmed a schema write for a policy store. CloudTrail does not include the schema body, so this signal cannot classify whether it weakens authorization.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PutSchema.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: PutSchema
+    event.outcome: success
+    request.vp_schema_written: true
+  condition: selection
+falsepositives:
+  - Approved application schema deployment
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-vp-schema-written

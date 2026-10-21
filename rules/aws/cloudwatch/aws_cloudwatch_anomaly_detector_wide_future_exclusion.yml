@@ -1,0 +1,25 @@
+title: CloudWatch anomaly detector excludes a multiyear future range
+id: dff75f48-5f05-4f97-bd8d-ad84e045a595
+status: experimental
+description: >
+  An accepted anomaly detector configuration excludes at least five years of
+  time and extends at least one year into the future. Review affected alarms;
+  this event does not prove that anomaly alerts were previously enabled.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L251
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: PutAnomalyDetector
+    event.outcome: success
+    request.anomaly_detector_wide_future_exclusion: true
+  condition: selection
+falsepositives:
+  - Approved anomaly model training exclusion spanning a long maintenance period.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-anomaly-detector-wide-future-exclusion

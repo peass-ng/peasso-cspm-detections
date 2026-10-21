@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector media streaming enabled
+id: 12037b5f-bada-4ddd-b58f-acbb631aefb7
+status: experimental
+description: A successful PutVoiceConnectorStreamingConfiguration enabled media streaming. This configuration can feed Kinesis Video during calls, but the event alone does not prove media was captured.
+x_hacktricks_technique_id: aws-chime-voice-media-streaming
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: PutVoiceConnectorStreamingConfiguration
+    event.outcome: success
+    request.chime_voice_streaming_enabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved call analytics or recording configuration

@@ -1,0 +1,23 @@
+title: API Gateway REST stage pointed to another deployment
+id: 0b477796-dc77-4d58-b687-7722c8fac51c
+status: experimental
+description: >
+  A successful REST stage update selected a deployment by ID. Compare the
+  selected ID with approved release history to identify an unsafe rollback;
+  this event alone does not establish that the deployment is older or unsafe.
+x_hacktricks_technique_id: aws-apigateway-stage-rollback-retained-deployment
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L367
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: UpdateStage
+    event.outcome: success
+    request.apigateway_stage_deployment_changed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved rollback, release promotion or redeployment of a REST stage.

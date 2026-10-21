@@ -1,0 +1,26 @@
+title: AppConfig extension can intercept future configuration content
+id: b83572d0-588d-4757-95b0-835595c6d431
+status: experimental
+description: >
+  A custom PRE_CREATE_HOSTED_CONFIGURATION_VERSION or PRE_START_DEPLOYMENT
+  extension was accepted with a Lambda action and invocation role. Association
+  to an application or profile is required before it intercepts content.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appconfig-persistence/README.md#L13
+  - https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions-about.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: CreateExtension
+    event.outcome: success
+    request.appconfig_content_hook_created: true
+  condition: selection
+falsepositives:
+  - Approved AppConfig extension for validation or transformation.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appconfig-content-extension-created

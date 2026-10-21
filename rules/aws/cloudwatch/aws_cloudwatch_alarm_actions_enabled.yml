@@ -1,0 +1,20 @@
+title: AWS CloudWatch alarm actions enabled
+id: b6988f67-fdc4-4074-996e-15547f1e19e4
+status: experimental
+description: A principal successfully enabled CloudWatch alarm actions. Review the configured destinations and whether reactivation was approved; the event alone does not show that an action executed.
+x_hacktricks_technique_id: aws-cloudwatch-alarm-actions-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L221
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: AlarmActionsEnabled
+    event.outcome: success
+    request.cloudwatch_alarm_actions_enabled: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved restoration of notification actions

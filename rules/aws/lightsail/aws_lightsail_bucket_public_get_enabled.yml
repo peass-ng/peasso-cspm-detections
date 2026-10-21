@@ -1,0 +1,21 @@
+title: Lightsail bucket public object reads enabled
+id: 04e544c4-a382-5058-ac19-7220e3472486
+status: experimental
+description: >
+  UpdateBucket successfully set the bucket getObject access rule to public. The event does not prove any objects existed or were read.
+x_hacktricks_technique_id: aws-tech-9a17cebd144e4459
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lightsail-privesc/README.md#L82
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lightsail.amazonaws.com
+    event.name: UpdateBucket
+    event.outcome: success
+    request.lightsail_bucket_public_get_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized public object hosting.

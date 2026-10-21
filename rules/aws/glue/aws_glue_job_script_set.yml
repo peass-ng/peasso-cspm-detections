@@ -1,0 +1,21 @@
+title: AWS Glue job update supplies a script location
+id: 632f3be1-9a9b-452c-983a-5dd40b4f5591
+status: experimental
+description: A successful UpdateJob supplied an S3 script location. Compare with the prior job and subsequent StartJobRun to determine whether code changed or executed.
+x_hacktricks_technique_id: aws-glue-update-job-script
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/README.md#L70
+  - https://docs.aws.amazon.com/glue/latest/webapi/API_UpdateJob.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: glue.amazonaws.com
+    event.name: UpdateJob
+    event.outcome: success
+    request.glue_job_script_set: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved job script deployment

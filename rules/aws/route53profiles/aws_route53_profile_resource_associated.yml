@@ -1,0 +1,25 @@
+title: Route 53 Profile DNS resource association requested
+id: 13900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  AssociateResourceToProfile accepted a DNS resource association request.
+  Confirm completion and review the resource owner, type and associated VPCs
+  before attributing DNS impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-profiles-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53profiles.amazonaws.com
+    event.name: ProfileResourceAssociated
+    event.outcome: success
+    request.route53_profile_resource_associated: true
+  condition: selection
+falsepositives:
+  - Approved centralized DNS resource association.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-route53-profile-resource-associated

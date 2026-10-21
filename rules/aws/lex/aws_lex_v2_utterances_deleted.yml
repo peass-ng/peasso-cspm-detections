@@ -1,0 +1,23 @@
+title: Lex V2 utterances deleted
+id: 13500000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  DeleteUtterances accepted deletion of stored utterance data for a bot session and locale.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: UtterancesDeleted
+    event.outcome: success
+    request.utterances_deleted: true
+  condition: selection
+falsepositives:
+  - Approved conversation-data deletion.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-lex-v2-utterances-deleted

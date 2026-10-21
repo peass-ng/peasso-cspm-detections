@@ -1,0 +1,20 @@
+title: AWS Kinesis stream shards merged
+id: c510a056-7a18-4fbe-976a-532f8e420aa2
+status: experimental
+description: A Kinesis stream accepted MergeShards. Compare throughput and throttling to determine impact.
+x_hacktricks_technique_id: aws-kinesis-shards-merged
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: MergeShards
+    event.outcome: success
+    request.kinesis_shards_merged: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved shard consolidation

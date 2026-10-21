@@ -1,0 +1,23 @@
+title: IVS ad configuration attached to channel
+id: f9a00b19-0000-4000-8000-000000000006
+status: experimental
+description: >
+  UpdateChannel attached an IVS ad configuration. Compare this pair with the approved channel inventory.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsChannelAdConfigurationAssigned
+    event.outcome: success
+    request.ivs_channel_ad_configuration_assigned: true
+  condition: selection
+falsepositives:
+  - Approved IVS or MediaTailor ad administration.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-channel-ad-configuration-assigned

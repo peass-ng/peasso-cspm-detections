@@ -1,0 +1,26 @@
+title: WAF logging configuration deleted
+id: 9db23d6b-9e18-44b2-929f-ed2940d9f7f4
+status: experimental
+description: >
+  A WAF logging configuration deletion succeeded. Check whether the ACL
+  still protects resources and whether another telemetry source covers its
+  requests.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-waf-persistence/README.md#L79
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_DeleteLoggingConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: DeleteLoggingConfiguration
+    event.outcome: success
+    request.waf_logging_deleted: true
+  condition: selection
+falsepositives:
+  - Approved teardown of a Web ACL and its log destination.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-logging-configuration-deleted

@@ -1,0 +1,26 @@
+title: AppConfig hosted version created by another actor selected for deployment
+id: d7b325a5-49a6-430e-8ea8-8371468919fb
+status: experimental
+description: A principal submitted a hosted AppConfig version for deployment after
+  a different principal created that exact version in the same application and
+  profile. The event proves an accepted deployment request, not that the rollout
+  completed or that the version contains malicious bytes.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L99
+- https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-deploying.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: AppConfigCrossActorHostedVersionDeploymentSubmitted
+    event.outcome: success
+    request.appconfig_cross_actor_hosted_version_deployment_submitted: true
+  condition: selection
+falsepositives:
+- Normal release separation between configuration author and deployer
+level: medium
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-tech-0073341d72433b0b

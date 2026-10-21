@@ -1,0 +1,21 @@
+title: AWS Kinesis Video image generation destination enabled
+id: 208fcee1-3c26-4235-8206-61bbd26341f4
+status: experimental
+description: A video stream accepted an S3 destination for generated images. Future
+  tagged fragments and uploader permissions are required for delivery.
+x_hacktricks_technique_id: aws-kvs-image-generation-destination-enabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kinesis-video-streams-persistence/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateImageGenerationConfiguration
+    event.outcome: success
+    request.kvs_image_generation_destination_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved image extraction workflow

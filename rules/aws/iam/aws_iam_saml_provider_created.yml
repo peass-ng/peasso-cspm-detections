@@ -1,0 +1,21 @@
+title: AWS IAM SAML provider created
+id: ee70af3c-bd06-41bc-aef8-30b96be58cc6
+status: experimental
+description: An IAM SAML provider was created. Review its signing certificate and
+  roles that trust it; creation alone does not grant a session.
+x_hacktricks_technique_id: aws-iam-saml-provider-created
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L1119
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateSAMLProvider
+    event.outcome: success
+    request.iam_saml_provider_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved workforce SSO setup

@@ -1,0 +1,21 @@
+title: AWS Kinesis Video signaling channel storage disabled
+id: 7dffddd3-37c1-4f27-a36a-891226eff062
+status: experimental
+description: A signaling channel accepted a change that disables media storage. Confirm
+  whether WebRTC recordings were expected.
+x_hacktricks_technique_id: aws-kvs-media-storage-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L131
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateMediaStorageConfiguration
+    event.outcome: success
+    request.kvs_media_storage_disabled: true
+  condition: selection
+level: high
+falsepositives:
+- Approved migration away from WebRTC ingestion

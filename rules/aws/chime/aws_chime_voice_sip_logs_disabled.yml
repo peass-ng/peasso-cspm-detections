@@ -1,0 +1,20 @@
+title: Chime SDK Voice Connector SIP logging disabled
+id: 978fb51e-3e1d-4304-bfa0-01f5f15f1e43
+status: experimental
+description: A successful PutVoiceConnectorLoggingConfiguration set SIP logging to false for a Voice Connector, reducing call signaling evidence.
+x_hacktricks_technique_id: aws-chime-voice-sip-logs-disable
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: PutVoiceConnectorLoggingConfiguration
+    event.outcome: success
+    request.chime_voice_sip_logs_disabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved logging policy changes

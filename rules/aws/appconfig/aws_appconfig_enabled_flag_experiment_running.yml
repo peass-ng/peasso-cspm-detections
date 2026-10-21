@@ -1,0 +1,26 @@
+title: AppConfig experiment runs treatment enabling a disabled feature flag
+id: a304e08e-0e19-4869-aaea-cfd3763150b3
+status: experimental
+description: >
+  An experiment run was accepted with positive audience exposure and a
+  positively weighted enabled treatment over a disabled control. Confirm
+  eligible entities and AppConfig Agent delivery before claiming effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appconfig-post-exploitation/README.md#L187
+  - https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-experimentation-creating-starting.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appconfig.amazonaws.com
+    event.name: StartExperimentRun
+    event.outcome: success
+    request.appconfig_enabled_experiment_running: true
+  condition: selection
+falsepositives:
+  - Approved A/B test enabling a feature for selected entities.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-appconfig-enabled-flag-experiment-running

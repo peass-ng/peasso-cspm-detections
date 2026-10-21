@@ -1,0 +1,24 @@
+title: CodeConnections host created
+id: 12900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateHost accepted a new external-provider host configuration. An SDK-created host remains pending until setup; this event does not establish a reachable provider.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L23
+  - https://docs.aws.amazon.com/codeconnections/latest/APIReference/API_CreateHost.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeconnections.amazonaws.com
+    event.name: CodeConnectionsHostCreated
+    event.outcome: success
+    request.codeconnections_host_created: true
+  condition: selection
+falsepositives:
+  - Approved self-managed provider onboarding.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-codeconnections-host-created

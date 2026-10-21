@@ -1,0 +1,20 @@
+title: AWS Firehose S3 destination update requested
+id: 1643ff43-2c72-461e-948d-e9a86ef67249
+status: experimental
+description: A successful UpdateDestination request supplied an S3 bucket ARN for an existing Firehose stream. The request alone does not establish that the bucket differs from the prior destination or that delivery succeeded.
+x_hacktricks_technique_id: aws-firehose-s3-destination-update-requested
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-data-firehose-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: firehose.amazonaws.com
+    event.name: FirehoseS3DestinationUpdate
+    event.outcome: success
+    request.firehose_s3_destination_update: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved destination maintenance

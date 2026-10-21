@@ -1,0 +1,20 @@
+title: AWS Cognito identity pool authenticated IAM role assigned
+id: 613d7471-eba6-49b6-bd0e-91003ac4249c
+status: experimental
+description: A successful SetIdentityPoolRoles assigned an authenticated IAM role. Review the pool role mapping and trust.
+x_hacktricks_technique_id: aws-cognito-identity-auth-role-set
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L36
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-identity.amazonaws.com
+    event.name: SetIdentityPoolRoles
+    event.outcome: success
+    request.cognito_identity_auth_role_set: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved Cognito configuration or credential rotation

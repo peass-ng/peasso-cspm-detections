@@ -1,0 +1,24 @@
+title: Customer-managed prefix list entry added
+id: 6193c1a8-76bf-4b01-95a1-5a9c16a963a7
+status: experimental
+description: >
+  A successful ModifyManagedPrefixList request added one or more CIDRs. The event confirms API acceptance, not asynchronous completion or traffic flow.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-managed-prefix-list-backdoor.md#L60
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyManagedPrefixList.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyManagedPrefixList
+    event.outcome: success
+    request.prefix_list_entry_added: true
+  condition: selection
+falsepositives:
+  - Approved prefix list maintenance.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-prefix-list-entry-added

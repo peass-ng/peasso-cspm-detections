@@ -1,0 +1,20 @@
+title: Chime SDK attendee capabilities updated and token returned
+id: 6a3ab57b-dfac-49e2-9b61-13c0aa8a3412
+status: experimental
+description: A successful UpdateAttendeeCapabilities returned the attendee object; the API response includes its join token. The event alone does not prove the token was used to join media.
+x_hacktricks_technique_id: aws-chime-attendee-capabilities-token
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L284
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: UpdateAttendeeCapabilities
+    event.outcome: success
+    request.chime_attendee_capabilities_updated: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved attendee administration

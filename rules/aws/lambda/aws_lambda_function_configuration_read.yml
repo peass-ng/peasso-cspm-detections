@@ -1,0 +1,25 @@
+title: Lambda function configuration read
+id: 52104d13-2e33-4293-bc8e-1f7f1b884c8f
+status: experimental
+description: >
+  A successful GetFunctionConfiguration returned configuration including
+  environment variables to the caller. CloudTrail omitted the values; this
+  common read alone does not prove secret exposure.
+x_hacktricks_technique_id: aws-tech-c7d24ab4366f8771
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-function-access-post-exploitation/README.md#L162
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: GetFunctionConfiguration20150331v2
+    event.outcome: success
+    request.lambda_function_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved deployment polling, inventory, or diagnostics.
+tags:
+  - attack.credential-access

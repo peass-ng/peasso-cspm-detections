@@ -1,0 +1,21 @@
+title: AWS Customer Profiles event stream deleted
+id: 3e70bf4c-b963-4af7-8c90-8fcbe83bfd70
+status: experimental
+description: DeleteEventStream disabled and removed a profile event stream; confirm stream absence and evaluate any downstream delivery separately.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_DeleteEventStream.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteEventStream
+    event.outcome: success
+    request.customer_profiles_event_stream_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved stream retirement

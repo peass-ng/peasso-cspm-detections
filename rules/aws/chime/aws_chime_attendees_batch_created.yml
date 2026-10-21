@@ -1,0 +1,20 @@
+title: Chime SDK attendee tokens created in a batch
+id: c39a97ee-5309-4fbf-9741-3802cd249a9c
+status: experimental
+description: A successful BatchCreateAttendee minted attendee join tokens for one meeting. Check whether this bulk issuance was part of the approved meeting workflow.
+x_hacktricks_technique_id: aws-chime-attendee-batch-create-token
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L19
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: BatchCreateAttendee
+    event.outcome: success
+    request.chime_attendees_batch_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved bulk meeting admission

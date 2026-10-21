@@ -1,0 +1,20 @@
+title: AWS Kinesis Video fragment notifications disabled
+id: 61949dd9-21fa-4fcb-a9cf-b6115b1001ca
+status: experimental
+description: A video stream accepted a change disabling fragment notifications.
+x_hacktricks_technique_id: aws-kvs-notification-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kinesis-video-streams-persistence/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateNotificationConfiguration
+    event.outcome: success
+    request.kvs_notification_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved notification retirement

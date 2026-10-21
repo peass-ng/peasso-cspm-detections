@@ -1,0 +1,23 @@
+title: CloudWatch Logs stream events read
+id: 9cafb3e1-6238-4a5d-b955-738d9eecd1e8
+status: experimental
+description: A successful GetLogEvents call read from a named log stream. CloudTrail does not establish what records were returned; review principal and approved log-data access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-log-data-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: GetLogEvents
+    event.outcome: success
+    request.cloudwatch_logs_stream_events_read: true
+  condition: selection
+falsepositives:
+  - Approved log investigation or application support
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-tech-f556245e494dbcf4

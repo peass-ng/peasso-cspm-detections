@@ -1,0 +1,20 @@
+title: AWS Resource Explorer view deleted
+id: 7271e2f7-7fce-4de6-9839-5a4c162a08d3
+status: experimental
+description: An account-owned Resource Explorer view was deleted. Check whether it was a default or shared view and whether dependent searches lost access.
+x_hacktricks_technique_id: aws-resource-explorer-view-delete
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-explorer-setup-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: resource-explorer-2.amazonaws.com
+    event.name: DeleteView
+    event.outcome: success
+    request.resource_explorer_view_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved view retirement or test cleanup

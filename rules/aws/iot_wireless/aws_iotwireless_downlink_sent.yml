@@ -1,0 +1,26 @@
+title: IoT Wireless downlink sent
+id: 12300000-0000-4000-8000-000000000010
+status: experimental
+description: >
+  SendDataToWirelessDevice accepted a downlink payload. The observed CloudTrail
+  management event omits the device ID and redacts the payload, so correlate
+  its actor and time with service or device telemetry.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md#L71
+  - https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_SendDataToWirelessDevice.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessDownlinkSent
+    event.outcome: success
+    request.iotwireless_downlink_sent: true
+  condition: selection
+falsepositives:
+  - Approved device downlink operations.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iotwireless-downlink-sent

@@ -1,0 +1,21 @@
+title: IAM role deleted
+id: ae8d1b1e-f694-556a-8364-9e58f17ab128
+status: experimental
+description: An accepted DeleteRole IAM API call named its target. Review approved
+  administration and dependent access before treating it as an attack.
+x_hacktricks_technique_id: aws-tech-a4149a97ee676c21
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L358
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteRole
+    event.outcome: success
+    request.iam_identity_deletion_observed: true
+  condition: selection
+level: high
+falsepositives:
+- Approved IAM administration or planned identity and credential cleanup.

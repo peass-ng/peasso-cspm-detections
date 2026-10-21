@@ -1,0 +1,23 @@
+title: ECR repository image tags set to mutable
+id: 4ea88fb0-f722-42ac-a99c-146b060171b2
+status: experimental
+description: A successful PutImageTagMutability request set a repository to MUTABLE. The event does not show its prior setting or prove that an image tag was overwritten; correlate with subsequent PutImage.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L298
+  - https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_PutImageTagMutability.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: PutImageTagMutability
+    event.outcome: success
+    request.ecr_tags_set_mutable: true
+  condition: selection
+falsepositives:
+  - Approved change to repository tag mutability
+level: high
+tags:
+  - attack.defense_evasion
+x_hacktricks_technique_id: aws-ecr-image-tags-set-mutable

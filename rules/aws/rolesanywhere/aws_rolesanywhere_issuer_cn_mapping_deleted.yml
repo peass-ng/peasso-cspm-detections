@@ -1,0 +1,22 @@
+title: AWS Roles Anywhere issuer CN mapping deleted
+id: 981ee07a-02c8-4bf8-88d0-5ac89e24a760
+status: experimental
+description: A successful DeleteAttributeMapping removed issuer CN from a profile.
+  A negative trust-policy condition on this tag can then allow a previously denied
+  certificate; confirm the trust policy and a subsequent session.
+x_hacktricks_technique_id: aws-rolesanywhere-issuer-cn-mapping-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md#L461
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: DeleteAttributeMapping
+    event.outcome: success
+    request.rolesanywhere_issuer_cn_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved certificate attribute mapping maintenance

@@ -1,0 +1,20 @@
+title: Chime SDK attendee media capabilities disabled
+id: 0d6f5d90-971d-4777-a568-d5555e5aa824
+status: experimental
+description: UpdateAttendeeCapabilities set audio, video and content to None for an attendee, preventing that attendee from sending or receiving those media modes.
+x_hacktricks_technique_id: aws-chime-attendee-media-disable
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L284
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: UpdateAttendeeCapabilities
+    event.outcome: success
+    request.chime_attendee_all_media_disabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved moderator restrictions

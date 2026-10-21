@@ -1,0 +1,24 @@
+title: S3 gateway endpoint opened from a VPC route table
+id: 20f4872a-7e61-4e70-af40-e1eda3f53f74
+status: experimental
+description: >
+  A successful CreateVpcEndpoint attached an S3 gateway endpoint to a route
+  table with a default or wildcard allow endpoint policy. This can create an
+  S3 path from an isolated subnet. Confirm the route table is used by that
+  subnet and that identity and bucket policies allow the requested access.
+x_hacktricks_technique_id: aws-vpc-s3-gateway-egress-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md#L24
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateVpcEndpoint
+    event.outcome: success
+    request.vpc_s3_gateway_egress_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved S3 access path for an isolated application subnet.

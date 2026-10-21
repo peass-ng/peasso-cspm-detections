@@ -1,0 +1,23 @@
+title: Enhanced EventBridge subscriber delivery logs turned off
+author: PEASSO
+id: a824fc26-f23b-4b9d-815d-9a1456d775dc
+status: experimental
+description: An accepted UpdateSubscriber request explicitly set delivery log level OFF. Compare the previous level and change approval; AWS/EventsV2 metrics remain available.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L177
+  - https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_UpdateSubscriber.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_subscriber_logs_off: true
+  condition: selection
+falsepositives:
+  - Approved reduction of subscriber delivery logging
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-eventsv2-subscriber-logs-off

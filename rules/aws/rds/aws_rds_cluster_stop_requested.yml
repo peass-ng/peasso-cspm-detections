@@ -1,0 +1,21 @@
+title: AWS RDS cluster stop requested
+id: e5a61427-16e2-412e-8bcf-765201c600ad
+status: experimental
+description: An accepted StopDBCluster requested a cluster stop. Check the final cluster state and maintenance schedule; the event alone does not prove an outage.
+x_hacktricks_technique_id: aws-rds-stop-db-cluster
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L937
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_StopDBCluster.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: StopDBCluster
+    event.outcome: success
+    request.rds_cluster_stop_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved maintenance stop

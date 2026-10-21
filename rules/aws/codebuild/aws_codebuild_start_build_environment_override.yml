@@ -1,0 +1,25 @@
+title: CodeBuild build started with environment overrides
+id: 324de667-1214-5762-a044-7783153cf215
+status: experimental
+description: A successful StartBuild call supplied one or more environment overrides.
+  Review whether the fixed build uses these values for destinations or commands; no
+  variable value is needed for this signal.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md#L196
+- https://docs.aws.amazon.com/codebuild/latest/APIReference/API_StartBuild.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: StartBuild
+    event.outcome: success
+    request.codebuild_environment_override_present: true
+  condition: selection
+falsepositives:
+- Approved build with reviewed environment settings.
+level: medium
+tags:
+- attack.privilege_escalation
+x_hacktricks_technique_id: aws-codebuild-start-build-environment-override

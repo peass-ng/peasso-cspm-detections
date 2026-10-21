@@ -1,0 +1,23 @@
+title: Verified Permissions policy store deleted
+id: efa9b81a-b459-4c9f-b635-f861fd623207
+status: experimental
+description: An accepted DeletePolicyStore request removed a named authorization store. Application impact depends on whether workloads used the store or an alias pointing to it.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-verified-permissions-post-exploitation/README.md#L81
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_DeletePolicyStore.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: DeletePolicyStore
+    event.outcome: success
+    request.vp_policy_store_deleted: true
+  condition: selection
+falsepositives:
+  - Approved disposal of a development authorization store
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-vp-policy-store-deleted

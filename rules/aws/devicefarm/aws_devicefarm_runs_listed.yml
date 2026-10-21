@@ -1,0 +1,25 @@
+title: Device Farm project runs listed
+id: 14000000-0000-4000-8000-000000000008
+status: experimental
+description: >
+  ListRuns succeeded for a mobile testing project. The caller can discover run
+  metadata and identify run ARNs for later configuration or artifact reads.
+  This event alone does not prove that a run existed or its contents were read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L76
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: ProjectRunsListed
+    event.outcome: success
+    request.devicefarm_runs_listed: true
+  condition: selection
+falsepositives:
+  - Approved CI inventory of testing runs.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-devicefarm-runs-listed

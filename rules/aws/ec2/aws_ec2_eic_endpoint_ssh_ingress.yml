@@ -1,0 +1,23 @@
+title: Target security group admits SSH from a newly created EIC Endpoint
+id: 00ce6d54-9f11-42ec-aeb2-59af1d2ef798
+status: experimental
+description: A successful SSH ingress change references the security group of an EC2 Instance Connect Endpoint created in the same account and region; the ingress occurs from 15 minutes before to one hour after endpoint creation. The events do not prove an SSH session.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md#L87
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/eice-security-groups.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AuthorizeSecurityGroupIngress
+    event.outcome: success
+    request.eic_endpoint_ssh_ingress: true
+  condition: selection
+falsepositives:
+  - Approved EIC Endpoint setup for private instance administration
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-ec2-eic-endpoint-ssh-ingress

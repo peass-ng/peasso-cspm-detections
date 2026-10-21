@@ -1,0 +1,20 @@
+title: AWS EMR Serverless session endpoint read by a different principal
+id: 9fd4727c-0666-4362-b790-60f92937d45a
+status: experimental
+description: A principal different from the StartSession creator requested the same Spark Connect session endpoint within 24 hours. CloudTrail does not record whether the token was returned or used.
+x_hacktricks_technique_id: aws-emr-serverless-session-endpoint-cross-actor
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L90
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: emr-serverless.amazonaws.com
+    event.name: GetSessionEndpoint
+    event.outcome: success
+    request.emr_session_endpoint_cross_actor: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved shared Spark Connect client or operator retrieving a colleague's session endpoint

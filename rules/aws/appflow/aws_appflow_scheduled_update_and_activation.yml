@@ -1,0 +1,23 @@
+title: AppFlow scheduled update and activation
+id: 12700000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A Scheduled UpdateFlow and a StartFlow activation targeted the same flow within 15 minutes. Same-second timestamps do not prove call order; execution records are needed to prove recurring transfer.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appflow-persistence/README.md#L38
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowScheduledUpdateAndActivation
+    event.outcome: success
+    request.appflow_scheduled_update_and_activation: true
+  condition: selection
+falsepositives:
+  - Approved deployment or schedule change.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appflow-scheduled-update-and-activation

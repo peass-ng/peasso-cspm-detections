@@ -1,0 +1,26 @@
+title: CodeArtifact npm package version published
+id: c65d8849-2539-4a41-bce7-02bc56c5826c
+status: experimental
+description: >
+  A package-manager client published an npm package version in CodeArtifact.
+  Compare the publisher and version with approved releases; publication alone
+  does not establish that a consumer installed or executed the package.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codeartifact-privesc/README.md#L5
+  - https://docs.aws.amazon.com/codeartifact/latest/ug/codeartifact-information-in-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: PublishPackageVersion
+    event.outcome: success
+    request.codeartifact_npm_published: true
+  condition: selection
+falsepositives:
+  - An approved npm package release.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-codeartifact-npm-package-version-published

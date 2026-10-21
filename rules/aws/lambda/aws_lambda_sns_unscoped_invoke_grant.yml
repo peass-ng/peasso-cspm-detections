@@ -1,0 +1,26 @@
+title: Lambda grants SNS invocation without a source ARN
+id: 16a507b9-e763-4d6b-aec3-e2f21307f441
+status: experimental
+description: >
+  An accepted Lambda AddPermission statement grants sns.amazonaws.com
+  InvokeFunction without SourceArn or SourceAccount. A topic that can establish
+  a subscription may invoke the function; the grant alone does not prove use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sns-privesc/README.md#L70
+  - https://docs.aws.amazon.com/lambda/latest/api/API_AddPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: AddPermission20150331v2
+    event.outcome: success
+    request.lambda_sns_unscoped_invoke_grant: true
+  condition: selection
+falsepositives:
+  - Approved SNS topics whose invocation scope is controlled separately.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-lambda-sns-unscoped-invoke-grant

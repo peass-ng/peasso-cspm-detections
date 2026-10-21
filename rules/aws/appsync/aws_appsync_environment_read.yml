@@ -1,0 +1,21 @@
+title: AppSync GraphQL API environment variables read
+id: 6ca0f1ca-4ce2-4c2b-bf5f-a73e2cf8e771
+status: experimental
+description: GetGraphqlApiEnvironmentVariables succeeded for one API. The caller may have seen environment values, but CloudTrail omits the response and the rule does not copy them.
+x_hacktricks_technique_id: aws-tech-dcb2f7224745b5eb
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_GetGraphqlApiEnvironmentVariables.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: GetGraphqlApiEnvironmentVariables
+    event.outcome: success
+    request.appsync_environment_read: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved configuration review

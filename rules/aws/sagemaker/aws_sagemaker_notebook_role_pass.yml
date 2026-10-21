@@ -1,0 +1,23 @@
+title: SageMaker notebook created with an execution role
+id: cbc92b11-766b-5ae4-9eb8-08548582418a
+status: experimental
+description: An accepted notebook creation attached a same-account execution role.
+  Investigate whether the creator was allowed to use that role. This event alone does
+  not prove role abuse.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_notebook_role_passed: true
+  condition: selection
+falsepositives:
+- Approved creation of a managed notebook with a delegated execution role.
+level: medium
+tags:
+- attack.privilege_escalation
+x_hacktricks_technique_id: aws-sagemaker-notebook-role-pass

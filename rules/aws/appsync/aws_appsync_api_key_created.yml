@@ -1,0 +1,21 @@
+title: AppSync API key created
+id: 15761e4e-b063-4db3-a348-63856a4f944c
+status: experimental
+description: CreateApiKey succeeded for one GraphQL API. CloudTrail masks the key; the event alone does not prove that API_KEY authorization is enabled or that any client used it.
+x_hacktricks_technique_id: aws-tech-103ec299131001c1
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appsync-persistence/README.md#L13
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_CreateApiKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: CreateApiKey
+    event.outcome: success
+    request.appsync_api_key_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved API key rotation or new development client

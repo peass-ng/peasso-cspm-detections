@@ -1,0 +1,21 @@
+title: AWS CodeBuild build configuration read
+id: 7ae2659b-3012-481c-b130-410942775e05
+status: experimental
+description: BatchGetBuilds requested and, when visible in CloudTrail, returned at least one build. The API event does not establish that a sensitive environment value was returned or stolen.
+x_hacktricks_technique_id: aws-tech-672588c90383f487
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md#L710
+- https://docs.aws.amazon.com/codebuild/latest/APIReference/API_BatchGetBuilds.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: BatchGetBuilds
+    event.outcome: success
+    request.codebuild_build_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+- Approved CI build inspection

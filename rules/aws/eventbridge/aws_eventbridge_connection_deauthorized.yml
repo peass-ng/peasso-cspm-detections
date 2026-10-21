@@ -1,0 +1,22 @@
+title: EventBridge connection deauthorization started
+id: 4f73f105-940a-4437-85f8-1bbaf5cd66e2
+status: experimental
+description: A successful DeauthorizeConnection request started removing stored authorization. Destinations using this connection can stop delivering; confirm final connection state and affected targets.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L340
+  - https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DeauthorizeConnection.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_connection_deauthorization_started: true
+  condition: selection
+falsepositives:
+  - Approved retirement of a connection or credential
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eventbridge-connection-deauthorized

@@ -1,0 +1,24 @@
+title: CodeCommit blob read by known ID
+id: 6a0b22fc-a23f-4d60-b781-cff5620e1adb
+status: experimental
+description: A successful GetBlob call accessed an object by known blob ID. The ID
+  and returned bytes are excluded from normalized evidence.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/codecommit/latest/userguide/integ-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codecommit.amazonaws.com
+    event.name: GetBlob
+    event.outcome: success
+    request.codecommit_known_blob_read: true
+  condition: selection
+falsepositives:
+- Approved source inspection
+level: low
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-a9be9ac2ab0765e2

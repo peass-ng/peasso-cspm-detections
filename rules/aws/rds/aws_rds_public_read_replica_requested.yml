@@ -1,0 +1,21 @@
+title: AWS RDS read replica requested as publicly accessible
+id: 4739ca26-c2ec-4cd9-8d63-995a59a0d779
+status: experimental
+description: CreateDBInstanceReadReplica accepted publiclyAccessible true and returned the source and target identifiers. Confirm final state, source privacy, security group reachability and authorization before inferring exposure.
+x_hacktricks_technique_id: aws-rds-public-read-replica-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L732
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstanceReadReplica.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: CreateDBInstanceReadReplica
+    event.outcome: success
+    request.rds_public_read_replica_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Approved public read replica restricted by network policy

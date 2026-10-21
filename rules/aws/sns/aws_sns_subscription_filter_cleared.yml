@@ -1,0 +1,21 @@
+title: AWS SNS subscription filter cleared
+id: 06963473-6594-44c6-866a-65d9d24c647d
+status: experimental
+description: A successful SetSubscriptionAttributes submitted an empty FilterPolicy. Once propagated this subscription can receive all topic messages; previous filter and endpoint ownership require review.
+x_hacktricks_technique_id: aws-sns-subscription-filter-cleared
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sns-persistence/README.md#L116
+  - https://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetSubscriptionAttributes
+    event.outcome: success
+    request.sns_filter_cleared: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved expansion of subscriber scope

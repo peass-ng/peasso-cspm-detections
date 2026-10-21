@@ -1,0 +1,20 @@
+title: Chime SDK logical messaging user created
+id: 049296cb-e91c-40c9-967c-780bb3be464a
+status: experimental
+description: A successful CreateAppInstanceUser created a logical messaging identity. Review unexpected identities before they gain administrator or channel access.
+x_hacktricks_technique_id: aws-chime-app-instance-user-create
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L95
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: CreateAppInstanceUser
+    event.outcome: success
+    request.chime_app_instance_user_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved application user provisioning

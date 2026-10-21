@@ -1,0 +1,23 @@
+title: B2BI transformers listed
+id: f9a00b20-0000-4000-8000-000000000005
+status: experimental
+description: >
+  ListTransformers enumerated EDI transformers. Review unexpected discovery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-b2bi-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biTransformersListed
+    event.outcome: success
+    request.b2bi_transformers_listed: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration or incident response.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-b2bi-transformers-listed

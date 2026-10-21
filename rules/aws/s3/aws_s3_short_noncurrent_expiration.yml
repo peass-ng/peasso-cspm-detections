@@ -1,0 +1,27 @@
+title: S3 noncurrent object versions set to expire within seven days
+id: 4314f490-468e-4b2a-9fc6-4ca564515d33
+status: experimental
+description: >
+  A successful PutBucketLifecycle set an enabled prefix rule that makes
+  matching noncurrent versions eligible for expiration within seven days.
+  This can remove the versions needed to recover from a malicious rewrite;
+  the configuration event does not prove expiration has occurred.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L438
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketLifecycle
+    event.outcome: success
+    request.s3_short_noncurrent_expiration: true
+  condition: selection
+falsepositives:
+  - Approved deletion of obsolete versions in a temporary bucket.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-dff7e5647f79a82d

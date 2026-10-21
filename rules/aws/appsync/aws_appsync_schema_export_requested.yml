@@ -1,0 +1,21 @@
+title: AppSync GraphQL introspection schema export requested
+id: afea1694-ea4d-41f6-a8e7-e9751e32c27e
+status: experimental
+description: GetIntrospectionSchema succeeded for one API. The SDK returned a schema in an isolated test; CloudTrail omits it, so this rule records only the access request.
+x_hacktricks_technique_id: aws-tech-dcb2f7224745b5eb
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_GetIntrospectionSchema.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: GetIntrospectionSchema
+    event.outcome: success
+    request.appsync_schema_export_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved schema export or client generation

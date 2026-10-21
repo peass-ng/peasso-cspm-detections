@@ -1,0 +1,23 @@
+title: REST API Lambda proxy integration published
+id: e326aafb-a591-4c0d-a601-bd6f5fd66389
+status: experimental
+description: An accepted PutIntegration assigned an AWS_PROXY Lambda URI and a subsequent CreateDeployment published the REST API. The event pair does not prove the Lambda was invoked or that its execution role granted the caller privileges.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apigateway-privesc/README.md#L49
+  - https://docs.aws.amazon.com/apigateway/latest/api/API_CreateDeployment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestLambdaIntegrationPublished
+    event.outcome: success
+    request.apigateway_rest_lambda_integration_published: true
+  condition: selection
+falsepositives:
+  - Approved API authorizer or backend deployment
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-apigateway-rest-lambda-integration-published

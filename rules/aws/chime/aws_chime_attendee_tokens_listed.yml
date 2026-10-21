@@ -1,0 +1,20 @@
+title: Chime SDK meeting attendee tokens listed
+id: e97949d4-7377-480e-b68e-aa398fe331bd
+status: experimental
+description: A successful ListAttendees requested a meeting's attendee list, whose entries include join tokens. CloudTrail does not expose the response count, so this event alone does not prove any token was returned.
+x_hacktricks_technique_id: aws-chime-attendee-tokens-list
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L21
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: ListAttendees
+    event.outcome: success
+    request.chime_attendee_tokens_listed: true
+  condition: selection
+level: high
+falsepositives:
+  - Authorized meeting inventory and provisioning

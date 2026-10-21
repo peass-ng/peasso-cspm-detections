@@ -1,0 +1,26 @@
+title: EventBridge Pipe started with its stored execution role
+id: 535984bd-9aaa-47c6-8ee7-6b86487c6d6e
+status: experimental
+description: >
+  StartPipe was accepted for a known pipe. A stopped pipe can begin reading
+  its source and invoking its target with its stored role. This event does not
+  show the role or target and does not prove a record was processed; inspect
+  the pipe configuration and subsequent delivery to assess impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipe-stored-role-privesc/README.md#L15
+  - https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_StartPipe.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: pipes.amazonaws.com
+    event.outcome: success
+    request.pipes_stopped_pipe_started: true
+  condition: selection
+falsepositives:
+  - Approved restart of a paused integration pipe.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-pipes-stopped-pipe-started

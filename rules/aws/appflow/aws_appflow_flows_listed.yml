@@ -1,0 +1,23 @@
+title: AppFlow flows listed
+id: 12600000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ListFlows enumerated available AppFlow integrations. The event has no individual flow target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowFlowsListed
+    event.outcome: success
+    request.appflow_flows_listed: true
+  condition: selection
+falsepositives:
+  - Authorized integration inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-appflow-flows-listed

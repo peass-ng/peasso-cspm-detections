@@ -1,0 +1,23 @@
+title: CloudWatch dashboard body read
+id: c69a892f-1660-419e-ad0e-09c851d75c23
+status: experimental
+description: A successful GetDashboard request accessed a named dashboard. CloudTrail
+  does not include the returned body; review the reader and approved dashboard access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L30
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: GetDashboard
+    event.outcome: success
+    request.cloudwatch_dashboard_body_read: true
+  condition: selection
+falsepositives:
+- Approved dashboard viewing
+level: low
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-tech-8bee60221b0f695d

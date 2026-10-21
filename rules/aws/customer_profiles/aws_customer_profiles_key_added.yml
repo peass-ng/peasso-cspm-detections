@@ -1,0 +1,20 @@
+title: AWS Customer Profiles alternate key added
+id: 961b3ce9-267f-4c63-971c-9c0f865a4291
+status: experimental
+description: AddProfileKey added a lookup alias to an existing customer profile. Review the key name and approving integration; the event does not expose key values or grant access by itself.
+x_hacktricks_technique_id: aws-tech-18af6adb3be7771a
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-customer-profiles-persistence/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: AddProfileKey
+    event.outcome: success
+    request.customer_profiles_key_added: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved profile key maintenance

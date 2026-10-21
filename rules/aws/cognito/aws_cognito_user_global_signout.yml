@@ -1,0 +1,20 @@
+title: AWS Cognito administrator global user sign-out accepted
+id: 606a6867-c6b4-4b55-8e2f-9dc070111bb5
+status: experimental
+description: A principal successfully requested AdminUserGlobalSignOut. The event proves an accepted sign-out request, not the number of active sessions invalidated; monitor repeated use by the same actor.
+x_hacktricks_technique_id: aws-cognito-user-global-signout
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminUserGlobalSignOut
+    event.outcome: success
+    request.cognito_user_global_sign_out: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved incident response session invalidation

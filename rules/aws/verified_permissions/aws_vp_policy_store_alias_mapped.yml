@@ -1,0 +1,23 @@
+title: Verified Permissions policy store alias mapped
+id: ae3be1ec-fb44-4fe8-a293-537903f1d8b4
+status: experimental
+description: CreatePolicyStoreAlias accepted an alias-to-store mapping. The event does not reveal whether an earlier mapping used the same name or whether any application resolved the alias.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-verified-permissions-persistence/README.md#L63
+  - https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/policy-store-aliases-using.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: verifiedpermissions.amazonaws.com
+    event.name: CreatePolicyStoreAlias
+    event.outcome: success
+    request.vp_alias_mapped: true
+  condition: selection
+falsepositives:
+  - Approved policy store alias deployment
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-vp-policy-store-alias-mapped

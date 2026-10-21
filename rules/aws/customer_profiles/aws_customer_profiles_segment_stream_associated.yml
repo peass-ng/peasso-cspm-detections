@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment event stream associated
+id: 5b0d83df-9f47-4f2f-a068-31a2c24c122e
+status: experimental
+description: AssociateStreamForSegments configured an account-owned Kinesis stream and delivery role for segment membership events. Check role trust and stream readers; the association alone does not prove delivery.
+x_hacktricks_technique_id: aws-tech-4b85f17fec42ec42
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-customer-profiles-persistence/README.md#L55
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: AssociateStreamForSegments
+    event.outcome: success
+    request.customer_profiles_segment_stream_associated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved segment event export

@@ -1,0 +1,20 @@
+title: AWS SSM document update promoted to default version
+id: dd34e0e9-151d-4314-b728-e3a39e8eb06a
+status: experimental
+description: The same actor updated an SSM document and promoted the exact returned numeric version as default within ten minutes. CloudTrail hides the updated document content; review the version diff and linked execution targets.
+x_hacktricks_technique_id: aws-ssm-document-updated-and-default-promoted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L430
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: UpdateDocumentDefaultVersion
+    event.outcome: success
+    request.ssm_document_updated_and_default_promoted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved rollout of a new document version

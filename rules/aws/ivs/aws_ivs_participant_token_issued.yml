@@ -1,0 +1,23 @@
+title: IVS participant token issued
+id: f9a00b15-0000-4000-8000-000000000003
+status: experimental
+description: >
+  CreateParticipantToken issued stage capabilities for a user ID. Review PUBLISH and duration; no participant join is implied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L222
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsParticipantTokenIssued
+    event.outcome: success
+    request.ivs_participant_token_issued: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-participant-token-issued

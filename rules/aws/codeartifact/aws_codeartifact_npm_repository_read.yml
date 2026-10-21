@@ -1,0 +1,26 @@
+title: CodeArtifact npm package read from repository
+id: bfad6ea7-b1cc-4be2-99e4-c6e46a0b6d52
+status: experimental
+description: >
+  An npm package-manager client read a package from CodeArtifact. The
+  observed event does not include the selected version; correlate client
+  build records or package inventory to establish the content consumed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codeartifact-privesc/README.md#L5
+  - https://docs.aws.amazon.com/codeartifact/latest/ug/codeartifact-information-in-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeartifact.amazonaws.com
+    event.name: ReadFromRepository
+    event.outcome: success
+    request.codeartifact_npm_repository_read: true
+  condition: selection
+falsepositives:
+  - Expected package-manager install or metadata lookup.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-codeartifact-npm-repository-read

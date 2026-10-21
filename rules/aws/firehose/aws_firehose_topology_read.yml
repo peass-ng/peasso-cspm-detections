@@ -1,0 +1,20 @@
+title: AWS Firehose delivery topology read
+id: 8f858de7-abd9-4daf-8455-70b7a1234a36
+status: experimental
+description: A successful DescribeDeliveryStream request can expose delivery destinations, roles and processors to the caller. CloudTrail records the request but normally omits the response body.
+x_hacktricks_technique_id: aws-firehose-delivery-topology-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-firehose-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: firehose.amazonaws.com
+    event.name: FirehoseTopologyRead
+    event.outcome: success
+    request.firehose_topology_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved stream inventory

@@ -1,0 +1,20 @@
+title: AWS CodeBuild project tags submitted in update
+id: f85cded0-0842-48b3-abd8-24d0114f5a1c
+status: experimental
+description: UpdateProject included a nonempty tags field. CloudTrail can redact tag contents, so compare authoritative before/after tags privately to determine whether IAM or cost-control tags changed.
+x_hacktricks_technique_id: aws-tech-bd1d1307c47093d2
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codebuild-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: UpdateProject
+    event.outcome: success
+    request.codebuild_project_tags_submitted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved project tag maintenance

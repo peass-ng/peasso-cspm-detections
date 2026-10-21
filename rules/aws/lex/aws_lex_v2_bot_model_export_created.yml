@@ -1,0 +1,23 @@
+title: Lex V2 bot model export created
+id: 13500000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  CreateExport accepted a LexJson export of a bot model. Completion and download require separate checks.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L94
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: BotModelExportCreated
+    event.outcome: success
+    request.bot_model_export_created: true
+  condition: selection
+falsepositives:
+  - Approved bot model backup.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-lex-v2-bot-model-export-created

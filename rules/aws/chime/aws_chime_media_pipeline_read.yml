@@ -1,0 +1,20 @@
+title: Chime SDK media pipeline configuration read
+id: 7a604427-7c14-4c2d-a8da-c20e82a1871e
+status: experimental
+description: A successful exact-ID GetMediaPipeline request read pipeline configuration. CloudTrail omits the response, so this rule does not identify the pipeline type or prove that it contained an RTMP key.
+x_hacktricks_technique_id: aws-chime-media-pipeline-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L60
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: GetMediaPipeline
+    event.outcome: success
+    request.chime_media_pipeline_read: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved pipeline controller or inventory read

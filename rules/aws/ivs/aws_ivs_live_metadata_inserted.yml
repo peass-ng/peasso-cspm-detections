@@ -1,0 +1,23 @@
+title: IVS live stream metadata inserted
+id: f9a00b15-0000-4000-8000-000000000004
+status: experimental
+description: >
+  PutMetadata inserted metadata into an active channel stream. Review unexpected callers and payload handling.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsLiveMetadataInserted
+    event.outcome: success
+    request.ivs_live_metadata_inserted: true
+  condition: selection
+falsepositives:
+  - Approved IVS broadcasting or viewer administration.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-ivs-live-metadata-inserted

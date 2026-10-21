@@ -1,0 +1,25 @@
+title: CodeBuild project deletion succeeded
+id: b7886a3d-42b9-4d69-8670-a81903df2c65
+status: experimental
+description: >
+  A successful DeleteProject request removed a CodeBuild project. The event
+  does not prove that builds or dependent pipelines were disrupted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd9bf8863bf7a36de10b8695d366a53a9063c81c/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codebuild-post-exploitation/README.md#L191
+  - https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteProject.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codebuild.amazonaws.com
+    event.name: DeleteProject
+    event.outcome: success
+    request.codebuild_project_deleted: true
+  condition: selection
+falsepositives:
+  - Approved project retirement or temporary lab cleanup.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-codebuild-delete-project

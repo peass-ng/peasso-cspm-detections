@@ -1,0 +1,20 @@
+title: AWS Kinesis Video signaling master endpoint discovered
+id: c3e33494-6697-4af0-99de-735599c37554
+status: experimental
+description: A principal obtained the signaling channel HTTPS master endpoint. The request does not prove a master connected or exchanged media.
+x_hacktricks_technique_id: aws-kvs-signaling-master-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L17
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetSignalingChannelEndpoint
+    event.outcome: success
+    request.kvs_signaling_master_endpoint_discovered: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved WebRTC master initialization

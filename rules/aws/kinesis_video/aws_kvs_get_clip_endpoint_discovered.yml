@@ -1,0 +1,20 @@
+title: AWS Kinesis Video clip endpoint discovered
+id: b75cdaac-7e18-4a9e-8eb1-147bf1164c2c
+status: experimental
+description: A principal obtained the GET_CLIP data endpoint for a video stream. The request does not prove a clip was generated or retrieved.
+x_hacktricks_technique_id: aws-kvs-get-clip-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L63
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_get_clip_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved clip consumer setup

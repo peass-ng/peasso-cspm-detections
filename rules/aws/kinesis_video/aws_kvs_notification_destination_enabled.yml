@@ -1,0 +1,21 @@
+title: AWS Kinesis Video fragment notification destination enabled
+id: 8ed964c3-c40c-460c-9a67-61f9a851a6cb
+status: experimental
+description: A video stream accepted an SNS destination for fragment notifications.
+  Compare the topic with approved destinations and producer permissions.
+x_hacktricks_technique_id: aws-kvs-notification-destination-enabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kinesis-video-streams-persistence/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateNotificationConfiguration
+    event.outcome: success
+    request.kvs_notification_destination_enabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved fragment notification setup

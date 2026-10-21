@@ -1,0 +1,22 @@
+title: AppSync HTTP data source created with AWS signed execution role
+id: ae13d721-b1e3-51a0-b219-d353f86efb08
+status: experimental
+description: An accepted CreateDataSource bound a same-account IAM role to an
+  AWS SigV4 HTTP data source targeting an AWS service endpoint. Review whether
+  the role and backend are approved; this event alone does not prove GraphQL use.
+x_hacktricks_technique_id: aws-tech-6a85c56c1f640d15
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appsync-privesc/README.md#L13
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: CreateDataSource
+    event.outcome: success
+    request.appsync_signed_http_role_data_source_created: true
+  condition: selection
+level: high
+falsepositives:
+- Approved AppSync integration that signs requests to an AWS service.

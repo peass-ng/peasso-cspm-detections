@@ -1,0 +1,23 @@
+title: License Manager seller license checked out
+id: 13100000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  CheckoutLicense accepted a provisional or perpetual checkout and returned a consumption token. A signed token is not required in the observed provisional response.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicenseCheckedOut
+    event.outcome: success
+    request.seller_license_checked_out: true
+  condition: selection
+falsepositives:
+  - Approved application license checkout.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-license-manager-seller-license-checked-out

@@ -1,0 +1,21 @@
+title: IAM group deleted
+id: 9b1aee37-abb0-579a-a900-d1b1051d4aea
+status: experimental
+description: An accepted DeleteGroup IAM API call named its target. Review approved
+  administration and dependent access before treating it as an attack.
+x_hacktricks_technique_id: aws-tech-a4149a97ee676c21
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L358
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: DeleteGroup
+    event.outcome: success
+    request.iam_identity_deletion_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IAM administration or planned identity and credential cleanup.

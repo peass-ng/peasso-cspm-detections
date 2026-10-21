@@ -1,0 +1,23 @@
+title: Lambda layer version published
+id: a7fb15e9-a192-4476-a26a-8eb9855cbd3a
+status: experimental
+description: >
+  Accepted publication of a Lambda layer version. The ZIP content is omitted from CloudTrail; review its artifact and publisher.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaLayerVersionPublished
+    event.outcome: success
+    request.lambda_layer_version_published: true
+  condition: selection
+falsepositives:
+  - Approved layer release.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-layer-version-published

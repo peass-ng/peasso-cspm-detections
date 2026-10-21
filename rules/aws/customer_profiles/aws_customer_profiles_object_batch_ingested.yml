@@ -1,0 +1,21 @@
+title: AWS Customer Profiles batch objects ingested
+id: 45904506-593f-4ebd-a1c2-88d4b1f9c062
+status: experimental
+description: BatchPutProfileObject was accepted for a batch. If CloudTrail includes per-item results, at least one item must be successful. A missing response does not prove ingestion; verify item effects separately.
+x_hacktricks_technique_id: aws-tech-132b4254e96ea051
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L68
+- https://docs.aws.amazon.com/cli/latest/reference/customer-profiles/batch-put-profile-object.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: BatchPutProfileObject
+    event.outcome: success
+    request.customer_profiles_profile_object_batch_ingested: true
+  condition: selection
+level: high
+falsepositives:
+- Approved batch profile-object ingestion

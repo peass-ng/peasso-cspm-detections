@@ -1,0 +1,23 @@
+title: AppFlow flow deleted
+id: 12600000-0000-4000-8000-000000000009
+status: experimental
+description: >
+  DeleteFlow removed an integration configuration. The event alone does not prove downstream data deletion.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md#L172
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowFlowDeleted
+    event.outcome: success
+    request.appflow_flow_deleted: true
+  condition: selection
+falsepositives:
+  - Approved integration retirement.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-appflow-flow-deleted

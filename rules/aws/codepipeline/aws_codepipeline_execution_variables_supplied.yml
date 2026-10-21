@@ -1,0 +1,21 @@
+title: CodePipeline execution started with variables
+id: 8c6e9bc0-555b-533e-ac25-a0805528d3d8
+status: experimental
+description: >
+  A successful StartPipelineExecution supplied one or more V2 pipeline variables. Values are deliberately excluded. This event alone does not show that an action used them.
+x_hacktricks_technique_id: aws-tech-c3fb56b8affe9ef3
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L69
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: StartPipelineExecution
+    event.outcome: success
+    request.pipeline_execution_variables_supplied: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized parameterized pipeline run.

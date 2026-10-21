@@ -1,0 +1,24 @@
+title: Private DNS enabled for a VPC endpoint
+id: e4f96de5-049e-45e8-83af-4630089ec0d2
+status: experimental
+description: >
+  A successful ModifyVpcEndpoint enabled private DNS. This can make a service
+  hostname resolve to endpoint ENIs inside a VPC; correlate the endpoint
+  service, API resource policies and approved network design before claiming
+  access to a private API or data transfer.
+x_hacktricks_technique_id: aws-vpc-endpoint-private-dns-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyVpcEndpoint
+    event.outcome: success
+    request.vpc_endpoint_private_dns_enabled: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved private DNS configuration for an application endpoint.

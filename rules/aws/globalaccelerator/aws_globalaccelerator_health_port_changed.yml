@@ -1,0 +1,23 @@
+title: Global Accelerator endpoint group health check port changed
+id: 484bd4ea-75ab-4e31-874b-976a81daa102
+status: experimental
+description: A successful UpdateEndpointGroup set the health check port. Compare the configured port to the intended backend listener before assessing availability.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: UpdateEndpointGroup
+    event.outcome: success
+    request.ga_health_port_changed: true
+  condition: selection
+falsepositives:
+  - Approved health check migration
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-health-port-changed

@@ -1,0 +1,20 @@
+title: AWS CloudWatch custom metric data published
+id: 12a90288-6892-4a0a-badc-753c649d211e
+status: experimental
+description: A successful PutMetricData data event published a custom metric. This is an ingestion audit signal; CloudTrail must have CloudWatch metric data events enabled and the call alone does not prove poisoning.
+x_hacktricks_technique_id: aws-cloudwatch-metric-data-published
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricDataPublished
+    event.outcome: success
+    request.cloudwatch_metric_data_published: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved application telemetry

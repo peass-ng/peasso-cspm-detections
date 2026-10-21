@@ -1,0 +1,23 @@
+title: Device Farm TestGrid actions listed
+id: 14100000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  ListTestGridSessionActions succeeded for a browser session. The API can reveal the sequence of WebDriver actions; CloudTrail omits that response.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L43
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: TestGridSessionActionsListed
+    event.outcome: success
+    request.devicefarm_testgrid_actions_listed: true
+  condition: selection
+falsepositives:
+  - Approved troubleshooting of browser tests.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-devicefarm-testgrid-actions-listed

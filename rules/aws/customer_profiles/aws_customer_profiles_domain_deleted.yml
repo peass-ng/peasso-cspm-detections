@@ -1,0 +1,20 @@
+title: AWS Customer Profiles domain deleted
+id: 986cd0c0-ded3-444f-ac4b-61f958a7302c
+status: experimental
+description: DeleteDomain succeeded for a customer profile domain. Confirm approved teardown and dependent integrations; the event alone does not establish the extent of removed data.
+x_hacktricks_technique_id: aws-tech-879a5a49b0b3d241
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L185
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: DeleteDomain
+    event.outcome: success
+    request.customer_profiles_domain_deleted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved domain retirement

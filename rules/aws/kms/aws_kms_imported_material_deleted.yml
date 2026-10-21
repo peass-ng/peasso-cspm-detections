@@ -1,0 +1,26 @@
+title: KMS imported key material deleted
+id: e4a955ad-9217-435c-b275-fc2a8562fc09
+status: experimental
+description: >
+  DeleteImportedKeyMaterial was accepted for a customer managed key. Removal
+  of its current material can make cryptographic operations fail immediately.
+  The event alone does not prove that all material versions were removed or
+  that protected production data became unreadable; compare key state and use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L349
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-deleteimportedkeymaterial.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_imported_material_deleted: true
+  condition: selection
+falsepositives:
+  - Approved retirement or replacement of imported key material.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-imported-material-deleted

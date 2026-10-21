@@ -1,0 +1,23 @@
+title: AppFlow flow stopped
+id: 12600000-0000-4000-8000-000000000008
+status: experimental
+description: >
+  StopFlow suspended an integration. The event does not prove data was lost.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appflow-post-exploitation/README.md#L172
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appflow.amazonaws.com
+    event.name: AppflowFlowStopped
+    event.outcome: success
+    request.appflow_flow_stopped: true
+  condition: selection
+falsepositives:
+  - Approved maintenance or incident response.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-appflow-flow-stopped

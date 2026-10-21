@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights configuration deleted
+id: e2671e06-2820-4502-8bfd-4d1efa2e1a00
+status: experimental
+description: A successful delete request targeted an exact Media Insights configuration. The event does not prove a running pipeline stopped.
+x_hacktricks_technique_id: aws-chime-insights-configuration-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: DeleteMediaInsightsPipelineConfiguration
+    event.outcome: success
+    request.chime_insights_configuration_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved analytics configuration teardown

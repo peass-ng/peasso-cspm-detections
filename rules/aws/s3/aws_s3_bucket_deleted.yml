@@ -1,0 +1,25 @@
+title: S3 bucket deletion succeeded
+id: 9a98214b-9d71-45ae-a824-a75fdfdc677d
+status: experimental
+description: >
+  A successful DeleteBucket request removed a bucket. It does not prove
+  prior data loss or subsequent takeover of the globally unique name.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: DeleteBucket
+    event.outcome: success
+    request.s3_bucket_deleted: true
+  condition: selection
+falsepositives:
+  - Approved bucket retirement or temporary lab cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-s3-bucket-deleted

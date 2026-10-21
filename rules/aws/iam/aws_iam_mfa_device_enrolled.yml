@@ -1,0 +1,23 @@
+title: IAM MFA device enrolled on user
+id: 6fe18b94-ec51-40fd-8584-a7a075f0ce3b
+status: experimental
+description: A successful EnableMFADevice call attached an MFA device to an IAM user. Compare prior devices and actor approval; a second device can produce MFA-authenticated sessions while the first still works, but this event alone does not show prior inventory or credential use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L932
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_EnableMFADevice.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: EnableMFADevice
+    event.outcome: success
+    request.iam_mfa_enrolled: true
+  condition: selection
+falsepositives:
+  - Approved first device enrollment or device replacement
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-iam-mfa-device-enrolled

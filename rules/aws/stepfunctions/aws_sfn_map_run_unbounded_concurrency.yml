@@ -1,0 +1,25 @@
+title: Step Functions Map Run sets unbounded concurrency
+id: 18313c23-978c-48e2-acaf-2f99fd58c48e
+status: experimental
+description: >
+  A Map Run update set maxConcurrency to zero, which removes its configured
+  concurrency limit. This can overload downstream services when many items run.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L496
+  - https://docs.aws.amazon.com/step-functions/latest/dg/state-map-distributed.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UpdateMapRun
+    event.outcome: success
+    request.sfn_map_run_unbounded_concurrency: true
+  condition: selection
+falsepositives:
+  - Approved removal of a concurrency limit on a bounded dataset.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sfn-map-run-unbounded-concurrency

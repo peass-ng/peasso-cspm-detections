@@ -1,0 +1,26 @@
+title: Lambda alias or version grants invoke access to an AWS account
+id: c7856c64-ae7c-43e1-ae3b-8d4c6d73b27a
+status: experimental
+description: >
+  A successful AddPermission call granted an AWS account invocation rights
+  on a specific Lambda alias or version. Review the qualified policy and
+  the principal; the event does not prove malicious code or invocation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L362
+  - https://docs.aws.amazon.com/lambda/latest/api/API_AddPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: AddPermission20150331v2
+    event.outcome: success
+    request.lambda_qualified_account_invoke_grant: true
+  condition: selection
+falsepositives:
+  - Approved account access to a published function version or alias.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-qualified-account-invoke-grant

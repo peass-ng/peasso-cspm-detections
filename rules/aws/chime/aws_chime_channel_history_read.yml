@@ -1,0 +1,20 @@
+title: Chime SDK channel message history read
+id: 75c4824c-0f1d-4387-b7f9-d015919b6a33
+status: experimental
+description: A successful ListChannelMessages read channel history using an AppInstanceUser or bot bearer. Compare the AWS caller with the bearer allowed by the application.
+x_hacktricks_technique_id: aws-chime-channel-history-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L138
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: ListChannelMessages
+    event.outcome: success
+    request.chime_channel_history_read: true
+  condition: selection
+level: medium
+falsepositives:
+  - Normal messaging backend history reads

@@ -1,0 +1,23 @@
+title: Inspector suppression filter created
+id: e2340966-6384-4416-8fe8-d01390083e15
+status: experimental
+description: >
+  Accepted CreateFilter action SUPPRESS with nonempty criteria. Review its exact scope; the event alone does not prove any real finding was hidden.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L150
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorSuppressionFilterCreated
+    event.outcome: success
+    request.inspector_suppression_filter_created: true
+  condition: selection
+falsepositives:
+  - Approved suppression for a reviewed false positive.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-suppression-filter-created

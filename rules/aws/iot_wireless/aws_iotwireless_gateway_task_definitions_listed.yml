@@ -1,0 +1,23 @@
+title: IoT Wireless gateway update definitions listed
+id: 12300000-0000-4000-8000-000000000021
+status: experimental
+description: >
+  ListWirelessGatewayTaskDefinitions enumerated staged gateway firmware updates.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-iot-wireless-enum.md#L37
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessGatewayTaskDefinitionsListed
+    event.outcome: success
+    request.iotwireless_gateway_task_definitions_listed: true
+  condition: selection
+falsepositives:
+  - Approved IoT Wireless fleet administration or troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iotwireless-gateway-task-definitions-listed

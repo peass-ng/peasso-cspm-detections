@@ -1,0 +1,23 @@
+title: AWS DynamoDB Query data event observed
+id: fcb17a92-b73a-4db6-bf17-0c85d995542b
+status: experimental
+description: An accepted Query request targeted a DynamoDB table. It can retrieve
+  items for a partition key; the event does not prove which values were returned.
+x_hacktricks_technique_id: aws-dynamodb-query-data-read
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L146
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: Query
+    event.outcome: success
+    request.dynamodb_query: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: low
+tags:
+- attack.collection

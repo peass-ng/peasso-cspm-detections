@@ -1,0 +1,20 @@
+title: AWS Cognito app client allows long refresh without token revocation
+id: 82dc02c9-f36f-4704-ad63-6211c54b4c2f
+status: experimental
+description: A successful CreateUserPoolClient or UpdateUserPoolClient set refresh validity to at least one year and disabled token revocation. Review sign-ins and client inventory; configuration does not prove a token was issued.
+x_hacktricks_technique_id: aws-cognito-long-refresh-no-revocation
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cognito-persistence/README.md#L48
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: [CreateUserPoolClient, UpdateUserPoolClient]
+    event.outcome: success
+    request.cognito_long_refresh_no_revocation: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved long-lived application client

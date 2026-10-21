@@ -1,0 +1,23 @@
+title: IVS stage recording disabled
+id: f9a00b16-0000-4000-8000-000000000008
+status: experimental
+description: >
+  UpdateStage removed automatic participant recording. Future stage sessions may lack expected recordings.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStageRecordingDisabled
+    event.outcome: success
+    request.ivs_stage_recording_disabled: true
+  condition: selection
+falsepositives:
+  - Approved IVS recording administration.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-ivs-stage-recording-disabled

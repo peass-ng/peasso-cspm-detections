@@ -1,0 +1,25 @@
+title: SNS subscription filter policy set
+id: 02718426-4908-4b28-b1d9-4c9fd38bf5c4
+status: experimental
+description: >
+  A nonempty subscription filter was accepted. Inspect FilterPolicyScope
+  and the subscription endpoint before concluding selective data export.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sns-persistence/README.md#L116
+  - https://docs.aws.amazon.com/sns/latest/dg/sns-subscription-filter-policies.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetSubscriptionAttributes
+    event.outcome: success
+    request.sns_filter_policy_set: true
+  condition: selection
+falsepositives:
+  - Approved SNS subscription filtering.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sns-subscription-filter-policy-set

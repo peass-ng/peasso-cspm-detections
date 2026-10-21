@@ -1,0 +1,21 @@
+title: AWS RDS parameter group disables required TLS
+id: fb6005e2-04b1-4ec3-98b0-938047ed7c68
+status: experimental
+description: ModifyDBParameterGroup accepted PostgreSQL rds.force_ssl=0 or MySQL require_secure_transport=OFF. Check attached instances and application status before concluding TLS was disabled.
+x_hacktricks_technique_id: aws-rds-parameter-group-tls-requirement-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L617
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.Modifying.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBParameterGroup
+    event.outcome: success
+    request.rds_tls_requirement_disabled: true
+  condition: selection
+level: high
+falsepositives:
+- Approved compatibility change after a documented security review

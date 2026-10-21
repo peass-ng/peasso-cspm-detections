@@ -1,0 +1,22 @@
+title: AWS SQS tag activated conditional read grant
+id: 4b5194e7-4c8f-4c84-a681-fdbb69534476
+status: experimental
+description: TagQueue set a tag value matching a recent IAM role policy that grants
+  ReceiveMessage on this queue when that resource tag is present. Effective access
+  also depends on other IAM controls.
+x_hacktricks_technique_id: aws-sqs-tag-activated-receive-grant
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md#L74
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: TagQueue
+    event.outcome: success
+    request.sqs_tag_activated_receive_grant: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved ABAC rollout

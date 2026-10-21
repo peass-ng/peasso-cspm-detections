@@ -1,0 +1,23 @@
+title: EventBridge bus grants PutEvents to a nonowner account or wildcard
+id: 4a115b12-4b75-457e-bb91-56e86d41cbf1
+status: experimental
+description: A successful PutPermission request granted events:PutEvents to an account other than the bus owner or to every account. The event does not prove that the grantee published events or that the grant was unauthorized.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-persistence/aws-eventbridge-persistence/README.md#L66
+  - https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.name: PutPermission
+    event.outcome: success
+    request.eventbridge_nonowner_put_events_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account event publishing integration
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-eventbridge-bus-nonowner-put-events-grant

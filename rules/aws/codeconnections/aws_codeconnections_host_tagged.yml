@@ -1,0 +1,23 @@
+title: CodeConnections host tagged
+id: 12900000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  TagResource changed tags on a CodeConnections host. An ABAC authorization effect requires a separate policy and follow-on operation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeconnections-post-exploitation/README.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codeconnections.amazonaws.com
+    event.name: CodeConnectionsHostTagged
+    event.outcome: success
+    request.codeconnections_host_tagged: true
+  condition: selection
+falsepositives:
+  - Approved host tagging change.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-codeconnections-host-tagged

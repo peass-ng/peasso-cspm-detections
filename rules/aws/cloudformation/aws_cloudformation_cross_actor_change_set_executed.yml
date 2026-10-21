@@ -1,0 +1,21 @@
+title: CloudFormation change set executed by a different actor
+id: 5c18c6d3-d5ab-4a21-8c0c-5ce2fc9cadc0
+status: experimental
+description: >
+  An accepted ExecuteChangeSet used the exact change set ARN prepared by a different actor in the preceding hour. Review the approval boundary and resulting stack resources; the event does not reveal the template contents.
+x_hacktricks_technique_id: aws-cloudformation-prestaged-change-set-executed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-trigger-post-exploitation/README.md#L7
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: CloudFormationCrossActorChangeSetExecuted
+    event.outcome: success
+    request.cfn_cross_actor_change_set_executed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved deployment or operational signaling by another authorized principal.

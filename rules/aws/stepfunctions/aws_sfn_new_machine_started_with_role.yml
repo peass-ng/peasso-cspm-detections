@@ -1,0 +1,26 @@
+title: New Step Functions machine started with a delegated role
+id: 54fd2260-20dd-44a1-9573-82a85b0ad45c
+status: experimental
+description: >
+  The same actor created a state machine with an IAM execution role and started
+  it within fifteen minutes. The definition and input are redacted in
+  CloudTrail; inspect the role and resulting service calls for abuse.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md#L133
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_CreateStateMachine.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: StartExecution
+    event.outcome: success
+    request.sfn_new_machine_started_with_role: true
+  condition: selection
+falsepositives:
+  - Approved workflow creation followed by a smoke test.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sfn-new-machine-started-with-role

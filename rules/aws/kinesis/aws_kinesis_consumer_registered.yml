@@ -1,0 +1,20 @@
+title: AWS Kinesis enhanced fan-out consumer registered
+id: 38a7bf7d-91db-4bd9-9c40-62a7d1a784f6
+status: experimental
+description: A new Kinesis stream consumer was registered. Reconcile its name, owner and resource policy with approved readers.
+x_hacktricks_technique_id: aws-kinesis-consumer-registered
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kinesis-data-streams-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: RegisterStreamConsumer
+    event.outcome: success
+    request.kinesis_consumer_registered: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved stream consumer registration

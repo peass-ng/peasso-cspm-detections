@@ -1,0 +1,20 @@
+title: AWS DynamoDB backup deletion accepted
+id: 0bd38ecc-b0c9-44d7-a5ce-6fb7cc4f1c54
+status: experimental
+description: A principal successfully requested deletion of a same-account DynamoDB backup. The event does not itself prove the backup is no longer available.
+x_hacktricks_technique_id: aws-dynamodb-backup-deleted
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L1026
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: DeleteBackup
+    event.outcome: success
+    request.dynamodb_backup_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved backup retention cleanup

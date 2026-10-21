@@ -1,0 +1,20 @@
+title: AWS Customer Profiles segment subscription configured
+id: 0cbb24b3-d2e3-4a0d-b644-0c73f1644c3e
+status: experimental
+description: PutSegmentSubscription requested recurring segment membership delivery. Verify associated stream, schedule and lifecycle status; API acceptance alone does not prove a snapshot or event was delivered.
+x_hacktricks_technique_id: aws-tech-4b85f17fec42ec42
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-customer-profiles-persistence/README.md#L55
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: PutSegmentSubscription
+    event.outcome: success
+    request.customer_profiles_segment_subscription_put: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved segment subscription

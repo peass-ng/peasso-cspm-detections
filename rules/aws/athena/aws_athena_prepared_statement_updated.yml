@@ -1,0 +1,21 @@
+title: Athena prepared statement SQL updated
+id: 60f7d88c-4f6c-4157-8b65-bf9d5b6734e2
+status: experimental
+description: UpdatePreparedStatement accepted a new SQL definition in one workgroup. CloudTrail masks SQL and the call does not prove that another actor later executed the statement.
+x_hacktricks_technique_id: aws-tech-f627bbf8ff58fd2b
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-athena-post-exploitation/README.md#L66
+- https://docs.aws.amazon.com/athena/latest/APIReference/API_UpdatePreparedStatement.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: athena.amazonaws.com
+    event.name: UpdatePreparedStatement
+    event.outcome: success
+    request.athena_prepared_statement_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved prepared query maintenance

@@ -1,0 +1,23 @@
+title: Roles Anywhere certificate revocation list data updated
+id: 7ca954d8-b698-52cd-9fd4-b5751e68fa81
+status: experimental
+description: A CRL data update was accepted. Compare signed CRL serial sets in private
+  readback before claiming revocation was weakened.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-iam-persistence/README.md#L102
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: UpdateCrl
+    event.outcome: success
+    request.rolesanywhere_crl_data_updated: true
+  condition: selection
+falsepositives:
+- Authorized IAM Roles Anywhere administration or certificate rotation.
+level: medium
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-rolesanywhere-crl-data-updated

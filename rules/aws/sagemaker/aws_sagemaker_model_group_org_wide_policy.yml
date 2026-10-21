@@ -1,0 +1,22 @@
+title: SageMaker model package group policy grants organization-wide discovery
+id: 1e3e55b4-3c34-5de3-a736-521aac73bbfc
+status: experimental
+description: An accepted model package group resource policy allows any principal
+  in the organization to discover the group. Review the intended sharing scope.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sagemaker-persistence/README.md#L157
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_model_group_org_wide_policy: true
+  condition: selection
+falsepositives:
+- Explicitly approved organization-wide model registry discovery.
+level: medium
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-sagemaker-model-group-org-wide-policy

@@ -1,0 +1,24 @@
+title: Recently allowlisted secondary IPv4 moved to another ENI
+id: d41d8f91-bfee-4cb5-9850-e2413c30e870
+status: experimental
+description: >
+  A secondary IPv4 moved between ENIs after a security group ingress authorization added the same /32 within 30 minutes. Older allowlists and packet delivery are outside this event window.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eni-secondary-ip-hijack.md#L11
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssignPrivateIpAddresses.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AssignPrivateIpAddresses
+    event.outcome: success
+    request.allowlisted_secondary_private_ip_moved: true
+  condition: selection
+falsepositives:
+  - Approved service migration with an IP-based allowlist.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-allowlisted-secondary-private-ip-moved

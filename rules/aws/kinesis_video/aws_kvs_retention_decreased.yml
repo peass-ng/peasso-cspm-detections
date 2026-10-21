@@ -1,0 +1,21 @@
+title: AWS Kinesis Video retention decreased
+id: d7759d11-a756-4192-bba7-7c781952c850
+status: experimental
+description: A video stream accepted a retention decrease. Check archived-fragment
+  inventory to determine whether media was lost.
+x_hacktricks_technique_id: aws-kvs-retention-decreased
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L200
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: UpdateDataRetention
+    event.outcome: success
+    request.kvs_retention_decreased: true
+  condition: selection
+level: high
+falsepositives:
+- Approved retention reduction

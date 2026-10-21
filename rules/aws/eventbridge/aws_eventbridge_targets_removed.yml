@@ -1,0 +1,25 @@
+title: EventBridge rule targets removed
+id: e3b0d31f-4a71-4748-ae4e-266a45094caa
+status: experimental
+description: >
+  RemoveTargets completed with no failed entries for one or more targets. This
+  can interrupt automation or monitoring while the rule remains enabled. The
+  event alone does not identify the removed target ARN or prove lost delivery;
+  compare earlier ListTargetsByRule state for that conclusion.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L148
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_targets_removed: true
+  condition: selection
+falsepositives:
+  - Approved retirement or replacement of a rule target.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-eventbridge-remove-targets

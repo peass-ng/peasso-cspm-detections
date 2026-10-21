@@ -1,0 +1,23 @@
+title: License Manager seller license read
+id: 13100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetLicense read a seller-issued license. This is discovery and does not prove checkout.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L42
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: SellerLicenseRead
+    event.outcome: success
+    request.seller_license_read: true
+  condition: selection
+falsepositives:
+  - Approved license inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-license-manager-seller-license-read

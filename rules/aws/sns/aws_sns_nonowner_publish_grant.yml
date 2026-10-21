@@ -1,0 +1,23 @@
+title: SNS topic grants Publish to a nonowner account or wildcard
+id: f788cd0b-2be6-4a8b-847f-5c578130876c
+status: experimental
+description: A successful AddPermission request granted Publish on an SNS topic to an account other than its owner or to every account. Review organization membership and approved integrations; the event does not prove message publication.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sns-privesc/README.md#L55
+  - https://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: AddPermission
+    event.outcome: success
+    request.sns_nonowner_publish_grant: true
+  condition: selection
+falsepositives:
+  - Approved cross-account SNS publishing integration
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-sns-nonowner-publish-grant

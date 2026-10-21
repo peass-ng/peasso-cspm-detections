@@ -1,0 +1,20 @@
+title: AWS Kinesis stream retention decreased
+id: 58226782-255a-425d-875e-b0c5e95454a4
+status: experimental
+description: The retention window of an account-owned Kinesis stream was reduced. Compare its previous value to assess loss of older records.
+x_hacktricks_technique_id: aws-kinesis-retention-decreased
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: DecreaseStreamRetentionPeriod
+    event.outcome: success
+    request.kinesis_retention_decreased: true
+  condition: selection
+level: high
+falsepositives:
+- Approved reduction of storage duration

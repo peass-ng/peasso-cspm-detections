@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights pipeline created after role replacement
+id: 35460b09-3ae3-4ef3-8bb3-68059d8c468a
+status: experimental
+description: A pipeline was created within 24 hours of a verified role replacement on the exact configuration in the same account and region. This ties configuration to use request, not successful downstream processing.
+x_hacktricks_technique_id: aws-chime-insights-pipeline-after-role-rebind
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: CreateMediaInsightsPipeline
+    event.outcome: success
+    request.chime_insights_pipeline_after_role_rebind: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved analytics role migration followed by session

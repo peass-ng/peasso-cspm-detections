@@ -1,0 +1,25 @@
+title: CodeCommit GitPush transferred repository data
+id: 61ac2c63-e049-4c2c-b90e-ca3359f4083c
+status: experimental
+description: A successful GitPush protocol event reported data transferred to a repository.
+  Privilege escalation requires a concrete pipeline or build consumer and execution
+  under a more privileged role, which this event alone does not prove.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codecommit-pipeline-source-privesc/README.md#L15
+- https://docs.aws.amazon.com/codecommit/latest/userguide/integ-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codecommit.amazonaws.com
+    event.name: GitPush
+    event.outcome: success
+    request.codecommit_git_push_transferred: true
+  condition: selection
+falsepositives:
+- Approved source publication
+level: medium
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-tech-2f66b4824a5b967b

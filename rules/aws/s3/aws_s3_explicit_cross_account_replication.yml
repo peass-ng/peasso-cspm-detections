@@ -1,0 +1,27 @@
+title: S3 bucket replication configured for another AWS account
+id: 4646bd44-bd23-4f97-bff4-e7f79495e112
+status: experimental
+description: >
+  A successful replication configuration names an enabled destination and
+  a different 12-digit owner account. Review approved cross-account backups
+  and whether later objects were actually copied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L67
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketReplication
+    event.outcome: success
+    request.s3_explicit_cross_account_replication: true
+  condition: selection
+falsepositives:
+  - Approved replication or backup into a separate organization account.
+level: medium
+tags:
+  - attack.exfiltration
+  - attack.persistence
+x_hacktricks_technique_id: aws-s3-explicit-cross-account-replication

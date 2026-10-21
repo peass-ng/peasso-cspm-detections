@@ -1,0 +1,23 @@
+title: Temporary SSH public key sent to an EC2 instance
+id: 3a9a38a8-51d2-40f7-bf18-dc3224522655
+status: experimental
+description: A successful SendSSHPublicKey supplied a temporary SSH key for an EC2 instance and OS user. The event alone does not prove a login or credential retrieval.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md#L100
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2-instance-connect.amazonaws.com
+    event.name: SendSSHPublicKey
+    event.outcome: success
+    request.eic_ssh_key_sent: true
+  condition: selection
+falsepositives:
+  - Approved EC2 Instance Connect administration
+level: high
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-ec2-eic-ssh-public-key-sent

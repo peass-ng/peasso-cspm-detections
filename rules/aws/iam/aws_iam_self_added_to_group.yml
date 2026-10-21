@@ -1,0 +1,22 @@
+title: IAM user added itself to a group
+id: d3d55b3e-9e5a-4e73-9f9b-7c142741739e
+status: experimental
+description: >
+  An IAM user successfully added itself to a group. Review the group's effective
+  policies and the user's prior membership to determine whether access changed.
+x_hacktricks_technique_id: aws-iam-addusertogroup-self
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L342
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AddUserToGroup
+    event.outcome: success
+    request.self_user_group_add_accepted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved delegated IAM self administration or break glass group membership.

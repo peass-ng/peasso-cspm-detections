@@ -1,0 +1,23 @@
+title: IVS stage storage destination created
+id: f9a00b16-0000-4000-8000-000000000005
+status: experimental
+description: >
+  CreateStorageConfiguration registered an S3 bucket for stage recordings. The event does not prove any participant joined or media was stored.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L86
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsStorageConfigurationCreated
+    event.outcome: success
+    request.ivs_storage_configuration_created: true
+  condition: selection
+falsepositives:
+  - Approved IVS recording administration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ivs-storage-configuration-created

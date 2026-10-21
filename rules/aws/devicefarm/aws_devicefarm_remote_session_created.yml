@@ -1,0 +1,23 @@
+title: Device Farm remote device session requested
+id: 14100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateRemoteAccessSession accepted a request for a physical device and returned a PENDING, PROCESSING, or RUNNING session. Confirm RUNNING state and actual endpoint access separately; this event can start billable activity.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L157
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: RemoteAccessSessionCreated
+    event.outcome: success
+    request.devicefarm_remote_session_created: true
+  condition: selection
+falsepositives:
+  - Approved remote device debugging.
+level: medium
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-devicefarm-remote-session-created

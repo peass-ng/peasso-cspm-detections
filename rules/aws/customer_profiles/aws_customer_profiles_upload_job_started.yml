@@ -1,0 +1,20 @@
+title: AWS Customer Profiles upload job started
+id: fde2d1f9-0428-462e-b945-e9eef8e85607
+status: experimental
+description: StartUploadJob accepted a request to process a staged CSV. Inspect the terminal job state and results before concluding any profile was created or changed.
+x_hacktricks_technique_id: aws-customer-profiles-upload-job-start
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L97
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: StartUploadJob
+    event.outcome: success
+    request.customer_profiles_upload_job_started: true
+  condition: selection
+level: high
+falsepositives:
+- Approved bulk import.

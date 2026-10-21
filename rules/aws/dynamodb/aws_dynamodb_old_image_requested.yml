@@ -1,0 +1,26 @@
+title: AWS DynamoDB Previous item image requested by write
+id: 4ed14319-79a4-4039-bfb9-5c391bf65e4b
+status: experimental
+description: An accepted UpdateItem or PutItem requested ReturnValues ALL_OLD, which
+  can disclose the previous item image without a read API. CloudTrail does not include
+  the returned image.
+x_hacktricks_technique_id: aws-dynamodb-old-image-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L340
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name:
+    - UpdateItem
+    - PutItem
+    event.outcome: success
+    request.dynamodb_old_image_requested: true
+  condition: selection
+falsepositives:
+- Approved application data access or maintenance
+level: medium
+tags:
+- attack.collection

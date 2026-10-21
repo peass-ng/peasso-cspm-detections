@@ -1,0 +1,23 @@
+title: Roles Anywhere certificate revocation list deleted
+id: 20255029-1ebf-5c34-8f57-1658694a163f
+status: experimental
+description: A CRL deletion was accepted. Verify the related trust anchor and any
+  revoked certificate session effect separately.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-iam-persistence/README.md#L102
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: DeleteCrl
+    event.outcome: success
+    request.rolesanywhere_crl_deleted: true
+  condition: selection
+falsepositives:
+- Authorized IAM Roles Anywhere administration or certificate rotation.
+level: high
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-rolesanywhere-crl-deleted

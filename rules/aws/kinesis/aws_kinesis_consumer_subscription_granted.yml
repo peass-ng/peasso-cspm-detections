@@ -1,0 +1,20 @@
+title: AWS Kinesis consumer subscription granted by policy
+id: 2fb324cd-7b99-40fc-8293-37ba0a9e7be6
+status: experimental
+description: A resource policy on a registered Kinesis consumer granted SubscribeToShard. Verify the principal and corresponding stream policy.
+x_hacktricks_technique_id: aws-kinesis-consumer-subscription-policy
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-kinesis-data-streams-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: PutResourcePolicy
+    event.outcome: success
+    request.kinesis_consumer_subscription_granted: true
+  condition: selection
+level: high
+falsepositives:
+- Approved enhanced fan-out reader policy

@@ -1,0 +1,25 @@
+title: KMS alias remapped to another customer key
+id: f69a508e-72dc-45df-85ca-67d460337e7c
+status: experimental
+description: >
+  UpdateAlias was accepted for an alias and destination key in this account.
+  CloudTrail records the destination, but the event does not name the former
+  target or prove that an application used this alias.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L416
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-updatealias.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_alias_remapped: true
+  condition: selection
+falsepositives:
+  - Approved migration of an application alias to a replacement key.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-kms-alias-remapped

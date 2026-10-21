@@ -1,0 +1,24 @@
+title: Secondary private IPv4 unassigned from ENI
+id: 0b237ee9-57dd-4cb3-836e-89a6a031aaa9
+status: experimental
+description: >
+  UnassignPrivateIpAddresses accepted a secondary private IPv4 removal from a network interface. Check service identity and expected owner.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-eni-secondary-ip-hijack.md#L11
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_UnassignPrivateIpAddresses.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: UnassignPrivateIpAddresses
+    event.outcome: success
+    request.secondary_private_ip_unassigned: true
+  condition: selection
+falsepositives:
+  - Approved network interface IP maintenance.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-secondary-private-ip-unassigned

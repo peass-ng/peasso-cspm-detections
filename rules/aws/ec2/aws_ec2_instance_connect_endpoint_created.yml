@@ -1,0 +1,23 @@
+title: EC2 Instance Connect Endpoint created in a VPC
+id: 3af15ff3-3dd4-4c20-943f-ec2ac3375360
+status: experimental
+description: A successful CreateInstanceConnectEndpoint made a managed path into a VPC available. The event alone does not prove an SSH connection or access to instance credentials.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md#L58
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/log-ec2-instance-connect-endpoint-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateInstanceConnectEndpoint
+    event.outcome: success
+    request.eic_endpoint_created: true
+  condition: selection
+falsepositives:
+  - Approved private instance administration endpoint
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-instance-connect-endpoint-created

@@ -1,0 +1,20 @@
+title: AWS IAM SAML provider metadata replaced
+id: 9be6df94-ac2d-4824-a59a-583398b2077b
+status: experimental
+description: A successful UpdateSAMLProvider submitted new metadata for an existing provider. A changed signing certificate can let its holder forge assertions for trusting roles; compare prior metadata and subsequent SAML sessions before asserting impact.
+x_hacktricks_technique_id: aws-iam-saml-provider-metadata-replaced
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L520
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateSAMLProvider
+    event.outcome: success
+    request.iam_saml_provider_metadata_replaced: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved SAML signing key rotation or IdP migration

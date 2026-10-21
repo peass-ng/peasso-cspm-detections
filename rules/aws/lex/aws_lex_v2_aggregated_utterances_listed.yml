@@ -1,0 +1,23 @@
+title: Lex V2 aggregated utterances listed
+id: 13500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  ListAggregatedUtterances queried stored utterance aggregates for a bot. CloudTrail does not include returned phrases.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: AggregatedUtterancesListed
+    event.outcome: success
+    request.aggregated_utterances_listed: true
+  condition: selection
+falsepositives:
+  - Approved conversation analytics.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-lex-v2-aggregated-utterances-listed

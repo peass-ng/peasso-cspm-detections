@@ -1,0 +1,22 @@
+title: AppSync HTTP data source updated to use an AWS signed execution role
+id: 1fbafb5f-d92b-54d7-be08-3c965f543692
+status: experimental
+description: An accepted UpdateDataSource configured a same-account IAM role
+  for AWS SigV4 HTTP requests to an AWS service endpoint. Review the role and
+  resolver path; CloudTrail does not establish that a caller invoked the field.
+x_hacktricks_technique_id: aws-tech-181b0d84a3bc3e18
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appsync-privesc/README.md#L91
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateDataSource
+    event.outcome: success
+    request.appsync_signed_http_role_data_source_updated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved change to an AppSync HTTP data source and its AWS execution role.

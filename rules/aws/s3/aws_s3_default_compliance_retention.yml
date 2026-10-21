@@ -1,0 +1,25 @@
+title: S3 bucket default Object Lock retention set to COMPLIANCE
+id: 6b1e5f2e-cfba-4a38-b8ba-4fbdecaee806
+status: experimental
+description: >
+  A successful bucket Object Lock configuration request set default retention
+  to COMPLIANCE. The event does not prove any object was uploaded or locked.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L484
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectLockConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketObjectLockConfiguration
+    event.outcome: success
+    request.s3_default_compliance_retention: true
+  condition: selection
+falsepositives:
+  - Approved immutable retention policy for backups or compliance data.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-s3-default-compliance-retention

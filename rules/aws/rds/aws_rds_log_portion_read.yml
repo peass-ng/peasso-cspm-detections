@@ -1,0 +1,20 @@
+title: AWS RDS DB log portion read
+id: d9619411-833d-4ccc-9d99-1e023e1c9eee
+status: experimental
+description: DownloadDBLogFilePortion read a named log file on a DB instance. CloudTrail does not include returned log contents; repeated advancing markers or an unapproved reader increase concern.
+x_hacktricks_technique_id: aws-rds-log-portion-read
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: DownloadDBLogFilePortion
+    event.outcome: success
+    request.rds_log_portion_read: true
+  condition: selection
+level: low
+falsepositives:
+- Approved DB troubleshooting

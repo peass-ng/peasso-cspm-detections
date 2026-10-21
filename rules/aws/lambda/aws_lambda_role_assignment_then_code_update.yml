@@ -1,0 +1,23 @@
+title: AWS Lambda role assignment followed by code update
+id: 43c802e5-8ec2-4c98-b50b-78583164b62c
+status: experimental
+description: The same actor assigned an execution role and updated code on the same
+  function within ten minutes. The sequence can enable code to run with the
+  assigned role; CloudTrail management events alone do not prove invocation.
+x_hacktricks_technique_id: aws-lambda-role-assignment-then-code-update
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L140
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-lambda-privesc/README.md#L378
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionCode20150331v2
+    event.outcome: success
+    request.lambda_role_assignment_followed_by_code_update: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved deployment updating role and code together

@@ -1,0 +1,22 @@
+title: DynamoDB table policy grants GetItem to IAM principal
+id: 484bd4ea-75ab-4e31-874b-976a81daa406
+status: experimental
+description: A successful PutResourcePolicy attached an Allow for dynamodb:GetItem to a specific IAM user or role on the table. Assess the actor and intended access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dynamodb-privesc/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: PutResourcePolicy
+    event.outcome: success
+    request.dynamodb_table_getitem_principal_granted: true
+  condition: selection
+falsepositives:
+  - Approved policy validation or resource access administration
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-dynamodb-table-getitem-principal-granted

@@ -1,0 +1,21 @@
+title: IAM SSH public key set-inactive request accepted
+id: 10f9d2d8-5475-5db8-9774-df0f28467a02
+status: experimental
+description: An accepted UpdateSSHPublicKey IAM request named a credential target.
+  Review approved lifecycle changes and actual dependent access.
+x_hacktricks_technique_id: aws-tech-3ea854f98c8547ce
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iam-post-exploitation/README.md#L138
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateSSHPublicKey
+    event.outcome: success
+    request.iam_cert_key_control_observed: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved credential rotation or IAM administration.

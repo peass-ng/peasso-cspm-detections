@@ -1,0 +1,20 @@
+title: AWS Cognito signup administratively confirmed
+id: fb774289-6fc3-442f-a323-866c9256bdc6
+status: experimental
+description: A successful AdminConfirmSignUp confirmed a user without that user presenting a confirmation code. CloudTrail hides the username; reconcile user-pool state and approval.
+x_hacktricks_technique_id: aws-cognito-admin-confirm-signup
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L264
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminConfirmSignUp
+    event.outcome: success
+    request.cognito_admin_confirm_signup: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved user administration or identity-provider maintenance

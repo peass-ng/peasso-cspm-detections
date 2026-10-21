@@ -1,0 +1,20 @@
+title: AWS RDS deletion protection disabled
+id: 17bbd8aa-dace-429c-82bb-418a9244e768
+status: experimental
+description: ModifyDBInstance accepted deletionProtection false. Compare with prior configuration and approved change windows before inferring protection was actually removed.
+x_hacktricks_technique_id: aws-rds-deletion-protection-disabled
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L971
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBInstance
+    event.outcome: success
+    request.rds_deletion_protection_disabled: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved DB retirement preparation

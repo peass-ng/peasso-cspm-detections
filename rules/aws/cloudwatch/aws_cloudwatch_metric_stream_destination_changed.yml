@@ -1,0 +1,20 @@
+title: AWS CloudWatch metric stream Firehose destination changed
+id: d49bf28e-704e-42c5-a862-12fcbd1fb837
+status: experimental
+description: Two accepted definitions of the same metric stream have different same-account Firehose destinations within one hour. Inspect destination ownership and approval separately.
+x_hacktricks_technique_id: aws-cloudwatch-metric-stream-destination-changed
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: MetricStreamDestinationChanged
+    event.outcome: success
+    request.cloudwatch_metric_stream_destination_changed: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved Firehose migration

@@ -1,0 +1,21 @@
+title: AWS ECS dormant service activated with added container
+id: cfc12cc7-4a09-49f8-b1de-34da8bcf1744
+status: experimental
+description: A service created at desired count zero was activated with a later task revision that adds a container. Requires nearby definition and service events.
+x_hacktricks_technique_id: aws-ecs-dormant-service-sidecar-activated
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ecs-persistence/README.md#L13
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/README.md#L259
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecs.amazonaws.com
+    event.name: UpdateService
+    event.outcome: success
+    request.ecs_dormant_service_sidecar_activated: true
+  condition: selection
+level: high
+falsepositives:
+- Approved deployment that activates a previously dormant service with a new sidecar

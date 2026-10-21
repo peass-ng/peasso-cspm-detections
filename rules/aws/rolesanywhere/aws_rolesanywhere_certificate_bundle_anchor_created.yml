@@ -1,0 +1,23 @@
+title: Certificate bundle trust anchor created
+id: f8932e91-93b7-5f69-a6d6-0fe9924968df
+status: experimental
+description: A certificate bundle trust anchor was created. Verify its CA and permitted
+  profiles before treating it as a persistence path.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L1156
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: CreateTrustAnchor
+    event.outcome: success
+    request.rolesanywhere_bundle_anchor_created: true
+  condition: selection
+falsepositives:
+- Authorized IAM Roles Anywhere administration or certificate rotation.
+level: medium
+tags:
+- attack.persistence
+x_hacktricks_technique_id: aws-rolesanywhere-certificate-bundle-anchor-created

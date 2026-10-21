@@ -1,0 +1,20 @@
+title: AWS IAM SAML provider registered
+id: bb3d8950-34e7-4387-8307-70457ece810d
+status: experimental
+description: Successful registration of a SAML identity provider. Review role trust and subsequent federated sessions before inferring account access.
+x_hacktricks_technique_id: aws-iam-create-saml-provider
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: CreateSAMLProvider
+    event.outcome: success
+  condition: selection
+level: medium
+falsepositives:
+  - Approved SSO provider onboarding

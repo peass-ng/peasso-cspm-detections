@@ -1,0 +1,25 @@
+title: EventBridge rule matches every event source
+id: 17ac50ab-1171-4cc3-9274-99a71360df7a
+status: experimental
+description: >
+  An accepted PutRule configured a source prefix of the empty string without
+  other filters. This matches events from every source on the bus; attached
+  targets may receive unrelated events. The event alone does not prove a target
+  exists or that data was delivered.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eventbridge-persistence/README.md#L153
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: events.amazonaws.com
+    event.outcome: success
+    request.eventbridge_catchall_rule: true
+  condition: selection
+falsepositives:
+  - Approved catch-all event routing for central collection.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-eventbridge-catchall-rule

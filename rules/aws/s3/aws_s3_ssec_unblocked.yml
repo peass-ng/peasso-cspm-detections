@@ -1,0 +1,26 @@
+title: S3 bucket explicitly allows SSE-C writes
+id: 43ea9adf-5651-4776-8b38-382c24285fed
+status: experimental
+description: >
+  A successful PutBucketEncryption set BlockedEncryptionTypes to NONE,
+  allowing future SSE-C object writes on the bucket. This configuration
+  event alone does not prove that any object was encrypted with SSE-C.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L394
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/blocking-unblocking-s3-c-encryption-gpb.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketEncryption
+    event.outcome: success
+    request.s3_ssec_unblocked: true
+  condition: selection
+falsepositives:
+  - Approved legacy application requirement for customer-provided keys.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-tech-dff7e5647f79a82d

@@ -1,0 +1,20 @@
+title: AWS RDS instance requested public accessibility
+id: f4953c72-1a9b-4e76-a6b4-c3fbbdb996bf
+status: experimental
+description: ModifyDBInstance accepted publiclyAccessible true. The modification is asynchronous and the event does not prove network reachability; verify final state and security groups.
+x_hacktricks_technique_id: aws-rds-instance-public-requested
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L1015
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: ModifyDBInstance
+    event.outcome: success
+    request.rds_instance_public_requested: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved public DB migration with restricted network access

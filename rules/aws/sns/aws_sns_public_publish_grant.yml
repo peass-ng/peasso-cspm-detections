@@ -1,0 +1,26 @@
+title: SNS topic policy grants public Publish
+id: 6d886a73-a46e-426c-b54a-720430d62ac6
+status: experimental
+description: >
+  An accepted topic policy unconditionally grants Publish to every principal.
+  Review whether broad message submission is intended. The policy change alone
+  does not prove a message was published or delivered.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-sns-unauthenticated-enum/README.md#L21
+  - https://docs.aws.amazon.com/sns/latest/dg/sns-security-best-practices.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: SetTopicAttributes
+    event.outcome: success
+    request.sns_public_publish_grant: true
+  condition: selection
+falsepositives:
+  - An intentionally public message intake topic.
+level: high
+tags:
+  - attack.initial-access
+x_hacktricks_technique_id: aws-sns-public-publish-grant

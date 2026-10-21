@@ -1,0 +1,23 @@
+title: Device Farm TestGrid project deleted
+id: 14000000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  DeleteTestGridProject succeeded. Confirm browser-testing inventory and CI history before attributing disruption.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L192
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: TestGridProjectDeleted
+    event.outcome: success
+    request.devicefarm_testgrid_project_deleted: true
+  condition: selection
+falsepositives:
+  - Approved desktop testing project retirement.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-devicefarm-testgrid-project-deleted

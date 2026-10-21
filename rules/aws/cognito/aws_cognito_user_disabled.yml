@@ -1,0 +1,20 @@
+title: AWS Cognito user administratively disabled
+id: e08fe82c-03e4-46f8-ab47-38026ddb640b
+status: experimental
+description: A successful AdminDisableUser disabled one user. CloudTrail redacts the username; reconcile pool users to assess scope and intent.
+x_hacktricks_technique_id: aws-cognito-admin-disable-user
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L96
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminDisableUser
+    event.outcome: success
+    request.cognito_user_disabled: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved user suspension or response containment

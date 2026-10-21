@@ -1,0 +1,23 @@
+title: Gateway VPC endpoint associated with another route table
+id: f66d50f3-0c55-4d11-bc53-40e905319182
+status: experimental
+description: >
+  A successful ModifyVpcEndpoint added a route table to a VPC endpoint.
+  CloudTrail does not include the endpoint service in this modification;
+  enrich with endpoint inventory and subnet associations to assess the new path.
+x_hacktricks_technique_id: aws-vpc-endpoint-route-table-added
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-endpoint-egress-bypass.md#L48
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyVpcEndpoint
+    event.outcome: success
+    request.vpc_endpoint_route_table_added: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved gateway endpoint rollout to another subnet.

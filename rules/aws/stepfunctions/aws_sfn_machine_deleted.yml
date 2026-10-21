@@ -1,0 +1,20 @@
+title: AWS Step Functions state machine deletion accepted
+id: 41d81752-4be8-43c8-a4a7-7134977d4e7d
+status: experimental
+description: DeleteStateMachine was accepted for a state machine ARN. Deletion is asynchronous; confirm final absence and expected ownership.
+x_hacktricks_technique_id: aws-sfn-machine-deleted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L461
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: DeleteStateMachine
+    event.outcome: success
+    request.sfn_machine_deleted: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved workflow retirement

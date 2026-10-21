@@ -1,0 +1,26 @@
+title: EFS file system policy grants client root access to wildcard principal
+id: 1aa385bf-f232-4277-8c1d-992331bdd88b
+status: experimental
+description: >
+  An accepted file system policy grants ClientMount and ClientRootAccess
+  without a condition to any AWS principal. Network reachability and
+  subsequent NFS use require separate evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-efs-persistence/README.md#L40
+  - https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: PutFileSystemPolicy
+    event.outcome: success
+    request.efs_wildcard_client_root_policy: true
+  condition: selection
+falsepositives:
+  - Approved EFS client access in a restricted network.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-efs-wildcard-client-root-policy

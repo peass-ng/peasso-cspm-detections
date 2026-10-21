@@ -1,0 +1,26 @@
+title: KMS customer key deletion cancelled
+id: c25f861e-b303-4b28-8510-c4ba402d1aa3
+status: experimental
+description: >
+  CancelKeyDeletion was accepted and returned the same customer key ARN.
+  KMS leaves the key disabled until EnableKey. Correlate the prior deletion
+  schedule, actor, re-enablement and later cryptographic use before judging
+  whether this was unauthorized revival or approved recovery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L185
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_CancelKeyDeletion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_deletion_cancelled: true
+  condition: selection
+falsepositives:
+  - Approved recovery from an accidental or malicious deletion schedule.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-kms-key-deletion-cancelled

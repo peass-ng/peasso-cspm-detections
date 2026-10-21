@@ -1,0 +1,20 @@
+title: AWS Cognito UpdateUserPool sets MFA OFF
+id: 89b41c77-d226-4014-a145-d28484fcafa6
+status: experimental
+description: A successful UpdateUserPool submitted mfaConfiguration=OFF. Compare the previous pool configuration to confirm a downgrade.
+x_hacktricks_technique_id: aws-cognito-update-user-pool-mfa-off
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L457
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: UpdateUserPool
+    event.outcome: success
+    request.cognito_update_user_pool_mfa_off: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved user-pool or app-client deployment

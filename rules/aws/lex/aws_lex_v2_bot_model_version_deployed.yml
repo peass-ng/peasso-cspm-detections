@@ -1,0 +1,23 @@
+title: Lex V2 bot model version deployed
+id: 13700000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  CreateBotVersion deployed a locale from DRAFT. Correlate with hook and role changes on the same bot.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L189
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: BotModelVersionDeployed
+    event.outcome: success
+    request.lex_bot_model_version_deployed: true
+  condition: selection
+falsepositives:
+  - Ordinary bot model release.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-lex-v2-bot-model-version-deployed

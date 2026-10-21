@@ -1,0 +1,20 @@
+title: AWS SES receipt rule set activated
+id: 6b1724c0-dd64-48fa-8f81-c4202eb667d5
+status: experimental
+description: A regional SES receipt rule set was activated. Compare its rule actions and the previous active set to identify routing changes.
+x_hacktricks_technique_id: aws-ses-receipt-rule-set-activated
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ses-post-exploitation/README.md#L55
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ses.amazonaws.com
+    event.name: SetActiveReceiptRuleSet
+    event.outcome: success
+    request.ses_receipt_rule_set_activated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved activation of a new or restored email receiving configuration

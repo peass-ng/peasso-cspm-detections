@@ -1,0 +1,20 @@
+title: AWS Cognito user profile read by administrator
+id: 8d05edf5-4b37-496c-8647-06541d7a6f24
+status: experimental
+description: A principal successfully called AdminGetUser on a user pool. The management event cannot establish which profile attributes were returned and may redact the username.
+x_hacktricks_technique_id: aws-cognito-user-profile-read
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md#L27
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminGetUser
+    event.outcome: success
+    request.cognito_user_profile_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved user support or incident response

@@ -1,0 +1,23 @@
+title: SageMaker model package version created approved
+id: e04c392a-0b69-5340-8b1a-09d160baaff4
+status: experimental
+description: An accepted CreateModelPackage registered an approved version. This can
+  influence downstream deployment, but this event does not prove a consumer deployed
+  it.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L973
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.outcome: success
+    request.sagemaker_model_package_approved: true
+  condition: selection
+falsepositives:
+- Approved model promotion by an authorized release process.
+level: medium
+tags:
+- attack.privilege_escalation
+x_hacktricks_technique_id: aws-sagemaker-model-package-approved

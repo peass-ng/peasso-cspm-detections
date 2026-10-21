@@ -1,0 +1,24 @@
+title: Lambda layer set applied to a function
+id: c3645c7c-dae2-4050-85cf-7ecf21e71db2
+status: experimental
+description: >
+  Accepted function configuration submitted one or more layer ARNs and the response included them. This shows attachment, not malicious code execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/README.md#L15
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/aws-lambda-layers-persistence.md#L80
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: LambdaLayerSetApplied
+    event.outcome: success
+    request.lambda_layer_set_applied: true
+  condition: selection
+falsepositives:
+  - Approved runtime or monitoring layer deployment.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-lambda-layer-set-applied

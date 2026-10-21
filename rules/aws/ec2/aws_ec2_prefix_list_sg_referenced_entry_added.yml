@@ -1,0 +1,24 @@
+title: Entry added to prefix list recently referenced by security group
+id: efae7613-f0d2-4fdf-baed-2d2189107145
+status: experimental
+description: >
+  A successful ModifyManagedPrefixList request added a CIDR after an ingress or egress security-group authorization referenced the same prefix list in the same account and Region within 30 minutes. Historical references outside this window are not observed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-managed-prefix-list-backdoor.md#L60
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyManagedPrefixList.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyManagedPrefixList
+    event.outcome: success
+    request.prefix_list_sg_referenced_entry_added: true
+  condition: selection
+falsepositives:
+  - Approved security group and prefix list deployment.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-prefix-list-sg-referenced-entry-added

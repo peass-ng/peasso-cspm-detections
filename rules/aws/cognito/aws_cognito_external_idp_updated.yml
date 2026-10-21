@@ -1,0 +1,20 @@
+title: AWS Cognito external identity provider updated
+id: 165e92ac-2060-4613-ae35-a70106e8cfc3
+status: experimental
+description: A successful UpdateIdentityProvider submitted provider details. Compare its trust configuration to the prior state and approved IdP baseline.
+x_hacktricks_technique_id: aws-cognito-external-idp-updated
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L664
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: UpdateIdentityProvider
+    event.outcome: success
+    request.cognito_external_idp_updated: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved user administration or identity-provider maintenance

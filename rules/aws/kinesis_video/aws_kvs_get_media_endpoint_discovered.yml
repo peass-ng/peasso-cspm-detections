@@ -1,0 +1,20 @@
+title: AWS Kinesis Video live media endpoint discovered
+id: 8a2dc48c-b595-470b-9ff5-f85c1ed2b291
+status: experimental
+description: A principal obtained the data endpoint for GET_MEDIA on a video stream. The call does not prove media was retrieved; data-plane access and producer availability need separate evidence.
+x_hacktricks_technique_id: aws-kvs-get-media-endpoint-discovered
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-video-streams-post-exploitation/README.md#L63
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisvideo.amazonaws.com
+    event.name: GetDataEndpoint
+    event.outcome: success
+    request.kvs_get_media_endpoint_discovered: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved live media consumer setup

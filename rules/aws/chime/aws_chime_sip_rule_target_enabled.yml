@@ -1,0 +1,20 @@
+title: Chime SDK SIP rule target enabled or changed
+id: bf1142fa-6484-4701-8e13-d878590e7c67
+status: experimental
+description: A successful update configured an enabled SIP rule with an application target. The event proves accepted routing configuration, not that a call occurred or that the target differed from its previous value.
+x_hacktricks_technique_id: aws-chime-sip-rule-target-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L253
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-voice.amazonaws.com
+    event.name: UpdateSipRule
+    event.outcome: success
+    request.chime_sip_rule_target_enabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved SIP rule routing change

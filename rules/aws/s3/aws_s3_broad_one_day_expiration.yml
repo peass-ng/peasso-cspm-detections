@@ -1,0 +1,26 @@
+title: S3 bucket lifecycle enables one-day expiration for all keys
+id: b9b61e09-46a1-4a0b-8a57-076239422ed5
+status: experimental
+description: >
+  A successful PutBucketLifecycle request enabled a one-day Expiration rule
+  with an empty prefix filter. It schedules expiration, but does not prove
+  that objects existed or were deleted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L425
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketLifecycle
+    event.outcome: success
+    request.s3_broad_one_day_expiration: true
+  condition: selection
+falsepositives:
+  - Approved short-retention bucket or temporary lab cleanup.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-s3-broad-one-day-expiration

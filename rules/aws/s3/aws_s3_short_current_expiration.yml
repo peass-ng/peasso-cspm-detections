@@ -1,0 +1,27 @@
+title: S3 current object versions set to expire within seven days
+id: 95050eab-4c20-4d8a-9705-3f912d0e3954
+status: experimental
+description: >
+  A successful PutBucketLifecycle set an enabled prefix rule that makes
+  matching current object versions eligible for expiration within seven
+  days. Expiration is asynchronous and, on versioned buckets, can leave
+  older versions recoverable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L438
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-expire-general-considerations.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketLifecycle
+    event.outcome: success
+    request.s3_short_current_expiration: true
+  condition: selection
+falsepositives:
+  - Approved short retention for temporary objects.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-dff7e5647f79a82d

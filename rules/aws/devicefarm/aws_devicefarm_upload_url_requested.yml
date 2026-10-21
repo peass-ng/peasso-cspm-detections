@@ -1,0 +1,23 @@
+title: Device Farm upload URL requested
+id: 14000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  GetUpload succeeded for an upload. In the owned lab this API returned a presigned URL that a read-only caller used to download a synthetic test specification. The URL and response body are excluded from the finding.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L114
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: UploadUrlRequested
+    event.outcome: success
+    request.devicefarm_upload_url_requested: true
+  condition: selection
+falsepositives:
+  - Approved test specification download.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-devicefarm-upload-url-requested

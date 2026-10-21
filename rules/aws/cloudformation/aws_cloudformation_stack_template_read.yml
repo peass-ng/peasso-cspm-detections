@@ -1,0 +1,21 @@
+title: CloudFormation deployed template read
+id: 3b3b984c-b001-4c24-b2c8-844f453721fa
+status: experimental
+description: >
+  A successful GetTemplate requested a named stack template. Templates may contain hard-coded values or metadata; the event alone does not establish that sensitive content was present or used.
+x_hacktricks_technique_id: aws-cloudformation-get-template
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudformation-data-disclosure-post-exploitation/README.md#L31
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudformation.amazonaws.com
+    event.name: GetTemplate
+    event.outcome: success
+    request.cfn_configuration_read: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved infrastructure inventory or deployment review.

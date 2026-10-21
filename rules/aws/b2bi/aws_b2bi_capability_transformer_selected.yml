@@ -1,0 +1,23 @@
+title: B2BI capability transformer selected
+id: f9a00b21-0000-4000-8000-000000000009
+status: experimental
+description: >
+  UpdateCapability accepted a transformer ID in a complete capability configuration. Compare with prior inventory to confirm a replacement; this event alone does not prove a change or document processing.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-b2bi-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: b2bi.amazonaws.com
+    event.name: B2biCapabilityTransformerSelected
+    event.outcome: success
+    request.b2bi_capability_transformer_selected: true
+  condition: selection
+falsepositives:
+  - Approved B2BI configuration administration or incident response.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-b2bi-capability-transformer-selected

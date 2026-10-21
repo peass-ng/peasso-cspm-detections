@@ -1,0 +1,23 @@
+title: EIC Endpoint tunnel opened to private SSH port
+id: 8ab80f32-39a4-48e8-873e-c7775cb9ed6c
+status: experimental
+description: A successful OpenTunnel request targeted TCP port 22 on a private IPv4 address through an EC2 Instance Connect Endpoint. The event does not reveal SSH authentication or subsequent IMDS access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ec2-instance-connect-endpoint-backdoor.md#L100
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/log-ec2-instance-connect-endpoint-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2-instance-connect.amazonaws.com
+    event.name: OpenTunnel
+    event.outcome: success
+    request.eic_private_ssh_tunnel_opened: true
+  condition: selection
+falsepositives:
+  - Approved private instance administration through EIC Endpoint
+level: high
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-ec2-eic-private-ssh-tunnel-opened

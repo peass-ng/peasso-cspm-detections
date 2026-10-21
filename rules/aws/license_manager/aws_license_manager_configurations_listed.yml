@@ -1,0 +1,23 @@
+title: License Manager configurations listed
+id: 13000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ListLicenseConfigurations queried license configurations. A request for one ARN is attributed to that configuration; broad listing has no individual target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L110
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationsListed
+    event.outcome: success
+    request.license_configurations_listed: true
+  condition: selection
+falsepositives:
+  - Authorized license inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-license-manager-configurations-listed

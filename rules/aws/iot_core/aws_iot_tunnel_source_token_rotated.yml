@@ -1,0 +1,26 @@
+title: IoT secure tunnel source token rotated
+id: 840ecf63-3816-41d9-b4f9-9b4e23c55afc
+status: experimental
+description: >
+  A successful RotateTunnelAccessToken used SOURCE or ALL mode for a known
+  tunnel. The API returned a replacement source token to the caller, but
+  CloudTrail omitted the token and does not prove subsequent tunnel access.
+x_hacktricks_technique_id: aws-tech-0950f06d431a351f
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-core-post-exploitation/README.md#L174
+  - https://docs.aws.amazon.com/iot/latest/apireference/API_iot-secure-tunneling_RotateTunnelAccessToken.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsecuredtunneling.amazonaws.com
+    event.name: RotateTunnelAccessToken
+    event.outcome: success
+    request.iot_tunnel_source_token_rotated: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved reconnection during remote support.
+tags:
+  - attack.credential-access

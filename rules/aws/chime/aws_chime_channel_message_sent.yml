@@ -1,0 +1,20 @@
+title: Chime SDK channel message sent as logical user
+id: 635fae67-c751-4307-9870-e15839063ee9
+status: experimental
+description: A successful SendChannelMessage sent a message under a logical bearer. Compare the AWS caller with the identity mapping approved by the application; do not copy message content into alerts.
+x_hacktricks_technique_id: aws-chime-channel-message-send
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L153
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime.amazonaws.com
+    event.name: SendChannelMessage
+    event.outcome: success
+    request.chime_channel_message_sent: true
+  condition: selection
+level: medium
+falsepositives:
+  - Normal messaging backend sends

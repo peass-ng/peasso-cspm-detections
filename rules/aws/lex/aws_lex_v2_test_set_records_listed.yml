@@ -1,0 +1,23 @@
+title: Lex V2 test set records listed
+id: 13600000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  ListTestSetRecords read a Lex test set. The API may return sensitive example conversations and expected outputs.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L47
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: TestSetRecordsListed
+    event.outcome: success
+    request.lex_test_set_records_listed: true
+  condition: selection
+falsepositives:
+  - Authorized test workbench review.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-lex-v2-test-set-records-listed

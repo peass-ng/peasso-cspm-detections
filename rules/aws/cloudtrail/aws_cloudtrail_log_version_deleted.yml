@@ -1,0 +1,26 @@
+title: CloudTrail historical log version deleted
+id: d074406e-55df-4d0c-b042-b9d19a56c9fb
+status: experimental
+description: >
+  An accepted DeleteObject data event specified a CloudTrail log VersionId
+  and S3 returned the same deleted version. This removes that exact version
+  from the bucket, unlike a current-key delete marker.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L373
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: CloudTrailHistoricalLogVersionDeleted
+    event.outcome: success
+    request.cloudtrail_log_version_deleted: true
+  condition: selection
+falsepositives:
+  - Approved deletion of a specific unneeded log version.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-985dd9bf85ac1095

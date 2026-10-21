@@ -1,0 +1,23 @@
+title: Inspector suppression filter updated
+id: 88f38853-c55d-42c4-a1cc-315c2121ed39
+status: experimental
+description: >
+  Accepted UpdateFilter action SUPPRESS on an Inspector filter. Review scope and action against the approved triage baseline.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-inspector-post-exploitation/README.md#L150
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: inspector2.amazonaws.com
+    event.name: InspectorSuppressionFilterUpdated
+    event.outcome: success
+    request.inspector_suppression_filter_updated: true
+  condition: selection
+falsepositives:
+  - Approved filter maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-inspector-suppression-filter-updated

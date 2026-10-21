@@ -1,0 +1,22 @@
+title: API Gateway REST wildcard invoke policy published
+id: dc609e2d-96c9-5222-9089-67a73e385e2f
+status: experimental
+description: An accepted REST API policy replacement allowed wildcard principals
+  to invoke API methods and was followed by a deployment from the same principal
+  within one hour. Other method authorization remains in force.
+x_hacktricks_technique_id: aws-tech-11431b2f05e9f5f8
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-api-gateway-post-exploitation/README.md#L513
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apigateway.amazonaws.com
+    event.name: ApiGatewayRestWildcardPolicyPublished
+    event.outcome: success
+    request.apigateway_wildcard_policy_published: true
+  condition: selection
+level: high
+falsepositives:
+- Approved public REST API policy change on a stage with intended access controls.

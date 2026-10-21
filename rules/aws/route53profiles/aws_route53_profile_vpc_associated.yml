@@ -1,0 +1,25 @@
+title: Route 53 Profile VPC association requested
+id: 13900000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  AssociateProfile accepted a request to attach a Profile to a VPC. Confirm
+  completion before attributing DNS effect. A shared Profile can carry DNS
+  resources owned by another account.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-profiles-post-exploitation/README.md#L66
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53profiles.amazonaws.com
+    event.name: ProfileAssociatedToVpc
+    event.outcome: success
+    request.route53_profile_vpc_associated: true
+  condition: selection
+falsepositives:
+  - Approved VPC enrollment in centralized DNS management.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-route53-profile-vpc-associated

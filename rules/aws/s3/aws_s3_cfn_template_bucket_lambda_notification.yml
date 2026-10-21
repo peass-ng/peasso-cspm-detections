@@ -1,0 +1,26 @@
+title: S3 CloudFormation template bucket sends object creation to Lambda
+id: 1cfca97e-c9dc-4f5c-8aa9-80cf1cb8bf3c
+status: experimental
+description: >
+  A CloudFormation template bucket was configured to invoke a Lambda on new
+  objects. Review the function owner and later object reads or writes; the
+  configuration alone does not establish template modification.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-s3-privesc/README.md#L13
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutBucketNotification
+    event.outcome: success
+    request.s3_template_bucket_object_created_lambda_notification: true
+  condition: selection
+falsepositives:
+  - Approved template processing or security automation attached to the bucket.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-s3-cfn-template-bucket-lambda-notification

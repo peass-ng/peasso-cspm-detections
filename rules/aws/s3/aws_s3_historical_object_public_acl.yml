@@ -1,0 +1,24 @@
+title: S3 historical object version ACL changed to public read
+id: 2e130659-4d41-4b32-966e-711fca2d5d51
+status: experimental
+description: >
+  A successful version-scoped object data event applies a public canned ACL to a named object version. It does not prove a subsequent read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md#L879
+  - https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAcl.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: PutObjectAcl
+    event.outcome: success
+    request.s3_historical_object_public_acl: true
+  condition: selection
+falsepositives:
+  - Approved S3 access or browser configuration change.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-tech-a13362bed756daad

@@ -1,0 +1,21 @@
+title: AWS Aurora public cluster member requested
+id: 72c1b4bc-b8eb-48ef-b9f6-e2be7cd04e72
+status: experimental
+description: An accepted CreateDBInstance requested a publicly accessible Aurora member inside an existing cluster. Check the final instance setting, subnet and security group; this request does not prove Internet reachability or database authentication.
+x_hacktricks_technique_id: aws-rds-create-public-aurora-instance
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-rds-post-exploitation/README.md#L1082
+- https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rds.amazonaws.com
+    event.name: CreateDBInstance
+    event.outcome: success
+    request.rds_aurora_public_member_requested: true
+  condition: selection
+level: high
+falsepositives:
+- Approved creation of an Aurora member with controlled access

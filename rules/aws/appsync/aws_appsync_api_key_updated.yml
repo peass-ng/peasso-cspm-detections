@@ -1,0 +1,21 @@
+title: AppSync API key updated with an expiration
+id: 7dd4beaf-845d-42a2-980e-f392c0c30e0d
+status: experimental
+description: UpdateApiKey succeeded with an expiration request. Compare prior key state before calling it an extension; CloudTrail masks the key identifier.
+x_hacktricks_technique_id: aws-tech-103ec299131001c1
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appsync-persistence/README.md#L13
+- https://docs.aws.amazon.com/appsync/latest/APIReference/API_UpdateApiKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: UpdateApiKey
+    event.outcome: success
+    request.appsync_api_key_updated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved API key expiration maintenance

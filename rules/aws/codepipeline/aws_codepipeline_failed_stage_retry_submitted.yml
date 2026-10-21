@@ -1,0 +1,21 @@
+title: CodePipeline failed stage retry submitted
+id: d83a818e-5eb1-588c-9c51-151ae28b61a1
+status: experimental
+description: >
+  A successful RetryStageExecution requested a failed-stage replay. Final pipeline success requires separate execution status evidence.
+x_hacktricks_technique_id: aws-tech-24bca2270f1fe99a
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L94
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: RetryStageExecution
+    event.outcome: success
+    request.pipeline_failed_stage_retry_submitted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized retry after fixing a build failure.

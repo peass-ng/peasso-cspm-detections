@@ -1,0 +1,22 @@
+title: AWS IAM OIDC provider thumbprints replaced
+id: 210e0ded-2717-4c0a-a824-d113429598b1
+status: experimental
+description: The configured TLS thumbprint list was replaced. This only affects federation
+  when AWS falls back to pinned thumbprints; compare with the prior list and provider
+  endpoint.
+x_hacktricks_technique_id: aws-iam-oidc-thumbprints-updated
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L829
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: UpdateOpenIDConnectProviderThumbprint
+    event.outcome: success
+    request.iam_oidc_thumbprints_updated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved IdP certificate rotation

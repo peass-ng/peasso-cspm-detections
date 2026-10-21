@@ -1,0 +1,26 @@
+title: CloudTrail re-encrypted log customer key disabled
+id: a5650b8d-5e1a-4a98-96c7-92c7167d60a2
+status: experimental
+description: >
+  A successful DisableKey targeted the same-account KMS key used in a recent
+  in-place copy of a CloudTrail log object. This can block access to the new
+  encrypted version; verify readback and whether an earlier version survives.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L407
+  - https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: CloudTrailReencryptedLogCustomerKeyDisabled
+    event.outcome: success
+    request.cloudtrail_reencrypted_log_cmk_disabled: true
+  condition: selection
+falsepositives:
+  - Approved suspension of a migration key after a log-object copy.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-tech-ab986b81b84ef9b2

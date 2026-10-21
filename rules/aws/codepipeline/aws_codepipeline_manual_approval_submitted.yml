@@ -1,0 +1,21 @@
+title: CodePipeline manual approval submitted
+id: 89029f5b-b8f1-5131-bd20-3d5d6bd5b914
+status: experimental
+description: >
+  A successful PutApprovalResult approved an action. The approval token and summary are excluded. Downstream action execution requires separate state evidence.
+x_hacktricks_technique_id: aws-tech-e52079d727546275
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codepipeline-privesc/README.md#L243
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codepipeline.amazonaws.com
+    event.name: PutApprovalResult
+    event.outcome: success
+    request.pipeline_manual_approval_submitted: true
+  condition: selection
+level: medium
+falsepositives:
+  - Authorized release approval.

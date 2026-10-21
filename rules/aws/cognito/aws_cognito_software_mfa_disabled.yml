@@ -1,0 +1,20 @@
+title: AWS Cognito user software MFA preference disabled
+id: 29282e11-0915-4f1c-9524-c823e353fd0c
+status: experimental
+description: A successful AdminSetUserMFAPreference submitted softwareTokenMfaSettings.enabled=false. Verify the enrolled factor and pool MFA policy; username is hidden in CloudTrail.
+x_hacktricks_technique_id: aws-cognito-software-mfa-disabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L457
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminSetUserMFAPreference
+    event.outcome: success
+    request.cognito_software_mfa_disabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved MFA enrollment reset or help-desk recovery

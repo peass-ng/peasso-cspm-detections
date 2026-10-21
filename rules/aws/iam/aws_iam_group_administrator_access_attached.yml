@@ -1,0 +1,22 @@
+title: AdministratorAccess attached to IAM group
+id: 3c117c62-ae1e-4b48-a67f-8cef34dce233
+status: experimental
+description: >
+  A successful AttachGroupPolicy applied the AWS managed AdministratorAccess
+  policy to a group. Review current and future group members separately.
+x_hacktricks_technique_id: aws-iam-attachgrouppolicy-administrator-access
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L265
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: AttachGroupPolicy
+    event.outcome: success
+    request.iam_admin_grant_kind: group_attach
+  condition: selection
+level: high
+falsepositives:
+  - Approved creation or maintenance of an administrator group.

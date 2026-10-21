@@ -1,0 +1,23 @@
+title: Global Accelerator endpoint weight set to zero
+id: 484bd4ea-75ab-4e31-874b-976a81daa202
+status: experimental
+description: A successful UpdateEndpointGroup set an endpoint weight to zero. Review intended endpoint traffic distribution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/global-accelerator-actions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: UpdateEndpointGroup
+    event.outcome: success
+    request.ga_endpoint_weight_zero: true
+  condition: selection
+falsepositives:
+  - Approved Global Accelerator configuration or inventory operation
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-endpoint-weight-zero

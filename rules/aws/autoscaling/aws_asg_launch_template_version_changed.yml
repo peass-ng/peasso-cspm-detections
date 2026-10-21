@@ -1,0 +1,22 @@
+title: Auto Scaling group launch template version changed
+id: f41892a0-5274-4208-8268-589f47f767c5
+status: experimental
+description: An Auto Scaling group accepted a new launch template version. The event does not prove an instance launched.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ec2-persistence/README.md#L114
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: autoscaling.amazonaws.com
+    event.name: UpdateAutoScalingGroup
+    event.outcome: success
+    request.asg_launch_template_version_changed: true
+  condition: selection
+falsepositives:
+  - Approved Auto Scaling deployment
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-asg-launch-template-version-changed

@@ -1,0 +1,22 @@
+title: Unconditional administrator inline policy written to IAM role
+id: 01270814-1fb9-4ed3-91c5-aecf12ea1524
+status: experimental
+description: >
+  A successful PutRolePolicy wrote an unconditional wildcard-action and
+  wildcard-resource Allow to a role. Review trust policy and effective bounds.
+x_hacktricks_technique_id: aws-iam-putrolepolicy-admin-inline
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47bb6e8f3237b01bd948bba508bd72f1d25069ee/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iam-privesc/README.md#L283
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iam.amazonaws.com
+    event.name: PutRolePolicy
+    event.outcome: success
+    request.iam_admin_grant_kind: role_inline
+  condition: selection
+level: high
+falsepositives:
+  - Approved administrator role policy update.

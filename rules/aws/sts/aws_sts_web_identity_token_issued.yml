@@ -1,0 +1,21 @@
+title: AWS STS issued an outbound web identity token
+id: e9f247e7-c281-4cdc-83ab-e66ab1762b82
+status: experimental
+description: A successful GetWebIdentityToken minted a short-lived JWT for one or
+  more external audiences. CloudTrail does not show token use at the relying party.
+x_hacktricks_technique_id: aws-sts-outbound-web-identity-token-issued
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md#L224
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sts.amazonaws.com
+    event.name: GetWebIdentityToken
+    event.outcome: success
+    request.sts_web_identity_token_issued: true
+  condition: selection
+level: low
+falsepositives:
+- Normal authentication to an approved relying party

@@ -1,0 +1,20 @@
+title: AWS Cognito user administratively reenabled
+id: a653cbd6-ec18-4cc0-ad11-f555514b52f7
+status: experimental
+description: A successful AdminEnableUser reenabled one user. CloudTrail redacts the username, so this event cannot prove it reverses a particular earlier disablement.
+x_hacktricks_technique_id: aws-cognito-admin-enable-user
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L318
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-idp.amazonaws.com
+    event.name: AdminEnableUser
+    event.outcome: success
+    request.cognito_user_enabled: true
+  condition: selection
+level: low
+falsepositives:
+  - Approved user restoration

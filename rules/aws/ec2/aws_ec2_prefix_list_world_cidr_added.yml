@@ -1,0 +1,24 @@
+title: World CIDR added to customer-managed prefix list
+id: 572a5dac-60a6-4fca-8c3e-8acbc440b1e5
+status: experimental
+description: >
+  A successful ModifyManagedPrefixList request added 0.0.0.0/0 or ::/0 to a customer-managed prefix list. Check existing associations; this event alone does not show the list was referenced or that traffic flowed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-managed-prefix-list-backdoor.md#L60
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyManagedPrefixList.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: ModifyManagedPrefixList
+    event.outcome: success
+    request.prefix_list_world_cidr_added: true
+  condition: selection
+falsepositives:
+  - Approved temporary world CIDR in a managed prefix list.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-ec2-prefix-list-world-cidr-added

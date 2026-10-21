@@ -1,0 +1,20 @@
+title: AWS Kinesis stream encryption stopped
+id: 0992324c-f40b-42e0-b16b-a751b71fd6bb
+status: experimental
+description: A Kinesis stream accepted StopStreamEncryption. This affects new records and does not decrypt older data.
+x_hacktricks_technique_id: aws-kinesis-stream-encryption-stopped
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L124
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesis.amazonaws.com
+    event.name: StopStreamEncryption
+    event.outcome: success
+    request.kinesis_encryption_stopped: true
+  condition: selection
+level: high
+falsepositives:
+- Approved encryption migration or stream retirement

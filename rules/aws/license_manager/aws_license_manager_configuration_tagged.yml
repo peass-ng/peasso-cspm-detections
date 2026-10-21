@@ -1,0 +1,23 @@
+title: License Manager configuration tagged
+id: 13000000-0000-4000-8000-000000000008
+status: experimental
+description: >
+  TagResource changed tags on a license configuration. An ABAC effect depends on a separate conditional IAM policy.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md#L136
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: license-manager.amazonaws.com
+    event.name: LicenseConfigurationTagged
+    event.outcome: success
+    request.license_configuration_tagged: true
+  condition: selection
+falsepositives:
+  - Approved license metadata change.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-license-manager-configuration-tagged

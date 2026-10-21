@@ -1,0 +1,24 @@
+title: Lex V2 intent fulfillment hook enabled by update
+id: 13800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateIntent enabled an active fulfillment hook on an existing Lex intent.
+  A deployed version and an alias Lambda configuration are needed for execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lex-v2-post-exploitation/README.md#L218
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lex.amazonaws.com
+    event.name: IntentFulfillmentHookUpdated
+    event.outcome: success
+    request.lex_intent_hook_updated: true
+  condition: selection
+falsepositives:
+  - Approved Lex intent maintenance.
+level: medium
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-lex-v2-intent-fulfillment-hook-updated

@@ -1,0 +1,21 @@
+title: AWS Customer Profiles bulk upload job created
+id: e64d47ba-dedb-4e88-9d9f-b592f83dfef3
+status: experimental
+description: CreateUploadJob prepared a bulk import with a field mapping and unique key. This alone does not prove upload or ingestion; correlate subsequent path access and job start.
+x_hacktricks_technique_id: aws-tech-7ed9d5fe4def7f49
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-customer-profiles-post-exploitation/README.md#L103
+- https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-customer-profiles_CreateUploadJob.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: profile.amazonaws.com
+    event.name: CreateUploadJob
+    event.outcome: success
+    request.customer_profiles_upload_job_created: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved bulk import preparation

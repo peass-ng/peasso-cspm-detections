@@ -1,0 +1,24 @@
+title: Route 53 Profile created
+id: 13900000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  CreateProfile prepared a DNS configuration container that can later be
+  associated with VPCs. Creation alone does not affect DNS resolution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-route53-profiles-persistence/README.md#L15
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53profiles.amazonaws.com
+    event.name: ProfileCreated
+    event.outcome: success
+    request.route53_profile_created: true
+  condition: selection
+falsepositives:
+  - Approved centralized DNS Profile creation.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-route53-profile-created

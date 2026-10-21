@@ -1,0 +1,21 @@
+title: AppSync GraphQL API environment map replaced
+id: 150ff66d-a634-4b8c-aeaa-20980df37066
+status: experimental
+description: PutGraphqlApiEnvironmentVariables accepted a replacement map for one API. CloudTrail masks the map, so compare configuration inventory to determine the values changed.
+x_hacktricks_technique_id: aws-tech-ec441accebe338bd
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appsync-post-exploitation/README.md#L77
+- https://docs.aws.amazon.com/appsync/latest/devguide/environment-variables.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appsync.amazonaws.com
+    event.name: PutGraphqlApiEnvironmentVariables
+    event.outcome: success
+    request.appsync_environment_replaced: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved environment configuration rollout

@@ -1,0 +1,27 @@
+title: AWS Config automatic SSM remediation configured
+id: a10b46ef-579d-4ad8-bd88-11696a7b5aa6
+status: experimental
+description: >
+  A Config rule received an automatic SSM document remediation. The runbook
+  can repeatedly execute when the rule reports noncompliance. Review the
+  document, its assume role and the rule's evaluation scope before assessing
+  persistence or privilege impact. CloudTrail hides remediation parameters.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-config-persistence/README.md#L13
+  - https://docs.aws.amazon.com/config/latest/developerguide/remediation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: PutRemediationConfigurations
+    event.outcome: success
+    request.config_auto_ssm_remediation: true
+  condition: selection
+falsepositives:
+  - Approved automatic remediation of a compliance rule.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-config-automatic-ssm-remediation

@@ -1,0 +1,25 @@
+title: Enhanced EventBridge subscriber resumed from latest
+id: 52789729-068f-40c4-b477-96832988be4d
+status: experimental
+description: >
+  UpdateSubscriber accepted ResumePosition LATEST while moving to RUNNING.
+  This requests skipping retained backlog. The audit event alone cannot prove
+  which individual events were omitted; compare delivery with the bus history.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md#L269
+  - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-custom-bus-update.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eventsv2.amazonaws.com
+    event.outcome: success
+    request.eventsv2_resume_latest_requested: true
+  condition: selection
+falsepositives:
+  - Approved decision to skip obsolete retained events after a pause.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eventsv2-resume-latest-requested

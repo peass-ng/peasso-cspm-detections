@@ -1,0 +1,20 @@
+title: AWS EMR Serverless Spark runtime defaults updated
+id: 3669cfa0-e222-44a2-b5f2-87e7cb872b37
+status: experimental
+description: A Spark EMR Serverless application accepted a runtime defaults update. CloudTrail redacts the properties, so compare GetApplication snapshots to determine whether PYTHONPATH, archives, or other execution settings changed.
+x_hacktricks_technique_id: aws-emr-serverless-spark-runtime-defaults-updated
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L131
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: emr-serverless.amazonaws.com
+    event.name: UpdateApplication
+    event.outcome: success
+    request.emr_spark_defaults_updated: true
+  condition: selection
+level: medium
+falsepositives:
+- Approved Spark runtime configuration maintenance

@@ -1,0 +1,25 @@
+title: CloudTrail Insights selectors set to empty
+id: 69d53325-3498-4914-9283-bd3f30a3c1ec
+status: experimental
+description: >
+  An accepted PutInsightSelectors request set an empty selector list, removing
+  configured Insights analysis for the trail. Check the prior and resulting
+  selector state to establish whether protection was actually reduced.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md#L269
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: PutInsightSelectors
+    event.outcome: success
+    request.trail_insight_selectors_emptied: true
+  condition: selection
+falsepositives:
+  - Approved cost or monitoring configuration change.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudtrail-insights-disabled

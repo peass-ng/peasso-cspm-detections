@@ -1,0 +1,22 @@
+title: ECR Public image pushed after a new layer upload
+id: f93afe35-5394-41d3-a9da-2cca69db15f8
+status: experimental
+description: A successful PutImage followed a successful upload of a matching layer in the same public repository by the same actor within one hour. Review publisher identity; the event does not prove downstream image execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecr-privesc/README.md#L85
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr-public.amazonaws.com
+    event.name: PutImage
+    event.outcome: success
+    request.ecr_public_new_layer_image_pushed: true
+  condition: selection
+falsepositives:
+  - Approved public image release
+level: high
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-tech-0dc452a58d10f2a3

@@ -1,0 +1,21 @@
+title: CodeBuild debug build Session Manager session started
+id: 1ed39dfd-d101-4ee0-a883-3f29a60fd707
+status: experimental
+description: A successful SSM StartSession targeted the UUID of a CodeBuild build that was started with debug sessions enabled. This proves session issuance, not commands run inside it.
+x_hacktricks_technique_id: aws-tech-e321d2ef1c8cebfa
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md#L598
+- https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: CodeBuildDebugSessionStarted
+    event.outcome: success
+    request.codebuild_debug_session_started: true
+  condition: selection
+level: high
+falsepositives:
+- Authorized CodeBuild build debugging through Session Manager

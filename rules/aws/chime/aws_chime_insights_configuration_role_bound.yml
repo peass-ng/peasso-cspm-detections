@@ -1,0 +1,20 @@
+title: Chime SDK Media Insights configuration bound to a resource role
+id: 72ce1ba0-7191-48c2-a5b7-42effad086c8
+status: experimental
+description: A successful configuration creation accepted a same-account resource-access role and processor/sink elements. The event does not prove the service assumed the role or processed media.
+x_hacktricks_technique_id: aws-chime-insights-configuration-role-bound
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-chime-sdk-post-exploitation/README.md#L328
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: chime-sdk-media-pipelines.amazonaws.com
+    event.name: CreateMediaInsightsPipelineConfiguration
+    event.outcome: success
+    request.chime_insights_configuration_role_bound: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved call analytics deployment

@@ -1,0 +1,24 @@
+title: AWS SSM current parameter value read with decryption
+id: eeb9b754-0d0a-4c75-8c89-62db25934fb4
+status: experimental
+description: GetParameter or GetParameters requested decrypted values. CloudTrail
+  records parameter names and the decryption flag but omits values and does not
+  establish whether the named parameter was a SecureString.
+x_hacktricks_technique_id: aws-ssm-parameter-current-decrypted
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ssm-parameter-and-command-access-post-exploitation/README.md#L36
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name:
+    - GetParameter
+    - GetParameters
+    event.outcome: success
+    request.ssm_parameter_current_decrypted: true
+  condition: selection
+level: low
+falsepositives:
+- Approved workload bootstrap or configuration refresh

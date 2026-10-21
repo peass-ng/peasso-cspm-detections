@@ -1,0 +1,23 @@
+title: Global Accelerator endpoint group traffic dial set to zero
+id: 484bd4ea-75ab-4e31-874b-976a81daa101
+status: experimental
+description: A successful UpdateEndpointGroup set the regional traffic dial to zero. Review whether this suppresses intended regional routing.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-global-accelerator-post-exploitation/README.md
+  - https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: globalaccelerator.amazonaws.com
+    event.name: UpdateEndpointGroup
+    event.outcome: success
+    request.ga_traffic_dial_zero: true
+  condition: selection
+falsepositives:
+  - Approved regional traffic shift
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-globalaccelerator-traffic-dial-zero

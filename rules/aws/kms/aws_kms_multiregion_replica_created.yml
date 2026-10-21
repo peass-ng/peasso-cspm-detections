@@ -1,0 +1,26 @@
+title: KMS multi-Region replica created
+id: 1643deeb-bb89-4124-a5a1-3736b3c7a5c2
+status: experimental
+description: >
+  ReplicateKey was accepted for a customer managed multi-Region key and a
+  replica in another Region of this account. Related keys share material,
+  while replica policies and audit delivery can differ by Region. The event
+  does not prove that the replica was used or granted to another principal.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md#L138
+  - https://docs.aws.amazon.com/kms/latest/developerguide/ct-replicate-key.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.outcome: success
+    request.kms_multiregion_replica_created: true
+  condition: selection
+falsepositives:
+  - Approved disaster recovery or regional availability setup.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-kms-multiregion-replica-created

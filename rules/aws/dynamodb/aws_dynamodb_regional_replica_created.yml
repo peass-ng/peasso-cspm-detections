@@ -1,0 +1,20 @@
+title: AWS DynamoDB regional replica creation requested
+id: 99c20c0e-11b6-492d-9aac-0709db724c65
+status: experimental
+description: A principal successfully requested creation of a regional DynamoDB table replica. The management event alone does not prove that replication completed.
+x_hacktricks_technique_id: aws-dynamodb-regional-replica-created
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dynamodb-post-exploitation/README.md#L598
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dynamodb.amazonaws.com
+    event.name: UpdateTable
+    event.outcome: success
+    request.dynamodb_regional_replica_created: true
+  condition: selection
+level: medium
+falsepositives:
+  - Approved global table expansion

@@ -1,0 +1,20 @@
+title: AWS Cognito identity pool guest and classic flow enabled
+id: 0ea0307c-dc65-47bb-8fea-856025629a47
+status: experimental
+description: A successful UpdateIdentityPool submitted both unauthenticated identities and classic flow as enabled. Compare prior configuration to confirm a downgrade.
+x_hacktricks_technique_id: aws-cognito-identity-guest-classic-enabled
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cognito-privesc/README.md#L72
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cognito-identity.amazonaws.com
+    event.name: UpdateIdentityPool
+    event.outcome: success
+    request.cognito_identity_guest_classic_enabled: true
+  condition: selection
+level: high
+falsepositives:
+  - Approved Cognito configuration or credential rotation

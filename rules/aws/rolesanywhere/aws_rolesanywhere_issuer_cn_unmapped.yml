@@ -1,0 +1,21 @@
+title: AWS Roles Anywhere issuer CN omitted from mapping
+id: edecfa69-f788-4154-aad2-49597039534f
+status: experimental
+description: A successful PutAttributeMapping left issuer CN unmapped. Negative trust-policy
+  conditions on this tag can then allow certificates that previously failed.
+x_hacktricks_technique_id: aws-rolesanywhere-issuer-cn-unmapped
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md#L461
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: rolesanywhere.amazonaws.com
+    event.name: PutAttributeMapping
+    event.outcome: success
+    request.rolesanywhere_issuer_cn_unmapped: true
+  condition: selection
+level: high
+falsepositives:
+- Approved certificate attribute mapping maintenance
