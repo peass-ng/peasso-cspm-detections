@@ -1,0 +1,23 @@
+title: Device Farm project configuration read
+id: 14000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  GetProject succeeded for a mobile testing project. The API can return plaintext project environment variables and VPC configuration; CloudTrail does not include the read response here.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-device-farm-post-exploitation/README.md#L76
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: devicefarm.amazonaws.com
+    event.name: ProjectConfigurationRead
+    event.outcome: success
+    request.devicefarm_project_configuration_read: true
+  condition: selection
+falsepositives:
+  - Approved operator or CI inspection of project configuration.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-devicefarm-project-configuration-read
