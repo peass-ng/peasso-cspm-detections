@@ -1,0 +1,29 @@
+title: Amplify UI Builder code generation job read
+id: 17100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetCodegenJob read a UI Builder generation job. The API can
+  return its generic data schema and, for completed jobs, an asset download
+  URL. This event does not prove that the returned asset was downloaded.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-amplify-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/amplifyuibuilder/latest/APIReference/API_GetCodegenJob.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amplifyuibuilder.amazonaws.com
+    event.name: GetCodegenJob
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Studio code generation review.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-amplify-ui-codegen-job-read
+x_cloudtrail_raw: true

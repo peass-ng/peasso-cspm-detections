@@ -1,6 +1,12 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
-Actualizado: 2026-10-22. Las reglas de los lotes hasta el 169 que superaron sus pruebas están publicadas en `main`; el lote 170 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+Actualizado: 2026-10-22. Las reglas de los lotes hasta el 170 que superaron sus pruebas están publicadas en `main`; el lote 171 está validado y listo para publicar. El soporte del evento de inicio de sesión se integró en el CSPM mediante la PR 110. Los ensayos sin telemetría suficiente siguen pendientes. Las menciones históricas a «integración pendiente» describen el estado al cerrar cada lote; el estado de la aplicación CSPM se gestiona por separado. El usuario reanudó la creación y prueba de nuevos lotes el 2026-10-21.
+
+## Lote 171: lectura de trabajo de Amplify UI Builder
+
+Una app Amplify propia sin repositorio inició un trabajo de UI Builder con un modelo de datos exclusivamente sintético. `GetCodegenJob` devolvió el esquema genérico y `ListCodegenJobs` incluyó el trabajo. El trabajo terminó `failed` y no produjo `asset` ni URL: se valida la [lectura del esquema y metadatos descrita por HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-amplify-post-exploitation/README.md#L19), pero la ruta de descarga del manifiesto y archivos sigue pendiente de un trabajo exitoso. No se guardó ni descargó ninguna URL.
+
+CloudTrail entregó siete eventos propios de UI Builder: tres `GetCodegenJob` aceptados, dos rechazados tras el borrado, un `ListCodegenJobs` aceptado y el inicio. Las dos reglas nuevas dieron cuatro coincidencias reales y ninguna con los errores, el inicio o 24 variantes negativas de denegación, categoría, lectura, origen, nombre y tipo de evento. Los hallazgos conservan solo hashes; no muestran el esquema ni IDs de app/trabajo. `DeleteApp` fue aceptado. Una lectura inmediata del trabajo todavía lo encontró, pero una lectura independiente posterior devolvió `404` y `GetApp` devolvió `NotFoundException`; esa espera forma parte de la comprobación de limpieza. Recibos privados 0600: `/tmp/peasso-b171-amplify-codegen-private.json`, `/tmp/peasso-b171-amplify-codegen-events-private.json` y `/tmp/peasso-b171-validation-private.json`.
 
 ## Lote 170: cambio de salud personalizada en Cloud Map
 
@@ -50,7 +56,9 @@ Tras publicar ambos lotes, el catálogo sumará 1132 reglas, 1104 de AWS. La col
 
 ## Inventario ampliado de páginas de ataques
 
-El [censo de páginas de ataque](#aws-attack-page-source-census) al final de este plan amplía el triaje a todas las páginas Markdown de persistencia, pos explotación, escalada, ataques entre cuentas y enumeración sin autenticación del commit fuente fijado. Son 578 páginas: 171 con una referencia YAML directa y 407 sin ella. Entre esas 407, 113 tienen al menos tres encabezados H3, 167 tienen uno o dos y 127 ninguno. Estos números **no** equivalen a técnicas pendientes: puede haber rutas ya cubiertas bajo otra página, varias rutas distintas en una página referenciada o páginas de navegación. Sirven para que las páginas cortas y los ataques entre cuentas no desaparezcan del plan. Las páginas de enumeración de servicios y de información básica siguen pendientes de un inventario semántico separado.
+El [censo de páginas de ataque](#aws-attack-page-source-census) al final de este plan amplía el triaje a todas las páginas Markdown de persistencia, pos explotación, escalada, ataques entre cuentas y enumeración sin autenticación del commit fuente fijado. Son 578 páginas: 173 con una referencia YAML directa y 405 sin ella. Entre esas 405, 113 tienen al menos tres encabezados H3, 165 tienen uno o dos y 127 ninguno. Estos números **no** equivalen a técnicas pendientes: puede haber rutas ya cubiertas bajo otra página, varias rutas distintas en una página referenciada o páginas de navegación. Sirven para que las páginas cortas y los ataques entre cuentas no desaparezcan del plan. Las páginas de enumeración de servicios y de información básica siguen pendientes de un inventario semántico separado.
+
+La página de App Mesh permanece en el censo histórico, pero [AWS retiró el servicio el 30 de septiembre de 2026](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html) e indica que sus recursos ya no son accesibles. Su ruta `UpdateRoute` se clasifica como retirada y no se creará infraestructura nueva para ensayarla después del fin de servicio. Si se conservan registros históricos, su detección requiere un análisis distinto al del catálogo activo.
 
 ## Lote 164: configuración y ejecución de matching en Entity Resolution
 
@@ -15510,10 +15518,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 40 | 6 | 23 | 62 |
-| `aws-post-exploitation` | 254 | 90 | 72 | 87 | 5 |
+| `aws-post-exploitation` | 254 | 91 | 72 | 86 | 5 |
 | `aws-privilege-escalation` | 135 | 40 | 20 | 29 | 46 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **172** | **113** | **166** | **127** |
+| **Total** | **578** | **173** | **113** | **165** | **127** |
 
 ## Pages requiring semantic review
 
@@ -15624,7 +15632,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-account-management-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-account-management-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-acm-pca-scep-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-acm-pca-scep-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-agent-registry-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-agent-registry-post-exploitation/README.md) | 3 | 1 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-amplify-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-amplify-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-app-mesh-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-app-mesh-post-exploitation/README.md) | 4 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appfabric-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appfabric-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-application-discovery-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-application-discovery-post-exploitation/README.md) | 4 | 2 |
