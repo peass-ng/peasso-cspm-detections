@@ -1,0 +1,23 @@
+title: IVS ad configurations listed
+id: f9a00b19-0000-4000-8000-000000000005
+status: experimental
+description: >
+  ListAdConfigurations enumerated IVS ad configurations.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-post-exploitation/README.md#L120
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ivs.amazonaws.com
+    event.name: IvsAdConfigurationsListed
+    event.outcome: success
+    request.ivs_ad_configurations_listed: true
+  condition: selection
+falsepositives:
+  - Approved IVS or MediaTailor ad administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ivs-ad-configurations-listed
