@@ -1,0 +1,26 @@
+title: IoT Wireless resource position changed
+id: 12300000-0000-4000-8000-000000000011
+status: experimental
+description: >
+  UpdateResourcePosition changed stored wireless location data. The observed
+  CloudTrail management event omits the resource ID and records only a buffer
+  representation, so correlate actor and time with position inventory.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-iot-wireless-enum.md#L49
+  - https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_UpdateResourcePosition.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotwireless.amazonaws.com
+    event.name: IotWirelessPositionChanged
+    event.outcome: success
+    request.iotwireless_position_changed: true
+  condition: selection
+falsepositives:
+  - Approved device or gateway location updates.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iotwireless-position-changed

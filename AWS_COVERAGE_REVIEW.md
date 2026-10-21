@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **118**. Total headings: **550**.
+Pages with at least three level-three headings and no direct YAML reference: **117**. Total headings: **546**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -568,13 +568,6 @@ Pages with at least three level-three headings and no direct YAML reference: **1
 - Stealth property theft through a configured connector
 - Bulk metadata export to S3
 - Property and relationship poisoning
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-wireless-post-exploitation/README.md) (4 headings)
-
-- Recover wireless-device onboarding and session secrets
-- Read routing roles, trace data and physical position
-- Inject a wireless-device downlink
-- Firmware and group-delivery abuse
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-license-manager-post-exploitation/README.md) (4 headings)
 
