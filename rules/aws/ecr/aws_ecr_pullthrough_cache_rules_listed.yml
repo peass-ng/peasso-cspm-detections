@@ -1,0 +1,26 @@
+title: ECR pull through cache rules listed
+id: 18600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted DescribePullThroughCacheRules call enumerated ECR pull through
+  cache configuration. CloudTrail omits the response; this event alone does
+  not prove a rule or credential ARN was returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L55
+  - https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_DescribePullThroughCacheRules.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: DescribePullThroughCacheRules
+    event.outcome: success
+    request.ecr_pullthrough_cache_rules_listed: true
+  condition: selection
+falsepositives:
+  - Approved ECR pull through cache inventory or deployment review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-ecr-pullthrough-cache-rules-listed

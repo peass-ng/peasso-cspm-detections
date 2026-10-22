@@ -11,6 +11,20 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 402: integrar inventario ECR Pull Through Cache pendiente
+
+Se retomó el evento real `DescribePullThroughCacheRules` del lote 185. La
+[regla de inventario](rules/aws/ecr/aws_ecr_pullthrough_cache_rules_listed.yml)
+produjo **un positivo real**; las catorce variantes fallidas o malformadas
+del test focalizado quedaron negativas. El parser se reforzó con coherencia
+de cuenta y marca temporal, pasó dos pruebas focalizadas y se integró en la
+[PR 189 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/189)
+como `3e8c2877ed1980936c63f752d45e32efdd8f5bea`. La PR 116 antigua se
+cerró y su rama remota se eliminó. La respuesta API estaba vacía: la señal
+acredita la consulta, no el descubrimiento de un ARN de credencial. No hubo
+escrituras ni recursos que limpiar; el evento real permanece privado 0600.
+[HackTricks ECR](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L55).
+
 ## Lote 401: integrar los controles de transferencia AppStream pendientes
 
 Se retomó el laboratorio propio del lote 213. Su `UpdateStack` aceptado
@@ -1890,7 +1904,7 @@ La [ruta de reconocimiento de HackTricks](https://github.com/HackTricks-wiki/hac
 
 ## Lote 186: parser para inventario de reglas ECR Pull Through Cache
 
-El evento propio `DescribePullThroughCacheRules` del lote 185 incluye `resources=[{accountId, ARN:"*"}]` sin tipo. El normalizador genérico de CloudTrail lo rechaza para no convertir un recurso malformado en hallazgo. La [PR 116 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/116) añade un parser limitado a esa operación y a la forma observada: gestión aceptada, de solo lectura, cuenta y región válidas, un recurso comodín de la misma cuenta y objetivo hash. La regla compañera está aislada en `/tmp/peasso-b186-rule-draft/aws_ecr_pullthrough_cache_rules_listed.yml` hasta que se integre el parser. El evento real produjo una coincidencia y 12 pruebas dirigidas pasaron; 13 variantes sintéticas erróneas o incompletas quedaron negativas. La API devolvió una lista vacía, por lo que el ensayo **no** prueba que se descubriera un `credentialArn`. No hubo nuevas escrituras ni recursos de laboratorio. El CI completo del CSPM sigue afectado por el fallo de hash de fuente ajeno a este cambio, anterior a la recolección de tests. Recibo real privado 0600: `/tmp/peasso-b185-ecr-recon-private.json`.
+El evento propio `DescribePullThroughCacheRules` del lote 185 incluye `resources=[{accountId, ARN:"*"}]` sin tipo. El normalizador genérico de CloudTrail lo rechaza para no convertir un recurso malformado en hallazgo. La [PR 116 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/116) preparó un parser limitado a esa operación y a la forma observada: gestión aceptada, de solo lectura, cuenta y región válidas, un recurso comodín de la misma cuenta y objetivo hash. La regla y el parser se integraron después en el lote 402 mediante la PR 189. El evento real produjo una coincidencia; la API devolvió una lista vacía, por lo que el ensayo **no** prueba que se descubriera un `credentialArn`. No hubo nuevas escrituras ni recursos de laboratorio. Recibo real privado 0600: `/tmp/peasso-b185-ecr-recon-private.json`.
 
 ## Lote 185: metadatos de secreto ECR y forma real del inventario de caché
 
