@@ -1,0 +1,29 @@
+title: Elastic Beanstalk environment CNAME swap requested
+id: 27100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  SwapEnvironmentCNAMEs was accepted for two environments. A CNAME swap can
+  redirect application traffic; confirm both environments, DNS propagation,
+  and the change approval before assigning impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: SwapEnvironmentCNAMEs
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved blue and green deployment.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-elasticbeanstalk-cnames-swapped
+x_cloudtrail_raw: true

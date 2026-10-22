@@ -1,0 +1,29 @@
+title: Elastic Beanstalk environment termination requested
+id: 27100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  TerminateEnvironment was accepted. The API starts an asynchronous teardown;
+  compare the final environment state and whether associated resources were
+  also terminated before concluding that an application went offline.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md#L97
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_TerminateEnvironment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: TerminateEnvironment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved environment retirement.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-elasticbeanstalk-environment-termination-requested
+x_cloudtrail_raw: true
