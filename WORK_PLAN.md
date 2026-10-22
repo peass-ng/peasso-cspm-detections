@@ -87,6 +87,39 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Páginas retiradas
 
+## Lote 367: vending de rol de cola Deadline Cloud
+
+Una granja y cola propias con dos roles sintéticos permitieron probar
+`AssumeQueueRoleForRead`, `AssumeQueueRoleForUser` y el cambio `UpdateQueue`
+entre roles. El primer intento se detuvo tras descubrir que el estado normal
+de cola sin trabajos es `IDLE`, no `ACTIVE`; su cola, dos roles y granja se
+eliminaron. En el segundo intento las dos solicitudes de credenciales se
+aceptaron sobre el primer rol. La credencial de lectura **no** pudo usar el
+permiso benigno adicional `s3:ListAllMyBuckets` (`AccessDenied`), mientras la
+de usuario sí pudo. Tras `UpdateQueue` aceptado, otra credencial de usuario
+perteneció al segundo rol y conservó ese permiso. No se almacenaron claves
+temporales ni resultados del listado S3.
+
+CloudTrail entregó un `AssumeQueueRoleForRead` y dos
+`AssumeQueueRoleForUser`, todos eventos de gestión aceptados y sin recursos
+tipados. Las [dos reglas de cola](rules/aws/deadline/) dieron **3 positivos
+reales y cero en 18 variantes negativas**. `CreateQueue` también apareció;
+el evento aceptado `UpdateQueue` aún no se había propagado al historial al
+cerrar esta fase, por lo que su regla específica de cambio de `roleArn`
+queda pendiente de evidencia y parser. La solicitud aceptada no demuestra
+por sí sola que una aplicación usara la nueva cola. No hubo jobs ni workers.
+Una comprobación independiente de **ambos intentos** confirmó ausentes sus
+granjas, roles y grupos de logs; la cola del segundo intento también se
+consultó y estaba ausente.
+
+Recibos privados 0600: `/tmp/peasso-b367-deadline-queue-receipt-private.json`,
+`/tmp/peasso-b367-deadline-queue-cloudtrail-private.json`,
+`/tmp/peasso-b367-deadline-queue-cleanup-private.json` y
+`/tmp/peasso-b367-all-attempts-cleanup-private.json`.
+[HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L55),
+[API de lectura AWS](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_AssumeQueueRoleForRead.html)
+y [API de usuario AWS](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_AssumeQueueRoleForUser.html).
+
 ## Lote 366: credenciales de flota Deadline Cloud sin host
 
 En `us-east-2` se creó una granja, un rol de flota limitado a la granja y
@@ -114,7 +147,10 @@ de este ensayo fue temporal y no ejecutó trabajos.
 
 Recibos privados 0600: `/tmp/peasso-b366-deadline-receipt-private.json`,
 `/tmp/peasso-b366-deadline-cloudtrail-private.json` y
-`/tmp/peasso-b366-deadline-cleanup-private.json`.
+`/tmp/peasso-b366-deadline-cleanup-private.json`. Una segunda comprobación
+independiente abarcó **los dos intentos**, confirmó ausentes ambas granjas,
+sus grupos de logs y todos los roles con el prefijo de laboratorio;
+`/tmp/peasso-b366-all-attempts-cleanup-private.json`.
 [HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135),
 [roles de flota AWS](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/security-iam-service-roles.html)
 y [precio AWS](https://aws.amazon.com/deadline-cloud/pricing/).
