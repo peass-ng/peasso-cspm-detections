@@ -103,10 +103,12 @@ temporales ni resultados del listado S3.
 CloudTrail entregó un `AssumeQueueRoleForRead` y dos
 `AssumeQueueRoleForUser`, todos eventos de gestión aceptados y sin recursos
 tipados. Las [dos reglas de cola](rules/aws/deadline/) dieron **3 positivos
-reales y cero en 18 variantes negativas**. `CreateQueue` también apareció;
-el evento aceptado `UpdateQueue` aún no se había propagado al historial al
-cerrar esta fase, por lo que su regla específica de cambio de `roleArn`
-queda pendiente de evidencia y parser. La solicitud aceptada no demuestra
+reales y cero en 18 variantes negativas**. `CreateQueue` y `UpdateQueue`
+también aparecieron: el segundo evento contiene `roleArn` en la solicitud,
+pero la respuesta de CloudTrail sólo trae cabeceras. `GetQueue` y las
+credenciales posteriores confirmaron el segundo rol en este laboratorio.
+La regla específica de solicitud de `roleArn` queda pendiente de parser;
+no se publicó una alerta de cualquier `UpdateQueue` indistintamente. La solicitud aceptada no demuestra
 por sí sola que una aplicación usara la nueva cola. No hubo jobs ni workers.
 Una comprobación independiente de **ambos intentos** confirmó ausentes sus
 granjas, roles y grupos de logs; la cola del segundo intento también se
