@@ -1,0 +1,31 @@
+title: IoT SiteWise time series alias associated with an asset property
+id: 22300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted AssociateTimeSeriesToAssetProperty attached an alias time series
+  to an asset property. Review whether the series existed and received values
+  before approved onboarding; CloudTrail alone does not prove that its history
+  was pre-seeded or malicious. This rule uses the management event, which is
+  available even without optional SiteWise data-event selectors.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-sitewise/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsitewise.amazonaws.com
+    event.name: AssociateTimeSeriesToAssetProperty
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved onboarding or reassignment of an industrial telemetry alias.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iot-sitewise-time-series-alias-associated
+x_cloudtrail_raw: true
