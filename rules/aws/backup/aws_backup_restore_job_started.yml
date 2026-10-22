@@ -1,0 +1,30 @@
+title: AWS Backup restore job started with a passed service role
+id: 25500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful StartRestoreJob requested that AWS Backup materialize a
+  recovery point with the specified service role. Review the source recovery
+  point, target metadata and role. API acceptance does not prove that the
+  restore job completed or that the caller read the resulting resource.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-backup-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/aws-backup/latest/APIReference/API_StartRestoreJob.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: backup.amazonaws.com
+    event.name: StartRestoreJob
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved backup recovery or scheduled restore testing.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-backup-restore-job-started
+x_cloudtrail_raw: true
