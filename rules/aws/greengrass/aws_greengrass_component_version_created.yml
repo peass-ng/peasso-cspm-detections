@@ -5,6 +5,7 @@ description: >
   A successful CreateComponentVersion uploaded a Greengrass component recipe or Lambda-based package. Review its publisher, lifecycle and artifacts before deployment. This event does not prove that any edge device ran the component.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-greengrass-post-exploitation/README.md#L15
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/fd20da2cca4b8428e0ee120954247cfc2fe6c568/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-greengrass-privesc/README.md#L5
   - https://docs.aws.amazon.com/greengrass/v2/APIReference/API_CreateComponentVersion.html
 logsource:
   product: aws
