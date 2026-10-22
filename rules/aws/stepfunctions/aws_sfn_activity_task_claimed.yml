@@ -1,0 +1,32 @@
+title: Step Functions activity task claimed
+id: 26900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetActivityTask claimed pending activity work and could expose
+  its input and a task token to the worker. This optional CloudTrail data event
+  does not prove that the worker later completed or altered the execution.
+  Compare the actor and worker with approved activity consumers.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L113
+  - https://docs.aws.amazon.com/step-functions/latest/dg/procedure-cloud-trail.html
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_GetActivityTask.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: GetActivityTask
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::StepFunctions::Activity
+  condition: selection
+falsepositives:
+  - Approved activity workers polling their own queue.
+level: medium
+tags:
+  - attack.collection
+  - attack.impact
+x_hacktricks_technique_id: aws-sfn-activity-task-claimed
+x_cloudtrail_raw: true
