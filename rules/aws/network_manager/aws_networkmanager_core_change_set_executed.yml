@@ -1,0 +1,30 @@
+title: AWS Cloud WAN core network change set execution requested
+id: 28100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  ExecuteCoreNetworkChangeSet requested activation of a core network policy
+  version. Inspect the resulting policy state and change set to determine
+  whether it became LIVE and what segmentation or routing changed. This
+  CloudTrail event records the request, not completion or traffic impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L166
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_ExecuteCoreNetworkChangeSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: ExecuteCoreNetworkChangeSet
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved deployment of a Cloud WAN policy version.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-networkmanager-core-change-set-executed
+x_cloudtrail_raw: true
