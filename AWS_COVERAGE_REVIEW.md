@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **56**. Total headings: **244**.
+Pages with at least three level-three headings and no direct YAML reference: **54**. Total headings: **238**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -301,18 +301,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - AgentCore Identity — mint a workload token and recover stored API keys
 - AgentCore Identity — recover stored OAuth access tokens
 - Knowledge Bases — retrieve indexed private documents without source-storage access
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md) (3 headings)
-
-- Bulk current and historical case-data collection
-- Corrupt case workflow and evidence
-- Disable or widen case event publishing
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md) (3 headings)
-
-- Stopping optional data source packages (blind the graph)
-- Detaching accounts from the behavior graph
-- Destroying the investigation surface
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-direct-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-direct-connect-post-exploitation/README.md) (3 headings)
 

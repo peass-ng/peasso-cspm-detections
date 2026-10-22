@@ -1,0 +1,29 @@
+title: Amazon Connect Cases case audit history read
+id: b3280000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetCaseAuditEvents succeeded. Case audit history can reveal earlier field
+  values and changes. CloudTrail records the case request, not the returned
+  audit contents; review access outside approved investigation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCaseAuditEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cases.amazonaws.com
+    event.name: GetCaseAuditEvents
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved case investigation or compliance audit.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-connectcases-case-audit-events-read
+x_cloudtrail_raw: true

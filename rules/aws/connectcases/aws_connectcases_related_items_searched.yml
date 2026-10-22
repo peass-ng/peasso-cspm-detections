@@ -1,0 +1,29 @@
+title: Amazon Connect Cases domain-wide related items searched
+id: b3280000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  SearchAllRelatedItems succeeded for a Cases domain. This domain-wide API
+  can return comment and custom-item content across cases. CloudTrail records
+  the request but not the returned items; check unusual readers and volume.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchAllRelatedItems.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cases.amazonaws.com
+    event.name: SearchAllRelatedItems
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved domain-wide support reporting or migration.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-connectcases-related-items-searched
+x_cloudtrail_raw: true

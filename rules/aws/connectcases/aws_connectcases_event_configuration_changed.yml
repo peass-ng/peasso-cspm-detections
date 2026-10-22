@@ -1,0 +1,31 @@
+title: Amazon Connect Cases event publishing configuration changed
+id: b3280000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  PutCaseEventConfiguration succeeded. Inspect the request to determine
+  whether publishing was disabled, included fields were removed, or related
+  item content was added to events. This API event alone does not establish
+  that an EventBridge consumer received data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-cases-post-exploitation/README.md#L105
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_PutCaseEventConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cases.amazonaws.com
+    event.name: PutCaseEventConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved case event stream configuration or maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+  - attack.collection
+x_hacktricks_technique_id: aws-connectcases-event-configuration-changed
+x_cloudtrail_raw: true

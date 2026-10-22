@@ -1,0 +1,31 @@
+title: Amazon Detective behavior graph deleted
+id: b3310000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  DeleteGraph succeeded and disables the behavior graph, queuing its data
+  for deletion. Investigate any graph removal and compare with the expected
+  investigative coverage. The event alone does not show how much history
+  that graph contained.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md#L82
+  - https://docs.aws.amazon.com/detective/latest/APIReference/API_DeleteGraph.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: detective.amazonaws.com
+    event.name: DeleteGraph
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Detective decommissioning or account closure.
+level: high
+tags:
+  - attack.defense-evasion
+  - attack.impact
+x_hacktricks_technique_id: aws-detective-behavior-graph-deleted
+x_cloudtrail_raw: true

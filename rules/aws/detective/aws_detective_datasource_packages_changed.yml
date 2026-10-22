@@ -1,0 +1,30 @@
+title: Amazon Detective data source packages changed
+id: b3310000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateDatasourcePackages succeeded. Compare the requested package set with
+  the expected Detective graph configuration. Omitting EKS_AUDIT or
+  ASFF_SECURITYHUB_FINDING can stop optional investigation data ingestion;
+  the API event alone does not prove a prior enabled state.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-detective-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/detective/latest/APIReference/API_UpdateDatasourcePackages.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: detective.amazonaws.com
+    event.name: UpdateDatasourcePackages
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved adjustment of Detective package coverage.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-detective-datasource-packages-changed
+x_cloudtrail_raw: true
