@@ -4,7 +4,7 @@
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
-Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 30 de esas 50 y quedan 20 por examinar.
+Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 40 de esas 50 y quedan 10 por examinar.
 
 Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
 
@@ -87,7 +87,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Primera revisión del cuerpo sin encabezados nuevos
 
-Se revisaron **30 de las 50** páginas de la lista anterior, comparando las
+Se revisaron **40 de las 50** páginas de la lista anterior, comparando las
 líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 
 | Página | Decisión |
@@ -121,6 +121,16 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | Elastic Beanstalk privilege escalation | Aclara bundle S3 y despliegue regional. `CreateApplicationVersion`, `UpdateEnvironment` y `RebuildEnvironment` ya tienen reglas de evento. |
 | EventBridge Pipe stored-role privilege escalation | Añade prerrequisitos para `StartPipe`; ya tiene regla de evento. |
 | EventBridge Pipes privilege escalation | Aclara propagación, rol y tránsito de registros para `CreatePipe`; el cambio de configuración por sí solo no prueba ejecución del target. |
+| GameLift Streams privilege escalation | Añade restricciones de fecha de creación de grupo, capacidad y sesión activa para credenciales de streaming; no añade una API de ataque. |
+| IAM privilege escalation | Acota límites de permisos, federación propia y roles entre cuentas; las operaciones ya estaban en la página y no convierten un proveedor recién creado en token utilizable. |
+| IoT privilege escalation | Precisa permiso en el alias exacto y `iam:PassRole` para `UpdateRoleAlias`; la regla de reasignación ya está publicada. |
+| IoT SiteWise privilege escalation | Aclara que políticas de acceso de portal/proyecto pueden nombrar IAM User o Identity Center. La mutación de acceso administrativo de Monitor aún necesita señal específica. |
+| Migration Hub privilege escalation | Aclara documento SSM/Lambda controlado, rol pasable y ejecución de run; misma ruta de custom unit. |
+| ML data-access PassRole privilege escalation | Acota trabajos asíncronos, permisos de origen/destino y sesión PCS; la ruta FinSpace se marca histórica en la fuente. No se debe declarar lectura de contenido sólo por crear un job. |
+| MWAA privilege escalation | Separa token de web/CLI de código en un DAG Python del prefijo S3 real. El catálogo actual sólo cubre MWAA Serverless; correlación de Classic MWAA sigue pendiente. |
+| OpenSearch Serverless privilege escalation | Precisa `CreateAccessPolicy` autoasignado y sus prerrequisitos de IAM `APIAccessAll` y red. Aún no hay regla específica de política de datos. |
+| Proton privilege escalation | La fuente marca su servicio como histórico tras cierre; no hay laboratorio actual ejecutable. |
+| QuickSight privilege escalation | Acota `UpdateUser` a usuario IAM activo y `PrincipalId` coincidente; falta una señal de elevación de rol que respete esa identidad. |
 
 ### Páginas retiradas
 
