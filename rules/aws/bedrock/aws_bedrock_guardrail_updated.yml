@@ -1,0 +1,30 @@
+title: Bedrock guardrail configuration updated
+id: 23600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A Bedrock guardrail was updated. CloudTrail omits the filter and policy
+  configuration from the request, so this event cannot prove protection was
+  weakened. Retrieve the current guardrail, compare it with the approved
+  baseline and check which applications use its draft or published versions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md
+  - https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock.amazonaws.com
+    event.name: UpdateGuardrail
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved guardrail policy maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-bedrock-guardrail-updated
+x_cloudtrail_raw: true

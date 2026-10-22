@@ -1,0 +1,30 @@
+title: WorkSpaces Web User Access Logging destination updated
+id: 23500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A User Access Logging settings object was updated. Inspect its current
+  Kinesis stream and compare it with the previous approved destination; this
+  management event alone does not establish that the stream changed or that a
+  portal uses this settings object.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+  - https://docs.aws.amazon.com/workspaces-web/latest/adminguide/user-access-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: UpdateUserAccessLoggingSettings
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Kinesis logging destination change.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-workspaces-web-user-access-logging-updated
+x_cloudtrail_raw: true

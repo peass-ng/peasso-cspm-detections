@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **86**. Total headings: **391**.
+Pages with at least three level-three headings and no direct YAML reference: **85**. Total headings: **384**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -66,16 +66,6 @@ Pages with at least three level-three headings and no direct YAML reference: **8
 - S3
 - Dynamo
 - EMR
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-post-exploitation/README.md) (7 headings)
-
-- AWS - AgentCore Sandbox Escape via DNS Tunneling and MMDS Abuse
-- \`bedrock-agentcore:CreateGatewayTarget\` / \`UpdateGatewayTarget\` — MITM an agent's tools (tool-response injection)
-- AWS - Bedrock Agents Memory Poisoning (Indirect Prompt Injection)
-- AWS - Bedrock Agents Multi-Agent Prompt-Injection Chains
-- AWS - AgentCore Harness RCE via Indirect Prompt Injection
-- \`bedrock:UpdateGuardrail\` — strip a guardrail's policies while the application keeps using it
-- \`bedrock:DeleteModelInvocationLoggingConfiguration\` | \`bedrock:PutModelInvocationLoggingConfiguration\` — blind out the prompt/completion audit trail
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md) (7 headings)
 
