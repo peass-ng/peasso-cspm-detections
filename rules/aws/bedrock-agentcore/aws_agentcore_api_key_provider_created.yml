@@ -1,0 +1,28 @@
+title: AgentCore API key credential provider created
+id: 24200000-0000-4000-8000-000000000002
+status: experimental
+description: An AgentCore API key credential provider was created. Review its owner
+  and approved external service. CloudTrail masks the submitted key and this event
+  does not show that a workload retrieved it.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity-api-key.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: CreateApiKeyCredentialProvider
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::APIKeyCredentialProvider
+  condition: selection
+falsepositives:
+- Approved credential provider onboarding.
+level: low
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-agentcore-api-key-provider-created
+x_cloudtrail_raw: true

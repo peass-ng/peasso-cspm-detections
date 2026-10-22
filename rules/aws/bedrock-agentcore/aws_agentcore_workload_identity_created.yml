@@ -1,0 +1,28 @@
+title: AgentCore workload identity created
+id: 24200000-0000-4000-8000-000000000001
+status: experimental
+description: A workload identity was created for AgentCore token issuance. Review the
+  creator and intended workload before the identity can be used to request tokens.
+  Creation alone does not disclose a credential.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: CreateWorkloadIdentity
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::WorkloadIdentity
+  condition: selection
+falsepositives:
+- Approved AgentCore workload onboarding.
+level: low
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-agentcore-workload-identity-created
+x_cloudtrail_raw: true

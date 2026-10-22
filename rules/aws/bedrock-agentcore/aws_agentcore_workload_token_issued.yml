@@ -1,0 +1,28 @@
+title: AgentCore workload access token issued
+id: 24200000-0000-4000-8000-000000000003
+status: experimental
+description: A principal obtained an AgentCore workload access token. Correlate the
+  caller and workload with later credential retrieval. CloudTrail hides the token
+  value, and routine agents can legitimately call this API.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: GetWorkloadAccessToken
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::WorkloadIdentity
+  condition: selection
+falsepositives:
+- Approved AgentCore workload fetching its token.
+level: low
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-agentcore-workload-token-issued
+x_cloudtrail_raw: true

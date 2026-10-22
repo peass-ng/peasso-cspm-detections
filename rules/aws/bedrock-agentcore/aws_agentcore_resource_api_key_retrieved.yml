@@ -1,0 +1,28 @@
+title: AgentCore resource API key retrieved
+id: 24200000-0000-4000-8000-000000000004
+status: experimental
+description: A principal retrieved an API key from an AgentCore credential provider.
+  Review whether the caller is an approved workload and correlate it with workload
+  token issuance. CloudTrail hides the token and key values.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetResourceApiKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: GetResourceApiKey
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::APIKeyCredentialProvider
+  condition: selection
+falsepositives:
+- Approved AgentCore workload accessing its external service API key.
+level: medium
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-agentcore-resource-api-key-retrieved
+x_cloudtrail_raw: true
