@@ -14,8 +14,11 @@ reglas específicas de Deadline Cloud de los lotes 366–369 se publican tras
 validarlas con eventos reales y 25 pruebas focalizadas. El laboratorio
 ARC Region Switch del lote 370 ejecutó un plan temporal con paso SSM y
 objetivos sin coincidencias; plan y rol se borraron y su ausencia se
-verificó de forma independiente. Espera la entrega de CloudTrail y la
-validación de detecciones antes de publicar reglas ARC.
+verificó de forma independiente. CloudTrail entregó `StartPlanExecution`:
+una regla de inicio de ejecución dio un positivo real y cero en ocho
+variantes negativas. `CreatePlan` y la detección específica de la
+configuración SSM esperan la entrega del evento de creación; no se afirma
+que un comando haya llegado a un nodo.
 
 ## Diferencia de fuentes AWS para el plan de trabajo
 

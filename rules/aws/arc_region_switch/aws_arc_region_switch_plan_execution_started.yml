@@ -1,0 +1,29 @@
+title: AWS ARC Region Switch plan execution started
+id: b3700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A caller started an ARC Region Switch plan execution. An existing plan can
+  move application traffic or recovery resources when activated. Review the
+  plan, target Region, actor and approved disaster recovery schedule. This
+  event alone does not prove that every configured step completed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-region-switch-privesc/README.md#L76
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: arc-region-switch.amazonaws.com
+    event.name: StartPlanExecution
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved disaster recovery exercise or planned failover.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-arc-region-switch-start-plan-execution
+x_cloudtrail_raw: true
