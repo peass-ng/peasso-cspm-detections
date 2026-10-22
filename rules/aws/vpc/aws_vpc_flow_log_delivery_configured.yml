@@ -1,0 +1,30 @@
+title: VPC Flow Log delivery configured
+id: 25700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateFlowLogs configured delivery of network-flow metadata
+  from a VPC, subnet or network interface. Review the destination and its
+  owner, especially S3 buckets outside the source account. This event alone
+  does not establish cross-account ownership or prove that traffic was sent.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-vpc-flow-logs-cross-account-exfiltration.md
+  - https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-s3-create-flow-log.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateFlowLogs
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Flow Log creation or central logging setup.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-vpc-flow-log-delivery-configured
+x_cloudtrail_raw: true
