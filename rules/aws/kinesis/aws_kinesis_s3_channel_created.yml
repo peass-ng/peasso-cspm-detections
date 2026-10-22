@@ -5,6 +5,7 @@ description: An account stream was attached to a newly accepted channel that del
 x_hacktricks_technique_id: aws-kinesis-s3-channel-created
 references:
 - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kinesis-data-streams-post-exploitation/README.md#L173
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kinesis-data-streams-privesc/README.md
 logsource:
   product: aws
   service: cloudtrail
