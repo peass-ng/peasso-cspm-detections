@@ -1,5 +1,31 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 353–354: retirada de rol y membresía DataZone
+
+Se revisó el evento `DisassociateEnvironmentRole` del laboratorio propio 344.
+La llamada fue aceptada como escritura de gestión y el rol de entorno se
+retiró antes de eliminar el entorno. La [regla nueva](rules/aws/datazone/aws_datazone_environment_role_disassociated.yml)
+dio **1 positivo real y cero en 6 variantes negativas**; indica la retirada
+de la asociación, sin afirmar que se invalidaran sesiones STS ya emitidas.
+El recibo previo confirmó ausentes dominio, roles y stacks activos del ensayo.
+
+`DeleteProjectMembership` del lote 338 había fallado al pasar un ARN IAM en
+vez del identificador de perfil interno. El 354 creó un usuario, dominio y
+proyecto temporales, le concedió `PROJECT_OWNER`, resolvió su ID mediante
+`GetUserProfile` y lo retiró con ese ID. La API aceptó el borrado y el listado
+posterior confirmó al miembro ausente. CloudTrail registró ambas llamadas
+aceptadas. Sus [dos reglas nuevas](rules/aws/datazone/) dieron **2 positivos
+reales y cero en 12 variantes negativas**; la regla de borrado también rechazó
+el evento fallido del 338. Una lectura independiente confirmó ausentes el
+dominio, rol y usuario temporales del 354. Recibos privados 0600:
+`/tmp/peasso-b344-cloudtrail-private.json`,
+`/tmp/peasso-b344-cleanup-verified-private.json`,
+`/tmp/peasso-b354-private.json`,
+`/tmp/peasso-b354-cloudtrail-private.json`,
+`/tmp/peasso-b354-cleanup-verified-private.json` y
+`/tmp/peasso-b353-b354-validation-private.json`.
+[HackTricks DataZone persistencia](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-datazone-persistence/README.md#L49).
+
 ## Lote 352: enumeración de dominio y perfiles DataZone
 
 En un dominio temporal con un proyecto propio se aceptaron ocho rutas de

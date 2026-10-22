@@ -1,0 +1,30 @@
+title: Amazon DataZone project membership deleted
+id: b3540000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  DeleteProjectMembership succeeded. This can remove a user's or group's
+  access to a DataZone project and its catalog or environment workflows.
+  Check the member's internal profile ID and the post-change membership;
+  already issued environment role sessions may remain valid until expiry.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-datazone-persistence/README.md#L17
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_DeleteProjectMembership.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: DeleteProjectMembership
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved removal of a departing or incorrectly assigned project member.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-datazone-project-membership-deleted
+x_cloudtrail_raw: true

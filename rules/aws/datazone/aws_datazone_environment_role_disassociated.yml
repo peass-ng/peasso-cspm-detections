@@ -1,0 +1,30 @@
+title: Amazon DataZone environment role disassociated
+id: b3530000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  DisassociateEnvironmentRole succeeded. Removing a role binding can stop new
+  environment credential requests and disrupt a project workflow. Verify the
+  binding and environment status after the call; this event does not revoke
+  already issued STS credentials.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-datazone-persistence/README.md#L49
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_DisassociateEnvironmentRole.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: DisassociateEnvironmentRole
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved removal of an obsolete or overprivileged environment role.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-datazone-environment-role-disassociated
+x_cloudtrail_raw: true

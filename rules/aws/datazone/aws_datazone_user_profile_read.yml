@@ -1,0 +1,29 @@
+title: Amazon DataZone user profile read
+id: b3540000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetUserProfile succeeded. A caller can resolve an IAM identity to its
+  DataZone profile and internal ID, which supports targeting of memberships
+  and subscriptions. The event does not prove access to a project or asset.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L21
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetUserProfile.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: GetUserProfile
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved identity lookup or project membership administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-user-profile-read
+x_cloudtrail_raw: true
