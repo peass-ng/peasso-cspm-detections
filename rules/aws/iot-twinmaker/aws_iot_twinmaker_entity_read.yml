@@ -1,0 +1,27 @@
+title: IoT TwinMaker entity configuration read
+id: 22400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A caller retrieved an entity model, including its components and metadata. Review unexpected bulk reads or access by non-dashboard identities; the event does not include returned values.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: GetEntity
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application or operator inspection of an entity.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iot-twinmaker-entity-read
+x_cloudtrail_raw: true

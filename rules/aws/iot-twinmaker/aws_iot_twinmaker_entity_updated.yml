@@ -1,0 +1,27 @@
+title: IoT TwinMaker entity configuration updated
+id: 22400000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  An accepted UpdateEntity changed an entity configuration. Compare descriptions, components, static properties and relationships against the approved model. The event alone does not prove operational data was poisoned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: UpdateEntity
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved maintenance of a TwinMaker entity.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iot-twinmaker-entity-updated
+x_cloudtrail_raw: true

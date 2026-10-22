@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **88**. Total headings: **402**.
+Pages with at least three level-three headings and no direct YAML reference: **87**. Total headings: **398**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -399,13 +399,6 @@ Pages with at least three level-three headings and no direct YAML reference: **8
 - Export the entire datastore through a service role
 - Import an S3 object through a HealthLake role
 - Blindly poison or destroy FHIR records
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md) (4 headings)
-
-- Entity, component and graph disclosure
-- Stealth property theft through a configured connector
-- Bulk metadata export to S3
-- Property and relationship poisoning
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md) (4 headings)
 

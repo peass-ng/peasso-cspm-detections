@@ -1,0 +1,27 @@
+title: IoT TwinMaker entity properties listed
+id: 22400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A caller enumerated an entity component property schema. The event shows the request but not the returned values; an empty response remains a successful enumeration attempt.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: ListProperties
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved model inventory or dashboard rendering.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iot-twinmaker-properties-listed
+x_cloudtrail_raw: true

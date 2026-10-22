@@ -1,0 +1,27 @@
+title: IoT TwinMaker component type read
+id: 22400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A caller retrieved a TwinMaker component type definition. Review unexpected reads of connector functions, property schema and linked source identifiers; CloudTrail omits the response.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: GetComponentType
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved model administration or dashboard rendering.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-iot-twinmaker-component-type-read
+x_cloudtrail_raw: true
