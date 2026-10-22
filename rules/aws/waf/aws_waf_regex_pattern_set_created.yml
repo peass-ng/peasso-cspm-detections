@@ -1,0 +1,27 @@
+title: WAF regex pattern set created
+id: 26200000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful CreateRegexPatternSet added patterns that could later be referenced by a WAF rule. Review later associations; creation alone does not affect filtering.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L97
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_CreateRegexPatternSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: CreateRegexPatternSet
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved WAF pattern development.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-regex-pattern-set-created
+x_cloudtrail_raw: true

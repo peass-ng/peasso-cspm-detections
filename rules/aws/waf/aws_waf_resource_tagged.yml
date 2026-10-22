@@ -1,0 +1,27 @@
+title: WAF resource tags changed
+id: 26200000-0000-4000-8000-000000000009
+status: experimental
+description: >
+  A successful TagResource changed tags on a WAF resource. Review whether tags drive IAM conditions or automation before treating this as security-control tampering.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L128
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_TagResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: TagResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved ownership or cost tagging.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-resource-tagged
+x_cloudtrail_raw: true

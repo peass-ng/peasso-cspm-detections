@@ -1,0 +1,27 @@
+title: WAF rule group updated
+id: 26200000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful UpdateRuleGroup replaced a rule group configuration. Compare rule actions and rule count with the previous version and check active Web ACL references; this event alone does not prove weaker protection.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L194
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_UpdateRuleGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateRuleGroup
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved WAF rule-group maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-rule-group-updated
+x_cloudtrail_raw: true
