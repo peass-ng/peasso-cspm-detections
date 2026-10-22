@@ -87,6 +87,27 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Páginas retiradas
 
+## Lote 368: cambios de rol y secuencias Deadline en revisión
+
+La [PR 168 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/168)
+extrae de `CreateFleet`, `CreateQueue` y `UpdateQueue` sólo señales de
+asignación explícita de un rol IAM de la misma cuenta. Para la flota nueva
+exige `customerManaged`; ninguna señal copia el ARN del rol en un hallazgo.
+También correlaciona `CreateWorker` → `AssumeFleetRoleForWorker` por misma
+cuenta, Región, granja, flota, worker y actor, y `UpdateQueue` →
+`AssumeQueueRoleForUser` por misma cuenta, Región, granja, cola y actor,
+ambas dentro de 30 minutos.
+
+Las [cinco YAML nuevas](rules/aws/deadline/) están **aisladas** hasta
+integrar el parser. Con los eventos reales de los lotes 366–367 dieron
+cinco coincidencias adicionales: tres configuraciones y dos secuencias.
+Pasaron **25 pruebas focalizadas** del módulo, motor y sobre CloudTrail;
+los tests negativos cubren denegaciones, rol de otra cuenta, campos
+ausentes, identidad/recurso discordante, ventana agotada y eventos
+duplicados. La correlación no demuestra uso posterior de permisos del rol.
+La PR 168 parte del `main` actual y deberá incorporar la PR 167 antes de
+publicar las cinco YAML; no se mezclaron borradores con el catálogo público.
+
 ## Lote 367: vending de rol de cola Deadline Cloud
 
 Una granja y cola propias con dos roles sintéticos permitieron probar
@@ -107,7 +128,7 @@ reales y cero en 18 variantes negativas**. `CreateQueue` y `UpdateQueue`
 también aparecieron: el segundo evento contiene `roleArn` en la solicitud,
 pero la respuesta de CloudTrail sólo trae cabeceras. `GetQueue` y las
 credenciales posteriores confirmaron el segundo rol en este laboratorio.
-La regla específica de solicitud de `roleArn` queda pendiente de parser;
+La regla específica de solicitud de `roleArn` está en la PR 168;
 no se publicó una alerta de cualquier `UpdateQueue` indistintamente. La solicitud aceptada no demuestra
 por sí sola que una aplicación usara la nueva cola. No hubo jobs ni workers.
 Una comprobación independiente de **ambos intentos** confirmó ausentes sus
