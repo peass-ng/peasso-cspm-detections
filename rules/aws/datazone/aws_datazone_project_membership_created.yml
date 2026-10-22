@@ -1,0 +1,30 @@
+title: Amazon DataZone project membership created
+id: b3380000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateProjectMembership succeeded. Review the requested designation and
+  member profile; a PROJECT_OWNER grant can preserve project-level access
+  while the profile and IAM permissions remain valid. The generic event rule
+  does not prove later use or account-wide persistence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-datazone-persistence/README.md#L15
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateProjectMembership.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: CreateProjectMembership
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved project onboarding or role assignment.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-datazone-project-membership-created
+x_cloudtrail_raw: true

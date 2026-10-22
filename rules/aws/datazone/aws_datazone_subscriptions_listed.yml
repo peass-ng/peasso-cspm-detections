@@ -1,0 +1,29 @@
+title: Amazon DataZone subscriptions listed
+id: b3380000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ListSubscriptions succeeded. This can map active subscription relationships
+  and fulfillment paths when authorized. The event proves a list request, not
+  that any subscription or grant was returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListSubscriptions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListSubscriptions
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved subscription review or governance reporting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-subscriptions-listed
+x_cloudtrail_raw: true

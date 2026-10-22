@@ -1,5 +1,35 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 338: membresía y rutas de suscripción de DataZone
+
+En un dominio y proyecto temporales propios se creó un usuario IAM **sin
+contraseña ni claves**. El rol de ejecución del dominio sólo recibió, además
+de la política administrada de DataZone, `iam:GetUser` para ese usuario.
+`CreateProjectMembership` aceptó `PROJECT_OWNER`; el listado posterior
+devolvió dos perfiles distintos. `DeleteProjectMembership` con el ARN IAM
+devolvió `ResourceNotFoundException` porque la API trabaja con un ID de perfil
+interno; no se presenta esa retirada como exitosa. La eliminación del dominio
+retiró el estado de laboratorio.
+
+`ListSubscriptionRequests` y `ListSubscriptions` fueron aceptadas al pasar
+`owningProjectId` del proyecto propio, y ambas devolvieron listas vacías.
+CloudTrail entregó las tres operaciones aceptadas como eventos de gestión con
+`AWS::DataZone::Domain` tipado: creación con `readOnly=false` y listados con
+`readOnly=true`. Las [tres reglas nuevas](rules/aws/datazone/) dieron **3
+positivos reales y cero en 18 variantes negativas**, y rechazaron el borrado
+fallido. La regla de membresía es genérica y requiere inspeccionar
+`designation` para priorizar propietarios. No se probó uso posterior de la
+identidad ni una suscripción real; siguen pendientes aprobación, cancelación,
+grants y destinos de cumplimiento.
+
+Una lectura independiente confirmó ausentes dominio, rol y usuario IAM.
+Recibos privados 0600: `/tmp/peasso-b338-private.json`,
+`/tmp/peasso-b338-cloudtrail-private.json`,
+`/tmp/peasso-b338-validation-private.json` y
+`/tmp/peasso-b338-cleanup-verified-private.json`.
+[HackTricks persistencia DataZone](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-datazone-persistence/README.md#L15);
+[HackTricks suscripciones](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73).
+
 ## Lote 337: revisión y publicación de un activo DataZone
 
 Se creó otro dominio temporal propio, un proyecto, un tipo de formulario, un
