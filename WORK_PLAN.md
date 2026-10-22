@@ -11,6 +11,28 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 393: inventario de un clúster EMR
+
+Cuatro consultas de solo lectura contra un clúster propio ya terminado
+(`ListClusters`, `DescribeCluster`, `ListInstances`, `ListBootstrapActions`)
+fueron aceptadas y aparecieron en CloudTrail como eventos de gestión con
+`readOnly=true`. El correlador de las tres lecturas dirigidas al mismo
+clúster, principal y región en quince minutos produjo **un positivo real y
+cero en ocho variantes negativas dirigidas**. La
+[regla de inventario](rules/aws/emr/aws_emr_cluster_inventory_sweep.yml)
+pasó nueve pruebas focalizadas junto al parser EMR previo y se integró en la
+[PR 183 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/183)
+como `c4bdf0d69ad6ad1f22d76d72e19fb18d53e8c926`.
+
+CloudTrail registró `responseElements=null` para las cuatro llamadas; la
+señal prueba las consultas, no el contenido devuelto ni acceso posterior a
+scripts, nodos o secretos. Se reutilizó un clúster de laboratorio terminado;
+**no se creó infraestructura nueva** y no hubo recursos que borrar. Los
+eventos y recibos reales permanecen privados 0600. Sigue pendiente probar
+`DescribeSecurityConfiguration` con una configuración propia.
+[HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L55),
+[CloudTrail para EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/logging-using-cloudtrail.html).
+
 ## Lote 388–389: paso EMR con rol runtime
 
 `AddJobFlowSteps` aceptó un paso con `ExecutionRoleArn` en un laboratorio
