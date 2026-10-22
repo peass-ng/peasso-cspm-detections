@@ -11,6 +11,32 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 388–389: paso EMR con rol runtime
+
+`AddJobFlowSteps` aceptó un paso con `ExecutionRoleArn` en un laboratorio
+propio. CloudTrail conservó el rol elegido y el identificador del paso; la
+[regla del rol runtime](rules/aws/emr/aws_emr_runtime_role_step_added.yml)
+produjo **un positivo real y cero en ocho variantes negativas dirigidas**.
+El parser pasó cinco pruebas focalizadas y se integró en la
+[PR 182 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/182)
+como `e15514c14bfecb787967de8b4bbd749cba92b0af`.
+
+La aceptación de la petición confirma la adición del paso, no su ejecución
+ni acceso efectivo a AWS. CloudTrail volvió a registrar `Args` como lista
+vacía, por lo que no puede reconstruirse el comando. Tres intentos de
+arrancar un clúster con roles runtime terminaron con el error genérico de
+validación de permisos EC2 del rol de servicio; **no se obtuvo una respuesta
+correcta de `GetClusterSessionCredentials`**. Según la API de AWS, esta
+última entrega credenciales HTTP Basic temporales para endpoints del clúster,
+no credenciales AWS STS como afirma la ruta de HackTricks. La comprobación
+de credenciales queda pendiente de un clúster operativo. Las verificaciones
+independientes tras cada intento confirmaron clústeres terminados y ausencia
+de roles, perfiles, configuraciones de seguridad, VPC y recursos EC2 propios.
+Recibos y eventos reales permanecen privados 0600.
+[HackTricks EMR](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L62),
+[roles runtime EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-steps-runtime-roles.html),
+[GetClusterSessionCredentials AWS](https://docs.aws.amazon.com/emr/latest/APIReference/API_GetClusterSessionCredentials.html).
+
 ## Lote 386–387: perfil de instancia y paso command-runner en EMR clásico
 
 Un laboratorio propio creó un rol de servicio EMR, un rol y perfil EC2 y un
@@ -631,7 +657,7 @@ Recibos privados 0600: `/tmp/peasso-b357-private.json`,
 
 ## Lote 356: inventario Migration Hub Strategy Recommendations
 
-Con `naxusai-admin` se aceptaron siete lecturas en `us-east-1`:
+Con el perfil autorizado del laboratorio se aceptaron siete lecturas en `us-east-1`:
 `ListCollectors`, `ListServers`, `ListApplicationComponents`,
 `ListImportFileTask`, `ListAnalyzableServers`, `GetPortfolioPreferences` y
 `GetPortfolioSummary`. El recibo conserva sólo nombres, estado e IDs de

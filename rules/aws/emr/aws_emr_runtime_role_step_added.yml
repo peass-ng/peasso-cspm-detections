@@ -1,0 +1,28 @@
+title: AWS EMR step added with a selected runtime role
+id: b3890000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  AddJobFlowSteps accepted a step with ExecutionRoleArn. A job or query may
+  access AWS resources using that runtime role if the cluster executes it.
+  This event confirms only the accepted step addition; check the step status
+  and role permissions before concluding that execution or access occurred.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L62
+  - https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-steps-runtime-roles.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: AddJobFlowSteps
+    event.outcome: success
+    request.emr_runtime_role_step_added: true
+  condition: selection
+falsepositives:
+  - Approved Spark or Hive job using a reviewed runtime role.
+level: medium
+tags:
+  - attack.execution
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-emr-runtime-role-step-added
