@@ -1,0 +1,29 @@
+title: IoT SiteWise asset property value read
+id: 21600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted GetAssetPropertyValue read a SiteWise asset property. This
+  requires CloudTrail data-event selection for the asset. The returned value
+  is excluded from evidence; review whether the actor was an approved reader.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-sitewise/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsitewise.amazonaws.com
+    event.name: GetAssetPropertyValue
+    event.category: Data
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::IoTSiteWise::Asset
+  condition: selection
+falsepositives:
+  - Approved industrial monitoring or application reads.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-iot-sitewise-asset-property-value-read
+x_cloudtrail_raw: true
