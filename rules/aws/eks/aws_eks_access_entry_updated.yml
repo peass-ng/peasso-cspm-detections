@@ -1,0 +1,27 @@
+title: EKS access entry updated
+id: 28700000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted update can replace Kubernetes groups for an IAM principal. Compare previous and current groups and cluster RBAC.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md#L117
+  - https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAccessEntry.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: UpdateAccessEntry
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved EKS cluster administration.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-eks-access-entry-updated
+x_cloudtrail_raw: true
