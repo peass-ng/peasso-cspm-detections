@@ -1,5 +1,34 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 345–346: miembro viewer y credenciales DataZone
+
+En dos dominios de ensayo se creó un usuario IAM temporal con una sola acción
+de servicio: `datazone:GetEnvironmentCredentials`. Se le asignó
+`PROJECT_CATALOG_VIEWER` en el proyecto propio y el listado confirmó esa
+designación. El primer intento falló con `UnrecognizedClientException`
+porque la clave IAM recién creada aún no se había propagado. En el segundo se
+comprobó primero la validez de la clave con STS; la llamada DataZone tuvo
+éxito y `sts:GetCallerIdentity` sobre las credenciales devueltas confirmó el
+rol de entorno propio. Esto valida que esa designación de proyecto, junto
+con la acción IAM, puede obtener la sesión del rol asociado. El rol no tenía
+políticas de acceso a datos; no se accedió a objetos de cliente.
+
+CloudTrail registró `GetEnvironmentCredentials` como lectura de gestión
+aceptada bajo el usuario IAM viewer, con respuesta de credenciales omitida.
+La [regla ya publicada](rules/aws/datazone/aws_datazone_environment_credentials_issued.yml)
+dio **1 positivo real y cero en 6 variantes negativas**. Se precisó su
+descripción para reflejar el caso viewer observado; no se duplicó la regla.
+La clave y el secreto se usaron sólo en memoria, la clave se eliminó y su ID
+se borró del recibo privado. Una lectura independiente confirmó ausentes
+ambos dominios, roles, usuarios y stacks activos propios. Recibos privados
+0600: `/tmp/peasso-b345-private.json`,
+`/tmp/peasso-b345-cleanup-verified-private.json`,
+`/tmp/peasso-b346-private.json`,
+`/tmp/peasso-b346-cloudtrail-private.json`,
+`/tmp/peasso-b346-validation-private.json` y
+`/tmp/peasso-b346-cleanup-verified-private.json`.
+[HackTricks DataZone viewer](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L15).
+
 ## Lotes 342–344: asociación de rol y credenciales de entorno DataZone
 
 El blueprint administrado `CustomAwsService` permitió crear un entorno
@@ -23,9 +52,8 @@ credenciales fue omitida. Las [dos reglas nuevas](rules/aws/datazone/) dieron
 el intento denegado del 343 y la desasociación. La regla de asociación no
 afirma emisión de claves sin el segundo evento; la regla de emisión necesita
 relacionarse con membresía, rol y actividad de su sesión para determinar
-escalada o uso indebido. Queda pendiente repetir con un miembro
-`PROJECT_CATALOG_VIEWER` de permisos IAM mínimos para validar ese límite de
-autorización concreto.
+escalada o uso indebido. El lote 346 probó después el caso concreto de
+`PROJECT_CATALOG_VIEWER` con permisos IAM mínimos.
 
 Los dominios, entornos y roles de los tres intentos se eliminaron; lecturas
 independientes confirmaron ausencia de dominios, roles y stacks activos
