@@ -1,0 +1,27 @@
+title: Redshift SQL statement submitted through Data API
+id: 29400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  ExecuteStatement submitted SQL through the Redshift Data API without a client database network route. This event alone does not reveal data returned or prove access to sensitive tables; review the statement, database grants and result retrieval.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/redshift-data/latest/APIReference/API_ExecuteStatement.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: redshift-data.amazonaws.com
+    event.name: ExecuteStatement
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved database queries through the Data API.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-redshift-data-api-statement-executed
+x_cloudtrail_raw: true

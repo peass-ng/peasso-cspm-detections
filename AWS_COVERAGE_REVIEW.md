@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **68**. Total headings: **300**.
+Pages with at least three level-three headings and no direct YAML reference: **66**. Total headings: **287**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -33,17 +33,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - Poison the product BOM through an import job
 - Poison or delete dataset rows with real-time events
 - Destructive deletion and operational denial
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md) (8 headings)
-
-- \`redshift:GetClusterCredentials\`
-- \`redshift:GetClusterCredentialsWithIAM\`
-- \`redshift-serverless:GetCredentials\`
-- \`redshift:ModifyClusterIamRoles\`, \`iam:PassRole\` | \`redshift-serverless:UpdateNamespace\`, \`iam:PassRole\` - repoint the database's AWS role
-- Lambdas
-- S3
-- Dynamo
-- EMR
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md) (7 headings)
 
@@ -192,14 +181,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - \`macie2:PutClassificationExportConfiguration\` — redirect the sensitive-data discovery map to an attacker bucket
 - \`macie2:CreateFindingsFilter\` (SUPPRESS) / \`UpdateMacieSession\` / \`UpdateClassificationJob\` — blind the detection
 - Amazon Macie - Bypass \`Reveal Sample\` Integrity Check
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md) (5 headings)
-
-- \`redshift-data:ExecuteStatement\` - run SQL without a database network route
-- Shared-role Data API result and session hijacking
-- \`redshift:AuthorizeSnapshotAccess\` - share a provisioned snapshot cross-account
-- \`redshift:AuthorizeDataShare\` - expose a live datashare to another account
-- \`redshift-serverless:PutResourcePolicy\` - share a Serverless snapshot cross-account
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-agent-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-agent-post-exploitation/README.md) (5 headings)
 
