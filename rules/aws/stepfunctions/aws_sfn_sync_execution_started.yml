@@ -1,0 +1,32 @@
+title: Step Functions synchronous Express execution started
+id: 27400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  StartSyncExecution was accepted for an Express state machine. This optional
+  CloudTrail data event records the invocation, while the input is redacted
+  and the event alone does not prove what the workflow did. Review its role,
+  definition, and execution result.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-stepfunctions-privesc/README.md#L133
+  - https://docs.aws.amazon.com/step-functions/latest/dg/procedure-cloud-trail.html
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartSyncExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: StartSyncExecution
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::StepFunctions::StateMachine
+  condition: selection
+falsepositives:
+  - Approved synchronous Express workflow invocation.
+level: low
+tags:
+  - attack.execution
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sfn-sync-execution-started
+x_cloudtrail_raw: true
