@@ -1,0 +1,29 @@
+title: AWS SageMaker Studio space lifecycle script attached
+id: b3830000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateSpace accepted a JupyterLab or CodeEditor lifecycle configuration
+  ARN for an individual Studio space. The configuration can run at a later
+  compatible app start under the space's execution role. This event does
+  not prove an app started or that the script ran; check the app type,
+  owner, role and subsequent CreateApp activity.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L898
+  - https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateSpace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.name: UpdateSpace
+    event.outcome: success
+    request.sagemaker_space_lcc_attached: true
+  condition: selection
+falsepositives:
+  - Approved Studio space lifecycle configuration change.
+level: high
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sagemaker-space-lcc-attached

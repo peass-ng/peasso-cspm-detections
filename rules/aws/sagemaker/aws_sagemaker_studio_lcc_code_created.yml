@@ -1,0 +1,27 @@
+title: AWS SageMaker Studio lifecycle script created
+id: b3830000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateStudioLifecycleConfig accepted a JupyterLab or CodeEditor lifecycle
+  script. Review its base64 content and any later attachment to a domain,
+  profile or space. Creation alone does not execute the script.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L820
+  - https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateStudioLifecycleConfig.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sagemaker.amazonaws.com
+    event.name: CreateStudioLifecycleConfig
+    event.outcome: success
+    request.sagemaker_studio_lcc_code_created: true
+  condition: selection
+falsepositives:
+  - Approved Studio lifecycle setup by an authorized administrator.
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-sagemaker-studio-lcc-code-created

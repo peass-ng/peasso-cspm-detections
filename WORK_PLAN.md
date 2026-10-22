@@ -1,5 +1,28 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 382–383: configuración de ciclo de vida en espacio SageMaker
+
+Un dominio, perfil, espacio privado JupyterLab, rol y configuración Studio
+propios probaron la ruta `CreateStudioLifecycleConfig` → `UpdateSpace`.
+SageMaker aceptó la asociación y `DescribeSpace` confirmó el ARN de la
+configuración en `jupyterLabAppSettings.defaultResourceSpec`. CloudTrail
+entregó ambos eventos aceptados: las dos reglas específicas produjeron
+**dos positivos reales y cero en 16 variantes negativas**; pasaron 15
+pruebas focalizadas y el parser se integró en la
+[PR 178 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/178)
+como `ae24948bd959123cf22fdbab46837680f31d1b11`.
+El parser no copia el script base64 ni el ARN al
+hallazgo. **No se inició una app**: se verificó almacenamiento y asociación
+de código, no ejecución bajo el rol del espacio. El primer intento fue
+rechazado porque el perfil aún no estaba `InService`; se borraron sus
+recursos y una lectura independiente confirmó dominio, perfil y rol ausentes.
+El segundo esperó los estados de creación y borrado; la limpieza eliminó
+espacio, perfil, dominio con EFS, configuración y rol, y una lectura
+independiente confirmó las cinco ausencias y ningún EFS con la marca del
+dominio. Recibos y eventos reales permanecen privados 0600.
+[Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sagemaker-privesc/README.md#L898),
+[UpdateSpace AWS](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateSpace.html).
+
 ## Lote 380–381: Scheduler hacia políticas IAM
 
 Un laboratorio aislado creó dos programaciones de EventBridge Scheduler con
@@ -147,7 +170,7 @@ ausentes. El parser se integró en la [PR 170 del CSPM](https://github.com/peass
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
 La última lectura de `origin/master` devolvió
-`9e5d46375b53cbd2d0cdce63771f3e36f0c30bae`; entre esa revisión y
+`93b9ae9f841b5313be63e9adbc690ac42ed5c429`; entre esa revisión y
 `9725dcb0f71c664994b24647815f17f3e330bfc3` no cambió ningún archivo
 de `src/pentesting-cloud/aws-security`. Los enlaces AWS de este plan siguen
 anclados a contenido idéntico.
@@ -246,7 +269,7 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | Athena Spark role privilege escalation | Ajusta confianza, permisos y disponibilidad del workgroup; mismo camino `CreateWorkGroup` → sesión/cálculo. |
 | Cognito privilege escalation | Detalla la variante **Basic flow** con token de desarrollador y `AssumeRoleWithWebIdentity`. El intercambio STS se probó en el laboratorio previo, pero la atribución de abuso requiere correlación con identidad del pool, confianza y cambios recientes; sigue pendiente. |
 | GameLift privilege escalation | Aclara qué credenciales entrega `GetComputeAccess` y que el rol de flota requiere código en la instancia; no se debe inferir obtención de ese rol sólo por abrir la sesión. |
-| SageMaker privilege escalation | Corrige la configuración `UpdateSpace` de LCC para Studio moderno. La ruta de ejecución posterior sigue sin regla específica; revisar y probar espacio propio antes de marcarla cubierta. |
+| SageMaker privilege escalation | `CreateStudioLifecycleConfig` y asociación `UpdateSpace` en un espacio JupyterLab propio probados y cubiertos por reglas del lote 382–383. Sigue pendiente comprobar un arranque de app que ejecute la configuración bajo el rol del espacio. |
 | MediaPackage v2 policy persistence | Aclara que un `PutObject` público requiere condición `aws:SourceIp`; misma mutación de política con alcance más limitado. |
 | Bedrock post exploitation | La SSRF tokenless de AgentCore Runtime se marca histórica tras MMDSv2 obligatorio; no debe contarse como ataque vigente sin una sesión y prueba actuales. |
 | Bedrock privilege escalation | Aclara que editar Lambda sólo alcanza el rol si el agente invoca el grupo de acción habilitado; misma secuencia condicional. |
