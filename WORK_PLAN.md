@@ -16,8 +16,9 @@ ARC Region Switch del lote 370 ejecutó un plan temporal con paso SSM y
 objetivos sin coincidencias; plan y rol se borraron y su ausencia se
 verificó de forma independiente. CloudTrail entregó `StartPlanExecution`:
 una regla publicada de inicio de ejecución dio un positivo real y cero en
-ocho variantes negativas; no se afirma que un comando haya llegado a un
-nodo. Después se encontró `CreatePlan` y
+ocho variantes negativas. SSM `ListCommands` encontró una orden del plan
+con `TargetCount=0` y estado `Success`: ningún nodo recibió el comando.
+Después se encontró `CreatePlan` y
 `DeletePlan` en CloudTrail de `us-east-1`, mientras que el inicio se registró
 en `us-east-2`. El lote 371 creó y actualizó otro plan SSM propio. Las
 respuestas de ambas operaciones repitieron rol y workflows; CloudTrail
