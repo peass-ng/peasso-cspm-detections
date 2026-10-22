@@ -1,0 +1,30 @@
+title: Launch Wizard deployment updated
+id: 18900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateDeployment request changed a Launch Wizard deployment.
+  The request may alter workload settings, but CloudTrail can mask the
+  specifications, so this event does not identify the changed values.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-launch-wizard-post-exploitation/README.md#L55
+  - https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_UpdateDeployment.html
+  - https://docs.aws.amazon.com/launchwizard/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: launchwizard.amazonaws.com
+    event.name: UpdateDeployment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workload reconfiguration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-launch-wizard-deployment-updated
+x_cloudtrail_raw: true
