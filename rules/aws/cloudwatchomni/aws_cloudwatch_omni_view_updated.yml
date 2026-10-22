@@ -1,0 +1,31 @@
+title: CloudWatch Omni SQL view updated
+id: b3330000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateView succeeded. Compare the old and new SQL definitions for raw
+  @record projection, wider source tables, removed predicates and larger
+  time windows. The API event alone does not show that a delegated caller
+  queried the altered view.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md#L271
+  - https://docs.aws.amazon.com/cloudwatch-omni/latest/APIReference/API_UpdateView.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudwatch.amazonaws.com
+    event.name: UpdateView
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::CloudWatch::View
+  condition: selection
+falsepositives:
+  - Approved observability view maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+  - attack.collection
+x_hacktricks_technique_id: aws-cloudwatch-omni-view-updated
+x_cloudtrail_raw: true

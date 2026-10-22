@@ -1,0 +1,31 @@
+title: CloudWatch Omni SQL view created
+id: b3330000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateView succeeded. Review the SQL definition for raw @record projection,
+  broad source tables and missing predicates. A new view can expand telemetry
+  exposed through view-scoped permissions, but this event alone does not prove
+  any query or access grant was used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md#L271
+  - https://docs.aws.amazon.com/cloudwatch-omni/latest/APIReference/API_CreateView.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudwatch.amazonaws.com
+    event.name: CreateView
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::CloudWatch::View
+  condition: selection
+falsepositives:
+  - Approved observability view development.
+level: medium
+tags:
+  - attack.privilege-escalation
+  - attack.collection
+x_hacktricks_technique_id: aws-cloudwatch-omni-view-created
+x_cloudtrail_raw: true

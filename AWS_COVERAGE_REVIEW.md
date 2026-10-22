@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **53**. Total headings: **235**.
+Pages with at least three level-three headings and no direct YAML reference: **52**. Total headings: **231**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -192,13 +192,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - \`redshift:ModifyCluster\` - reset the provisioned-cluster master password
 - \`redshift-serverless:UpdateWorkgroup\` - open a network path to a planted credential
 - \`redshift:AuthorizeEndpointAccess\` - retain a cross-account private route
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-omni-post-exploitation/README.md) (4 headings)
-
-- \`cloudwatch:CreateOneTimeDeepLinkCode\` — mint an authenticated Omni browser session
-- Query unified logs and traces through the default Dataset
-- \`cloudwatch:UpdateIntegration\` — rebind an external integration
-- \`cloudwatch:UpdateAlert\` — hijack a scheduled query and its notifications
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md) (4 headings)
 
