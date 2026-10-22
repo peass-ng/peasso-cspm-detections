@@ -1,0 +1,29 @@
+title: MediaConnect flow outputs added
+id: 31800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  AddFlowOutputs succeeded. Review each destination, protocol and output
+  status for unauthorized media delivery. An output on a standby flow does
+  not transmit content until the flow is started.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md#L78
+  - https://docs.aws.amazon.com/mediaconnect/latest/api/API_AddFlowOutputs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediaconnect.amazonaws.com
+    event.name: AddFlowOutputs
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved new broadcast destination or backup output.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-mediaconnect-flow-outputs-added
+x_cloudtrail_raw: true

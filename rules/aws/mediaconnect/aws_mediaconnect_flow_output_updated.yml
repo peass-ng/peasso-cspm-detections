@@ -1,0 +1,29 @@
+title: MediaConnect flow output updated
+id: 31800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateFlowOutput succeeded. Compare the output destination, port, protocol
+  and encryption settings with the approved route. This event-level signal
+  also matches updates that do not change the destination.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md#L78
+  - https://docs.aws.amazon.com/mediaconnect/latest/api/API_UpdateFlowOutput.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediaconnect.amazonaws.com
+    event.name: UpdateFlowOutput
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved output maintenance or planned destination change.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-mediaconnect-flow-output-updated
+x_cloudtrail_raw: true

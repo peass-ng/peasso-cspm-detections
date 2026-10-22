@@ -1,0 +1,31 @@
+title: MediaConnect bandwidth offering purchased
+id: 31800000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  PurchaseOffering succeeded, creating a bandwidth reservation with a recurring
+  billing commitment. Review the offering, duration, price and approval. This
+  rule uses the documented API event name and a synthetic CloudTrail envelope;
+  its resource shape has not been confirmed with a live purchase.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md#L117
+  - https://docs.aws.amazon.com/mediaconnect/latest/api/API_PurchaseOffering.html
+  - https://docs.aws.amazon.com/mediaconnect/latest/ug/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediaconnect.amazonaws.com
+    event.name: PurchaseOffering
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved reservation purchase reviewed by finance and broadcast operations.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-mediaconnect-offering-purchased
+x_cloudtrail_raw: true

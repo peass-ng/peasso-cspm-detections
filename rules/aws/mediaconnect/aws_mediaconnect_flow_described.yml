@@ -1,0 +1,29 @@
+title: MediaConnect flow topology read
+id: 31800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  DescribeFlow succeeded. The caller can inspect source and output topology,
+  allowlists and encryption configuration. CloudTrail records the request but
+  does not include the returned topology; review unusual callers and timing.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/mediaconnect/latest/api/API_DescribeFlow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediaconnect.amazonaws.com
+    event.name: DescribeFlow
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved broadcast operations or flow monitoring.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-mediaconnect-flow-described
+x_cloudtrail_raw: true

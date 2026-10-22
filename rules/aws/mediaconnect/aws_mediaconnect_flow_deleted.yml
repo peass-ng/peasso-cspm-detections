@@ -1,0 +1,29 @@
+title: MediaConnect flow deleted
+id: 31800000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  DeleteFlow succeeded. Review the deleted flow's approved lifecycle and
+  downstream dependencies. A standby test flow may be harmless, while an
+  active production flow deletion can interrupt delivery after it is stopped.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md#L78
+  - https://docs.aws.amazon.com/mediaconnect/latest/api/API_DeleteFlow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediaconnect.amazonaws.com
+    event.name: DeleteFlow
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of a standby or obsolete flow.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-mediaconnect-flow-deleted
+x_cloudtrail_raw: true
