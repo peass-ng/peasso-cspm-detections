@@ -1,0 +1,27 @@
+title: EKS access entry deleted
+id: 28800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted deletion removes an IAM principal access entry and can contribute to cluster lockout. Check alternate administrators and approved deprovisioning.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eks-post-exploitation/README.md#L408
+  - https://docs.aws.amazon.com/eks/latest/APIReference/API_DeleteAccessEntry.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: DeleteAccessEntry
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved EKS cluster administration or principal deprovisioning.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eks-access-entry-deleted
+x_cloudtrail_raw: true

@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **70**. Total headings: **314**.
+Pages with at least three level-three headings and no direct YAML reference: **69**. Total headings: **306**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -33,17 +33,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - Poison the product BOM through an import job
 - Poison or delete dataset rows with real-time events
 - Destructive deletion and operational denial
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eks-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eks-post-exploitation/README.md) (8 headings)
-
-- Connect to AWS Kubernetes Cluster
-- From AWS to Kubernetes
-- From Kubernetes to AWS
-- Enumerate the cluster from the AWS Console
-- GET Api Server Endpoint from a JWT Token
-- Bypass CloudTrail
-- EKS Ransom?
-- \`eks:UpdateClusterConfig\` — expose the API server to the internet
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md) (8 headings)
 
