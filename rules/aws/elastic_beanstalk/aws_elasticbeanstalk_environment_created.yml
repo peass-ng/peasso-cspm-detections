@@ -1,0 +1,29 @@
+title: Elastic Beanstalk environment created
+id: 27200000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  CreateEnvironment was accepted. Review the instance profile, application
+  version, and resulting environment state; creation alone does not prove that
+  attacker code ran or that a privileged role was obtained.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md#L91
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_CreateEnvironment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: CreateEnvironment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved environment provisioning.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-elasticbeanstalk-environment-created
+x_cloudtrail_raw: true

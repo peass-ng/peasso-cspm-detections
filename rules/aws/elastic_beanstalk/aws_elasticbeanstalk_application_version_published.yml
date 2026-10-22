@@ -1,0 +1,29 @@
+title: Elastic Beanstalk application version published
+id: 27200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateApplicationVersion was accepted. Inspect its source bundle, publisher,
+  and later environment deployments; this event alone does not show code
+  execution or access to an instance profile.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md#L91
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_CreateApplicationVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: CreateApplicationVersion
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved release publication.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-elasticbeanstalk-application-version-published
+x_cloudtrail_raw: true

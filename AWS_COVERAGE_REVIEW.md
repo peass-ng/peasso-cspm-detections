@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **74**. Total headings: **335**.
+Pages with at least three level-three headings and no direct YAML reference: **73**. Total headings: **330**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -263,14 +263,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - \`sso:PutPermissionsBoundaryToPermissionSet\` + \`sso:ProvisionPermissionSet\`
 - \`sso:GetRoleCredentials\`
 - \`sso-admin:CreateTrustedTokenIssuer\` (+ \`CreateApplication\` / \`PutApplicationGrant\`) — impersonate any user via a rogue trusted token issuer
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md) (5 headings)
-
-- \`elasticbeanstalk:UpdateEnvironment\`
-- \`elasticbeanstalk:RebuildEnvironment\`, S3 write permissions & many others
-- \`elasticbeanstalk:CreateApplication\`, \`elasticbeanstalk:CreateEnvironment\`, \`elasticbeanstalk:CreateApplicationVersion\`, \`elasticbeanstalk:UpdateEnvironment\`, \`iam:PassRole\`, and more...
-- \`elasticbeanstalk:CreateApplicationVersion\`, \`elasticbeanstalk:UpdateEnvironment\`, \`cloudformation:GetTemplate\`, \`cloudformation:DescribeStackResources\`, \`cloudformation:DescribeStackResource\`, \`autoscaling:DescribeAutoScalingGroups\`, \`autoscaling:SuspendProcesses\`
-- \`elasticbeanstalk:DescribeEnvironmentResources\`, \`elasticloadbalancing:ModifyLoadBalancerAttributes\`, \`s3:PutBucketPolicy\`, \`s3:ListBucket\`, \`s3:GetObject\` to enable ALB access logs exfiltration
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md) (4 headings)
 
