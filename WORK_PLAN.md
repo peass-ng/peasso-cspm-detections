@@ -1,5 +1,44 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 358: restablecimiento de administrador Redshift en integración
+
+Se creó un namespace Redshift Serverless **propio**, sin workgroup, con
+credenciales sintéticas sólo en memoria. `UpdateNamespace` con sólo la
+contraseña devolvió `ValidationException`; la API actual exige usuario y
+contraseña juntos. La llamada con ambos campos fue aceptada y `GetNamespace`
+confirmó el nuevo nombre de administrador. CloudTrail registró la llamada
+aceptada y la rechazada, con `adminUserPassword` redactado. El namespace se
+borró; una lectura independiente confirmó ausentes namespace, snapshots y
+workgroups propios. El evento aceptado `ModifyCluster` del lote 294 contenía
+`masterUserPassword` redactado y el mismo identificador de clúster en la
+respuesta; su limpieza ya estaba verificada.
+
+El parser específico está en la [PR 161 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/161),
+con **2 positivos reales, cero en 14 variantes negativas** y el intento
+fallido descartado. Pasaron 37 pruebas locales. Las dos reglas YAML siguen
+como borradores aislados hasta que ese parser se integre; no se publica una
+señal genérica de `UpdateNamespace` o `ModifyCluster` que confunda otras
+configuraciones con un restablecimiento. Recibos privados 0600:
+`/tmp/peasso-b358-private.json`,
+`/tmp/peasso-b358-cloudtrail-private.json`,
+`/tmp/peasso-b358-validation-private.json`,
+`/tmp/peasso-b358-cleanup-verified-private.json`,
+`/tmp/peasso-b294-cloudtrail-private.json` y
+`/tmp/peasso-b294-cleanup-verified-private.json`.
+[HackTricks persistencia Redshift](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L17).
+
+## Preflight de servicios sin laboratorio habilitado
+
+Audit Manager devolvió `INACTIVE` en `GetAccountStatus` y denegó los listados
+y settings; AWS no permite registrar nuevos clientes desde abril de 2026.
+Macie devolvió `AccessDeniedException` en `GetMacieSession`, Security Hub
+devolvió `InvalidAccessException` en `DescribeHub` y `GetEnabledStandards`,
+y Shield Advanced devolvió `ResourceNotFoundException` en
+`DescribeSubscription`. No se activó ninguno de esos servicios ni se
+modificaron recursos de clientes. Sus técnicas continúan pendientes de un
+laboratorio que ya tenga la capacidad correspondiente.
+[AWS Audit Manager disponibilidad](https://docs.aws.amazon.com/audit-manager/latest/userguide/audit-manager-availability-change.html).
+
 ## Lote 357: datos y etiquetas de eventos Fraud Detector
 
 Una variable, tipo de entidad, dos etiquetas y tipo de evento **sintéticos**
@@ -20,7 +59,11 @@ positivos reales y cero en 30 variantes negativas** y descartaron cuatro
 `GetEvent` fallidos. La señal `SendEvent` detecta una escritura aceptada,
 **no distingue por sí sola** entre alta y sustitución: queda pendiente
 correlacionar tipo e ID de evento con escrituras anteriores para detectar
-específicamente el reemplazo. La regla de borrado masivo marca la solicitud;
+específicamente el reemplazo. Esa correlación está implementada en la
+[PR 160 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/160): obtuvo
+**1 positivo real y cero en 12 variantes negativas**, además de 30 pruebas
+locales con la suite básica. Su regla YAML sigue aislada hasta que el parser
+se integre. La regla de borrado masivo marca la solicitud;
 su finalización requiere el estado aparte, observado en este laboratorio.
 Recibos privados 0600: `/tmp/peasso-b357-private.json`,
 `/tmp/peasso-b357-cloudtrail-private.json`,
