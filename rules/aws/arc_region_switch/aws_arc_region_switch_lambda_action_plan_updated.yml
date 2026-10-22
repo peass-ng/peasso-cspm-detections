@@ -1,0 +1,28 @@
+title: AWS ARC Region Switch Lambda action plan updated
+id: b3730000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdatePlan accepted workflows containing a CustomActionLambda step and
+  the response confirmed the role and plan ARN. Compare the previous plan
+  version to determine whether the function, payload or role changed. An
+  accepted update does not establish that the plan or function ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-region-switch-privesc/README.md#L20
+  - https://docs.aws.amazon.com/arc-region-switch/latest/api/API_UpdatePlan.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: arc-region-switch.amazonaws.com
+    event.name: UpdatePlan
+    event.outcome: success
+    request.arc_lambda_action_plan_updated: true
+  condition: selection
+falsepositives:
+  - Approved or idempotent disaster recovery plan update.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-arc-region-switch-lambda-action-plan-updated
