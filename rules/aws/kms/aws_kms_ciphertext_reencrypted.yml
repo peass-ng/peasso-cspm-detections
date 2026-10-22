@@ -1,0 +1,29 @@
+title: KMS ciphertext re-encrypted
+id: 31000000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  ReEncrypt succeeded. Review source and destination keys and encryption
+  contexts to determine whether protected ciphertext was moved to a key or
+  context controlled by an unexpected principal; no plaintext is in CloudTrail.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L115
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: ReEncrypt
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved key rotation or ciphertext migration.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-kms-ciphertext-reencrypted
+x_cloudtrail_raw: true

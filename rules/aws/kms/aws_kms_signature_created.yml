@@ -1,0 +1,29 @@
+title: KMS asymmetric signature created
+id: 31000000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  Sign succeeded with an asymmetric KMS key. Review whether the actor was
+  authorized to represent the key owner to relying parties; the event records
+  the algorithm but does not reveal the signed message or prove token use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L221
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_Sign.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: Sign
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved document or token signing.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-kms-signature-created
+x_cloudtrail_raw: true

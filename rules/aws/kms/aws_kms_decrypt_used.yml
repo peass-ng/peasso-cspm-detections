@@ -1,0 +1,29 @@
+title: KMS key used to decrypt data
+id: 31000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  Decrypt succeeded with a KMS key. Review the caller, key, encryption context
+  and source of the ciphertext; CloudTrail omits the plaintext and this event
+  alone cannot identify which protected application data was exposed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L519
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: Decrypt
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved application or service decryption.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-kms-decrypt-used
+x_cloudtrail_raw: true

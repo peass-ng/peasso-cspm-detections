@@ -1,0 +1,29 @@
+title: KMS key used to encrypt data
+id: 31000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  Encrypt succeeded with a KMS key. Review the actor, key and encryption
+  context when investigating unusual data handling; CloudTrail does not show
+  the plaintext, and encryption alone is normally expected application use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-kms-post-exploitation/README.md#L115
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: Encrypt
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved application encryption.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-kms-encrypt-used
+x_cloudtrail_raw: true

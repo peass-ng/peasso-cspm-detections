@@ -1,0 +1,29 @@
+title: KMS data key generated
+id: 31000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  GenerateDataKey returned a new plaintext data key to the caller. Investigate
+  unusual principals and contexts; CloudTrail does not contain either returned
+  key value and routine envelope encryption also uses this API.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md#L79
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: GenerateDataKey
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved envelope encryption by an application or AWS service.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-kms-data-key-generated
+x_cloudtrail_raw: true
