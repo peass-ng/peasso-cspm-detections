@@ -1,0 +1,29 @@
+title: AWS WAF CAPTCHA API key deleted
+id: 20500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A WAF CAPTCHA API key was deleted. This can disrupt an application that
+  uses the key, but the event does not prove an active integration. CloudTrail
+  contains the key value in the raw request; keep that field out of findings.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L434
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_DeleteAPIKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: DeleteAPIKey
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused CAPTCHA key.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-waf-api-key-deleted
+x_cloudtrail_raw: true
