@@ -1,0 +1,24 @@
+title: Redshift Serverless workgroup security groups replacement requested
+id: 29800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted UpdateWorkgroup supplied a security group list for the workgroup. Compare prior and final groups, ingress permissions and public access; the request alone does not prove the list changed or that inbound traffic succeeded.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L77
+  - https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_UpdateWorkgroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: redshift-serverless.amazonaws.com
+    event.name: UpdateWorkgroup
+    event.outcome: success
+    request.redshift_serverless_security_groups_replaced: true
+  condition: selection
+falsepositives:
+  - Approved security group maintenance for a workgroup.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-redshift-serverless-security-groups-replaced

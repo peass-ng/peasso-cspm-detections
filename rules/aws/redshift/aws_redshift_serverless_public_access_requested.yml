@@ -1,0 +1,24 @@
+title: Redshift Serverless public workgroup access requested
+id: 29800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateWorkgroup requested publiclyAccessible=true. Confirm that the asynchronous update completed and inspect the workgroup's security groups and subnet routes before concluding that the database is reachable.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L77
+  - https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_UpdateWorkgroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: redshift-serverless.amazonaws.com
+    event.name: UpdateWorkgroup
+    event.outcome: success
+    request.redshift_serverless_public_access_requested: true
+  condition: selection
+falsepositives:
+  - Approved public warehouse access with restrictive security groups.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-redshift-serverless-public-access-requested

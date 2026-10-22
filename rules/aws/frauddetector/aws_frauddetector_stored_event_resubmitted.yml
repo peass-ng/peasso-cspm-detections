@@ -1,0 +1,29 @@
+title: Amazon Fraud Detector stored event resubmitted with newer label time
+id: b3570000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  Two accepted SendEvent calls in the analyzed records used the same account,
+  Region, event type, stored event ID and original event timestamp, while the
+  later call advanced the label timestamp. In a synthetic lab the second call
+  replaced stored variables. CloudTrail redacts those variables, so this
+  correlation proves resubmission with newer label time, not that variable
+  values changed. Review ingestion retries and approved corrections.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L42
+  - https://docs.aws.amazon.com/frauddetector/latest/api/API_SendEvent.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: frauddetector.amazonaws.com
+    event.name: SendEvent
+    event.outcome: success
+    request.fraud_event_resubmitted_with_new_label_time: true
+  condition: selection
+falsepositives:
+  - Approved correction or replay of a stored event with a newer label.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-frauddetector-stored-event-resubmitted

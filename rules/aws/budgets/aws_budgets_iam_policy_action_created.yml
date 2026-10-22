@@ -1,0 +1,25 @@
+title: AWS Budgets IAM policy action created
+id: 36400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted CreateBudgetAction configured APPLY_IAM_POLICY for at least one IAM role, user, or group. Review the execution role, policy, targets, approval model, and threshold. Creation alone does not attach the policy; the action must subsequently run.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24
+  - https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudgetAction.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: budgets.amazonaws.com
+    event.name: CreateBudgetAction
+    event.outcome: success
+    request.budget_iam_policy_action_created: true
+  condition: selection
+falsepositives:
+  - Approved budget actions that apply a planned IAM policy.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-budgets-create-iam-policy-action

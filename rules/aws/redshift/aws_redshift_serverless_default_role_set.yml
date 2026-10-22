@@ -1,0 +1,24 @@
+title: Redshift Serverless namespace default IAM role set
+id: 29700000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateNamespace associated an IAM role and set it as the default for Redshift Serverless. Review the role's permissions and subsequent SQL use of AWS-backed features; the event alone does not prove those permissions were used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md#L101
+  - https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_UpdateNamespace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: redshift-serverless.amazonaws.com
+    event.name: UpdateNamespace
+    event.outcome: success
+    request.redshift_serverless_default_role_set: true
+  condition: selection
+falsepositives:
+  - Approved warehouse integration role maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-redshift-serverless-default-role-set

@@ -1,5 +1,19 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Estado de integración del 22 de octubre de 2026
+
+La [PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167)
+se integró en `main` como `896772eabe9d8d8ed6578bba30feed478644d836`.
+Sus ocho reglas AWS de los lotes 357–364, probadas con nueve eventos reales,
+se publican ahora en `main` de este repositorio. El lector del catálogo
+`latest` también admite el `AGENTS.md` raíz y conserva sus comprobaciones de
+origen, rutas y SHA256. Las seis reglas específicas de Deadline Cloud de
+los lotes 366–369 siguen aisladas hasta integrar la PR 168. El laboratorio
+ARC Region Switch del lote 370 ejecutó un plan temporal con paso SSM y
+objetivos sin coincidencias; plan y rol se borraron y su ausencia se
+verificó de forma independiente. Espera la entrega de CloudTrail y la
+validación de detecciones antes de publicar reglas ARC.
+
 ## Diferencia de fuentes AWS para el plan de trabajo
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
@@ -20,7 +34,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 |---|---|---|---|
 | `aws-delta-89d90c904c09c2e3` | [aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md#L144) | `bedrock-agentcore:CreateCodeInterpreter` / `CreateBrowser`, `iam:PassRole` — sandbox actions with an execution role | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-d0da1dc125fa09dc` | [aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md#L176) | `bedrock-agentcore:UpdateAgentRuntime` / `UpdateGateway`, `iam:PassRole` — change an existing resource's role | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
-| `aws-delta-429628366bf6dffe` | [aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24) | `budgets:CreateBudgetAction`, `iam:PassRole` (+ `budgets:ExecuteBudgetAction`) — attach a policy through a budget action | Encabezado renombrado; creación IAM probada en lotes 363–364, regla aislada hasta PR 167. |
+| `aws-delta-429628366bf6dffe` | [aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24) | `budgets:CreateBudgetAction`, `iam:PassRole` (+ `budgets:ExecuteBudgetAction`) — attach a policy through a budget action | Encabezado renombrado; creación IAM probada en lotes 363–364, parser integrado en PR 167 y regla publicada. |
 | `aws-delta-d67848fac121c8ce` | [aws-privilege-escalation/aws-cloudcontrol-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md#L17) | `cloudformation:CreateResource` + `iam:PassRole` | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-282766a0f74d32d6` | [aws-privilege-escalation/aws-cloudfront-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md#L116) | `cloudfront:CreateDistribution` with Lambda@Edge | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
 | `aws-delta-fd4d6f4852d75a40` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135) | `deadline:AssumeFleetRoleForWorker` on an existing worker | `AssumeFleetRoleForWorker` probado con worker propio; regla de vending publicada en lote 366. Caso con worker preexistente ajeno sin probar. |

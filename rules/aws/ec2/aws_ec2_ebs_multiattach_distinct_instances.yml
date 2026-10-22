@@ -1,0 +1,24 @@
+title: EBS volume attached to two distinct EC2 instances
+id: 29200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  Two accepted AttachVolume calls attached the same EBS volume to distinct instances in one account and Region within 30 minutes, without an intervening DetachVolume event. Review volume Multi-Attach settings, authorized cluster members and guest activity; CloudTrail does not show disk reads.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md#L125
+  - https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: AttachVolume
+    event.outcome: success
+    request.ebs_volume_attached_to_distinct_instances: true
+  condition: selection
+falsepositives:
+  - Authorized clustered applications using EBS Multi-Attach.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-ebs-volume-multiattach-distinct-instances
