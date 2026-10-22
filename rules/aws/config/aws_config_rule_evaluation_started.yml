@@ -1,0 +1,29 @@
+title: AWS Config rule evaluation started manually
+id: 27600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  StartConfigRulesEvaluation was accepted for one or more rules. Review the
+  caller and rule source; the request alone does not prove that a custom
+  evaluator ran or had a security-relevant side effect.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L144
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigRulesEvaluation.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: StartConfigRulesEvaluation
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved compliance recheck.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-config-rule-evaluation-started
+x_cloudtrail_raw: true
