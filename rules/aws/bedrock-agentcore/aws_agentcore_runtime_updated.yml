@@ -1,0 +1,28 @@
+title: AgentCore Runtime artifact or role updated
+id: 24100000-0000-4000-8000-000000000002
+status: experimental
+description: An AgentCore Runtime update submitted an artifact and IAM execution role.
+  Compare both with the previous approved configuration. The API requires these fields,
+  so the event alone does not prove that either changed or that code ran.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-get-started-code-deploy-python.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: UpdateAgentRuntime
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::Runtime
+  condition: selection
+falsepositives:
+- Approved AgentCore Runtime deployment update.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-runtime-updated
+x_cloudtrail_raw: true

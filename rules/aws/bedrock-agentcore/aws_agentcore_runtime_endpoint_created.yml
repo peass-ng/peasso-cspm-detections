@@ -1,0 +1,28 @@
+title: AgentCore Runtime endpoint created
+id: 24100000-0000-4000-8000-000000000003
+status: experimental
+description: An AgentCore Runtime endpoint was created. Review its target runtime
+  version and caller before treating the endpoint as an approved agent entry point.
+  The management event does not show any invocation.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-get-started-code-deploy-python.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: CreateAgentRuntimeEndpoint
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::RuntimeEndpoint
+  condition: selection
+falsepositives:
+- Approved AgentCore Runtime endpoint deployment.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-runtime-endpoint-created
+x_cloudtrail_raw: true
