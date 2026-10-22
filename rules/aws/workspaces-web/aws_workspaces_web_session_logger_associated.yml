@@ -1,0 +1,28 @@
+title: WorkSpaces Web Session Logger associated with a portal
+id: 23400000-0000-4000-8000-000000000001
+status: experimental
+description: A Session Logger object was associated with a portal. Inspect its current
+  S3 destination and event filter against the approved baseline; association alone
+  does not prove logging was redirected.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+- https://docs.aws.amazon.com/workspaces-web/latest/adminguide/user-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: AssociateSessionLogger
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved portal logging maintenance.
+level: low
+tags:
+- attack.defense-evasion
+x_hacktricks_technique_id: aws-workspaces-web-session-logger-associated
+x_cloudtrail_raw: true

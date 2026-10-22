@@ -1,0 +1,28 @@
+title: WorkSpaces Web Session Logger configuration updated
+id: 23400000-0000-4000-8000-000000000002
+status: experimental
+description: A Session Logger object was updated. CloudTrail hides its S3 bucket and
+  key prefix, although the event filter may remain visible. Read the current logger
+  to detect destination redirection or narrowed event coverage.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+- https://docs.aws.amazon.com/workspaces-web/latest/adminguide/user-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: UpdateSessionLogger
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved portal logging maintenance.
+level: medium
+tags:
+- attack.defense-evasion
+x_hacktricks_technique_id: aws-workspaces-web-session-logger-updated
+x_cloudtrail_raw: true
