@@ -7,6 +7,7 @@ description: >
   execution or access to an instance profile.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md#L91
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-elastic-beanstalk-persistence/README.md#L33
   - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_CreateApplicationVersion.html
 logsource:
   product: aws
