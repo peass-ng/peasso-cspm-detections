@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **97**. Total headings: **448**.
+Pages with at least three level-three headings and no direct YAML reference: **95**. Total headings: **432**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -44,28 +44,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - Bypass CloudTrail
 - EKS Ransom?
 - \`eks:UpdateClusterConfig\` — expose the API server to the internet
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md) (8 headings)
-
-- Marketplace Discovery private-offer and legal-document disclosure
-- \`aws-marketplace:GetBuyerDashboard\` — mint an anonymous procurement dashboard URL
-- \`aws-marketplace:GetEntitlements\` — enumerate seller customers and capacity
-- Commerce Analytics customer/support export
-- \`aws-marketplace:PutDeploymentParameter\` — Poison buyer Quick Launch secrets
-- \`aws-marketplace:BatchMeterUsage\` — inflate or duplicate SaaS customer usage
-- \`aws-marketplace:MeterUsage\` — poison a buyer workload's hourly usage record
-- \`aws-marketplace:StartChangeSet\` — seller supply-chain or procurement-policy tampering
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md) (8 headings)
-
-- \`appstream:CreateStreamingURL\` — enter an existing fleet under its machine role
-- \`appstream:UpdateStack\` + streaming URL + \`agentaccess-mcp\` — headless desktop control
-- \`appstream:CreateEntitlement\` / \`UpdateEntitlement\` — grant a SAML identity every stack application
-- \`appstream:CreateImageBuilderStreamingURL\` — administrator/root access to an existing builder
-- \`appstream:CreateAppBlockBuilderStreamingURL\` — take over an existing app-package builder
-- \`appstream:UpdateApplication\` — poison an Elastic-fleet application launch
-- \`appstream:UpdateFleet\` — replace an existing fleet image while retaining its role
-- \`appstream:CreateImageBuilder\` / \`CreateFleet\` + \`iam:PassRole\` → session with the passed role's credentials
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md) (8 headings)
 
