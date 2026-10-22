@@ -1,0 +1,27 @@
+title: S3 Tables namespaces listed
+id: 25100000-0000-4000-8000-000000000003
+status: experimental
+description: A caller listed namespaces in a table bucket. Review whether the actor
+  should discover the bucket structure; listing alone does not read table contents.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-tables-post-exploitation/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: ListNamespaces
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::S3Tables::TableBucket
+  condition: selection
+falsepositives:
+- Approved catalog browsing or discovery.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-s3tables-namespaces-listed
+x_cloudtrail_raw: true

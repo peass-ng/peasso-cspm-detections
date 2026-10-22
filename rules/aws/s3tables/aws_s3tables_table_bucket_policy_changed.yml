@@ -1,0 +1,28 @@
+title: S3 Tables table-bucket policy changed
+id: 25100000-0000-4000-8000-000000000001
+status: experimental
+description: A table-bucket resource policy was accepted. Review newly granted principals,
+  table resources and actions; this event alone does not prove an external grant or
+  later access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-s3-tables-privesc/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: PutTableBucketPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Tables::TableBucket
+  condition: selection
+falsepositives:
+- Approved table-bucket permission maintenance.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-s3tables-table-bucket-policy-changed
+x_cloudtrail_raw: true

@@ -1,0 +1,27 @@
+title: S3 Tables table policy deleted
+id: 25100000-0000-4000-8000-000000000006
+status: experimental
+description: A table resource policy was deleted. Compare effective permissions and
+  application dependencies; the event does not prove data loss.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-s3-tables-persistence/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: DeleteTablePolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Tables::Table
+  condition: selection
+falsepositives:
+- Approved table policy retirement.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-s3tables-table-policy-deleted
+x_cloudtrail_raw: true

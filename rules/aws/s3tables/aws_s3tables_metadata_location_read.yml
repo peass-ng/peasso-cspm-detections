@@ -1,0 +1,27 @@
+title: S3 Tables Iceberg metadata location read
+id: 25100000-0000-4000-8000-000000000005
+status: experimental
+description: A caller retrieved a table metadata location and version. This can precede
+  snapshot or data access, but the event itself does not show warehouse object reads.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-tables-post-exploitation/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: GetTableMetadataLocation
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::S3Tables::Table
+  condition: selection
+falsepositives:
+- Approved Iceberg catalog resolution.
+level: medium
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-s3tables-metadata-location-read
+x_cloudtrail_raw: true

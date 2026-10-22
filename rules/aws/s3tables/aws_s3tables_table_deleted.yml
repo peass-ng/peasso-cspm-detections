@@ -1,0 +1,27 @@
+title: S3 Tables table deleted
+id: 25100000-0000-4000-8000-000000000008
+status: experimental
+description: A table deletion was accepted. Confirm the table disappeared and assess
+  snapshot retention, backups and downstream consumers.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-tables-post-exploitation/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3tables.amazonaws.com
+    event.name: DeleteTable
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Tables::Table
+  condition: selection
+falsepositives:
+- Approved table retirement.
+level: high
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-s3tables-table-deleted
+x_cloudtrail_raw: true
