@@ -1,0 +1,29 @@
+title: AWS ARC Region Switch Lambda action plan created
+id: b3730000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreatePlan accepted a workflow containing a CustomActionLambda step and
+  the response confirmed the same execution role and workflows. Starting
+  the plan can invoke the configured Lambda under that role. This event
+  records plan creation, not function execution; inspect the role, function
+  versions, payload and authorized recovery schedule.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-region-switch-privesc/README.md#L20
+  - https://docs.aws.amazon.com/r53recovery/latest/dg/custom-action-lambda-block.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: arc-region-switch.amazonaws.com
+    event.name: CreatePlan
+    event.outcome: success
+    request.arc_lambda_action_plan_created: true
+  condition: selection
+falsepositives:
+  - Approved disaster recovery plan with a custom Lambda action.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-arc-region-switch-lambda-action-plan-created

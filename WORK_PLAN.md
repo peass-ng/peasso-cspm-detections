@@ -1,5 +1,29 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 372–373: ARC CustomActionLambda
+
+Tres laboratorios aislados crearon un plan ARC con dos funciones Lambda
+inertes, un rol de ejecución limitado a invocarlas y un bucket temporal
+para verificar la ejecución. El primer `StartPlanExecution` se adelantó a
+la propagación del plan y devolvió `ResourceNotFoundException`; todos sus
+recursos se borraron y se verificaron ausentes. Los dos siguientes planes
+ejecutaron la Lambda de la Región activada: cada ejecución terminó en
+`completed` y produjo el marcador esperado en su bucket propio. El tercer
+laboratorio aceptó además `UpdatePlan` y devolvió los mismos workflows.
+Plan, funciones, roles y bucket de ambos laboratorios posteriores se
+borraron y se comprobaron ausentes de forma independiente.
+
+CloudTrail entregó **tres `CreatePlan` aceptados**; la regla específica
+coincidió con los tres y descartó **24 variantes negativas**. La
+[PR 171 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/171)
+integró el parser en `2650d0d19dacd345e7146e65ff7b45096d2e8175`;
+pasaron 28 pruebas focalizadas, incluidas las del parser SSM tras compartir
+la validación del plan. La regla de `UpdatePlan` queda aislada hasta ver
+el evento real de CloudTrail; la respuesta de API aceptada no cuenta como
+prueba de detección. Los eventos, ARN y marcadores completos permanecen en
+recibos privados 0600. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-region-switch-privesc/README.md#L20),
+[bloque Lambda de ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/custom-action-lambda-block.html).
+
 ## Estado de integración del 22 de octubre de 2026
 
 La [PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167)
