@@ -1,0 +1,28 @@
+title: AWS Batch job definition registered
+id: 24600000-0000-4000-8000-000000000001
+status: experimental
+description: A Batch job definition was registered. Review its container image,
+  command, job role and execution role against the approved workload. Registration
+  does not show that any job was submitted or that the container ran.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-batch-privesc/README.md
+- https://docs.aws.amazon.com/batch/latest/APIReference/API_RegisterJobDefinition.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: batch.amazonaws.com
+    event.name: RegisterJobDefinition
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved Batch job definition release.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-batch-job-definition-registered
+x_cloudtrail_raw: true
