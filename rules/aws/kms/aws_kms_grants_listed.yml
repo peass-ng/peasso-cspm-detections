@@ -1,0 +1,27 @@
+title: KMS grants listed
+id: 20300000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A principal listed grants on a KMS key. This can reveal delegated key use, but CloudTrail omits the returned grants.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-kms-enum.md#L130
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_ListGrants.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: ListGrants
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved KMS inventory or key administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-kms-grants-listed
+x_cloudtrail_raw: true

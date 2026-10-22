@@ -1,0 +1,27 @@
+title: KMS key resource tags listed
+id: 20300000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A principal listed tags on a KMS key, which can reveal key purpose. The returned tags are omitted from CloudTrail.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-kms-enum.md#L130
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_ListResourceTags.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: ListResourceTags
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved KMS inventory or key administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-kms-resource-tags-listed
+x_cloudtrail_raw: true

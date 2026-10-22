@@ -1,0 +1,27 @@
+title: KMS key described
+id: 20300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A principal read metadata for a KMS key. The event does not contain the returned metadata or prove access to encrypted data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-kms-enum.md#L130
+  - https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: DescribeKey
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::KMS::Key
+  condition: selection
+falsepositives:
+  - Approved KMS inventory or key administration.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-kms-key-described
+x_cloudtrail_raw: true
