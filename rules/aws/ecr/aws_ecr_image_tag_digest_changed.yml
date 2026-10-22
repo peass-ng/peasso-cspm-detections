@@ -5,6 +5,7 @@ description: Two successful PutImage events within seven days assigned different
 x_hacktricks_technique_id: aws-tech-cff05f620e8221a1
 references:
 - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecr-post-exploitation/README.md#L188
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apprunner-privesc/README.md
 logsource:
   product: aws
   service: cloudtrail
