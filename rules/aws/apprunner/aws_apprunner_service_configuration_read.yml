@@ -1,0 +1,30 @@
+title: App Runner service configuration read
+id: 21000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted DescribeService read App Runner service configuration. The API
+  can return plaintext runtime variables, but CloudTrail does not record the
+  returned values. Correlate this read with the service configuration and
+  approved operators before treating it as credential disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apprunner-privesc/README.md
+  - https://docs.aws.amazon.com/apprunner/latest/api/API_DescribeService.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apprunner.amazonaws.com
+    event.name: DescribeService
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Routine deployment inspection or support troubleshooting.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-apprunner-service-configuration-read
+x_cloudtrail_raw: true
