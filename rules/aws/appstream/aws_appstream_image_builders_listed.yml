@@ -1,0 +1,27 @@
+title: AppStream image builders listed
+id: 19000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A principal listed AppStream image builders. Their identities and states can guide a builder streaming-URL access route; the event does not show which builders were returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_DescribeImageBuilders.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: DescribeImageBuilders
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved image-builder inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-appstream-image-builders-listed
+x_cloudtrail_raw: true

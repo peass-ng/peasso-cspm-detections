@@ -1,0 +1,27 @@
+title: AppStream stacks listed
+id: 19000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A principal listed AppStream stacks. Stack configuration can help select an associated fleet and access surface; the event does not show which stacks were returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-appstream-enum.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_DescribeStacks.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: DescribeStacks
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved stack inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-appstream-stacks-listed
+x_cloudtrail_raw: true

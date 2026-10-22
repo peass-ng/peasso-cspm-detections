@@ -1,0 +1,27 @@
+title: DocumentDB Elastic clusters listed
+id: 19000000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A principal listed DocumentDB Elastic clusters. A returned cluster ARN can be used in a later targeted configuration or administrator-password change; the event does not show returned clusters.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-documentdb-enum/README.md
+  - https://docs.aws.amazon.com/documentdb/latest/APIReference/API_elastic_ListClusters.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: docdb-elastic.amazonaws.com
+    event.name: ListClusters
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved database inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-documentdb-elastic-clusters-listed
+x_cloudtrail_raw: true

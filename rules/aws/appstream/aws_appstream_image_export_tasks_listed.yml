@@ -1,0 +1,27 @@
+title: AppStream image export tasks listed
+id: 19000000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  A principal listed AppStream image export tasks. The call can reveal export task status and targets if tasks exist; the CloudTrail event does not show returned tasks.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-appstream-enum.md
+  - https://docs.aws.amazon.com/service-authorization/latest/reference/list_appstream.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: ListExportImageTasks
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved image export monitoring.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-appstream-image-export-tasks-listed
+x_cloudtrail_raw: true
