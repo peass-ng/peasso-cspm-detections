@@ -1,0 +1,27 @@
+title: Marketplace seller catalog entities listed
+id: 19400000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A principal listed Marketplace catalog entities such as offers and products. The event does not show returned entity details or prove a private offer was exposed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-marketplace-enum.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-catalog-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: marketplacecatalog.amazonaws.com
+    event.name: ListEntities
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved seller catalog maintenance.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-catalog-entities-listed
+x_cloudtrail_raw: true
