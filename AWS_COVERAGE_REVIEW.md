@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **95**. Total headings: **432**.
+Pages with at least three level-three headings and no direct YAML reference: **94**. Total headings: **427**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -311,14 +311,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - \`networkmanager:TagResource\` / \`UntagResource\` - Move an attachment through tag-based policy
 - \`networkmanager:AcceptAttachment\` / \`RejectAttachment\` - Admit a foreign network or deny a legitimate one
 - \`networkmanager:PutCoreNetworkPolicy\` + \`networkmanager:ExecuteCoreNetworkChangeSet\` - Rewrite global segmentation and routing
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-organizations-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-organizations-post-exploitation/README.md) (5 headings)
-
-- Leave the Org
-- \`organizations:DisableAWSServiceAccess\` / \`DeregisterDelegatedAdministrator\` — blind the whole org's security stack in one call
-- \`organizations:CloseAccount\` — destroy member accounts from the management account
-- Org-wide denial of service — detaching \`FullAWSAccess\`
-- Sign-In RCP — restrict console access across member accounts
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md) (5 headings)
 
