@@ -1,0 +1,30 @@
+title: AWS Config recorder configuration written
+id: 27700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutConfigurationRecorder was accepted. It can create a recorder or change
+  its role and recorded resource types. Compare the new recording group with
+  the approved baseline; this event alone does not distinguish creation from
+  a reduction in coverage.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L219
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: PutConfigurationRecorder
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved recorder setup or scope change.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-config-recorder-configuration-put
+x_cloudtrail_raw: true

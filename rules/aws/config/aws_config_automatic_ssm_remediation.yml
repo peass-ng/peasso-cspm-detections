@@ -8,6 +8,7 @@ description: >
   persistence or privilege impact. CloudTrail hides remediation parameters.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-config-persistence/README.md#L13
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-config-privesc/README.md#L21
   - https://docs.aws.amazon.com/config/latest/developerguide/remediation.html
 logsource:
   product: aws
@@ -24,4 +25,5 @@ falsepositives:
 level: medium
 tags:
   - attack.persistence
+  - attack.privilege-escalation
 x_hacktricks_technique_id: aws-config-automatic-ssm-remediation
