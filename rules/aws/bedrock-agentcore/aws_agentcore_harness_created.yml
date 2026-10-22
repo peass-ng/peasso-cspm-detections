@@ -1,0 +1,28 @@
+title: AgentCore Harness created with an execution role
+id: 24000000-0000-4000-8000-000000000001
+status: experimental
+description: A Harness was created with an IAM execution role. Review the passed role,
+  model, memory and tools against the approved configuration. This management event
+  does not prove that the harness ran or assumed the role.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-operations.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: CreateHarness
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::Runtime
+  condition: selection
+falsepositives:
+- Approved Harness deployment.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-harness-created
+x_cloudtrail_raw: true

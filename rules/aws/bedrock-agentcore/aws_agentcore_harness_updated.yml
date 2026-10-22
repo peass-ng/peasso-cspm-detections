@@ -1,0 +1,28 @@
+title: AgentCore Harness configuration updated
+id: 24000000-0000-4000-8000-000000000002
+status: experimental
+description: A Harness update submitted an IAM execution role. Compare the role and
+  remaining configuration with the prior approved state. The request can repeat the
+  existing role, so this event alone does not prove a role swap or code execution.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness-operations.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: UpdateHarness
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::Runtime
+  condition: selection
+falsepositives:
+- Approved Harness configuration change.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-harness-configuration-updated
+x_cloudtrail_raw: true
