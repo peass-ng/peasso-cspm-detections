@@ -11,6 +11,24 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 409: integrar cadena Amazon MQ y secreto Slurm de PCS
+
+Se rescataron únicamente los dos parsers aún ausentes de la antigua PR 155;
+EBS, Redshift y la corrección del archivo del catálogo ya estaban en `main`
+por la PR 167. La [regla de cadena MQ](rules/aws/mq/aws_mq_configuration_user_chain.yml)
+dio **dos hallazgos sobre cinco eventos reales** de revisión, asociación y
+cambio de usuario del mismo broker; la
+[regla PCS](rules/aws/pcs/aws_pcs_slurm_secret_read.yml) dio **uno sobre 29
+eventos reales** al leer el secreto administrado de Slurm. Seis pruebas
+focalizadas pasaron con negativos de cuenta del actor y el paquete local de
+reglas cargó. Los parsers se fusionaron en la
+[PR 196 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/196) como
+`2c56a16b861f2faad37196499efa5b50606dc738`; la PR 155 se cerró y su
+rama remota se eliminó. Las limpiezas independientes constan en los lotes
+304 y 320. La secuencia MQ no demuestra acceso aplicado al broker y el
+evento PCS no revela el valor del secreto. Recibos y eventos reales
+permanecen privados 0600.
+
 ## Lote 408: invocación TwinMaker y etiquetas de adjunto Cloud WAN
 
 Los eventos reales anteriores activaron [una regla de invocación TwinMaker](rules/aws/iot-twinmaker/aws_iot_twinmaker_lambda_connector_invoked.yml)
