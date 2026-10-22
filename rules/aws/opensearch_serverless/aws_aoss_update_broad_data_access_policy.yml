@@ -1,0 +1,28 @@
+title: AWS OpenSearch Serverless broad data access policy updated
+id: b3790000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateAccessPolicy accepted a data policy granting one same-account IAM
+  role or user aoss:* over collection/* and index/*/*. Review the prior
+  policy version to determine whether this actually expanded permissions;
+  the write alone does not prove a collection was queried.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-opensearch-serverless-privesc/README.md#L23
+  - https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_UpdateAccessPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: aoss.amazonaws.com
+    event.name: UpdateAccessPolicy
+    event.outcome: success
+    request.aoss_broad_access_grant_requested: true
+  condition: selection
+falsepositives:
+  - Approved account-wide collection and index data access policy update.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-aoss-update-broad-data-access-policy

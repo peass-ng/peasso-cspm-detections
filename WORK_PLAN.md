@@ -1,5 +1,28 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 378–379: autoasignación de política OpenSearch Serverless
+
+Se creó un rol IAM desechable sin permisos de datos y dos políticas de acceso
+`data` propias en OpenSearch Serverless, sin colecciones. Una política concedió
+`aoss:*` sobre `collection/*` e `index/*/*` al rol; la otra comenzó con
+recursos y permisos estrechos y se actualizó a la misma concesión amplia.
+CloudTrail entregó **dos `CreateAccessPolicy` y un `UpdateAccessPolicy`
+aceptados**. Las reglas específicas dieron **dos positivos reales**, ninguno
+para la creación estrecha y **cero en veinte variantes negativas**. El parser
+verifica un principal IAM persistente de la misma cuenta, la amplitud de
+ambos recursos y la respuesta aceptada. El campo de política de la respuesta
+CloudTrail viene en representación de mapa AWS, no en JSON; la detección
+analiza el JSON de solicitud y confirma nombre, tipo y versión de respuesta.
+Pasaron 14 pruebas focalizadas y el parser se integró en la
+[PR 176 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/176)
+como `4b069c935ac34ca7195ae1e0b0ed23976287db1e`.
+**No se creó ni consultó una colección**:
+estas reglas detectan la concesión, no un acceso efectivo, que depende además
+de IAM y red. Las dos políticas y el rol se borraron; otra lectura confirmó
+las tres ausencias. Los nombres, ARN y eventos reales se guardan sólo en
+recibos privados 0600. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-opensearch-serverless-privesc/README.md#L23),
+[políticas de datos AWS](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
+
 ## Lote 376–377: imagen personalizada de EMR Serverless
 
 Un laboratorio aislado creó una aplicación Spark EMR Serverless sin capacidad
@@ -227,7 +250,7 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | Migration Hub privilege escalation | Aclara documento SSM/Lambda controlado, rol pasable y ejecución de run; misma ruta de custom unit. |
 | ML data-access PassRole privilege escalation | Acota trabajos asíncronos, permisos de origen/destino y sesión PCS; la ruta FinSpace se marca histórica en la fuente. No se debe declarar lectura de contenido sólo por crear un job. |
 | MWAA privilege escalation | Separa token de web/CLI de código en un DAG Python del prefijo S3 real. El catálogo actual sólo cubre MWAA Serverless; correlación de Classic MWAA sigue pendiente. |
-| OpenSearch Serverless privilege escalation | Precisa `CreateAccessPolicy` autoasignado y sus prerrequisitos de IAM `APIAccessAll` y red. Aún no hay regla específica de política de datos. |
+| OpenSearch Serverless privilege escalation | `CreateAccessPolicy` amplio y `UpdateAccessPolicy` amplio probados con políticas propias y reglas específicas en lote 378–379. Persisten los prerrequisitos de IAM `APIAccessAll` y red; no se probó lectura de colección. |
 | Proton privilege escalation | La fuente marca su servicio como histórico tras cierre; no hay laboratorio actual ejecutable. |
 | QuickSight privilege escalation | Acota `UpdateUser` a usuario IAM activo y `PrincipalId` coincidente; falta una señal de elevación de rol que respete esa identidad. |
 | RDS privilege escalation | Aclara que asociación de rol no entrega una sesión IAM al usuario SQL y que las consultas del motor no son eventos de gestión CloudTrail; mismas operaciones de control. |
