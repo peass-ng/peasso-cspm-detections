@@ -1,0 +1,28 @@
+title: CodeDeploy deployment group created with a service role
+id: 24400000-0000-4000-8000-000000000001
+status: experimental
+description: A CodeDeploy deployment group was created with a service role and target
+  selectors. Review the role and selected instances before allowing revisions to be
+  deployed. Creation alone does not show any host execution.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codedeploy-privesc/README.md
+- https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codedeploy.amazonaws.com
+    event.name: CreateDeploymentGroup
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved CodeDeploy deployment group onboarding.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-codedeploy-deployment-group-created
+x_cloudtrail_raw: true

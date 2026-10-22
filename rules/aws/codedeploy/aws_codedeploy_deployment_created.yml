@@ -1,0 +1,29 @@
+title: CodeDeploy deployment requested
+id: 24400000-0000-4000-8000-000000000003
+status: experimental
+description: A CodeDeploy deployment was requested for an application revision and
+  deployment group. Inspect target membership, revision contents and deployment
+  status; a successful API response alone does not prove any host executed hooks.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codedeploy-privesc/README.md
+- https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-create-cli.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codedeploy.amazonaws.com
+    event.name: CreateDeployment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved application deployment.
+level: medium
+tags:
+- attack.execution
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-codedeploy-deployment-created
+x_cloudtrail_raw: true

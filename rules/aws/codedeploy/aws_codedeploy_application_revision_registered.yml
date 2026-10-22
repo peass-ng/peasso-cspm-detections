@@ -1,0 +1,28 @@
+title: CodeDeploy application revision registered
+id: 24400000-0000-4000-8000-000000000002
+status: experimental
+description: A CodeDeploy application revision was registered. Inspect its S3 or
+  GitHub source and immutable content before deployment. Registration does not show
+  that any target host downloaded or ran the revision.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codedeploy-privesc/README.md
+- https://docs.aws.amazon.com/codedeploy/latest/userguide/application-revisions-register.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: codedeploy.amazonaws.com
+    event.name: RegisterApplicationRevision
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved release revision registration.
+level: medium
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-codedeploy-application-revision-registered
+x_cloudtrail_raw: true
