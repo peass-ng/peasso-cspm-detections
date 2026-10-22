@@ -1,0 +1,27 @@
+title: Marketplace listing read
+id: 19600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted GetListing call requested a known listing. CloudTrail omits the returned product details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-marketplace-enum.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-discovery-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: discovery-marketplace.amazonaws.com
+    event.name: GetListing
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Marketplace catalog operations.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-listing-read
+x_cloudtrail_raw: true
