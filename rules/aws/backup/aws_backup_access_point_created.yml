@@ -1,0 +1,30 @@
+title: AWS Backup access point creation requested for an S3 recovery point
+id: 25600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateBackupAccessPoint requested read-only S3 access to a
+  recovery point without restoring a bucket. Review the caller, recovery
+  point and resulting access-point policy. The API event alone does not prove
+  that asynchronous creation finished or any backup object was read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-backup-post-exploitation/README.md#L65
+  - https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-access-points.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: backup.amazonaws.com
+    event.name: CreateBackupAccessPoint
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Backup::BackupAccessPoint
+  condition: selection
+falsepositives:
+  - Approved recovery-point inspection or targeted file recovery.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-backup-access-point-created
+x_cloudtrail_raw: true
