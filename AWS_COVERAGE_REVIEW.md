@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **92**. Total headings: **419**.
+Pages with at least three level-three headings and no direct YAML reference: **90**. Total headings: **410**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -352,14 +352,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - \`elasticbeanstalk:CreateApplicationVersion\`, \`elasticbeanstalk:UpdateEnvironment\`, \`cloudformation:GetTemplate\`, \`cloudformation:DescribeStackResources\`, \`cloudformation:DescribeStackResource\`, \`autoscaling:DescribeAutoScalingGroups\`, \`autoscaling:SuspendProcesses\`
 - \`elasticbeanstalk:DescribeEnvironmentResources\`, \`elasticloadbalancing:ModifyLoadBalancerAttributes\`, \`s3:PutBucketPolicy\`, \`s3:ListBucket\`, \`s3:GetObject\` to enable ALB access logs exfiltration
 
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mediapackage-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mediapackage-privesc/README.md) (5 headings)
-
-- \`mediapackage:DescribeChannel\`
-- \`mediapackage:ListChannels\`
-- \`mediapackage:RotateChannelCredentials\`
-- \`mediapackage:RotateIngestEndpointCredentials\`
-- Permissionless discovery fallbacks
-
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md) (4 headings)
 
 - \`aws-auth\` ConfigMap mapping (legacy, CloudTrail-invisible)
@@ -443,13 +435,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - Re-route MediaConnect Router outputs
 - Redirect, tap or disrupt a flow
 - Create an expensive bandwidth reservation
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediapackage-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediapackage-post-exploitation/README.md) (4 headings)
-
-- \`mediapackage:ListChannels\`
-- \`mediapackage:RotateChannelCredentials\`
-- \`mediapackage:RotateIngestEndpointCredentials\`
-- \`mediapackage:DescribeChannel\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-partner-central-channel-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-partner-central-channel-post-exploitation/README.md) (4 headings)
 

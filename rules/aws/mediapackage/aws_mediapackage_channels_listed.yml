@@ -1,0 +1,29 @@
+title: MediaPackage channel ingest credentials enumerated
+id: 21400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted ListChannels can return ingest usernames and passwords for
+  multiple channels. Review whether broad inventory access was approved.
+  The finding excludes all response content and does not prove later ingest.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediapackage-post-exploitation/README.md
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mediapackage-privesc/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: mediapackage.amazonaws.com
+    event.name: ListChannels
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved media inventory or monitoring.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-mediapackage-channels-listed
+x_cloudtrail_raw: true
