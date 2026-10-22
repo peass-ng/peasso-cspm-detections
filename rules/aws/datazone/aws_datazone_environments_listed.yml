@@ -1,0 +1,27 @@
+title: Amazon DataZone environments listed
+id: b3510000-0000-4000-8000-000000000006
+status: experimental
+description: An authorized caller listed project environments. This can map environment roles
+  and provisioning paths when environments exist; this event alone does not prove any were returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListEnvironments.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListEnvironments
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved project inventory or administration.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-listenvironments-discovery
+x_cloudtrail_raw: true

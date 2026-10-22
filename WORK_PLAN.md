@@ -1,5 +1,25 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 351: lecturas del catálogo privado DataZone
+
+Un dominio, un proyecto productor, un activo, tipos de activo y formulario y
+un listado **sintéticos** permitieron aceptar siete lecturas de gestión:
+`GetAsset`, `GetAssetType`, `GetFormType`, `GetListing`, `ListDataSources`,
+`ListEnvironments` y `GetProject`. Los dos listados se ejecutaron en el
+proyecto propio y no se interpreta un resultado vacío como descubrimiento de
+recursos. Tampoco se accedió a datos subyacentes ni a valores de clientes.
+CloudTrail entregó los siete eventos, todos `readOnly=true`, sin errores y
+con recurso `AWS::DataZone::Domain`. Las [siete reglas nuevas](rules/aws/datazone/)
+dieron **7 positivos reales y cero en 42 variantes negativas dirigidas**;
+describen la lectura observada y requieren contexto del catálogo para
+valorar exposición. Se borraron dominio y rol de ensayo; una lectura
+independiente confirmó ambos ausentes. Recibos privados 0600:
+`/tmp/peasso-b351-private.json`,
+`/tmp/peasso-b351-cloudtrail-private.json`,
+`/tmp/peasso-b351-validation-private.json` y
+`/tmp/peasso-b351-cleanup-verified-private.json`.
+[HackTricks inventario DataZone](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L45).
+
 ## Lotes 349–350: inventario de suscripción y grants DataZone
 
 El 349 comprobó que `ListSubscriptionGrants` **exige un filtro** de entorno,

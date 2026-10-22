@@ -1,0 +1,28 @@
+title: Amazon DataZone listing details read
+id: b3510000-0000-4000-8000-000000000004
+status: experimental
+description: An authorized caller read a published listing. This can reveal asset metadata and
+  published form values, but the event alone does not establish a secret or sensitive value
+  was present.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetListing.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: GetListing
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved catalog browsing or subscription review.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-getlisting-discovery
+x_cloudtrail_raw: true

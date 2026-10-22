@@ -1,0 +1,27 @@
+title: Amazon DataZone data sources listed
+id: b3510000-0000-4000-8000-000000000005
+status: experimental
+description: An authorized caller listed data sources for a project. This can map ingestion
+  and fulfillment configuration when sources exist; an empty result is still a successful call.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L45
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListDataSources.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListDataSources
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved data source inventory or project administration.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-listdatasources-discovery
+x_cloudtrail_raw: true
