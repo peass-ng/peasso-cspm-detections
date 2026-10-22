@@ -1,5 +1,33 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 349–350: inventario de suscripción y grants DataZone
+
+El 349 comprobó que `ListSubscriptionGrants` **exige un filtro** de entorno,
+listado o suscripción: la llamada sin filtro falló. En ese dominio propio,
+DataZone aceptó automáticamente las solicitudes y un intento de aceptarlas
+otra vez devolvió `ValidationException`; no se publicó una señal de aprobación
+a partir del error. El 350 usó otro dominio, proyectos y un listado sintéticos.
+`ListSubscriptionGrants` con identificador de listado o de suscripción fue
+aceptado tres veces; `GetSubscription` leyó una suscripción propia aceptada.
+Los listados devolvieron **cero grants**. Por ello las dos reglas nuevas
+identifican lecturas de control, sin afirmar que existieran permisos de
+fulfillment ni acceso al activo.
+
+CloudTrail confirmó los cuatro eventos aceptados como lecturas de gestión
+con recurso `AWS::DataZone::Domain`. Las reglas
+[`GetSubscription`](rules/aws/datazone/aws_datazone_subscription_details_read.yml)
+y [`ListSubscriptionGrants`](rules/aws/datazone/aws_datazone_subscription_grants_listed.yml)
+dieron **4 positivos reales y cero en 12 variantes negativas dirigidas**.
+Los dominios y roles temporales de ambos ensayos se eliminaron, con lectura
+independiente de ausencia. Recibos privados 0600:
+`/tmp/peasso-b349-private.json`,
+`/tmp/peasso-b349-cleanup-verified-private.json`,
+`/tmp/peasso-b350-private.json`,
+`/tmp/peasso-b350-cloudtrail-private.json`,
+`/tmp/peasso-b350-validation-private.json` y
+`/tmp/peasso-b350-cleanup-verified-private.json`.
+[HackTricks DataZone suscripciones](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73).
+
 ## Lotes 347–348: solicitudes y cancelación de suscripciones DataZone
 
 Dos dominios temporales, proyectos, un activo y un listado **sintéticos**

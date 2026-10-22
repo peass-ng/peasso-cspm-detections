@@ -1,0 +1,29 @@
+title: Amazon DataZone subscription grants listed
+id: b3500000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  ListSubscriptionGrants succeeded for a filtered listing or subscription.
+  This can map fulfillment permissions and targets when grants exist; the
+  event alone does not establish that any grant was returned or used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListSubscriptionGrants.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListSubscriptionGrants
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved fulfillment inventory or governance review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-subscription-grants-listed
+x_cloudtrail_raw: true
