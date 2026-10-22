@@ -1,0 +1,27 @@
+title: Step Functions resource tagged
+id: 26600000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful TagResource changed tags on a Step Functions resource. Review whether tags affect IAM conditions, automation or discovery before treating this as a security boundary change.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L433
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_TagResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: TagResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved ownership or cost tagging.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-sfn-resource-tagged
+x_cloudtrail_raw: true

@@ -1,0 +1,27 @@
+title: Step Functions execution started with caller input
+id: 26600000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful StartExecution supplied input to a state machine. Review the input against the workflow definition and its downstream integrations; the API event alone does not establish injection or privileged effects.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L145
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: StartExecution
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workflow trigger or application request.
+level: medium
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-sfn-execution-started
+x_cloudtrail_raw: true

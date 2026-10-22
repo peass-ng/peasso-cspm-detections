@@ -1,0 +1,27 @@
+title: Step Functions resource tags removed
+id: 26600000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  A successful UntagResource removed tags from a Step Functions resource. Review whether removed tags affect IAM conditions or automation before treating this as security control bypass.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L433
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_UntagResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: UntagResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved tag cleanup.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-sfn-resource-untagged
+x_cloudtrail_raw: true

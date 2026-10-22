@@ -1,0 +1,27 @@
+title: Step Functions execution details read
+id: 26600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful DescribeExecution read execution metadata and potentially its input and output. Compare the reader with approved workflow operators; CloudTrail does not show the returned payload.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L81
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_DescribeExecution.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: DescribeExecution
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workflow debugging.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-sfn-execution-details-read
+x_cloudtrail_raw: true

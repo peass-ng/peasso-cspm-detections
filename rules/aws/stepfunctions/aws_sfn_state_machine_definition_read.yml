@@ -1,0 +1,27 @@
+title: Step Functions state machine definition read
+id: 26600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful DescribeStateMachine read a workflow definition. Review the reader and whether the definition embeds secrets, connection identifiers or privileged service calls; CloudTrail does not include the returned definition.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-stepfunctions-post-exploitation/README.md#L48
+  - https://docs.aws.amazon.com/step-functions/latest/apireference/API_DescribeStateMachine.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: states.amazonaws.com
+    event.name: DescribeStateMachine
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workflow inspection or deployment.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-sfn-state-machine-definition-read
+x_cloudtrail_raw: true
