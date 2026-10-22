@@ -1,0 +1,28 @@
+title: AWS Migration Hub Strategy Recommendations import tasks listed
+id: b3560000-0000-4000-8000-000000000004
+status: experimental
+description: ListImportFileTask succeeded. Task records can identify import sources and report
+  locations when present; the event alone does not prove a task was returned or an S3 object
+  read.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-migration-hub-strategy-recommendations-enum.md#L61
+- https://docs.aws.amazon.com/migrationhub-strategy/latest/APIReference/API_ListImportFileTask.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: migrationhub-strategy.amazonaws.com
+    event.name: ListImportFileTask
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved migration inventory or assessment review.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-migrationhubstrategy-import-tasks-listed
+x_cloudtrail_raw: true

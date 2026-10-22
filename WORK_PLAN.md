@@ -1,5 +1,29 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 356: inventario Migration Hub Strategy Recommendations
+
+Con `naxusai-admin` se aceptaron siete lecturas en `us-east-1`:
+`ListCollectors`, `ListServers`, `ListApplicationComponents`,
+`ListImportFileTask`, `ListAnalyzableServers`, `GetPortfolioPreferences` y
+`GetPortfolioSummary`. El recibo conserva sólo nombres, estado e IDs de
+petición; no guarda los cuerpos de inventario de la cuenta. La llamada
+`GetLatestAssessmentId` devolvió `ResourceNotFoundException` y no se usó
+como positivo. No se crearon ni modificaron recursos, por lo que no hubo
+limpieza de infraestructura que ejecutar.
+
+CloudTrail entregó once eventos aceptados de los siete tipos, contando
+cuatro lecturas iniciales de preflight. `ListServers` y
+`ListApplicationComponents` constaron como `readOnly=false` y los demás
+como `true`; ninguno tenía recurso tipado. Las
+[siete reglas nuevas](rules/aws/migrationhubstrategy/) dieron **11 positivos
+reales y cero en 42 variantes negativas dirigidas**. Son señales de
+inventario; un evento no prueba que la respuesta contuviera servidores,
+colectores o claves de S3 ni que se leyera un objeto. Recibos privados 0600:
+`/tmp/peasso-b356-private.json`,
+`/tmp/peasso-b356-cloudtrail-private.json` y
+`/tmp/peasso-b356-validation-private.json`.
+[HackTricks Migration Hub Strategy Recommendations](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md#L76).
+
 ## Lote 355: portal y rutas de entorno DataZone
 
 Un dominio, proyecto y entorno `CustomAwsService` propios permitieron probar

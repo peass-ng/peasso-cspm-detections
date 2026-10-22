@@ -1,0 +1,28 @@
+title: AWS Migration Hub Strategy Recommendations application components listed
+id: b3560000-0000-4000-8000-000000000003
+status: experimental
+description: ListApplicationComponents succeeded. This can map imported application topology
+  when present. CloudTrail marks this list call readOnly=false; the event alone does not prove
+  any component was returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-migration-hub-strategy-recommendations-enum.md#L41
+- https://docs.aws.amazon.com/migrationhub-strategy/latest/APIReference/API_ListApplicationComponents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: migrationhub-strategy.amazonaws.com
+    event.name: ListApplicationComponents
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved migration inventory or assessment review.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-migrationhubstrategy-application-components-listed
+x_cloudtrail_raw: true
