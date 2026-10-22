@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **79**. Total headings: **358**.
+Pages with at least three level-three headings and no direct YAML reference: **78**. Total headings: **352**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -159,15 +159,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - LiveAnalytics: invisible record injection, upsert and version pinning with \`timestream:WriteRecords\`
 - \`timestream:CreateScheduledQuery\` + \`iam:PassRole\` — run SQL and downstream writes as a scheduled-query role
 - \`timestream:ExecuteScheduledQuery\` — trigger an already stored role workflow
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpn-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpn-post-exploitation/README.md) (6 headings)
-
-- \`ec2:GetVpnConnectionDeviceSampleConfiguration\` — disclose Site-to-Site VPN pre-shared keys
-- \`ec2:ModifyVpnConnection\` + \`ec2:ModifyVpnTunnelOptions\` — take over an existing Site-to-Site VPN peer
-- \`ec2:AuthorizeClientVpnIngress\` — broaden an authenticated VPN client's network access
-- \`ec2:AssociateClientVpnTargetNetwork\` + \`ec2:CreateClientVpnRoute\` — attach Client VPN to a VPC and extend reachable networks
-- \`ec2:ApplySecurityGroupsToClientVpnTargetNetwork\` — rebind Client VPN to a trusted security group
-- \`ec2:ModifyClientVpnEndpoint\` — hijack client DNS/routing and suppress connection logs
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md) (6 headings)
 

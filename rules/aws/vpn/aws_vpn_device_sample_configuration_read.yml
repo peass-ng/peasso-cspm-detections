@@ -1,0 +1,30 @@
+title: Site-to-Site VPN device sample configuration retrieved
+id: 25900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A principal retrieved a Site-to-Site VPN device sample configuration.
+  Such configurations can disclose tunnel peer settings and pre-shared keys.
+  Review the caller and VPN ownership; the CloudTrail event records the API
+  read but does not expose the returned configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpn-post-exploitation/README.md
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetVpnConnectionDeviceSampleConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: GetVpnConnectionDeviceSampleConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved VPN device setup or troubleshooting.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-vpn-device-sample-configuration-read
+x_cloudtrail_raw: true
