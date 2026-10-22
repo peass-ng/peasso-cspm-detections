@@ -1,0 +1,30 @@
+title: WAF logging destination or filter configuration written
+id: 26300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful PutLoggingConfiguration set or replaced a Web ACL logging
+  destination, redaction or filter. Compare the destination and filter with
+  the prior configuration; this API-level signal also fires when logging is
+  enabled normally and does not prove that logs were delivered or diverted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L458
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_PutLoggingConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: PutLoggingConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved WAF logging setup or destination migration.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-logging-configuration-put
+x_cloudtrail_raw: true
