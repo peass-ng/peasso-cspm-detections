@@ -1,0 +1,31 @@
+title: AWS CloudWatch Synthetics canary manually started
+id: b3740000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  StartCanary accepted a request to run a canary's stored code with its
+  existing execution role. Review the actor, canary, scheduled maintenance
+  and role permissions. This event alone does not prove the run succeeded
+  or that the canary performed a security-relevant action.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-synthetics-privesc/README.md#L17
+  - https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_StartCanary.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: synthetics.amazonaws.com
+    event.name: StartCanary
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Synthetics::Canary
+  condition: selection
+falsepositives:
+  - Authorized canary start or scheduled monitoring test.
+level: medium
+tags:
+  - attack.execution
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-synthetics-canary-started
+x_cloudtrail_raw: true

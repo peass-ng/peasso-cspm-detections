@@ -1,0 +1,28 @@
+title: AWS CloudWatch Synthetics replacement-code dry run requested
+id: b3740000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  StartCanaryDryRun accepted replacement canary code from an inline archive
+  or S3 object. The canary's execution role may run that code after async
+  preparation. Inspect GetCanaryRuns for the actual result and review any
+  role override. An accepted API call alone does not prove code execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-synthetics-privesc/README.md#L47
+  - https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_StartCanaryDryRun.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: synthetics.amazonaws.com
+    event.name: StartCanaryDryRun
+    event.outcome: success
+    request.synthetics_dry_run_replacement_code_requested: true
+  condition: selection
+falsepositives:
+  - Approved safe canary update test with replacement code.
+level: high
+tags:
+  - attack.execution
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-synthetics-replacement-code-dry-run

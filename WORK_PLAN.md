@@ -1,5 +1,24 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 374–375: Synthetics StartCanary y dry run de código de reemplazo
+
+Se creó un canary de ejecución única, rol mínimo, bucket de artefactos y
+código inocuo propios. `StartCanary` produjo una ejecución `PASSED`.
+`StartCanaryDryRun` aceptó un ZIP de reemplazo; su ID estaba anidado en
+`DryRunConfig`, por lo que el script inicial no lo leyó. Una comprobación
+independiente de `GetCanary`/`GetCanaryRuns` obtuvo `PASSED` y leyó el
+marcador escrito por el código nuevo en el bucket de prueba. Los dos
+eventos CloudTrail aceptados activaron **dos reglas y cero en 15 variantes
+negativas**. El parser se integró en la
+[PR 172 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/172)
+como `0c7afa55d1305555bbaa7d07d558d2c4d5eafda1`; pasaron 24 pruebas
+focalizadas. La regla de dry run distingue reemplazo de código de una
+prueba que sólo cambia el runtime y no atribuye la ejecución al mero HTTP
+200. Canary, Lambda generada, capa, rol, bucket y logs se borraron; otra
+lectura confirmó sus ausencias. Eventos y nombres reales siguen en
+recibos privados 0600. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-synthetics-privesc/README.md#L17),
+[API AWS](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_StartCanaryDryRun.html).
+
 ## Lote 372–373: ARC CustomActionLambda
 
 Tres laboratorios aislados crearon un plan ARC con dos funciones Lambda
@@ -196,7 +215,7 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | SSM privilege escalation | Distingue `UpdateManagedInstanceRole`, DHMC por `UpdateServiceSetting`, `SendCommand`, `StartSession` y `ResumeSession`. Sólo `StartSession` tiene regla directa publicada; las otras rutas requieren laboratorio/normalización específica sin tocar nodos ni ajustes ajenos. |
 | IAM Identity Center / IdentityStore privilege escalation | Añade persistencia mediante `CreateUser` más membresía o assignment, sujeta a sign-in y aprovisionamiento asíncrono. Falta detector compuesto; no hay reglas específicas de IdentityStore publicadas. |
 | STS privilege escalation | Acota tokens SAML/web, tareas `AssumeRoot` y sus permisos de organización. `AssumeRoot` continúa pendiente de una organización de laboratorio con la función habilitada. |
-| CloudWatch Synthetics privilege escalation | Precisa runtime compatible y permisos de dry run sobre función/layer generadas. No se ha probado ni publicado una señal específica de dry run. |
+| CloudWatch Synthetics privilege escalation | Runtime compatible, canary propio y dry run probados en lote 374; señal específica de reemplazo de código validada con CloudTrail y resultado asíncrono PASSED. |
 | EventBridge Scheduler privilege escalation | Detalla target IAM `PutUserPolicy`/`PutRolePolicy`; la regla de target universal observa la configuración, pero la concesión efectiva necesita correlación con ejecución y política IAM. |
 
 ### Páginas retiradas
