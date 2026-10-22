@@ -1,0 +1,27 @@
+title: AWS Deadline Cloud customer-managed fleet role assigned
+id: b3680000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateFleet accepted a customer-managed fleet with an IAM role from the
+  same account. Review the role's permissions and trust before a logical
+  worker can request its credentials. This configuration event alone does
+  not prove that a worker was registered or that credentials were used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_CreateFleet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: CreateFleet
+    event.outcome: success
+    request.deadline_customer_managed_fleet_role_created: true
+  condition: selection
+falsepositives:
+  - Authorized customer-managed fleet setup.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-customer-managed-fleet-role-created

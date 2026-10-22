@@ -1,0 +1,27 @@
+title: AWS Deadline Cloud queue role update requested
+id: b3680000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateQueue accepted a request containing a same-account role ARN. This
+  detects an explicit role assignment request; compare the prior queue
+  configuration to determine whether the role actually changed. CloudTrail
+  did not repeat the role in the observed response.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L99
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateQueue.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: UpdateQueue
+    event.outcome: success
+    request.deadline_queue_role_update_requested: true
+  condition: selection
+falsepositives:
+  - Authorized queue role update or idempotent role submission.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-queue-role-update-requested

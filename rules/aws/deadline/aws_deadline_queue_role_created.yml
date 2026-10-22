@@ -1,0 +1,26 @@
+title: AWS Deadline Cloud queue created with an IAM role
+id: b3680000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  CreateQueue accepted a queue with a same-account role. Inspect whether the
+  caller could pass that role and whether queue users later requested its
+  credentials; creation alone does not establish role use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L99
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_CreateQueue.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: CreateQueue
+    event.outcome: success
+    request.deadline_queue_role_created: true
+  condition: selection
+falsepositives:
+  - Authorized queue creation with its intended role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-queue-role-created

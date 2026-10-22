@@ -1,0 +1,28 @@
+title: AWS Deadline Cloud worker role vended after registration
+id: b3680000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  The same principal registered a worker and requested its fleet-role
+  credentials within thirty minutes for the same farm, fleet and worker.
+  This may be normal worker bootstrap; inspect whether the caller was an
+  approved worker host and whether the role had extra permissions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_AssumeFleetRoleForWorker.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: AssumeFleetRoleForWorker
+    event.outcome: success
+    request.deadline_worker_role_vended_after_registration: true
+  condition: selection
+falsepositives:
+  - Expected bootstrap of a legitimate customer-managed worker host.
+level: high
+tags:
+  - attack.credential-access
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-worker-role-vended-after-registration

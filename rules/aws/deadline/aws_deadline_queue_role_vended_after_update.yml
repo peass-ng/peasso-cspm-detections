@@ -1,0 +1,28 @@
+title: AWS Deadline Cloud queue role vended after role update
+id: b3680000-0000-4000-8000-000000000005
+status: experimental
+description: >
+  The same principal submitted a queue role update and requested queue-user
+  credentials within thirty minutes for the same farm and queue. The
+  accepted update did not itself prove that the configured role changed;
+  compare the previous configuration and inspect subsequent session use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L99
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_AssumeQueueRoleForUser.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: AssumeQueueRoleForUser
+    event.outcome: success
+    request.deadline_queue_role_vended_after_update: true
+  condition: selection
+falsepositives:
+  - Authorized queue migration followed by normal user access.
+level: high
+tags:
+  - attack.credential-access
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-queue-role-vended-after-update

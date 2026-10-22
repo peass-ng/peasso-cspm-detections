@@ -1,0 +1,27 @@
+title: AWS Deadline Cloud fleet role update requested
+id: b3690000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateFleet accepted a request containing a same-account IAM role ARN.
+  Compare the previous fleet configuration to determine whether the role
+  changed and whether a worker subsequently requested its credentials.
+  The accepted request alone does not establish use of the new role.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: UpdateFleet
+    event.outcome: success
+    request.deadline_fleet_role_update_requested: true
+  condition: selection
+falsepositives:
+  - Authorized fleet role migration or idempotent role submission.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-fleet-role-update-requested
