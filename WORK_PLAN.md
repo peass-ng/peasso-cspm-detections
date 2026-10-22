@@ -1,5 +1,39 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 347–348: solicitudes y cancelación de suscripciones DataZone
+
+Dos dominios temporales, proyectos, un activo y un listado **sintéticos**
+permitieron probar el flujo de suscripción. Con la identidad propietaria,
+`CreateSubscriptionRequest` creó dos solicitudes aceptadas automáticamente;
+`GetSubscriptionRequestDetails` leyó una y `CancelSubscription` dejó una
+suscripción en `CANCELLED`. `RejectSubscriptionRequest` falló para una
+solicitud ya aceptada, y esa llamada rechazada no es un positivo de la regla.
+En el segundo dominio, un usuario IAM temporal con permiso limitado a
+`datazone:CreateSubscriptionRequest` y membresía en los proyectos consumidores
+creó dos solicitudes `PENDING`. La identidad propietaria rechazó una
+(`REJECTED`) y aceptó la otra (`ACCEPTED`). El listado inmediato de
+suscripciones aún estaba vacío: la aceptación no demuestra que se
+materializara un grant ni que se accediera a datos.
+
+CloudTrail registró como operaciones de gestión aceptadas la creación, lectura
+de detalles, rechazo, aceptación y cancelación. Las cinco reglas en
+[`rules/aws/datazone`](rules/aws/datazone/) dieron **9 positivos reales**
+(4 + 2 + 1 + 1 + 1) y **cero en 30 variantes negativas dirigidas**;
+`RejectSubscriptionRequest` denegado también quedó fuera. Las reglas indican
+la acción de control observada y requieren correlacionar el historial de
+aprobación, la suscripción y los grants antes de concluir acceso efectivo.
+Se borraron ambos dominios, el rol y el usuario de ensayo; lecturas
+independientes confirmaron su ausencia. La clave temporal se usó en memoria,
+se eliminó y su identificador se ocultó en el recibo. Recibos privados 0600:
+`/tmp/peasso-b347-private.json`,
+`/tmp/peasso-b347-cloudtrail-private.json`,
+`/tmp/peasso-b347-cleanup-verified-private.json`,
+`/tmp/peasso-b348-private.json`,
+`/tmp/peasso-b348-cloudtrail-private.json`,
+`/tmp/peasso-b348-cleanup-verified-private.json` y
+`/tmp/peasso-b347-b348-validation-private.json`.
+[HackTricks DataZone suscripciones](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73).
+
 ## Lotes 345–346: miembro viewer y credenciales DataZone
 
 En dos dominios de ensayo se creó un usuario IAM temporal con una sola acción

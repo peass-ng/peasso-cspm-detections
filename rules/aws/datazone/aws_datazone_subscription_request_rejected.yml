@@ -1,0 +1,30 @@
+title: Amazon DataZone subscription request rejected
+id: b3480000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  RejectSubscriptionRequest succeeded. A reviewer can prevent a pending
+  consumer project from receiving an asset subscription. Verify the reviewer,
+  request status and approval record; the event does not prove disruption of
+  an already approved grant.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_RejectSubscriptionRequest.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: RejectSubscriptionRequest
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved denial of an inappropriate access request.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-datazone-subscription-request-rejected
+x_cloudtrail_raw: true

@@ -1,0 +1,30 @@
+title: Amazon DataZone subscription cancelled
+id: b3470000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  CancelSubscription succeeded. This can revoke a consumer project's
+  catalog subscription and affect future access. Verify the resulting
+  status and underlying grants; this event alone does not prove immediate
+  loss of an already issued data-plane session.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L73
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_CancelSubscription.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: CancelSubscription
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved cancellation of an obsolete or inappropriate subscription.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-datazone-subscription-cancelled
+x_cloudtrail_raw: true
