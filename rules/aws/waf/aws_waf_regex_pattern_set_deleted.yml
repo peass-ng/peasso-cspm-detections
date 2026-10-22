@@ -1,0 +1,28 @@
+title: AWS WAF regex pattern set deleted
+id: 20400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An AWS WAF regex pattern set was deleted. If referenced by a protection
+  policy this can weaken filtering, but the event does not prove an active ACL.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L97
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_DeleteRegexPatternSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: DeleteRegexPatternSet
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved removal of an unused regex pattern set.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-regex-pattern-set-deleted
+x_cloudtrail_raw: true
