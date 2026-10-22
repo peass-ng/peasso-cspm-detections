@@ -1,5 +1,17 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 362: correlación de EBS Multi-Attach en integración
+
+La [PR 165 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/165)
+rescata la correlación del laboratorio 290: dos `AttachVolume` aceptados
+del mismo volumen para instancias distintas, en la misma cuenta y Región,
+dentro de 30 minutos y sin `DetachVolume` intermedio. Los dos eventos
+CloudTrail reales activaron una vez la regla aislada; pasaron 15 pruebas
+locales y la limpieza independiente del volumen, instancias, AMI, snapshot,
+bucket y red ya estaba confirmada. La señal no afirma que se leyera el
+disco desde los invitados. La YAML permanece aislada hasta integrar el
+parser. [HackTricks Multi-Attach](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md#L125).
+
 ## Lotes 359–361: señales Redshift y descarga del catálogo en revisión
 
 La [PR 162 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/162)
