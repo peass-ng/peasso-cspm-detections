@@ -11,6 +11,20 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 405: integrar correlación KMS grant y Decrypt
+
+La [regla KMS](rules/aws/kms/aws_kms_recent_grantee_decrypt.yml) se probó con
+ocho eventos CloudTrail del laboratorio desechable del lote 200. El grant
+`Decrypt` aceptado, seguido del descifrado por el beneficiario dentro de
+quince minutos, dio **un hallazgo real**; los grants rechazados y la revocación
+no alertaron. Tres pruebas focalizadas del parser actual pasaron. La
+integración se fusionó en la [PR 192 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/192)
+como `5d2131dc8ceacfab24effe5fe7e2707411ec1eb7`; sustituye la PR 123.
+CloudTrail no identifica cuál de los permisos autorizó el descifrado. El
+usuario temporal y su clave de acceso están borrados; la clave KMS permanece
+en `PendingDeletion` durante la espera de siete días autorizada. Los recibos
+del laboratorio y eventos con identificadores reales siguen privados 0600.
+
 ## Lote 404: integrar entitlements y acceso del agente AppStream
 
 Se retomaron eventos de pilas desechables de los lotes 193, 197 y 199.

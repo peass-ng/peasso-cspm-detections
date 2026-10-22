@@ -1,0 +1,27 @@
+title: KMS Decrypt by a recently granted principal
+id: 20000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A principal successfully decrypted with a KMS key within fifteen minutes
+  of a successful CreateGrant for Decrypt on that key. The events do not reveal
+  whether the grant or another permission authorized Decrypt; review the actor,
+  key policy, grant constraints, and data accessed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md#L79
+  - https://docs.aws.amazon.com/kms/latest/developerguide/grants.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kms.amazonaws.com
+    event.name: Decrypt
+    event.outcome: success
+    request.kms_recent_grantee_decrypt: true
+  condition: selection
+falsepositives:
+  - Approved use of a recently issued grant.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-kms-recent-grantee-decrypt
