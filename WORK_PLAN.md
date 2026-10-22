@@ -4,7 +4,7 @@
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
-Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; 50 otras páginas modificadas requieren revisar el cuerpo.
+Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 7 de esas 50 y quedan 43 por examinar.
 
 Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
 
@@ -84,6 +84,21 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 - [aws-privilege-escalation/aws-sts-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sts-privesc/README.md) — revisar cambios en el cuerpo.
 - [aws-privilege-escalation/aws-synthetics-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-synthetics-privesc/README.md) — revisar cambios en el cuerpo.
 - [aws-privilege-escalation/eventbridgescheduler-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/eventbridgescheduler-privesc/README.md) — revisar cambios en el cuerpo.
+
+### Primera revisión del cuerpo sin encabezados nuevos
+
+Se revisaron **7 de las 50** páginas de la lista anterior, comparando las
+líneas añadidas y retiradas con las reglas y los laboratorios existentes:
+
+| Página | Decisión |
+|---|---|
+| Firewall Manager persistence | Aclara administrador por defecto frente a adicional en `AssociateAdminAccount`/`PutAdminAccount`; misma familia pendiente del laboratorio FMS no habilitado. |
+| Amplify privilege escalation | Aclara prioridad de `amplify.yml`, rol de build frente a SSR y prerrequisitos; no añade una llamada distinta. |
+| App Runner privilege escalation | Aclara mutabilidad de etiqueta ECR; `PutImageTagMutability` ya tiene regla publicada. |
+| Athena Spark role privilege escalation | Ajusta confianza, permisos y disponibilidad del workgroup; mismo camino `CreateWorkGroup` → sesión/cálculo. |
+| Cognito privilege escalation | Detalla la variante **Basic flow** con token de desarrollador y `AssumeRoleWithWebIdentity`. El intercambio STS se probó en el laboratorio previo, pero la atribución de abuso requiere correlación con identidad del pool, confianza y cambios recientes; sigue pendiente. |
+| GameLift privilege escalation | Aclara qué credenciales entrega `GetComputeAccess` y que el rol de flota requiere código en la instancia; no se debe inferir obtención de ese rol sólo por abrir la sesión. |
+| SageMaker privilege escalation | Corrige la configuración `UpdateSpace` de LCC para Studio moderno. La ruta de ejecución posterior sigue sin regla específica; revisar y probar espacio propio antes de marcarla cubierta. |
 
 ### Páginas retiradas
 
