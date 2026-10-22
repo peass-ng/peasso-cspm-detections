@@ -1,0 +1,29 @@
+title: Managed Flink application created
+id: 31600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateApplication succeeded. Review the execution role, code location and
+  creator for a new path to service role permissions. Creation of a stopped
+  application does not prove that its code ran or accessed AWS resources.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-flink-privesc/README.md#L86
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_CreateApplication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: CreateApplication
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application deployment with a reviewed execution role.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-managed-flink-application-created
+x_cloudtrail_raw: true

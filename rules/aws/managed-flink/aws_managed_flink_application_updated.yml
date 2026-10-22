@@ -1,0 +1,31 @@
+title: Managed Flink application updated
+id: 31600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdateApplication succeeded. Compare the code pointer, runtime properties
+  and execution role with the approved deployment. This event-level signal
+  cannot distinguish a code implant from a legitimate configuration change;
+  runtime property values are redacted in CloudTrail.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-flink-persistence/README.md#L15
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-flink-privesc/README.md#L9
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_UpdateApplication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: UpdateApplication
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved code deployment or runtime configuration update.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-managed-flink-application-updated
+x_cloudtrail_raw: true
