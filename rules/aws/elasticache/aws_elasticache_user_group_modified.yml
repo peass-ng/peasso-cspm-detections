@@ -1,0 +1,29 @@
+title: ElastiCache RBAC user group modified
+id: 30600000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  ModifyUserGroup accepted a membership change. Review added users and their
+  access strings, then confirm whether the group is bound to a cache; this
+  control-plane event alone does not show Redis authentication or commands.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-elasticache-persistence/README.md#L46
+  - https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyUserGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticache.amazonaws.com
+    event.name: ModifyUserGroup
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved RBAC group membership maintenance.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-elasticache-user-group-modified
+x_cloudtrail_raw: true

@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **65**. Total headings: **283**.
+Pages with at least three level-three headings and no direct YAML reference: **64**. Total headings: **280**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -373,12 +373,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - \`directconnect:DescribeVirtualInterfaces\` / \`DescribeRouterConfiguration\` — recover BGP authentication material
 - \`directconnect:CreateDirectConnectGatewayAssociationProposal\` — propose an attacker DX gateway from the victim account
 - \`directconnect:AssociateMacSecKey\` / \`UpdateConnection\` — weaken link-layer encryption
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elasticache-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elasticache-post-exploitation/README.md) (3 headings)
-
-- Credential takeover
-- Export a cache snapshot to S3 with \`elasticache:CopySnapshot\`
-- Export a serverless cache snapshot to S3 with \`elasticache:ExportServerlessCacheSnapshot\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md) (3 headings)
 

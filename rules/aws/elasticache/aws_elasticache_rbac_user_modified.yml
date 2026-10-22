@@ -1,0 +1,30 @@
+title: ElastiCache RBAC user modified
+id: 30600000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  ModifyUser accepted an RBAC user change. Compare the previous and requested
+  access strings, credentials and group bindings; this event may indicate a
+  broader command scope or credential takeover when the user is on a cache.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elasticache-privesc/README.md#L15
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elasticache-post-exploitation/README.md#L136
+  - https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyUser.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticache.amazonaws.com
+    event.name: ModifyUser
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved RBAC permission or credential maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-elasticache-rbac-user-modified
+x_cloudtrail_raw: true

@@ -1,0 +1,29 @@
+title: ElastiCache RBAC user group created
+id: 30600000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  CreateUserGroup accepted a new ElastiCache user group. Review its initial
+  members and whether a replication group or serverless cache later attaches
+  it; an unattached group does not grant cache access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-elasticache-persistence/README.md#L46
+  - https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateUserGroup.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticache.amazonaws.com
+    event.name: CreateUserGroup
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved RBAC group provisioning.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-elasticache-user-group-created
+x_cloudtrail_raw: true
