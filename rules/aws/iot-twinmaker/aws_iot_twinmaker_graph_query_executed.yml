@@ -1,0 +1,30 @@
+title: IoT TwinMaker entity graph query executed
+id: 22500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted ExecuteQuery can traverse entities and components within a
+  TwinMaker workspace. Review the caller, timing and workspace scope. The
+  CloudTrail event does not show returned rows and may omit the query text.
+  This signal requires a pricing plan that permits graph queries.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-twinmaker-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: ExecuteQuery
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved TwinMaker graph exploration or dashboard query.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-iot-twinmaker-graph-query-executed
+x_cloudtrail_raw: true
