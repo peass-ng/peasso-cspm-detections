@@ -1,0 +1,31 @@
+title: IoT TwinMaker workspace configuration updated
+id: 22700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateWorkspace changed workspace configuration. CloudTrail can
+  include a replacement execution role in the request; inspect that field and
+  compare the current role and S3 location with an approved baseline. This
+  broad event signal also matches benign description-only changes and does not
+  prove that any connector used the new role.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-twinmaker-privesc/README.md
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_UpdateWorkspace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iottwinmaker.amazonaws.com
+    event.name: UpdateWorkspace
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved workspace description, storage or execution-role maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-iot-twinmaker-workspace-configuration-updated
+x_cloudtrail_raw: true
