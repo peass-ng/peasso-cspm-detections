@@ -1,0 +1,28 @@
+title: S3 Vectors vector-bucket policy changed
+id: 24900000-0000-4000-8000-000000000001
+status: experimental
+description: A vector-bucket policy was accepted. Review newly granted principals,
+  index resources and data permissions. This event alone does not prove an external
+  grant or later data access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-s3-vectors-privesc/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3vectors.amazonaws.com
+    event.name: PutVectorBucketPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Vectors::VectorBucket
+  condition: selection
+falsepositives:
+- Approved vector-bucket access administration.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-s3vectors-policy-changed
+x_cloudtrail_raw: true

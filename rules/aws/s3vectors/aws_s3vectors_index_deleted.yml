@@ -1,0 +1,28 @@
+title: S3 Vectors index deleted
+id: 24900000-0000-4000-8000-000000000007
+status: experimental
+description: A successful DeleteIndex accepted removal of a vector index and
+  its corpus. Confirm the index disappeared and whether a trusted copy can
+  restore its vectors and metadata.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-vectors-post-exploitation/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3vectors.amazonaws.com
+    event.name: DeleteIndex
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Vectors::Index
+  condition: selection
+falsepositives:
+- Approved vector index retirement or rebuild.
+level: high
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-s3vectors-index-deleted
+x_cloudtrail_raw: true
