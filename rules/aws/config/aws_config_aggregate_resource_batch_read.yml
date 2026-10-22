@@ -1,0 +1,29 @@
+title: AWS Config aggregate resource configurations read in batch
+id: 27900000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  BatchGetAggregateResourceConfig requested current configuration items from
+  an aggregator. Review the source resource identifiers and actor; the event
+  does not prove that every requested item was returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L58
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_BatchGetAggregateResourceConfig.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: BatchGetAggregateResourceConfig
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved batch configuration inspection.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-config-aggregate-resource-batch-read
+x_cloudtrail_raw: true
