@@ -1,0 +1,30 @@
+title: WorkSpaces Web IP access settings updated
+id: 23100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An IP access settings object was updated. CloudTrail hides the ipRules body in
+  both request and response, so the event alone cannot establish that the
+  allow list was opened. Read the current rules, compare them with the approved
+  baseline, and check whether the object is attached to a portal.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+  - https://docs.aws.amazon.com/workspaces-web/latest/adminguide/ip-access-controls.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: UpdateIpAccessSettings
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved source IP policy change.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-workspaces-web-ip-access-settings-updated
+x_cloudtrail_raw: true
