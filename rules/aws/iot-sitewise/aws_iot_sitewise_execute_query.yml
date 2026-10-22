@@ -1,0 +1,30 @@
+title: IoT SiteWise account-wide SQL query executed
+id: 21500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted ExecuteQuery can enumerate SiteWise assets, property metadata,
+  and time-series values without individual list or property-read APIs.
+  CloudTrail hides the SQL statement, so review the actor, timing, volume,
+  and SiteWise telemetry before concluding what data was returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-sitewise/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsitewise.amazonaws.com
+    event.name: ExecuteQuery
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved SiteWise analytics or operational dashboards.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-iot-sitewise-execute-query
+x_cloudtrail_raw: true

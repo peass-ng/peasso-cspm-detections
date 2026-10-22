@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **90**. Total headings: **410**.
+Pages with at least three level-three headings and no direct YAML reference: **89**. Total headings: **405**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -287,14 +287,6 @@ Pages with at least three level-three headings and no direct YAML reference: **9
 - Exfiltrate invoice identity, amounts, and documents
 - Change future invoice routing, tax inheritance, or account grouping
 - Modify billing preferences, contracts, or credits
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md) (5 headings)
-
-- Steal current and historical property values
-- Dump industrial metadata and telemetry with \`ExecuteQuery\`
-- Pre-seed an unassociated alias before onboarding
-- Tamper with SiteWise Edge collection
-- Poison asset telemetry with \`BatchPutAssetPropertyValue\`
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-macie-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-macie-post-exploitation/README.md) (5 headings)
 
