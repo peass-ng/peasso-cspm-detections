@@ -1,0 +1,29 @@
+title: AWS Config resource history read
+id: 27500000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetResourceConfigHistory read retained configuration for a resource. Past
+  settings can remain available after the resource changes or is deleted;
+  CloudTrail records the request, not the returned configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: GetResourceConfigHistory
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved historical configuration review.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-config-resource-history-read
+x_cloudtrail_raw: true

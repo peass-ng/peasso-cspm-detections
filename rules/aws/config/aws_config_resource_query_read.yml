@@ -1,0 +1,29 @@
+title: AWS Config resource inventory queried
+id: 27500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  SelectResourceConfig queried recorded resource configuration. This read
+  plane can expose inventory without direct read permissions on each service;
+  CloudTrail does not include the returned rows. Review the query and actor.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_SelectResourceConfig.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: SelectResourceConfig
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved configuration inventory queries.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-config-resource-query-read
+x_cloudtrail_raw: true
