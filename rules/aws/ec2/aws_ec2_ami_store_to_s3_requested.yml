@@ -1,0 +1,27 @@
+title: EC2 AMI store to S3 requested
+id: 29100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateStoreImageTask requested that an EBS-backed AMI be packaged into an S3 object. Inspect the source AMI, destination bucket ownership, task completion and subsequent object access before attributing exfiltration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ami-store-s3-exfiltration.md#L100
+  - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateStoreImageTask
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved AMI backup, transfer or disaster recovery.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-ec2-ami-store-s3-exfiltration
+x_cloudtrail_raw: true
