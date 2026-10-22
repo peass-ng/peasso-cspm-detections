@@ -1,0 +1,29 @@
+title: GameLift Anywhere compute registered
+id: 30900000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  RegisterCompute accepted a compute registration on a GameLift Anywhere
+  fleet. Review its address and operator, then correlate token requests and
+  server SDK activity; registration alone does not start a game server.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-gamelift-post-exploitation/README.md#L21
+  - https://docs.aws.amazon.com/gameliftservers/latest/apireference/API_RegisterCompute.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: gamelift.amazonaws.com
+    event.name: RegisterCompute
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Anywhere fleet compute registration.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-gamelift-anywhere-compute-registered
+x_cloudtrail_raw: true

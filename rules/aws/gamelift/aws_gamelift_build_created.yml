@@ -1,0 +1,29 @@
+title: GameLift game-server build created
+id: 30900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateBuild accepted a new GameLift build. Review who can request its upload
+  credentials and whether a fleet later runs uploaded server code; a build
+  without uploaded files does not execute code.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-gamelift-post-exploitation/README.md#L45
+  - https://docs.aws.amazon.com/gameliftservers/latest/apireference/API_CreateBuild.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: gamelift.amazonaws.com
+    event.name: CreateBuild
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved game-server build provisioning.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-gamelift-build-created
+x_cloudtrail_raw: true

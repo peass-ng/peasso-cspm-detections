@@ -1,0 +1,29 @@
+title: GameLift compute authentication token requested
+id: 30900000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  GetComputeAuthToken accepted a request for a GameLift Anywhere compute token.
+  Review the named fleet and compute, the caller, and subsequent server SDK
+  activity; CloudTrail does not disclose the token value or prove its use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-gamelift-post-exploitation/README.md#L21
+  - https://docs.aws.amazon.com/gameliftservers/latest/apireference/API_GetComputeAuthToken.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: gamelift.amazonaws.com
+    event.name: GetComputeAuthToken
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved GameLift Anywhere server authentication.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-gamelift-compute-auth-token-requested
+x_cloudtrail_raw: true
