@@ -1,0 +1,26 @@
+title: AWS WAF IP set emptied
+id: 20400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted UpdateIPSet replaced the address list with an empty list.
+  This can remove an IP-based control if the set is used by a Web ACL;
+  CloudTrail alone does not prove that reference or traffic impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L401
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_UpdateIPSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateIPSet
+    event.outcome: success
+    request.waf_ip_set_emptied: true
+  condition: selection
+falsepositives:
+  - Approved retirement of unused IP addresses.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-ip-set-emptied

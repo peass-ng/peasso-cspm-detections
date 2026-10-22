@@ -1,0 +1,26 @@
+title: AppStream user pool identity assigned to a stack
+id: 20100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A BatchAssociateUserStack call succeeded with no per-association errors
+  for at least one user pool identity. CloudTrail redacts the user name.
+  The event does not prove portal login or a usable fleet.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appstream-persistence/README.md#L14
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_BatchAssociateUserStack.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: BatchAssociateUserStack
+    event.outcome: success
+    request.appstream_userpool_stack_associated: true
+  condition: selection
+falsepositives:
+  - Approved stack assignment.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appstream-userpool-stack-assignment

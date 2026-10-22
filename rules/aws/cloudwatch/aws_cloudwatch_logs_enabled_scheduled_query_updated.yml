@@ -1,0 +1,28 @@
+title: CloudWatch Logs scheduled query updated to enabled S3 delivery
+id: 20800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateScheduledQuery left a recurring Logs Insights query
+  enabled with an S3 destination and separate execution and delivery roles.
+  This may repoint an existing query; compare its prior configuration and
+  approved destination. The event does not prove an execution or S3 delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-log-forwarding-persistence/README.md
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateScheduledQuery.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: UpdateScheduledQuery
+    event.outcome: success
+    request.logs_enabled_scheduled_query: true
+  condition: selection
+falsepositives:
+  - Approved schedule or destination maintenance.
+level: medium
+tags:
+  - attack.exfiltration
+  - attack.persistence
+x_hacktricks_technique_id: aws-cloudwatch-logs-enabled-scheduled-query-updated

@@ -1,0 +1,26 @@
+title: AWS WAF regex pattern set emptied
+id: 20400000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  An accepted UpdateRegexPatternSet removed every expression. This can
+  weaken a referenced Web ACL rule, but the event alone does not establish
+  an active reference or traffic impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-waf-post-exploitation/README.md#L97
+  - https://docs.aws.amazon.com/waf/latest/APIReference/API_UpdateRegexPatternSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: wafv2.amazonaws.com
+    event.name: UpdateRegexPatternSet
+    event.outcome: success
+    request.waf_regex_pattern_set_emptied: true
+  condition: selection
+falsepositives:
+  - Approved retirement of unused regex expressions.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-waf-regex-pattern-set-emptied

@@ -1,0 +1,26 @@
+title: AWS Organizations service control policies listed
+id: 20200000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A principal listed service control policies. This may precede targeting an
+  SCP attachment; CloudTrail omits the returned policies and the read is often
+  legitimate administration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-organizations-post-exploitation/README.md
+  - https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListPolicies.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: organizations.amazonaws.com
+    event.name: ListPolicies
+    event.outcome: success
+    request.organizations_scope_listed: true
+  condition: selection
+falsepositives:
+  - Approved SCP inventory and policy review.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-organizations-scps-listed

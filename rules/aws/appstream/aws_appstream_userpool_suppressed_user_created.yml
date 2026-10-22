@@ -1,0 +1,26 @@
+title: AppStream user pool identity created without welcome email
+id: 20100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An AppStream user pool identity was created with the welcome message
+  suppressed. The record is durable, but no usable password is proved by
+  this event alone; reconcile the redacted identity with approved users.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appstream-persistence/README.md#L14
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_CreateUser.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: CreateUser
+    event.outcome: success
+    request.appstream_userpool_suppressed_create: true
+  condition: selection
+falsepositives:
+  - Approved staged user onboarding.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appstream-userpool-suppressed-create

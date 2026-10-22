@@ -11,6 +11,26 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 406: integrar cinco parsers históricos y doce reglas AWS
+
+La [PR 193 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/193)
+integró los parsers AppStream User Pool, inventario Organizations, vaciado y
+etiquetas WAF y consultas programadas CloudWatch Logs en el `main` actual
+como `832eefe2075c01017ead2c5b8b05a44d75769b6c`. La reproducción de
+CloudTrail privado confirmó **3** hallazgos AppStream sobre 14 eventos,
+**4** señales nuevas Organizations sobre seis, **2** vaciados WAF sobre 14,
+**1** retirada de etiquetas WAF sobre 11, **1** consulta Logs habilitada
+sobre cuatro y **1** actualización habilitante Logs sobre seis. La consulta
+deshabilitada quedó negativa en ocho eventos. Pasaron once pruebas focalizadas
+en el árbol actualizado, incluyendo variantes con cuenta del actor incoherente;
+el paquete local con las doce reglas nuevas cargó correctamente. Las PR
+124–128 antiguas se cerraron y sus ramas remotas se borraron. La limpieza
+independiente de los recursos desechables consta en las entradas originales
+de los lotes 201, 204, 205 y 207–208; Organizations sólo hizo lecturas.
+Ningún evento de configuración demuestra una sesión AppStream, bloqueo
+efectivo WAF, ejecución programada o entrega S3. Eventos y recibos reales
+permanecen privados 0600.
+
 ## Lote 405: integrar correlación KMS grant y Decrypt
 
 La [regla KMS](rules/aws/kms/aws_kms_recent_grantee_decrypt.yml) se probó con

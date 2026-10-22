@@ -1,0 +1,26 @@
+title: AppStream user pool identity reenabled
+id: 20100000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An AppStream user pool identity was enabled. Existing stack assignments
+  may remain from before disablement, but this event does not prove an
+  assignment, password, or subsequent session.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-appstream-persistence/README.md#L73
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_EnableUser.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: EnableUser
+    event.outcome: success
+    request.appstream_userpool_user_enabled: true
+  condition: selection
+falsepositives:
+  - Approved restoration of user pool access.
+level: low
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-appstream-userpool-user-enabled

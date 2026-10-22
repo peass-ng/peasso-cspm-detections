@@ -1,0 +1,28 @@
+title: Enabled CloudWatch Logs scheduled query to S3
+id: 20700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted CreateScheduledQuery enabled a recurring Logs Insights query
+  with an S3 destination and separate execution and delivery roles. The
+  configuration can export future query results, but this event alone does
+  not prove a run, S3 write, external bucket, or data disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-log-forwarding-persistence/README.md
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateScheduledQuery.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: CreateScheduledQuery
+    event.outcome: success
+    request.logs_enabled_scheduled_query: true
+  condition: selection
+falsepositives:
+  - Approved recurring log analytics and S3 report delivery.
+level: medium
+tags:
+  - attack.exfiltration
+  - attack.persistence
+x_hacktricks_technique_id: aws-cloudwatch-logs-enabled-scheduled-query
