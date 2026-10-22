@@ -11,6 +11,28 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 395–396: debilitamiento de EMR Block Public Access
+
+En `us-east-2` se verificó primero que no había clústeres EMR activos y que
+el control regional exigía bloqueo público con la única excepción del puerto
+22. Se probaron dos cambios breves y se restauró y verificó el valor original
+después de **cada uno**: `BlockPublicSecurityGroupRules=false` y la excepción
+`0–65535` manteniendo el booleano en `true`. CloudTrail entregó los cuatro
+`PutBlockPublicAccessConfiguration` aceptados. Las
+[reglas BPA](rules/aws/emr/) produjeron **dos positivos reales, cero para las
+dos restauraciones y cero en catorce variantes negativas dirigidas**.
+Pasaron trece pruebas focalizadas junto a los parsers EMR previos y el parser
+se integró en la [PR 185 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/185)
+como `55c60a0a8ceda466097632b55400b57a530a9a7b`.
+
+La lectura independiente final confirmó la configuración restrictiva
+original y cero clústeres activos. El cambio de control no abrió grupos de
+seguridad ni creó exposición de red; las reglas no lo afirman. No se creó
+infraestructura y no hubo recursos que borrar. Eventos y recibos reales
+permanecen privados 0600.
+[HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L113),
+[EMR BPA AWS](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-block-public-access.html).
+
 ## Lote 394: lectura de configuración de seguridad EMR
 
 Se creó una configuración de seguridad EMR desechable sin clúster asociado.

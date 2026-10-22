@@ -1,0 +1,27 @@
+title: AWS EMR regional Block Public Access all-ports exception
+id: b3950000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  PutBlockPublicAccessConfiguration succeeded with the blocking boolean still
+  enabled but an exception spanning ports 0 through 65535. This makes the
+  protection ineffective across all port numbers. It does not itself open a
+  security group or prove that an EMR endpoint became public.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L113
+  - https://docs.aws.amazon.com/emr/latest/APIReference/API_PutBlockPublicAccessConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: PutBlockPublicAccessConfiguration
+    event.outcome: success
+    request.emr_bpa_all_ports_exception: true
+  condition: selection
+falsepositives:
+  - Approved temporary exception under a reviewed EMR network policy.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-emr-block-public-access-all-ports-exception

@@ -1,0 +1,27 @@
+title: AWS EMR regional Block Public Access disabled
+id: b3950000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutBlockPublicAccessConfiguration succeeded with
+  BlockPublicSecurityGroupRules set to false. This weakens a regional
+  preventive control. Actual public reachability also requires a public
+  subnet, routing, addressing, and permissive security-group ingress.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L113
+  - https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-block-public-access.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: PutBlockPublicAccessConfiguration
+    event.outcome: success
+    request.emr_bpa_disabled: true
+  condition: selection
+falsepositives:
+  - Approved temporary change during a reviewed EMR maintenance window.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-emr-block-public-access-disabled
