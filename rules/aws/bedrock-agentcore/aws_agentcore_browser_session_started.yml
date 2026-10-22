@@ -1,0 +1,28 @@
+title: AgentCore Browser session started
+id: 24500000-0000-4000-8000-000000000003
+status: experimental
+description: A session was started on a custom AgentCore Browser. Compare the caller
+  with the Browser execution role and approved automation. This event does not show
+  what pages were visited; CloudTrail data logging must be enabled.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: StartBrowserSession
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::BrowserCustom
+  condition: selection
+falsepositives:
+- Approved AgentCore Browser session.
+level: low
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-agentcore-browser-session-started
+x_cloudtrail_raw: true

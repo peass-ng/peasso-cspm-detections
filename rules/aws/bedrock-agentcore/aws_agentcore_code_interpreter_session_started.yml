@@ -1,0 +1,28 @@
+title: AgentCore Code Interpreter session started
+id: 24500000-0000-4000-8000-000000000001
+status: experimental
+description: A session was started on a custom AgentCore Code Interpreter. Compare
+  the caller with the interpreter's execution role and approved users. This data
+  event does not show that code was submitted; CloudTrail data logging must be enabled.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-privesc/README.md
+- https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: StartCodeInterpreterSession
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::CodeInterpreterCustom
+  condition: selection
+falsepositives:
+- Approved AgentCore Code Interpreter session.
+level: low
+tags:
+- attack.execution
+x_hacktricks_technique_id: aws-agentcore-code-interpreter-session-started
+x_cloudtrail_raw: true

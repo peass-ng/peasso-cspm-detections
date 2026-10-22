@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **82**. Total headings: **372**.
+Pages with at least three level-three headings and no direct YAML reference: **81**. Total headings: **369**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -591,12 +591,6 @@ Pages with at least three level-three headings and no direct YAML reference: **8
 - Sending paths & telemetry gaps
 - \`workmailmessageflow:GetRawMessageContent\` / \`PutRawMessageContent\` — steal or rewrite in-transit email
 - Abusing WorkMail to bypass SES sandbox
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-privesc/README.md) (3 headings)
-
-- \`bedrock-agentcore:StartCodeInterpreterSession\` + \`bedrock-agentcore:InvokeCodeInterpreter\` - Code Interpreter Execution-Role Pivot
-- \`bedrock-agentcore:CreateAgentRuntime\` (+ \`CreateAgentRuntimeEndpoint\`, \`iam:PassRole\`) - Agent Runtime Execution-Role Pivot
-- \`lambda:UpdateFunctionCode\`, \`bedrock:InvokeAgent\` - Agent Tool Hijacking via Lambda
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codestar-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codestar-privesc/README.md) (3 headings)
 

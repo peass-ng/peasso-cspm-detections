@@ -1,0 +1,29 @@
+title: AgentCore Code Interpreter invoked
+id: 24500000-0000-4000-8000-000000000002
+status: experimental
+description: A caller invoked a custom AgentCore Code Interpreter. Review the caller,
+  session and execution role; the CloudTrail data event omits the submitted code and
+  does not by itself prove access to any AWS resource. Data logging must be enabled.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: InvokeCodeInterpreter
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::CodeInterpreterCustom
+  condition: selection
+falsepositives:
+- Approved agent code execution in a custom interpreter.
+level: medium
+tags:
+- attack.execution
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-code-interpreter-invoked
+x_cloudtrail_raw: true
