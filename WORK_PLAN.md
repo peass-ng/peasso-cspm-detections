@@ -11,6 +11,23 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 404: integrar entitlements y acceso del agente AppStream
+
+Se retomaron eventos de pilas desechables de los lotes 193, 197 y 199.
+Las [cinco reglas de entitlements y agente](rules/aws/appstream/) produjeron
+**seis hallazgos reales**: concesiones `ALL`, entrada de control remoto,
+reenvío de herramientas y desactivación de observación. Los eventos fallidos
+y las limpiezas quedaron negativos. El parser se reforzó con coherencia de
+cuenta, pasó nueve pruebas focalizadas junto al parser de transferencias y
+se integró en la [PR 191 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/191)
+como `eb033d5861a8784a64bce8a07800a701b6073a53`. La PR 121 antigua se
+cerró y su rama remota se eliminó. La regla antigua de canal de transferencia
+no se duplicó: la cubren con mayor precisión las dos reglas del lote 401.
+Las pilas y entitlements propios ya estaban borrados y verificados ausentes;
+no se crearon recursos nuevos. No se ejecutó una sesión de agente ni se
+transfirieron datos. Recibos y eventos reales permanecen privados 0600.
+[HackTricks AppStream PrivEsc](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md).
+
 ## Lote 403: integrar concesiones y endpoint EKS pendientes
 
 Se retomaron ocho eventos CloudTrail del clúster EKS desechable del lote 192:

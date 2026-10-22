@@ -1,0 +1,24 @@
+title: AppStream entitlement expanded to all applications
+id: 19300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted UpdateEntitlement call set AppVisibility ALL for a SAML entitlement. Review the previous entitlement and attribute target to determine whether an existing grant was broadened; the event alone does not prove a prior restricted state or application use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_UpdateEntitlement.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: UpdateEntitlement
+    event.outcome: success
+    request.appstream_entitlement_all_apps: true
+  condition: selection
+falsepositives:
+  - Approved SAML application catalog changes.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-entitlement-all-apps-updated

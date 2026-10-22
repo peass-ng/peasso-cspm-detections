@@ -1,0 +1,24 @@
+title: AppStream agent computer input enabled
+id: 19700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateStack call enabled COMPUTER_INPUT for AppStream agent access. This permits agent keyboard and pointer control when a compatible fleet and separate agent session are present; the event alone does not prove a connection, screen capture, user-control mode, or machine-role access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_UpdateStack.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: UpdateStack
+    event.outcome: success
+    request.appstream_agent_input_enabled: true
+  condition: selection
+falsepositives:
+  - Approved agent access enablement.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-agent-input-enabled

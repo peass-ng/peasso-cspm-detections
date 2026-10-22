@@ -1,0 +1,24 @@
+title: AppStream agent MCP tool forwarding enabled
+id: 19900000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateStack call enabled FORWARD_MCP_TOOLS for agent sessions. This permits use of tools already configured in a compatible fleet image; the event does not prove a session, tool invocation or new tool installation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_UpdateStack.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: UpdateStack
+    event.outcome: success
+    request.appstream_agent_tools_forwarded: true
+  condition: selection
+falsepositives:
+  - Approved agent tool forwarding.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-agent-tools-forwarded

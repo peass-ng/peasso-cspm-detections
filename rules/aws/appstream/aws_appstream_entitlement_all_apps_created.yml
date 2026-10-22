@@ -1,0 +1,24 @@
+title: AppStream entitlement created for all applications
+id: 19300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted CreateEntitlement call created a SAML entitlement with AppVisibility ALL and a supported principal-tag attribute. This grants matching federated identities every application available through the stack, but the event alone does not prove a matching SAML login or application use.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_CreateEntitlement.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: CreateEntitlement
+    event.outcome: success
+    request.appstream_entitlement_all_apps: true
+  condition: selection
+falsepositives:
+  - Approved SAML application catalog grants.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-entitlement-all-apps-created
