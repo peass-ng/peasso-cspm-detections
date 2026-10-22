@@ -1,5 +1,46 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 342–344: asociación de rol y credenciales de entorno DataZone
+
+El blueprint administrado `CustomAwsService` permitió crear un entorno
+temporal dentro de un proyecto propio. Su estado inicial fue `DISABLED`;
+`AssociateEnvironmentRole` con un rol IAM propio lo dejó `ACTIVE` y
+`GetEnvironment` mostró el vínculo. En el lote 343,
+`GetEnvironmentCredentials` devolvió `AccessDeniedException` con una política
+de confianza más restringida: la asociación sola no probó venta de
+credenciales. El lote 344 usó la confianza de servicio documentada por AWS y
+esperó tras la asociación; `GetEnvironmentCredentials` tuvo éxito y
+`sts:GetCallerIdentity` con las claves **sólo en memoria** confirmó el rol
+temporal exacto. Ese rol no tenía políticas de acceso a datos. No se guardaron
+ni imprimieron claves, tokens o la respuesta sensible; el recibo privado se
+revisó para excluir sus campos y formatos.
+
+CloudTrail registró la asociación como escritura aceptada y la solicitud de
+credenciales como lectura aceptada bajo `AWS::DataZone::Domain`; el ARN de rol
+en la primera solicitud llegó codificado como URL y la respuesta de
+credenciales fue omitida. Las [dos reglas nuevas](rules/aws/datazone/) dieron
+**2 positivos reales y cero en 12 variantes negativas**. También rechazaron
+el intento denegado del 343 y la desasociación. La regla de asociación no
+afirma emisión de claves sin el segundo evento; la regla de emisión necesita
+relacionarse con membresía, rol y actividad de su sesión para determinar
+escalada o uso indebido. Queda pendiente repetir con un miembro
+`PROJECT_CATALOG_VIEWER` de permisos IAM mínimos para validar ese límite de
+autorización concreto.
+
+Los dominios, entornos y roles de los tres intentos se eliminaron; lecturas
+independientes confirmaron ausencia de dominios, roles y stacks activos
+propios. Recibos privados 0600: `/tmp/peasso-b342-private.json`,
+`/tmp/peasso-b342-cleanup-verified-private.json`,
+`/tmp/peasso-b343-private.json`,
+`/tmp/peasso-b343-cloudtrail-private.json`,
+`/tmp/peasso-b343-cleanup-verified-private.json`,
+`/tmp/peasso-b344-private.json`,
+`/tmp/peasso-b344-cloudtrail-private.json`,
+`/tmp/peasso-b344-validation-private.json` y
+`/tmp/peasso-b344-cleanup-verified-private.json`.
+[HackTricks DataZone privesc](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L15);
+[AWS GetEnvironmentCredentials](https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetEnvironmentCredentials.html).
+
 ## Lote 341: roles de blueprint administrado DataZone
 
 Al listar con `managed=true` aparecieron cuatro blueprints en un dominio nuevo;

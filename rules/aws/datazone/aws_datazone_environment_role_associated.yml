@@ -1,0 +1,31 @@
+title: Amazon DataZone environment role associated
+id: b3440000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  AssociateEnvironmentRole succeeded. Review the URL-encoded role ARN in the
+  request, its IAM trust and project membership: authorized members may be
+  able to request temporary credentials for this role. Association alone does
+  not prove credential issuance or use of the role's permissions.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L61
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_AssociateEnvironmentRole.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: AssociateEnvironmentRole
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved custom service environment role association.
+level: medium
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-datazone-environment-role-associated
+x_cloudtrail_raw: true
