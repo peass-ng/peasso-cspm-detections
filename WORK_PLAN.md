@@ -11,6 +11,24 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 403: integrar concesiones y endpoint EKS pendientes
+
+Se retomaron ocho eventos CloudTrail del clúster EKS desechable del lote 192:
+siete cambios de accesos, Pod Identity y endpoint público produjeron **siete
+hallazgos en seis reglas**; la reversión del endpoint quedó negativa. El
+parser pasó cuatro pruebas focalizadas y se integró en la
+[PR 190 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/190)
+como `3a0c2ab0494cf2b14e589d255da40db62ba6b7cc`. La PR 119 antigua se
+cerró y su rama remota se eliminó. Las
+[cinco reglas nuevas EKS](rules/aws/eks/) se sumaron a la regla existente de
+`CreateAccessEntry`; no se sustituyó ni duplicó esa regla. Están ligadas a
+acciones concretas y objetivos hash. La limpieza independiente previa
+confirmó ausencia de clúster,
+VPC, subredes, roles y asociaciones propios. No se crearon recursos nuevos.
+Las señales de acceso no prueban permisos efectivos de Kubernetes o lectura
+de credenciales de pods. Eventos y recibos reales permanecen privados 0600.
+[HackTricks EKS](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md).
+
 ## Lote 402: integrar inventario ECR Pull Through Cache pendiente
 
 Se retomó el evento real `DescribePullThroughCacheRules` del lote 185. La
@@ -1881,6 +1899,9 @@ En una pila AppStream propia de nombre aleatorio, sin flota ni sesiones, se acep
 ## Lote 192: concesiones EKS, Pod Identity y endpoint público
 
 Se creó un clúster EKS desechable en VPC y dos subredes propias, sin nodos ni Internet Gateway, con endpoint público inicialmente desactivado. Dos roles propios sin políticas IAM permitieron probar siete escrituras aceptadas en seis rutas de [HackTricks EKS](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md): dos `CreateAccessEntry` (uno con grupo), `AssociateAccessPolicy` con `AmazonEKSClusterAdminPolicy` a nivel de clúster, `UpdateAccessEntry` con grupo, `CreatePodIdentityAssociation`, `UpdatePodIdentityAssociation` con otro rol y `disableSessionTags=true`, y `UpdateClusterConfig` para habilitar el CIDR público mundial. CloudTrail entregó las siete llamadas como gestión aceptada, escritura y sin recursos tipados; una octava llamada aceptada revirtió el endpoint a privado y quedó negativa. Se verificaron por lectura la política, el grupo, el intercambio de rol y la configuración `disableSessionTags=true`. No había pods ni enlaces RBAC al grupo sintético, por lo que el ensayo no demuestra acceso a datos o credenciales de workloads. La [PR 119 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/119) incorpora el parser para las seis señales precisas, descodifica el `principalArn` que EKS codifica en URL, evita los eventos internos de arranque y emite objetivos hash. Los siete eventos reales dieron siete coincidencias con seis borradores de reglas, y 14 pruebas dirigidas pasaron. Los YAML están aislados en `/tmp/peasso-b192-eks-rule-draft` hasta que se integre el parser, para no publicar reglas inertes. El `AssociateAccessPolicy` fallido del lote 191 apareció después de cerrar ese lote y quedó negativo. Se desasoció la política, se eliminaron ambas entradas y la asociación Pod Identity, se completó la reversión del endpoint y CloudFormation borró clúster, VPC, subredes y rol de clúster. Los dos roles de prueba también se borraron. Comprobaciones independientes confirmaron la ausencia de todos esos recursos; los recibos con eventos e IDs permanecen privados 0600 en `/tmp/peasso-b192-eks-private.json` y `/tmp/peasso-b192-eks-cloudtrail-private.json`. No se tocó ningún clúster ajeno.
+
+Actualización: las seis reglas y el parser se integraron en el lote 403;
+la PR 119 y su rama remota se retiraron.
 
 ## Lote 191: emisión de URL de sesión AppStream
 

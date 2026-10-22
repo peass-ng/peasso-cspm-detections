@@ -1,0 +1,24 @@
+title: EKS cluster administrator policy associated
+id: 19200000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted AssociateAccessPolicy call granted AmazonEKSClusterAdminPolicy at cluster scope to an access entry. Review the principal and whether the grant was approved.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md
+  - https://docs.aws.amazon.com/eks/latest/APIReference/API_AssociateAccessPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: AssociateAccessPolicy
+    event.outcome: success
+    request.eks_cluster_admin_policy_granted: true
+  condition: selection
+falsepositives:
+  - Approved platform administrator onboarding.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-eks-cluster-admin-policy-associated
