@@ -1,0 +1,27 @@
+title: AgentCore Gateway configuration updated
+id: 23800000-0000-4000-8000-000000000002
+status: experimental
+description: A Gateway configuration update submitted a role ARN. Compare the current
+  role and authorizer with the previous approved state; the API requires roleArn even
+  when it is unchanged, so the event alone does not prove a role swap.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: UpdateGateway
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::Gateway
+  condition: selection
+falsepositives:
+- Approved AgentCore sandbox or Gateway deployment.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-agentcore-gateway-configuration-updated
+x_cloudtrail_raw: true

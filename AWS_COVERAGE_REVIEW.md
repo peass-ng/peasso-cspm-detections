@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **85**. Total headings: **384**.
+Pages with at least three level-three headings and no direct YAML reference: **84**. Total headings: **378**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -177,15 +177,6 @@ Pages with at least three level-three headings and no direct YAML reference: **8
 - \`ec2:AssociateClientVpnTargetNetwork\` + \`ec2:CreateClientVpnRoute\` — attach Client VPN to a VPC and extend reachable networks
 - \`ec2:ApplySecurityGroupsToClientVpnTargetNetwork\` — rebind Client VPN to a trusted security group
 - \`ec2:ModifyClientVpnEndpoint\` — hijack client DNS/routing and suppress connection logs
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md) (6 headings)
-
-- Enumeration
-- \`bedrock-agentcore:CreateHarness\`, \`iam:PassRole\`, \`InvokeAgentRuntimeCommand\` — root shell as a role
-- \`bedrock-agentcore:CreateAgentRuntime\` (+ \`CreateAgentRuntimeEndpoint\`), \`iam:PassRole\` — run an attacker container as a role
-- \`bedrock-agentcore:CreateCodeInterpreter\` / \`CreateBrowser\`, \`iam:PassRole\` — code-execution sandbox as a role
-- \`bedrock-agentcore:UpdateAgentRuntime\` / \`UpdateGateway\`, \`iam:PassRole\` — repoint an existing resource's role
-- AWS - AgentCore Harness RCE via Indirect Prompt Injection
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md) (6 headings)
 
