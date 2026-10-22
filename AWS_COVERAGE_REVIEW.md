@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **72**. Total headings: **327**.
+Pages with at least three level-three headings and no direct YAML reference: **71**. Total headings: **322**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -223,14 +223,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - \`macie2:PutClassificationExportConfiguration\` — redirect the sensitive-data discovery map to an attacker bucket
 - \`macie2:CreateFindingsFilter\` (SUPPRESS) / \`UpdateMacieSession\` / \`UpdateClassificationJob\` — blind the detection
 - Amazon Macie - Bypass \`Reveal Sample\` Integrity Check
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md) (5 headings)
-
-- Attachment update permissions - Change connected subnets and forwarding behavior
-- \`networkmanager:PutAttachmentRoutingPolicyLabel\` - Apply or remove route filters
-- \`networkmanager:TagResource\` / \`UntagResource\` - Move an attachment through tag-based policy
-- \`networkmanager:AcceptAttachment\` / \`RejectAttachment\` - Admit a foreign network or deny a legitimate one
-- \`networkmanager:PutCoreNetworkPolicy\` + \`networkmanager:ExecuteCoreNetworkChangeSet\` - Rewrite global segmentation and routing
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-redshift-post-exploitation/README.md) (5 headings)
 

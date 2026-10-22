@@ -1,0 +1,29 @@
+title: AWS Cloud WAN core network policy read
+id: 28000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetCoreNetworkPolicy retrieved a core policy version for inspection. Review
+  the actor and version in context; this management event does not contain
+  the complete policy body returned to the caller.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L170
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_GetCoreNetworkPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: GetCoreNetworkPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved network policy inspection.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-networkmanager-core-policy-read
+x_cloudtrail_raw: true

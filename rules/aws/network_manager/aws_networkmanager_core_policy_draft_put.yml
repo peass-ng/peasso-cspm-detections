@@ -1,0 +1,30 @@
+title: AWS Cloud WAN core network policy version submitted
+id: 28000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutCoreNetworkPolicy submitted a new immutable core network policy version.
+  Compare segmentation, routing and edge locations with the approved policy.
+  This call creates a draft and does not prove that it became LIVE; execution
+  requires a separate ExecuteCoreNetworkChangeSet event.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L166
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_PutCoreNetworkPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: PutCoreNetworkPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved Cloud WAN policy planning or deployment.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-networkmanager-core-policy-draft-put
+x_cloudtrail_raw: true
