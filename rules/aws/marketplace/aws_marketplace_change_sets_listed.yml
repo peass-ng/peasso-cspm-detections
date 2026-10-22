@@ -1,0 +1,27 @@
+title: Marketplace catalog change sets listed
+id: 19800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted ListChangeSets call enumerated seller catalog changes. The event does not show returned change sets or prove an unauthorized change was made.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-marketplace-enum.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-catalog-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: marketplacecatalog.amazonaws.com
+    event.name: ListChangeSets
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved seller catalog maintenance.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-change-sets-listed
+x_cloudtrail_raw: true

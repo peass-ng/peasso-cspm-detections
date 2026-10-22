@@ -1,0 +1,27 @@
+title: Marketplace customer registration token redeemed
+id: 19800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted ResolveCustomer call redeemed a single-use SaaS registration token for customer and product identifiers. CloudTrail does not show whether the returned identifiers were subsequently used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-marketplace-enum.md
+  - https://docs.aws.amazon.com/marketplace/latest/APIReference/API_marketplace-metering_ResolveCustomer.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: metering-marketplace.amazonaws.com
+    event.name: ResolveCustomer
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Legitimate seller onboarding redemption.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-marketplace-customer-token-resolved
+x_cloudtrail_raw: true

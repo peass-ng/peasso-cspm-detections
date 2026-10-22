@@ -1,0 +1,27 @@
+title: Marketplace seller entitlements queried
+id: 19800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted GetEntitlements call queried the customers and capacity for a seller product code. The event does not prove any entitlements were returned; CloudTrail omits returned customer details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md
+  - https://docs.aws.amazon.com/marketplace/latest/APIReference/API_marketplace-entitlements_GetEntitlements.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: entitlement-marketplace.amazonaws.com
+    event.name: GetEntitlements
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved seller entitlement checks.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-seller-entitlements-read
+x_cloudtrail_raw: true
