@@ -1,0 +1,31 @@
+title: CloudWatch Logs subscription filter configured
+id: 20600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted PutSubscriptionFilter configured forwarding from a log group
+  to a destination. Future matching events can be delivered there when the
+  destination authorizes CloudWatch Logs. Review the destination and actor;
+  this event alone does not prove external access or past-log disclosure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-cloudwatch-log-forwarding-persistence/README.md
+  - https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutSubscriptionFilter.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: PutSubscriptionFilter
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Logs::LogGroup
+  condition: selection
+falsepositives:
+  - Approved log forwarding to an inventoried destination.
+level: medium
+tags:
+  - attack.exfiltration
+  - attack.persistence
+x_hacktricks_technique_id: aws-cloudwatch-logs-subscription-filter-configured
+x_cloudtrail_raw: true
