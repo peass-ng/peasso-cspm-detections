@@ -1,0 +1,27 @@
+title: WorkSpaces Web inline redaction configured without patterns
+id: 23100000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful data protection settings update submitted and returned an empty
+  inline redaction pattern list. This confirms the current setting on that
+  object, but does not prove a previous pattern existed or that a portal uses
+  the object. Compare prior state and portal associations before assessing
+  exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: UpdateDataProtectionSettings
+    event.outcome: success
+    request.workspaces_web_redaction_patterns_empty: true
+  condition: selection
+falsepositives:
+  - Approved data protection settings without inline redaction.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-workspaces-web-inline-redaction-empty

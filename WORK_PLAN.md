@@ -11,6 +11,26 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 407: integrar App Runner y WorkSpaces Web pendientes
+
+Cinco [reglas App Runner](rules/aws/apprunner/) y
+[WorkSpaces Web](rules/aws/workspaces-web/) se validaron con eventos privados
+de laboratorios desechables anteriores. La creación y actualización de
+App Runner dieron **dos hallazgos en tres eventos**; el cambio de tag ECR
+ligado a un servicio con despliegue automático observado dio **uno en siete**;
+los cambios de redacción y transferencia de WorkSpaces Web dieron **dos en
+cuatro**. Diez pruebas focalizadas pasaron, incluyendo cuenta del actor
+incoherente y la forma real `invokedBy` de `PutImage`. El objetivo de la regla
+ECR preexistente ahora es un hash y no revela repositorio ni etiqueta. Los
+parsers se fusionaron en la [PR 194 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/194)
+como `0a453d77ab629c18529e31a030cc2a78d293436a`; las PR antiguas 131
+y 138 se cerraron con sus ramas remotas eliminadas. Los recursos temporales
+ya tenían verificaciones independientes de ausencia en los lotes 210, 211 y
+231. El hallazgo ECR necesita ver la configuración del servicio en la misma
+ventana; no demuestra por sí mismo ejecución de código. WorkSpaces Web
+confirma ajustes de objetos sin probar una sesión de usuario. Eventos y
+recibos con identificadores reales siguen privados 0600.
+
 ## Lote 406: integrar cinco parsers históricos y doce reglas AWS
 
 La [PR 193 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/193)

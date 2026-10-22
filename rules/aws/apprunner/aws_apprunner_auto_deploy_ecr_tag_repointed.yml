@@ -1,0 +1,29 @@
+title: ECR tag repointed while an App Runner service auto deploys it
+id: 21100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  Two accepted PutImage events assigned different digests to a private ECR
+  tag, and a matching App Runner service was observed configured for automatic
+  deployments. This can replace service code under its runtime identity.
+  Confirm the deployment and compare the publisher and approved release;
+  the correlated CloudTrail events alone do not prove code execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apprunner-privesc/README.md
+  - https://docs.aws.amazon.com/apprunner/latest/dg/manage-deploy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ecr.amazonaws.com
+    event.name: PutImage
+    event.outcome: success
+    request.apprunner_auto_deploy_tag_repointed: true
+  condition: selection
+falsepositives:
+  - Approved image release or rollback for an App Runner service.
+level: high
+tags:
+  - attack.execution
+  - attack.persistence
+x_hacktricks_technique_id: aws-apprunner-auto-deploy-ecr-tag-repointed

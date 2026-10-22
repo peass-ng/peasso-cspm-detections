@@ -1,0 +1,27 @@
+title: App Runner runtime configuration submitted in service update
+id: 21000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted UpdateService submitted runtime variables, secret references,
+  or a start command. Such changes can alter code execution under the
+  service's instance role. Compare the previous configuration before
+  treating this as a malicious change; the event may be a no-op submission.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apprunner-privesc/README.md
+  - https://docs.aws.amazon.com/apprunner/latest/api/API_UpdateService.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apprunner.amazonaws.com
+    event.name: UpdateService
+    event.outcome: success
+    request.apprunner_runtime_configuration_updated: true
+  condition: selection
+falsepositives:
+  - Approved application configuration or deployment maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-apprunner-runtime-configuration-updated

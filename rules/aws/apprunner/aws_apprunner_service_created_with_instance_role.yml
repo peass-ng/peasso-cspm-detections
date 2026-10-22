@@ -1,0 +1,27 @@
+title: App Runner service created with a passed instance role
+id: 21000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted CreateService configured an App Runner instance role. Code in
+  that service can run with the role's permissions. Review the role, source
+  image or repository, and approval for the service. The event confirms the
+  configuration, not credential retrieval or privilege escalation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-apprunner-privesc/README.md
+  - https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: apprunner.amazonaws.com
+    event.name: CreateService
+    event.outcome: success
+    request.apprunner_service_created_with_instance_role: true
+  condition: selection
+falsepositives:
+  - Approved App Runner deployment with an intended instance role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-apprunner-service-created-with-instance-role

@@ -1,0 +1,27 @@
+title: WorkSpaces Web transfer channel enabled
+id: 23100000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful user settings update submitted and returned Enabled for at least
+  one of clipboard copy, paste, download, upload, or printing. The event proves
+  that the setting is enabled on the object, but not that it changed from
+  Disabled or that a portal uses the object. Inspect portal associations and
+  compare the previous configuration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-web-post-exploitation/README.md
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: workspaces-web.amazonaws.com
+    event.name: UpdateUserSettings
+    event.outcome: success
+    request.workspaces_web_transfer_enabled: true
+  condition: selection
+falsepositives:
+  - Approved portal transfer setting.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-workspaces-web-transfer-channel-enabled
