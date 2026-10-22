@@ -1,0 +1,30 @@
+title: Launch Wizard deployment history read
+id: 18800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted ListDeploymentEvents request read the provisioning history of
+  a named Launch Wizard deployment. The API can disclose stage and failure
+  details; CloudTrail omits the returned events.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-launch-wizard-post-exploitation/README.md#L29
+  - https://docs.aws.amazon.com/launchwizard/latest/userguide/logging-using-cloudtrail.html
+  - https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListDeploymentEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: launchwizard.amazonaws.com
+    event.name: ListDeploymentEvents
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved provisioning diagnostics.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-launch-wizard-deployment-events-read
+x_cloudtrail_raw: true

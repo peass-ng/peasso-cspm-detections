@@ -1,0 +1,31 @@
+title: Launch Wizard deployment specifications read
+id: 18800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted GetDeployment request read a named Launch Wizard deployment.
+  The API can return workload specifications and infrastructure placement,
+  but CloudTrail omits the response, so the event does not show which fields
+  the caller received.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-launch-wizard-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/launchwizard/latest/userguide/logging-using-cloudtrail.html
+  - https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetDeployment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: launchwizard.amazonaws.com
+    event.name: GetDeployment
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved platform deployment inspection.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-launch-wizard-deployment-read
+x_cloudtrail_raw: true
