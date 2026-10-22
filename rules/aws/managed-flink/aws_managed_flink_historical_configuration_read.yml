@@ -1,0 +1,29 @@
+title: Managed Flink historical application configuration read
+id: 31200000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  DescribeApplicationVersion succeeded. A retained version can disclose
+  previous runtime property values, including values removed or rotated from
+  the current application. CloudTrail does not include the returned values.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_DescribeApplicationVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: DescribeApplicationVersion
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved audit or deployment rollback review.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-managed-flink-historical-configuration-read
+x_cloudtrail_raw: true

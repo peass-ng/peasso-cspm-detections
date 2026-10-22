@@ -1,0 +1,29 @@
+title: Managed Flink logging destination added
+id: 31200000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  AddApplicationCloudWatchLoggingOption succeeded. Review the caller and
+  destination stream for log redirection. A stopped application emits no
+  runtime logs, so this event does not prove delivery to the destination.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md#L116
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_AddApplicationCloudWatchLoggingOption.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: AddApplicationCloudWatchLoggingOption
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application logging setup or maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-managed-flink-logging-destination-added
+x_cloudtrail_raw: true

@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **63**. Total headings: **277**.
+Pages with at least three level-three headings and no direct YAML reference: **62**. Total headings: **273**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -268,13 +268,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - Manipulate consortium governance
 - Disable Hyperledger Fabric operational logs
 - Destroy owned members, nodes or invitations
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md) (4 headings)
-
-- Read current and historical runtime secrets
-- Studio notebooks and presigned extension URLs
-- Retrieve and inspect application code and dependencies
-- Redirect or suppress future application logs
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediaconnect-post-exploitation/README.md) (4 headings)
 

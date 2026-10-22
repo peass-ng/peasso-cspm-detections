@@ -1,0 +1,29 @@
+title: Managed Flink application configuration read
+id: 31200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  DescribeApplication succeeded. The caller can inspect current runtime property
+  values, execution role and application configuration; the CloudTrail record
+  identifies the requested application but does not contain returned secrets.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_DescribeApplication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: DescribeApplication
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application administration, monitoring or deployment.
+level: low
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-managed-flink-application-configuration-read
+x_cloudtrail_raw: true

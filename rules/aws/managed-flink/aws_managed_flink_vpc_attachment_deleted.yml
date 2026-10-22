@@ -1,0 +1,29 @@
+title: Managed Flink VPC attachment deleted
+id: 31400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  DeleteApplicationVpcConfiguration succeeded. Removing a VPC configuration
+  can sever private connectivity or cover an earlier temporary attachment;
+  investigate the previous configuration and application state.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md#L178
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_DeleteApplicationVpcConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: DeleteApplicationVpcConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved removal of an obsolete application network configuration.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-managed-flink-vpc-attachment-deleted
+x_cloudtrail_raw: true
