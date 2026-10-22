@@ -1,0 +1,26 @@
+title: AWS Migration Hub Strategy inventory sweep by one principal
+id: b3850000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  One principal successfully called five Migration Hub Strategy inventory APIs
+  in the same account and Region within fifteen minutes. This is a discovery
+  signal, not proof that responses held credentials, reports, or resources.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md#L76
+  - https://docs.aws.amazon.com/migrationhub-strategy/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: migrationhub-strategy.amazonaws.com
+    event.name: MigrationStrategyInventorySweep
+    event.outcome: success
+    request.migration_strategy_inventory_sweep: true
+  condition: selection
+falsepositives:
+  - Approved migration inventory or assessment review.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-migrationhubstrategy-inventory-sweep

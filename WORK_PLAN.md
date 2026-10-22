@@ -3,12 +3,35 @@
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-anteriores contiene **48 páginas y 212 encabezados** sin referencia YAML
-directa en el corte `47c375ae`. Dos páginas salieron de la cola porque ya
-tenían referencias exactas: EBS Multi-Attach y persistencia Redshift.
+anteriores contiene **47 páginas y 206 encabezados** sin referencia YAML
+directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift y
+Migration Hub Strategy salieron de la cola al recibir referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
+
+## Lote 384–385: barrido de inventario Migration Hub Strategy
+
+Cinco llamadas autorizadas y de solo consulta a `ListCollectors`,
+`ListServers`, `ListApplicationComponents`, `ListImportFileTask` y
+`GetPortfolioPreferences` tuvieron éxito en `us-east-1`. CloudTrail entregó
+los cinco eventos con el mismo principal, cuenta y región dentro de quince
+minutos. AWS registró `readOnly=false` para `ListServers` y
+`ListApplicationComponents`, aunque ambas llamadas fueran consultas; el
+correlador comprueba ese valor observado por operación. La
+[regla de barrido](rules/aws/migrationhubstrategy/aws_migrationhubstrategy_inventory_sweep.yml)
+produjo **un positivo real y cero en nueve variantes negativas dirigidas**.
+Las reglas individuales de estas lecturas ya existían desde el lote 356.
+El correlador pasó ocho pruebas focalizadas y se integró en la
+[PR 179 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/179)
+como `a4ed07c02dea5410cb8977479fe439218fa02969`.
+La señal representa enumeración conjunta, no demuestra que las respuestas
+contuvieran recursos, credenciales ni informes. No se creó ni modificó
+infraestructura; no hubo recursos que borrar. Los eventos y recibos reales
+quedan privados 0600. Siguen pendientes por separado las rutas de credenciales
+del colector, descargas S3, importación duradera y cambios de preferencias.
+[Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md#L76),
+[eventos CloudTrail de AWS](https://docs.aws.amazon.com/migrationhub-strategy/latest/userguide/logging-using-cloudtrail.html).
 
 ## Lote 382–383: configuración de ciclo de vida en espacio SageMaker
 
