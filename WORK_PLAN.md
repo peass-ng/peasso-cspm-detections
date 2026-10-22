@@ -87,6 +87,34 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Páginas retiradas
 
+## Lotes 363–364: creación de acción IAM mediante AWS Budgets
+
+Un laboratorio propio creó un presupuesto de umbral alto, un tema SNS sin
+suscriptores, un rol de ejecución limitado, un rol objetivo sin uso y una
+política propia de lectura. El primer `CreateBudgetAction` fue denegado
+mientras se propagaba el rol recién creado; una repetición tras esperar fue
+aceptada con `ActionType=APPLY_IAM_POLICY` y aprobación `MANUAL`.
+`DescribeBudgetAction` confirmó la configuración. `ExecuteBudgetAction`
+devolvió `ResourceLockedException` antes de alcanzar el umbral; la política
+**no se adjuntó** y no se reclama una escalada efectiva. Se borraron los
+cinco recursos y una lectura independiente confirmó sus cinco ausencias.
+Ningún SNS tuvo suscriptores.
+
+CloudTrail entregó los seis eventos de Budgets, incluida la creación
+aceptada y la ejecución rechazada. El parser de la
+[PR 166 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/166)
+reconoce sólo la creación aceptada de una acción IAM con cuenta, presupuesto,
+rol de ejecución y respuesta concordantes. La regla aislada produjo **1
+positivo real y cero en 13 variantes negativas**; pasaron 14 pruebas
+locales. Omitimos de la señal política, roles, presupuesto, suscriptores y
+acción en claro. La YAML espera la integración del parser antes de publicarse.
+Recibos privados 0600: `/tmp/peasso-b363-private.json`,
+`/tmp/peasso-b363-cloudtrail-private.json`,
+`/tmp/peasso-b363-validation-private.json` y
+`/tmp/peasso-b363-cleanup-verified-private.json`.
+[Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24),
+[API AWS](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudgetAction.html).
+
 ## Lote 362: correlación de EBS Multi-Attach en integración
 
 La [PR 165 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/165)
