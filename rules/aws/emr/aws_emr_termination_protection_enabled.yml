@@ -1,0 +1,27 @@
+title: AWS EMR cluster termination protection enabled
+id: b3980000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  SetTerminationProtection accepted terminationProtected=true for one or more
+  clusters. This can delay an administrator's manual shutdown of an existing
+  workload. It does not guarantee cluster persistence against all termination
+  paths or prove that any workload is malicious.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: SetTerminationProtection
+    event.outcome: success
+    request.emr_termination_protection_enabled: true
+  condition: selection
+falsepositives:
+  - Approved protection of a long-running production cluster.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-emr-termination-protection-enabled

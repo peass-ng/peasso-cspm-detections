@@ -11,6 +11,30 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lotes 398–400: controles de permanencia y terminación EMR
+
+Un clúster desechable propio con política de inactividad de diez minutos
+permitió probar `SetTerminationProtection(true)`,
+`RemoveAutoTerminationPolicy` y `SetTerminationProtection(false)` antes de
+terminarlo. CloudTrail entregó los tres eventos aceptados: las
+[tres reglas de ciclo de vida](rules/aws/emr/) dieron **tres positivos reales
+y cero en 21 variantes negativas dirigidas**. Pasaron diecisiete pruebas EMR
+focalizadas y el parser se integró en la
+[PR 187 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/187)
+como `30dc8034b0e5f742e84b0ba1436373dc11a68093`.
+
+La protección activada puede retrasar un apagado manual y la retirada de la
+política elimina el límite de inactividad; ninguna señal prueba una carga
+maliciosa o permanencia garantizada. La protección desactivada permite el
+apagado posterior, pero por sí sola no demuestra interrupción. La limpieza
+desactivó protección, terminó el clúster y borró roles y perfil. Una lectura
+independiente confirmó clúster `TERMINATED`, roles y perfil ausentes y cero
+instancias, grupos de seguridad e interfaces con la marca del laboratorio.
+Recibos y eventos reales permanecen privados 0600.
+[HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L19),
+[protección de terminación AWS](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html),
+[política de terminación automática AWS](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html).
+
 ## Lote 397: solicitud de terminación de clúster EMR
 
 CloudTrail registró un `TerminateJobFlows` aceptado al limpiar un clúster
@@ -26,8 +50,8 @@ interrumpido ni la pérdida de datos. La comprobación independiente previa del
 laboratorio confirmó el clúster `TERMINATED`, roles y perfil ausentes, y cero
 instancias, grupos de seguridad e interfaces propias. No se creó
 infraestructura nueva en este lote. Recibos y evento real privados 0600.
-Siguen pendientes las modificaciones de protección contra terminación y de
-la política de terminación automática.
+Las modificaciones de protección contra terminación y de la política de
+terminación automática se probaron después en los lotes 398–400.
 [HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L171),
 [TerminateJobFlows AWS](https://docs.aws.amazon.com/emr/latest/APIReference/API_TerminateJobFlows.html).
 

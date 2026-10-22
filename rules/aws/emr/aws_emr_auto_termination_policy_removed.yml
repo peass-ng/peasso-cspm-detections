@@ -1,0 +1,26 @@
+title: AWS EMR cluster idle auto-termination policy removed
+id: b3980000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  RemoveAutoTerminationPolicy accepted a request for a cluster. Removing the
+  idle deadline can prolong a running workload and incur compute cost. The
+  event does not prove a malicious workload or that the cluster remained live.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L19
+  - https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: RemoveAutoTerminationPolicy
+    event.outcome: success
+    request.emr_auto_termination_policy_removed: true
+  condition: selection
+falsepositives:
+  - Approved conversion to a continuously running EMR cluster.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-emr-auto-termination-policy-removed

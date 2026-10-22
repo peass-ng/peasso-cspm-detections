@@ -1,0 +1,27 @@
+title: AWS EMR cluster termination protection disabled
+id: b3980000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  SetTerminationProtection accepted terminationProtected=false for one or
+  more clusters. This can enable subsequent manual termination of a protected
+  cluster. Correlate with TerminateJobFlows and cluster state before inferring
+  disruption.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L171
+  - https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: SetTerminationProtection
+    event.outcome: success
+    request.emr_termination_protection_disabled: true
+  condition: selection
+falsepositives:
+  - Approved cluster shutdown or maintenance.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-emr-termination-protection-disabled
