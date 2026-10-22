@@ -1,0 +1,29 @@
+title: AWS Cloud WAN VPC attachment created
+id: 28200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateVpcAttachment requested connection of a VPC to a core network. Review
+  the VPC owner, subnets, policy segment and acceptance state. The request
+  alone does not prove that network connectivity became available.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L128
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_CreateVpcAttachment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: CreateVpcAttachment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkManager::CoreNetwork
+  condition: selection
+falsepositives:
+  - Approved VPC onboarding to Cloud WAN.
+level: medium
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-networkmanager-vpc-attachment-created
+x_cloudtrail_raw: true

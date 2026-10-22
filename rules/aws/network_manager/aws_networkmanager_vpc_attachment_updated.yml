@@ -1,0 +1,29 @@
+title: AWS Cloud WAN VPC attachment updated
+id: 28200000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateVpcAttachment changed selected subnets or forwarding options for a
+  VPC attachment. Compare the request with the approved subnet and option
+  baseline; the event does not itself prove a routing or traffic change.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_UpdateVpcAttachment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: UpdateVpcAttachment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved VPC attachment maintenance.
+level: medium
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-networkmanager-vpc-attachment-updated
+x_cloudtrail_raw: true

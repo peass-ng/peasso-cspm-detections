@@ -1,0 +1,29 @@
+title: AWS Cloud WAN attachment accepted
+id: 28200000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  AcceptAttachment approved a pending core network attachment. Review the
+  attachment owner, VPC or gateway, target segment and policy; this event
+  does not prove a foreign attachment or subsequent connectivity.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L128
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_AcceptAttachment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: AcceptAttachment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved acceptance of a new network attachment.
+level: medium
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-networkmanager-attachment-accepted
+x_cloudtrail_raw: true
