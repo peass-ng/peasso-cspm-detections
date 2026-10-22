@@ -3,12 +3,39 @@
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-anteriores contiene **47 páginas y 206 encabezados** sin referencia YAML
-directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift y
-Migration Hub Strategy salieron de la cola al recibir referencias exactas.
+anteriores contiene **46 páginas y 200 encabezados** sin referencia YAML
+directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
+Migration Hub Strategy y EMR clásico salieron de la cola al recibir
+referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
+
+## Lote 386–387: perfil de instancia y paso command-runner en EMR clásico
+
+Un laboratorio propio creó un rol de servicio EMR, un rol y perfil EC2 y un
+clúster de un solo nodo con terminación automática. `RunJobFlow` aceptó el
+perfil elegido y `AddJobFlowSteps` aceptó un paso `command-runner.jar` con un
+comando inocuo. CloudTrail entregó ambos eventos: las
+[dos reglas EMR](rules/aws/emr/) dieron **dos positivos reales y cero en 16
+variantes negativas dirigidas**. Pasaron tres pruebas focalizadas y el parser
+se integró en la [PR 180 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/180)
+como `aee69f224958d5a15868098c64a18b3cc8c086bd`.
+
+La petición real incluía `Args`, pero CloudTrail registró la lista vacía;
+las reglas no afirman conocer el comando. El clúster estaba `STARTING`
+después de aceptar el paso; se terminó inmediatamente para evitar costes y
+`DescribeStep` mostró `CANCELLED`. La prueba demuestra selección de perfil
+y adición aceptada del paso, **no ejecución ni obtención de credenciales**.
+Una lectura independiente confirmó clúster `TERMINATED`, ambos roles y el
+perfil ausentes y cero instancias, grupos de seguridad e interfaces con la
+etiqueta del laboratorio. El rol de limpieza EMR de la cuenta ya existía
+antes de la prueba. Recibos y eventos reales privados 0600. Siguen abiertas
+la ruta de sobrescritura S3 de scripts, las credenciales de sesión de rol
+runtime y el editor legado.
+[HackTricks EMR](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L15),
+[RunJobFlow AWS](https://docs.aws.amazon.com/emr/latest/APIReference/API_RunJobFlow.html),
+[AddJobFlowSteps AWS](https://docs.aws.amazon.com/emr/latest/APIReference/API_AddJobFlowSteps.html).
 
 ## Lote 384–385: barrido de inventario Migration Hub Strategy
 

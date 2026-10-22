@@ -1,0 +1,27 @@
+title: AWS EMR cluster requested with an EC2 instance profile
+id: b3870000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  RunJobFlow accepted creation of an EMR cluster with an explicitly selected
+  EC2 instance profile and service role. Review whether the caller was
+  authorized to use that profile. This event alone does not prove access to
+  instance credentials or a privilege escalation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L15
+  - https://docs.aws.amazon.com/emr/latest/APIReference/API_RunJobFlow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: RunJobFlow
+    event.outcome: success
+    request.emr_instance_profile_selected: true
+  condition: selection
+falsepositives:
+  - Approved cluster creation using a reviewed instance profile.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-emr-instance-profile-cluster-requested

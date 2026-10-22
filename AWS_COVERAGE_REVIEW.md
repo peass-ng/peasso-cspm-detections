@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **47**. Total headings: **206**.
+Pages with at least three level-three headings and no direct YAML reference: **46**. Total headings: **200**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -69,15 +69,6 @@ Pages with at least three level-three headings and no direct YAML reference: **4
 - LiveAnalytics: invisible record injection, upsert and version pinning with \`timestream:WriteRecords\`
 - \`timestream:CreateScheduledQuery\` + \`iam:PassRole\` — run SQL and downstream writes as a scheduled-query role
 - \`timestream:ExecuteScheduledQuery\` — trigger an already stored role workflow
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md) (6 headings)
-
-- \`iam:PassRole\`, \`elasticmapreduce:RunJobFlow\`
-- \`elasticmapreduce:AddJobFlowSteps\` — execute as an existing cluster instance profile
-- \`s3:PutObject\` on a configured bootstrap or step script
-- \`elasticmapreduce:CreateEditor\`, \`iam:ListRoles\`, \`elasticmapreduce:ListClusters\`, \`iam:PassRole\`, \`elasticmapreduce:DescribeEditor\`, \`elasticmapreduce:OpenEditorInConsole\`
-- Legacy \`elasticmapreduce:OpenEditorInConsole\` boundary
-- \`elasticmapreduce:GetClusterSessionCredentials\` — vend a runtime role's credentials without \`iam:PassRole\`
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-invoicing-and-billing-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-invoicing-and-billing-persistence/README.md) (5 headings)
 

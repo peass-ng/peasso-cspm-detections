@@ -1,0 +1,28 @@
+title: AWS EMR command-runner step added to an existing cluster
+id: b3870000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  AddJobFlowSteps successfully added a command-runner.jar step to an EMR
+  cluster. A step can run commands under the cluster instance profile. The
+  observed CloudTrail event omitted submitted Args, so this rule does not
+  identify the command or prove that the step executed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L62
+  - https://docs.aws.amazon.com/emr/latest/APIReference/API_AddJobFlowSteps.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: AddJobFlowSteps
+    event.outcome: success
+    request.emr_command_runner_step_added: true
+  condition: selection
+falsepositives:
+  - Approved maintenance or data processing through command-runner.jar.
+level: medium
+tags:
+  - attack.execution
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-emr-command-runner-step-added
