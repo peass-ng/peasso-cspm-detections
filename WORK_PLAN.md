@@ -14,7 +14,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 |---|---|---|---|
 | `aws-delta-89d90c904c09c2e3` | [aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md#L144) | `bedrock-agentcore:CreateCodeInterpreter` / `CreateBrowser`, `iam:PassRole` — sandbox actions with an execution role | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-d0da1dc125fa09dc` | [aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md#L176) | `bedrock-agentcore:UpdateAgentRuntime` / `UpdateGateway`, `iam:PassRole` — change an existing resource's role | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
-| `aws-delta-429628366bf6dffe` | [aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24) | `budgets:CreateBudgetAction`, `iam:PassRole` (+ `budgets:ExecuteBudgetAction`) — attach a policy through a budget action | Encabezado renombrado; creación IAM probada en lotes 363–364, regla aislada hasta PR 166. |
+| `aws-delta-429628366bf6dffe` | [aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24) | `budgets:CreateBudgetAction`, `iam:PassRole` (+ `budgets:ExecuteBudgetAction`) — attach a policy through a budget action | Encabezado renombrado; creación IAM probada en lotes 363–364, regla aislada hasta PR 167. |
 | `aws-delta-d67848fac121c8ce` | [aws-privilege-escalation/aws-cloudcontrol-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md#L17) | `cloudformation:CreateResource` + `iam:PassRole` | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-282766a0f74d32d6` | [aws-privilege-escalation/aws-cloudfront-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md#L116) | `cloudfront:CreateDistribution` with Lambda@Edge | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
 | `aws-delta-fd4d6f4852d75a40` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135) | `deadline:AssumeFleetRoleForWorker` on an existing worker | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
@@ -102,7 +102,7 @@ Ningún SNS tuvo suscriptores.
 
 CloudTrail entregó los seis eventos de Budgets, incluida la creación
 aceptada y la ejecución rechazada. El parser de la
-[PR 166 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/166)
+[PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167)
 reconoce sólo la creación aceptada de una acción IAM con cuenta, presupuesto,
 rol de ejecución y respuesta concordantes. La regla aislada produjo **1
 positivo real y cero en 13 variantes negativas**; pasaron 14 pruebas
@@ -117,7 +117,7 @@ Recibos privados 0600: `/tmp/peasso-b363-private.json`,
 
 ## Lote 362: correlación de EBS Multi-Attach en integración
 
-La [PR 165 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/165)
+La [PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167)
 rescata la correlación del laboratorio 290: dos `AttachVolume` aceptados
 del mismo volumen para instancias distintas, en la misma cuenta y Región,
 dentro de 30 minutos y sin `DetachVolume` intermedio. Los dos eventos
@@ -129,11 +129,18 @@ parser. [HackTricks Multi-Attach](https://github.com/HackTricks-wiki/hacktricks-
 
 ## Lotes 359–361: señales Redshift y descarga del catálogo en revisión
 
-La [PR 162 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/162)
+La [PR 167](https://github.com/peass-ng/PEASSo-CSPM/pull/167) reúne los
+parsers de los lotes 357–364 y la corrección del catálogo que antes estaban
+en siete PR separadas ya cerradas. La prueba conjunta pasó **94 tests**; las
+ocho YAML aisladas dieron **nueve coincidencias en eventos reales** de sus
+laboratorios. Las PR separadas se cerraron para mantener una sola revisión;
+esta PR conjunta es la dependencia vigente antes de publicar las YAML.
+
+La [PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167)
 recupera las dos señales de `UpdateWorkgroup` del lote 298 sobre acceso
 público y lista de grupos de seguridad solicitados. Los dos eventos reales
 coincidieron, pasaron 14 pruebas locales y la limpieza ya estaba confirmada.
-La [PR 163](https://github.com/peass-ng/PEASSo-CSPM/pull/163) reconoce
+La [PR 167](https://github.com/peass-ng/PEASSo-CSPM/pull/167) reconoce
 `UpdateNamespace` sólo cuando la solicitud asocia un rol IAM y la respuesta
 confirma ese rol como predeterminado; coincidió con el evento real del lote
 297, descartó el cambio de contraseña y pasó 13 pruebas locales. Las tres
@@ -141,7 +148,7 @@ reglas correspondientes permanecen aisladas hasta integrar ambos parsers.
 
 Una descarga real del catálogo `latest` falló porque el lector del CSPM
 rechazaba el `AGENTS.md` raíz del repositorio de reglas. La
-[PR 164](https://github.com/peass-ng/PEASSo-CSPM/pull/164) admite sólo ese
+[PR 167](https://github.com/peass-ng/PEASSo-CSPM/pull/167) admite sólo ese
 archivo ordinario y acotado, manteniendo el rechazo de enlaces y tamaños
 excesivos. Pasaron 36 pruebas focalizadas; con la corrección, la descarga
 real verificó el `main` público y sus **1477 reglas AWS**, con SHA256 del
@@ -162,7 +169,7 @@ workgroups propios. El evento aceptado `ModifyCluster` del lote 294 contenía
 `masterUserPassword` redactado y el mismo identificador de clúster en la
 respuesta; su limpieza ya estaba verificada.
 
-El parser específico está en la [PR 161 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/161),
+El parser específico está en la [PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167),
 con **2 positivos reales, cero en 14 variantes negativas** y el intento
 fallido descartado. Pasaron 37 pruebas locales. Las dos reglas YAML siguen
 como borradores aislados hasta que ese parser se integre; no se publica una
@@ -209,7 +216,7 @@ positivos reales y cero en 30 variantes negativas** y descartaron cuatro
 **no distingue por sí sola** entre alta y sustitución: queda pendiente
 correlacionar tipo e ID de evento con escrituras anteriores para detectar
 específicamente el reemplazo. Esa correlación está implementada en la
-[PR 160 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/160): obtuvo
+[PR 167 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/167): obtuvo
 **1 positivo real y cero en 12 variantes negativas**, además de 30 pruebas
 locales con la suite básica. Su regla YAML sigue aislada hasta que el parser
 se integre. La regla de borrado masivo marca la solicitud;
@@ -780,13 +787,13 @@ El 299 creó una configuración desechable, pero `DescribeConfigurationRevision`
 
 Se creó otro workgroup `4` RPU y namespace **propios** en tres subredes de una VPC desechable con ruta de Internet, dos grupos de seguridad **sin reglas de entrada** y credenciales sintéticas. `UpdateWorkgroup(publiclyAccessible=true)` fue aceptado y una lectura posterior confirmó `true`; `UpdateWorkgroup(securityGroupIds=...)` sustituyó el grupo y otra lectura confirmó el nuevo grupo. Ninguna instancia ajena ni base de datos real estuvo implicada, y los grupos no permitían tráfico entrante. La llamada que combinaba cierre público y restitución del grupo devolvió `ValidationException`; no se presenta como cierre aceptado. La eliminación del workgroup fue aceptada, y se borraron namespace, ambas SG, ruta, gateway, subredes y VPC. Una comprobación independiente confirmó ausentes también snapshots y recovery points.
 
-CloudTrail entregó dos eventos de gestión `UpdateWorkgroup` aceptados: uno con `publiclyAccessible` y otro con `securityGroupIds`. Los parsers y [dos reglas específicas aisladas](https://github.com/peass-ng/PEASSo-CSPM/pull/162) dieron **2 positivos reales y cero en 10 variantes negativas**. Las reglas **no están publicadas**: esperan la integración de la PR del CSPM. Alertan sobre solicitudes aceptadas; un evento no demuestra por sí solo que el endpoint final sea alcanzable o que el tráfico entrante haya ocurrido. Recibos privados 0600: `/tmp/peasso-b298-private.json`, `/tmp/peasso-b298-cloudtrail-private.json`, `/tmp/peasso-b298-validation-private.json` y `/tmp/peasso-b298-cleanup-verified-private.json`. [HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L77); [AWS UpdateWorkgroup](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_UpdateWorkgroup.html).
+CloudTrail entregó dos eventos de gestión `UpdateWorkgroup` aceptados: uno con `publiclyAccessible` y otro con `securityGroupIds`. Los parsers y [dos reglas específicas aisladas](https://github.com/peass-ng/PEASSo-CSPM/pull/167) dieron **2 positivos reales y cero en 10 variantes negativas**. Las reglas **no están publicadas**: esperan la integración de la PR del CSPM. Alertan sobre solicitudes aceptadas; un evento no demuestra por sí solo que el endpoint final sea alcanzable o que el tráfico entrante haya ocurrido. Recibos privados 0600: `/tmp/peasso-b298-private.json`, `/tmp/peasso-b298-cloudtrail-private.json`, `/tmp/peasso-b298-validation-private.json` y `/tmp/peasso-b298-cleanup-verified-private.json`. [HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L77); [AWS UpdateWorkgroup](https://docs.aws.amazon.com/redshift-serverless/latest/APIReference/API_UpdateWorkgroup.html).
 
 ## Lote 297: credenciales y cambios de Redshift Serverless
 
 Se creó un namespace y workgroup Redshift Serverless de capacidad mínima `4` en una VPC con tres subredes privadas **propias**, grupo de seguridad sin entradas y rol IAM vacío propio. `GetCredentials` devolvió credenciales temporales, `ExecuteStatement` terminó una consulta `SELECT 1` sintética, y `UpdateNamespace` aceptó tanto la asociación del rol vacío como el cambio de contraseña del administrador. La respuesta del namespace confirmó el nuevo rol predeterminado. Se solicitaron dos eventos `GetCredentials` porque el flujo Data API también pudo obtener credenciales; CloudTrail entregó ambas llamadas y la consulta.
 
-La [regla nueva de credenciales](rules/aws/redshift/aws_redshift_serverless_credentials_requested.yml) dio **2 positivos reales y cero en 12 variantes negativas**. La regla del [Data API](rules/aws/redshift/aws_redshift_data_api_statement_executed.yml) publicada en el lote 294 reconoció también la consulta Serverless real. Los dos `UpdateNamespace` aceptados tenían campos distintos en CloudTrail (`iamRoles`/`defaultIamRoleArn` y `adminUserPassword`), pero el sobre genérico no expone esos campos al catálogo: el parser de contraseña está en la [PR 161](https://github.com/peass-ng/PEASSo-CSPM/pull/161) y el de rol predeterminado en la [PR 163](https://github.com/peass-ng/PEASSo-CSPM/pull/163), con reglas específicas aisladas hasta su integración; no se publicó una regla amplia que atribuya esos efectos a cualquier actualización. `UpdateWorkgroup` para abrir el endpoint devolvió `ConflictException` mientras los recursos estaban modificándose, por lo que la exposición pública no quedó probada ni se publicó esa ruta. No hubo tablas de terceros ni uso del rol para acceder a otros servicios.
+La [regla nueva de credenciales](rules/aws/redshift/aws_redshift_serverless_credentials_requested.yml) dio **2 positivos reales y cero en 12 variantes negativas**. La regla del [Data API](rules/aws/redshift/aws_redshift_data_api_statement_executed.yml) publicada en el lote 294 reconoció también la consulta Serverless real. Los dos `UpdateNamespace` aceptados tenían campos distintos en CloudTrail (`iamRoles`/`defaultIamRoleArn` y `adminUserPassword`), pero el sobre genérico no expone esos campos al catálogo: ambos parsers están en la [PR 167](https://github.com/peass-ng/PEASSo-CSPM/pull/167), con reglas específicas aisladas hasta su integración; no se publicó una regla amplia que atribuya esos efectos a cualquier actualización. `UpdateWorkgroup` para abrir el endpoint devolvió `ConflictException` mientras los recursos estaban modificándose, por lo que la exposición pública no quedó probada ni se publicó esa ruta. No hubo tablas de terceros ni uso del rol para acceder a otros servicios.
 
 Se borraron workgroup, namespace, rol, grupo de seguridad, tres subredes y VPC; no se pidió snapshot final. Una comprobación independiente confirmó ausentes esos recursos, snapshots y recovery points. El borrado del workgroup se aceptó en una ventana de estado `AVAILABLE` durante los reintentos de limpieza. Recibos privados 0600: `/tmp/peasso-b297-private.json`, `/tmp/peasso-b297-cloudtrail-private.json`, `/tmp/peasso-b297-validation-private.json` y `/tmp/peasso-b297-cleanup-verified-private.json`. [HackTricks credenciales](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md#L75); [HackTricks rol](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md#L101); [HackTricks contraseña](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md#L15).
 
