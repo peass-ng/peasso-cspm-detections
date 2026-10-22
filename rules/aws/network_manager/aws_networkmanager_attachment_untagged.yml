@@ -1,0 +1,29 @@
+title: AWS Cloud WAN attachment tag removed
+id: 28300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UntagResource removed tags from a Cloud WAN attachment. Check whether the
+  LIVE core policy uses those tags to select a segment and whether the
+  resulting association changed. The event alone does not prove a move.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-manager-post-exploitation/README.md#L88
+  - https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_UntagResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: networkmanager.amazonaws.com
+    event.name: UntagResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkManager::Attachment
+  condition: selection
+falsepositives:
+  - Approved attachment tag maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-networkmanager-attachment-untagged
+x_cloudtrail_raw: true

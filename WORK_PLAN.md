@@ -11,6 +11,24 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 408: invocación TwinMaker y etiquetas de adjunto Cloud WAN
+
+Los eventos reales anteriores activaron [una regla de invocación TwinMaker](rules/aws/iot-twinmaker/aws_iot_twinmaker_lambda_connector_invoked.yml)
+en **uno de un evento** y
+[dos reglas de etiquetado de adjunto](rules/aws/network_manager/) en **dos de
+seis**. La adaptación CloudTrail sólo marca `Invoke` de Lambda con rol asumido,
+misma cuenta e identidad, IP y agente de TwinMaker coincidentes. Para
+Network Manager exige ARN canónico de adjunto de la misma cuenta y usa un
+objetivo hash; los ARN ajenos o malformados no adquieren ese tipo de recurso.
+Trece pruebas focalizadas pasaron y el paquete local completo cargó. La
+integración se fusionó en la [PR 195 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/195)
+como `b1b2787481b9962aee52caf9b10375f2fc1937e2`; las PR 136 y 151
+antiguas se cerraron y sus ramas remotas se borraron. Las limpiezas
+independientes de los laboratorios constan en los lotes 230 y 282. La
+invocación no acredita extracción de credenciales, y las etiquetas no
+acreditan cambio de segmento. Los eventos y recibos reales siguen privados
+0600.
+
 ## Lote 407: integrar App Runner y WorkSpaces Web pendientes
 
 Cinco [reglas App Runner](rules/aws/apprunner/) y

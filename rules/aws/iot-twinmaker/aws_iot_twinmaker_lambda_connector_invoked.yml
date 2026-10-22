@@ -1,0 +1,33 @@
+title: IoT TwinMaker invoked a Lambda connector
+id: 23000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful Lambda Invoke data event was made by IoT TwinMaker. This proves
+  connector use under the workspace execution role, but does not establish that
+  the caller accessed that role's credentials or performed a privileged action.
+  Correlate with component type changes, the function's execution logs, and
+  the workspace role. Lambda data event logging must be enabled for the function.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-twinmaker-privesc/README.md
+  - https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html
+  - https://docs.aws.amazon.com/iot-twinmaker/latest/guide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: Invoke
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::Lambda::Function
+    actor.invoked_by_service: iottwinmaker.amazonaws.com
+  condition: selection
+falsepositives:
+  - Approved TwinMaker data connector read.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-iot-twinmaker-lambda-connector-invoked
+x_cloudtrail_raw: true
