@@ -4,6 +4,12 @@
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
+La última lectura de `origin/master` devolvió
+`9e5d46375b53cbd2d0cdce63771f3e36f0c30bae`; entre esa revisión y
+`9725dcb0f71c664994b24647815f17f3e330bfc3` no cambió ningún archivo
+de `src/pentesting-cloud/aws-security`. Los enlaces AWS de este plan siguen
+anclados a contenido idéntico.
+
 Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron las 50; las rutas nuevas o no cubiertas halladas se conservan como pendientes abajo.
 
 Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
