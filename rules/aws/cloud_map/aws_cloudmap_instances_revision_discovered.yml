@@ -1,0 +1,29 @@
+title: Cloud Map service instance revision inspected
+id: 25400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A principal used DiscoverInstancesRevision to inspect changes to a service
+  registry. Review unexpected callers; CloudTrail records this only when Cloud
+  Map data events are enabled on the namespace or service.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-cloud-map-enum.md
+  - https://docs.aws.amazon.com/cloud-map/latest/dg/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: servicediscovery.amazonaws.com
+    event.name: DiscoverInstancesRevision
+    event.category: Data
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::ServiceDiscovery::Namespace
+  condition: selection
+falsepositives:
+  - Approved registry revision polling by application clients.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-cloudmap-instances-revision-discovered
+x_cloudtrail_raw: true
