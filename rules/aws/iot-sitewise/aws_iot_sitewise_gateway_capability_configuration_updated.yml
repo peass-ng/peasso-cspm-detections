@@ -1,0 +1,30 @@
+title: IoT SiteWise Edge gateway capability configuration updated
+id: 21800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateGatewayCapabilityConfiguration replaced an Edge gateway
+  capability document. Review the approved configuration, collector endpoints,
+  security settings and subsequent gateway sync status. The CloudTrail event
+  proves the API update, not a successful change on an offline edge device.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-iot-sitewise-post-exploitation/README.md
+  - https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateGatewayCapabilityConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: iotsitewise.amazonaws.com
+    event.name: UpdateGatewayCapabilityConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved SiteWise Edge gateway maintenance and collector reconfiguration.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-iot-sitewise-edge-capability-configuration-update
+x_cloudtrail_raw: true
