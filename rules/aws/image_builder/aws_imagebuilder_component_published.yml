@@ -1,0 +1,33 @@
+title: EC2 Image Builder component version published
+id: 26500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CreateComponent published a new component build or semantic
+  version. Review the publisher, content and recipes that reference a wildcard
+  version of the same component; a later pipeline run might resolve the new
+  build. This event alone does not show that a pipeline ran or that the
+  component executed under an instance profile.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-image-builder-privesc/README.md
+  - https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html
+  - https://docs.aws.amazon.com/imagebuilder/latest/userguide/ibhow-semantic-versioning.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: imagebuilder.amazonaws.com
+    event.name: CreateComponent
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved component publication in a controlled image build workflow.
+level: medium
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-imagebuilder-component-published
+x_cloudtrail_raw: true

@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **76**. Total headings: **344**.
+Pages with at least three level-three headings and no direct YAML reference: **75**. Total headings: **341**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -563,12 +563,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - Required permissions
 - Exploitation
 - Also relevant: \`config:PutRemediationConfigurations\` + \`iam:PassRole\` (classic PassRole)
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-image-builder-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-image-builder-privesc/README.md) (3 headings)
-
-- Required conditions
-- Publish a higher component version
-- Discovery with and without list permissions
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-pca-connector-ad-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-pca-connector-ad-privesc/README.md) (3 headings)
 
