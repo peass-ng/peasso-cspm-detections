@@ -1,0 +1,29 @@
+title: Amazon MQ ActiveMQ user created
+id: 30400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateUser accepted a new Amazon MQ broker user. Review the requested groups,
+  console access, and the broker configuration before assessing message or
+  administrator access; changes can remain pending until a reboot or maintenance.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mq-post-exploitation/README.md#L9
+  - https://docs.aws.amazon.com/amazon-mq/latest/api-reference/brokers-broker-id-users.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amazonmq.amazonaws.com
+    event.name: CreateUser
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved ActiveMQ user onboarding.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-mq-activemq-user-created
+x_cloudtrail_raw: true

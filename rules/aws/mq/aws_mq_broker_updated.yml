@@ -1,0 +1,29 @@
+title: Amazon MQ broker configuration updated
+id: 30400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateBroker accepted a broker change. Check whether the request attached a
+  new configuration revision and inspect that revision for authorization or
+  authentication changes; this event does not expose the configuration body.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mq-privesc/README.md#L20
+  - https://docs.aws.amazon.com/amazon-mq/latest/api-reference/brokers-broker-id.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amazonmq.amazonaws.com
+    event.name: UpdateBroker
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved broker configuration or network maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mq-broker-configuration-updated
+x_cloudtrail_raw: true
