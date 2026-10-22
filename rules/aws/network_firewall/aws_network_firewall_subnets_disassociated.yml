@@ -1,0 +1,27 @@
+title: Network Firewall subnets disassociated
+id: 26000000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  A successful DisassociateSubnets requested removal of firewall endpoints from listed subnets. Check endpoint status and routing after the change; the event alone does not establish successful traffic bypass and routes can instead blackhole traffic.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md
+  - https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_DisassociateSubnets.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: network-firewall.amazonaws.com
+    event.name: DisassociateSubnets
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkFirewall::Firewall
+  condition: selection
+falsepositives:
+  - Approved firewall footprint reduction or VPC migration.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-network-firewall-subnets-disassociated
+x_cloudtrail_raw: true

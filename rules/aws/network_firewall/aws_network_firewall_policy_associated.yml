@@ -1,0 +1,27 @@
+title: Network Firewall policy association changed
+id: 26000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A successful AssociateFirewallPolicy repointed a firewall to another policy. Compare the new policy with the prior association and approved baseline; the event does not prove that the replacement policy is permissive.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md
+  - https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_AssociateFirewallPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: network-firewall.amazonaws.com
+    event.name: AssociateFirewallPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkFirewall::Firewall
+  condition: selection
+falsepositives:
+  - Approved firewall policy rollout.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-network-firewall-policy-associated
+x_cloudtrail_raw: true

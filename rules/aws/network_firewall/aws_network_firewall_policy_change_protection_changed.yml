@@ -1,0 +1,27 @@
+title: Network Firewall policy change protection changed
+id: 26000000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A successful UpdateFirewallPolicyChangeProtection changed the guard for policy reassociation. Inspect the requested boolean and follow-on association events; this signal includes both enabling and disabling protection.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md
+  - https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_UpdateFirewallPolicyChangeProtection.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: network-firewall.amazonaws.com
+    event.name: UpdateFirewallPolicyChangeProtection
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkFirewall::Firewall
+  condition: selection
+falsepositives:
+  - Approved change-protection maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-network-firewall-policy-change-protection-changed
+x_cloudtrail_raw: true

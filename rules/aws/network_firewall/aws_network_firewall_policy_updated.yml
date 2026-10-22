@@ -1,0 +1,27 @@
+title: Network Firewall policy updated
+id: 26000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful UpdateFirewallPolicy replaced a firewall policy. Review the rule-group references and default actions against the previous policy; this API event alone does not prove that inspection was weakened.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md
+  - https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_UpdateFirewallPolicy.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: network-firewall.amazonaws.com
+    event.name: UpdateFirewallPolicy
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkFirewall::FirewallPolicy
+  condition: selection
+falsepositives:
+  - Approved firewall policy maintenance.
+level: high
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-network-firewall-policy-updated
+x_cloudtrail_raw: true

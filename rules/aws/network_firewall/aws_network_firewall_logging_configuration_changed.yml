@@ -1,0 +1,27 @@
+title: Network Firewall logging configuration changed
+id: 26000000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A successful UpdateLoggingConfiguration changed logging for a firewall. Review whether flow or alert destinations were removed or redirected. This API-level signal also fires when logging is enabled and does not itself prove a delivery gap.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md
+  - https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_UpdateLoggingConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: network-firewall.amazonaws.com
+    event.name: UpdateLoggingConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::NetworkFirewall::Firewall
+  condition: selection
+falsepositives:
+  - Approved logging setup or destination maintenance.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-network-firewall-logging-configuration-changed
+x_cloudtrail_raw: true
