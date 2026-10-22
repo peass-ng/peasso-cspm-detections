@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **58**. Total headings: **255**.
+Pages with at least three level-three headings and no direct YAML reference: **57**. Total headings: **251**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -195,13 +195,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - \`sso:PutPermissionsBoundaryToPermissionSet\` + \`sso:ProvisionPermissionSet\`
 - \`sso:GetRoleCredentials\`
 - \`sso-admin:CreateTrustedTokenIssuer\` (+ \`CreateApplication\` / \`PutApplicationGrant\`) — impersonate any user via a rogue trusted token issuer
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md) (4 headings)
-
-- \`aws-auth\` ConfigMap mapping (legacy, CloudTrail-invisible)
-- Pod Identity association bound to a namespace the attacker can reach
-- Attacker-controlled OIDC identity provider
-- Access entry as a standing backdoor
 
 ## [src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md) (4 headings)
 

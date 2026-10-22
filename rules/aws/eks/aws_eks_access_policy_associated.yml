@@ -5,6 +5,7 @@ description: >
   An accepted association can grant cluster administrator access to an IAM principal. Verify policy ARN and scope against approved grants.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md#L29
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md#L119
   - https://docs.aws.amazon.com/eks/latest/APIReference/API_AssociateAccessPolicy.html
 logsource:
   product: aws

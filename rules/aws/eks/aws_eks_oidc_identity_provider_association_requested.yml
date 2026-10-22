@@ -1,0 +1,32 @@
+title: EKS external OIDC identity provider association requested
+id: 32500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  AssociateIdentityProviderConfig accepted a request to add an OIDC issuer to
+  an EKS cluster. A later successful update and compatible Kubernetes RBAC
+  may provide durable access for identities from that issuer. Review issuer,
+  client audience, claims and cluster audit logs; this event alone does not
+  prove the provider became active or a token was used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md#L85
+  - https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: AssociateIdentityProviderConfig
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved federation configuration change for a cluster.
+level: medium
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-eks-oidc-identity-provider-association-requested
+x_cloudtrail_raw: true

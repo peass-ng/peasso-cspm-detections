@@ -1,0 +1,30 @@
+title: EKS external OIDC identity provider disassociation requested
+id: 32500000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  DisassociateIdentityProviderConfig accepted a request to remove a cluster
+  OIDC issuer. If the update succeeds, identities relying on that issuer lose
+  access. Verify the update result, provider name and approved change record;
+  this API event alone does not prove the removal was applied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-eks-persistence/README.md#L85
+  - https://docs.aws.amazon.com/eks/latest/APIReference/API_DisassociateIdentityProviderConfig.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: DisassociateIdentityProviderConfig
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved OIDC provider retirement or cluster cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-eks-oidc-identity-provider-disassociation-requested
+x_cloudtrail_raw: true
