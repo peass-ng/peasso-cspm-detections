@@ -4,7 +4,7 @@
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
-Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 7 de esas 50 y quedan 43 por examinar.
+Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 18 de esas 50 y quedan 32 por examinar.
 
 Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
 
@@ -87,7 +87,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Primera revisión del cuerpo sin encabezados nuevos
 
-Se revisaron **7 de las 50** páginas de la lista anterior, comparando las
+Se revisaron **18 de las 50** páginas de la lista anterior, comparando las
 líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 
 | Página | Decisión |
@@ -99,6 +99,16 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | Cognito privilege escalation | Detalla la variante **Basic flow** con token de desarrollador y `AssumeRoleWithWebIdentity`. El intercambio STS se probó en el laboratorio previo, pero la atribución de abuso requiere correlación con identidad del pool, confianza y cambios recientes; sigue pendiente. |
 | GameLift privilege escalation | Aclara qué credenciales entrega `GetComputeAccess` y que el rol de flota requiere código en la instancia; no se debe inferir obtención de ese rol sólo por abrir la sesión. |
 | SageMaker privilege escalation | Corrige la configuración `UpdateSpace` de LCC para Studio moderno. La ruta de ejecución posterior sigue sin regla específica; revisar y probar espacio propio antes de marcarla cubierta. |
+| MediaPackage v2 policy persistence | Aclara que un `PutObject` público requiere condición `aws:SourceIp`; misma mutación de política con alcance más limitado. |
+| Bedrock post exploitation | La SSRF tokenless de AgentCore Runtime se marca histórica tras MMDSv2 obligatorio; no debe contarse como ataque vigente sin una sesión y prueba actuales. |
+| Bedrock privilege escalation | Aclara que editar Lambda sólo alcanza el rol si el agente invoca el grupo de acción habilitado; misma secuencia condicional. |
+| Chatbot privilege escalation | Añade precondiciones de workspace autorizado, guardrails y comandos admitidos; misma asociación de rol con alcance reducido. |
+| CloudFormation privilege escalation | Sólo aclara el papel del rol de ejecución del stack; no cambia la API. |
+| CloudWatch Omni privilege escalation | Aclara rol operador y contexto `domainId`; la variante sin espacio aún necesita una llamada aceptada antes de crear una regla de abuso. |
+| CodeCommit pipeline source privilege escalation | Aclara polling/EventBridge para disparar pipeline; el push sin disparador sigue siendo una mutación de fuente. |
+| CodeConnections privilege escalation | Corrige que `UpdateRepositoryLink` cambia conexión/KMS, no el propietario ni repo; `UpdateSyncConfiguration` conserva la ruta de despliegue. |
+| CodePipeline job credentials privilege escalation | Añade referencias cruzadas para dos lecturas ya descritas en la página de post explotación. |
+| CodeStar privilege escalation y subpágina CreateProject | Marca ambas técnicas como históricas tras el cierre completo del servicio; no hay laboratorio actual de CodeStar. |
 
 ### Páginas retiradas
 
