@@ -1,0 +1,30 @@
+title: AWS EMR Serverless custom image update requested
+id: b3770000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateApplication accepted a same-account, same-Region private ECR image
+  for an EMR Serverless application, and its response confirmed the image.
+  New workloads can use its contents under their execution role. The update
+  alone does not prove a job ran or that the image is compatible with the
+  application. Review repository control, digest, worker settings and later
+  job starts.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L182
+  - https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/application-custom-image.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: emr-serverless.amazonaws.com
+    event.name: UpdateApplication
+    event.outcome: success
+    request.emr_custom_image_update_requested: true
+  condition: selection
+falsepositives:
+  - Approved custom image update for a controlled EMR Serverless workload.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-emr-serverless-custom-image-update

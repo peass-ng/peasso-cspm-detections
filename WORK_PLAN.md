@@ -1,5 +1,28 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 376–377: imagen personalizada de EMR Serverless
+
+Un laboratorio aislado creó una aplicación Spark EMR Serverless sin capacidad
+inicial, copió la imagen base oficial a un repositorio ECR propio y añadió una
+capa inocua. `UpdateApplication` aceptó esa imagen privada y
+`GetApplication` confirmó el URI. CloudTrail entregó el evento aceptado: la
+regla produjo **un positivo real y cero en diez variantes negativas**. El
+parser no incluye el URI de imagen ni el ARN de aplicación en el hallazgo;
+pasaron 14 pruebas focalizadas y se integró en la
+[PR 174 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/174)
+como `d12823092a0041a02edddd7fee5de20a3fd8c690`.
+**No se inició ningún trabajo**: la prueba
+acredita control de la imagen y cambio de configuración, pero no ejecución
+de código bajo el rol de un trabajo ni compatibilidad de la imagen modificada.
+La aplicación terminó, el repositorio ECR se borró y una lectura
+independiente confirmó su ausencia de los listados activos, junto con la
+eliminación de las credenciales y archivos temporales locales. Un primer
+intento de política ECR fue rechazado sin crear aplicación; su repositorio
+también se borró y se confirmó ausente. Los identificadores y eventos reales
+permanecen en recibos privados 0600.
+[Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L182),
+[imágenes de EMR Serverless](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/application-custom-image.html).
+
 ## Lote 374–375: Synthetics StartCanary y dry run de código de reemplazo
 
 Se creó un canary de ejecución única, rol mínimo, bucket de artefactos y
@@ -82,7 +105,7 @@ anclados a contenido idéntico.
 
 Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron las 50; las rutas nuevas o no cubiertas halladas se conservan como pendientes abajo.
 
-Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **dos rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge e imagen personalizada de EMR Serverless. ARC SSM Run Command tiene plan propio creado, actualizado y ejecutado, con reglas específicas verificadas mediante CloudTrail; el objetivo no coincidía con ningún nodo. La correlación de Deadline se integró en la PR 168.
+Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **una ruta nueva** sigue pendiente de prueba específica: CloudFront con Lambda@Edge. La imagen personalizada de EMR Serverless ya tiene una regla de cambio de configuración validada en el lote 376–377; sigue pendiente probar un trabajo que use la imagen. ARC SSM Run Command tiene plan propio creado, actualizado y ejecutado, con reglas específicas verificadas mediante CloudTrail; el objetivo no coincidía con ningún nodo. La correlación de Deadline se integró en la PR 168.
 
 ### Encabezados nuevos en páginas modificadas
 
@@ -96,7 +119,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 | `aws-delta-fd4d6f4852d75a40` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135) | `deadline:AssumeFleetRoleForWorker` on an existing worker | `AssumeFleetRoleForWorker` probado con worker propio; regla de vending publicada en lote 366. Caso con worker preexistente ajeno sin probar. |
 | `aws-delta-c2403f702fbd6615` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141) | `deadline:CreateWorker` and `deadline:AssumeFleetRoleForWorker` on an existing fleet | Ambos eventos probados en flota propia y cubiertos por reglas de lote 366; la correlación automática se integró en PR 168. |
 | `aws-delta-03ad82941d272075` | [aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L218) | `elasticmapreduce:GetClusterSessionCredentials` — connect to a runtime-role cluster endpoint | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
-| `aws-delta-4436873172a551bc` | [aws-privilege-escalation/aws-emr-serverless-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L182) | `emr-serverless:UpdateApplication` — replace a custom image for future workloads | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
+| `aws-delta-4436873172a551bc` | [aws-privilege-escalation/aws-emr-serverless-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L182) | `emr-serverless:UpdateApplication` — replace a custom image for future workloads | Imagen propia y cambio aceptado probados; regla de configuración validada en lote 376–377. Falta probar ejecución de trabajo. |
 | `aws-delta-7de01048670df834` | [aws-privilege-escalation/aws-glue-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/README.md#L101) | Replace the script of an existing Glue job | Sección nueva; reglas Glue UpdateJob y correlación con StartJobRun ya publicadas. |
 | `aws-delta-b44646df7c2845f3` | [aws-privilege-escalation/aws-organizations-prinvesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-organizations-prinvesc/README.md#L35) | `organizations:CreateAccount` — create a member account with a management access role | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-732b696844283c77` | [aws-privilege-escalation/aws-organizations-prinvesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-organizations-prinvesc/README.md#L83) | `organizations:RegisterDelegatedAdministrator` — delegate a service to a member account | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
