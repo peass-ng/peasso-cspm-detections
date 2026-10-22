@@ -1,5 +1,27 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 359–361: señales Redshift y descarga del catálogo en revisión
+
+La [PR 162 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/162)
+recupera las dos señales de `UpdateWorkgroup` del lote 298 sobre acceso
+público y lista de grupos de seguridad solicitados. Los dos eventos reales
+coincidieron, pasaron 14 pruebas locales y la limpieza ya estaba confirmada.
+La [PR 163](https://github.com/peass-ng/PEASSo-CSPM/pull/163) reconoce
+`UpdateNamespace` sólo cuando la solicitud asocia un rol IAM y la respuesta
+confirma ese rol como predeterminado; coincidió con el evento real del lote
+297, descartó el cambio de contraseña y pasó 13 pruebas locales. Las tres
+reglas correspondientes permanecen aisladas hasta integrar ambos parsers.
+
+Una descarga real del catálogo `latest` falló porque el lector del CSPM
+rechazaba el `AGENTS.md` raíz del repositorio de reglas. La
+[PR 164](https://github.com/peass-ng/PEASSo-CSPM/pull/164) admite sólo ese
+archivo ordinario y acotado, manteniendo el rechazo de enlaces y tamaños
+excesivos. Pasaron 36 pruebas focalizadas; con la corrección, la descarga
+real verificó el `main` público y sus **1477 reglas AWS**, con SHA256 del
+paquete `ca95313df3b9bc557cf04c39d8a2f60fd85eb0e6854318c8519f387de4c8da9b`.
+Sigue pendiente integrar la PR; el `main` actual del CSPM todavía no incluye
+esa corrección.
+
 ## Lote 358: restablecimiento de administrador Redshift en integración
 
 Se creó un namespace Redshift Serverless **propio**, sin workgroup, con
