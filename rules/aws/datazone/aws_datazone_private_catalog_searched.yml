@@ -1,0 +1,29 @@
+title: Amazon DataZone catalog searched
+id: b3360000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  Search succeeded. The API can enumerate private project assets when the
+  caller is authorized. This rule identifies catalog search activity only;
+  it does not prove that an asset or form value was returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L43
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_Search.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: Search
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved project catalog search or governance automation.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-catalog-search
+x_cloudtrail_raw: true

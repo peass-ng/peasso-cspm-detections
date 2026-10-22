@@ -1,0 +1,29 @@
+title: Amazon DataZone project memberships listed
+id: b3360000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  ListProjectMemberships succeeded. This request can enumerate project member
+  profiles and designations. CloudTrail does not establish that a particular
+  member was returned or that the caller later accessed project data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L43
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListProjectMemberships.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListProjectMemberships
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved project administration or membership audit.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-project-memberships-listed
+x_cloudtrail_raw: true
