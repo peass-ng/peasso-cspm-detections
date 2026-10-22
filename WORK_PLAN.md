@@ -4,7 +4,7 @@
 
 Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente local actual de HackTricks: `9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
-Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 18 de esas 50 y quedan 32 por examinar.
+Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron 30 de esas 50 y quedan 20 por examinar.
 
 Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
 
@@ -87,7 +87,7 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Primera revisión del cuerpo sin encabezados nuevos
 
-Se revisaron **18 de las 50** páginas de la lista anterior, comparando las
+Se revisaron **30 de las 50** páginas de la lista anterior, comparando las
 líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 
 | Página | Decisión |
@@ -109,6 +109,18 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | CodeConnections privilege escalation | Corrige que `UpdateRepositoryLink` cambia conexión/KMS, no el propietario ni repo; `UpdateSyncConfiguration` conserva la ruta de despliegue. |
 | CodePipeline job credentials privilege escalation | Añade referencias cruzadas para dos lecturas ya descritas en la página de post explotación. |
 | CodeStar privilege escalation y subpágina CreateProject | Marca ambas técnicas como históricas tras el cierre completo del servicio; no hay laboratorio actual de CodeStar. |
+| Cognito user pools privilege escalation | Añade variante de atributo editable → claim en ID token → regla de roles de Identity Pool. No basta `UpdateUserAttributes`; requiere inventario de cliente, claim, proveedor, regla y sesión. Pendiente correlación específica. |
+| Config privilege escalation | Aclara elegibilidad de regla no conforme, documento SSM funcional y rol `AutomationAssumeRole`; no cambia la cadena de API. |
+| Control Tower privilege escalation | Acota provisión de cuenta y blueprint al rol y cuentas realmente afectados; mismas llamadas de Account Factory y CloudFormation. |
+| Data Pipeline privilege escalation | Aclara que hay dos roles pasables y que el comando debe ejecutarse; no cambia el evento de creación/activación. |
+| DataZone privilege escalation | Aclara restricciones de la sesión de rol, no una nueva forma de entrega de credenciales. |
+| Directory Service privilege escalation | Acota `ResetUserPassword` por tipo de directorio/OU y el acceso AWS por usuario o grupo asignado; misma operación. |
+| EC2 Image Builder privilege escalation | Aclara versiones de componente flotantes y autorización sobre el mismo pipeline; no añade API. |
+| ECR privilege escalation | Matiza consumidores, políticas V2, pull-through y mutabilidad. Las reglas de `PutImageTagMutability` y de repositorio ya cubren las llamadas descritas; el uso por un consumidor requiere seguimiento. |
+| ECS privilege escalation | Detalla requisitos de ECS Exec: agente activo, tarea/contenedor correctos y KMS; misma `ExecuteCommand`. |
+| Elastic Beanstalk privilege escalation | Aclara bundle S3 y despliegue regional. `CreateApplicationVersion`, `UpdateEnvironment` y `RebuildEnvironment` ya tienen reglas de evento. |
+| EventBridge Pipe stored-role privilege escalation | Añade prerrequisitos para `StartPipe`; ya tiene regla de evento. |
+| EventBridge Pipes privilege escalation | Aclara propagación, rol y tránsito de registros para `CreatePipe`; el cambio de configuración por sí solo no prueba ejecución del target. |
 
 ### Páginas retiradas
 
