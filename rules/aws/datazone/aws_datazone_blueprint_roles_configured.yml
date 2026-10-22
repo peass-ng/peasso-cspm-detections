@@ -1,0 +1,31 @@
+title: Amazon DataZone blueprint roles configured
+id: b3410000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutEnvironmentBlueprintConfiguration succeeded. Review the provisioning
+  and manage-access role ARNs, enabled Regions and change approval. A role
+  substitution can alter future environment provisioning or access grants;
+  this event alone does not prove that an environment used the roles.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L102
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_PutEnvironmentBlueprintConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: PutEnvironmentBlueprintConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved blueprint activation or role rotation.
+level: medium
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-datazone-blueprint-roles-configured
+x_cloudtrail_raw: true

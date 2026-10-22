@@ -1,5 +1,68 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 341: roles de blueprint administrado DataZone
+
+Al listar con `managed=true` aparecieron cuatro blueprints en un dominio nuevo;
+el 339 había omitido ese filtro. En `DefaultDataLake`, la configuración con
+dos roles temporales **sin permisos de provisión** y la región de ensayo fue
+aceptada. `GetEnvironmentBlueprintConfiguration` devolvió ambos ARNs y la
+región esperada. No se creó un entorno, un stack ni un recurso de datos; la
+prueba confirma cambio de configuración, no uso efectivo de los roles ni
+escalada consumada.
+
+CloudTrail entregó `PutEnvironmentBlueprintConfiguration` y
+`GetEnvironmentBlueprintConfiguration` aceptados como eventos de gestión,
+respectivamente `readOnly=false` y `readOnly=true`, con
+`AWS::DataZone::Domain` tipado. Las [dos reglas nuevas](rules/aws/datazone/)
+dieron **2 positivos reales y cero en 12 variantes negativas**; el listado de
+blueprints no activó ninguna. La regla de escritura requiere inspeccionar
+los ARNs de solicitud e inventario para establecer sustitución o riesgo real.
+`AssociateEnvironmentRole` y `GetEnvironmentCredentials` siguen pendientes
+de un entorno desechable propio.
+
+El dominio y los tres roles se borraron; una lectura independiente confirmó
+su ausencia. Recibos privados 0600: `/tmp/peasso-b341-private.json`,
+`/tmp/peasso-b341-cloudtrail-private.json`,
+`/tmp/peasso-b341-validation-private.json` y
+`/tmp/peasso-b341-cleanup-verified-private.json`.
+[HackTricks DataZone privesc](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L102);
+[AWS PutEnvironmentBlueprintConfiguration](https://docs.aws.amazon.com/datazone/latest/APIReference/API_PutEnvironmentBlueprintConfiguration.html).
+
+## Lote 340: blueprint CloudFormation personalizado no disponible
+
+Se creó un dominio temporal, tres roles propios y un bucket privado con una
+plantilla sintética. `CreateEnvironmentBlueprint` rechazó el intento con
+`AccessDeniedException` y el mensaje de servicio «Custom CloudFormation
+blueprints cannot be created». No hubo blueprint ni entorno creados; no se
+publicó una regla de éxito. Una lectura independiente confirmó ausentes el
+dominio, los tres roles y el bucket. Recibos privados 0600:
+`/tmp/peasso-b340-private.json` y
+`/tmp/peasso-b340-cleanup-verified-private.json`.
+
+## Preflight de Timestream LiveAnalytics
+
+`ListDatabases` con el perfil de laboratorio devolvió
+`AccessDeniedException`: la cuenta no es cliente existente de LiveAnalytics.
+[AWS cerró el acceso a nuevos clientes el 20 de junio de 2025](https://docs.aws.amazon.com/timestream/latest/developerguide/AmazonTimestreamForLiveAnalytics-availability-change.html).
+No se creó infraestructura ni se extrapoló una regla de `Query`, `UNLOAD` o
+`WriteRecords` desde un intento no aceptado. La página sigue pendiente de
+prueba viva en una cuenta que ya tenga acceso.
+
+## Lote 339: preparación de rutas de rol de entorno DataZone
+
+Se creó un dominio temporal con tres roles propios y sin políticas de
+provisionamiento en los dos roles candidatos. `ListEnvironmentBlueprints`
+sin `managed=true` devolvió **cero blueprints**. El lote 341 corrigió el
+filtro y encontró cuatro blueprints administrados, por lo que la ausencia del
+339 no era una limitación del dominio. No se publicó regla ni se afirmó
+escalada. Aún no se ha creado un entorno para probar
+`AssociateEnvironmentRole` o `GetEnvironmentCredentials`. El
+dominio y los tres roles se borraron, y una lectura independiente confirmó
+su ausencia. Recibos privados 0600: `/tmp/peasso-b339-private.json` y
+`/tmp/peasso-b339-cleanup-verified-private.json`.
+[HackTricks DataZone privesc](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L15);
+[AWS custom blueprint](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateEnvironmentBlueprint.html).
+
 ## Lote 338: membresía y rutas de suscripción de DataZone
 
 En un dominio y proyecto temporales propios se creó un usuario IAM **sin

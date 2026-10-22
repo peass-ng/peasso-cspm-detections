@@ -1,0 +1,29 @@
+title: Amazon DataZone blueprint role configuration read
+id: b3410000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetEnvironmentBlueprintConfiguration succeeded. This can reveal which
+  provisioning and manage-access roles a blueprint will use. CloudTrail
+  records the lookup but does not prove that the caller saw nonempty roles.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datazone-privesc/README.md#L102
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetEnvironmentBlueprintConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: GetEnvironmentBlueprintConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved blueprint administration or configuration audit.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-datazone-blueprint-configuration-read
+x_cloudtrail_raw: true
