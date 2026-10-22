@@ -1,0 +1,29 @@
+title: AWS Batch job submitted
+id: 24700000-0000-4000-8000-000000000001
+status: experimental
+description: A Batch job was submitted against a job definition and queue. Review
+  container command and environment overrides, the definition's job role, and final
+  job status. An accepted SubmitJob request does not prove a container was started.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-batch-privesc/README.md
+- https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: batch.amazonaws.com
+    event.name: SubmitJob
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved Batch workload submission.
+level: medium
+tags:
+- attack.execution
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-batch-job-submitted
+x_cloudtrail_raw: true
