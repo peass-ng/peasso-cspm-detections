@@ -1,0 +1,29 @@
+title: Elastic Beanstalk environment rebuild requested
+id: 27300000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  RebuildEnvironment was accepted. Rebuilding replaces environment resources
+  and can deploy the currently configured application source again. Confirm
+  the final state and source changes before attributing an outage or code theft.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md#L58
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_RebuildEnvironment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: RebuildEnvironment
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved environment repair.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-elasticbeanstalk-environment-rebuilt
+x_cloudtrail_raw: true
