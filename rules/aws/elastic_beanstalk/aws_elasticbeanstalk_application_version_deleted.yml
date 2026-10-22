@@ -1,0 +1,28 @@
+title: Elastic Beanstalk application version deleted
+id: 26800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  DeleteApplicationVersion succeeded. Review whether the version was needed
+  for deployment or rollback. The source bundle can remain in S3.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md#L74
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DeleteApplicationVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: DeleteApplicationVersion
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of an unused version.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-elasticbeanstalk-application-version-deleted
+x_cloudtrail_raw: true

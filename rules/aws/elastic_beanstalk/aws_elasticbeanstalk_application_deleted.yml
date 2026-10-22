@@ -1,0 +1,28 @@
+title: Elastic Beanstalk application deleted
+id: 26800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  DeleteApplication succeeded. Review whether the application had running
+  environments or versions; deletion alone does not prove outage.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md#L124
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_DeleteApplication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: DeleteApplication
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of an empty application.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-elasticbeanstalk-application-deleted
+x_cloudtrail_raw: true

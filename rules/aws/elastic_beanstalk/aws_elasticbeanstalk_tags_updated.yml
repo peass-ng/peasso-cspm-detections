@@ -1,0 +1,29 @@
+title: Elastic Beanstalk resource tags updated
+id: 26800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateTagsForResource succeeded. This API adds, changes, or removes tags;
+  compare the request and prior tags before attributing an authorization or
+  automation impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elastic-beanstalk-post-exploitation/README.md#L41
+  - https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_UpdateTagsForResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticbeanstalk.amazonaws.com
+    event.name: UpdateTagsForResource
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved application metadata maintenance.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-elasticbeanstalk-tags-updated
+x_cloudtrail_raw: true
