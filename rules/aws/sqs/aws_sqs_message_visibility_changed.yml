@@ -1,0 +1,28 @@
+title: SQS message visibility changed
+id: 25800000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  A principal changed the invisibility interval of a queued message. This can delay other consumers; inspect the caller and requested timeout. The event alone does not prove disruption.
+  Requires opt-in CloudTrail data events for the queue or topic.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md
+  - https://docs.aws.amazon.com/en_gb/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: ChangeMessageVisibility
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::SQS::Queue
+  condition: selection
+falsepositives:
+  - Approved retry or processing workflow.
+level: low
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-sqs-message-visibility-changed
+x_cloudtrail_raw: true

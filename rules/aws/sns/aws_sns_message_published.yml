@@ -1,0 +1,28 @@
+title: SNS message published
+id: 25800000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  A principal published to a topic. Review publishers outside approved roles and sensitive subscriber fan-out; CloudTrail hides the body, so this event does not prove malicious content.
+  Requires opt-in CloudTrail data events for the queue or topic.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sns-post-exploitation/README.md
+  - https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sns.amazonaws.com
+    event.name: Publish
+    event.category: Data
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::SNS::Topic
+  condition: selection
+falsepositives:
+  - Approved application publisher.
+level: low
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-sns-message-published
+x_cloudtrail_raw: true

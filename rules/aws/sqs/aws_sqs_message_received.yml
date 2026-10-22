@@ -1,0 +1,28 @@
+title: SQS message received
+id: 25800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  A principal requested queued messages. Review consumers outside approved application roles; the event records the read request but does not reveal returned message content.
+  Requires opt-in CloudTrail data events for the queue or topic.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sqs-post-exploitation/README.md
+  - https://docs.aws.amazon.com/en_gb/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: sqs.amazonaws.com
+    event.name: ReceiveMessage
+    event.category: Data
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::SQS::Queue
+  condition: selection
+falsepositives:
+  - Approved application consumer or worker.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-sqs-message-received
+x_cloudtrail_raw: true
