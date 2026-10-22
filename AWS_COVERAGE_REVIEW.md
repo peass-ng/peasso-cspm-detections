@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **71**. Total headings: **322**.
+Pages with at least three level-three headings and no direct YAML reference: **70**. Total headings: **314**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -44,17 +44,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - Bypass CloudTrail
 - EKS Ransom?
 - \`eks:UpdateClusterConfig\` — expose the API server to the internet
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md) (8 headings)
-
-- \`eks:CreateAccessEntry\`, \`eks:AssociateAccessPolicy\` — IAM-only path to cluster-admin
-- \`eks:CreateAccessEntry\` alone — join an existing privileged Kubernetes group
-- \`eks:UpdateAccessEntry\` — escalate an access entry that already exists
-- \`eks:CreatePodIdentityAssociation\`, \`iam:PassRole\`, \`iam:GetRole\` — bind an AWS role to a namespace you control
-- \`eks:UpdatePodIdentityAssociation\`, \`iam:PassRole\` — repoint an existing association (role swap, cross-account chaining, tag-guardrail bypass)
-- \`iam:PassRole\`, \`eks:CreateNodegroup\` / \`eks:CreateFargateProfile\` — run pods on capacity you control
-- \`eks:AssociateIdentityProviderConfig\` with a matching privileged RBAC group
-- Associate a cluster-admin access policy with an existing EKS access entry the source controls
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-redshift-privesc/README.md) (8 headings)
 

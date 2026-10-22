@@ -1,0 +1,27 @@
+title: EKS cluster configuration updated
+id: 28600000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateClusterConfig can change API endpoint exposure. Compare prior and new VPC endpoint settings; this event alone does not prove public exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eks-privesc/README.md#L224
+  - https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterConfig.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: eks.amazonaws.com
+    event.name: UpdateClusterConfig
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved EKS cluster administration.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-eks-cluster-config-updated
+x_cloudtrail_raw: true
