@@ -1,0 +1,27 @@
+title: Amazon MQ broker configuration revision updated
+id: 30200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  UpdateConfiguration published a new Amazon MQ configuration revision. For ActiveMQ, inspect the full revision for authorization changes and confirm whether any broker attached it; CloudTrail redacts the configuration body and this event alone does not grant broker access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mq-privesc/README.md#L20
+  - https://docs.aws.amazon.com/amazon-mq/latest/api-reference/configurations-configuration-id.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: amazonmq.amazonaws.com
+    event.name: UpdateConfiguration
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved ActiveMQ or RabbitMQ configuration deployment.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mq-configuration-revision-updated
+x_cloudtrail_raw: true
