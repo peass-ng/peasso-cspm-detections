@@ -1,0 +1,30 @@
+title: AWS Deadline Cloud fleet worker registered
+id: b3660000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateWorker registered a worker on a Deadline Cloud fleet. On a customer-managed
+  fleet, the registration can be logical, without an EC2 host. Correlate the farm,
+  fleet, worker and caller with AssumeFleetRoleForWorker before concluding that
+  the fleet role's credentials were obtained.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141
+  - https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_CreateWorker.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: deadline.amazonaws.com
+    event.name: CreateWorker
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Expected bootstrap of an authorized customer-managed fleet worker.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-deadline-create-worker-for-fleet-role
+x_cloudtrail_raw: true

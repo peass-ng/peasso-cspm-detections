@@ -6,7 +6,7 @@ Fuente fijada en el plan: `fd20da2cca4b8428e0ee120954247cfc2fe6c568`. Fuente loc
 
 Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; 50 otras páginas modificadas requieren revisar el cuerpo.
 
-Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, y **cinco rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, dos rutas Deadline Cloud, imagen personalizada de EMR Serverless y SSM Run Command.
+Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **tres rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge, imagen personalizada de EMR Serverless y SSM Run Command. La correlación entre registro y vending de Deadline también sigue pendiente.
 
 ### Encabezados nuevos en páginas modificadas
 
@@ -17,8 +17,8 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 | `aws-delta-429628366bf6dffe` | [aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md#L24) | `budgets:CreateBudgetAction`, `iam:PassRole` (+ `budgets:ExecuteBudgetAction`) — attach a policy through a budget action | Encabezado renombrado; creación IAM probada en lotes 363–364, regla aislada hasta PR 167. |
 | `aws-delta-d67848fac121c8ce` | [aws-privilege-escalation/aws-cloudcontrol-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md#L17) | `cloudformation:CreateResource` + `iam:PassRole` | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-282766a0f74d32d6` | [aws-privilege-escalation/aws-cloudfront-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md#L116) | `cloudfront:CreateDistribution` with Lambda@Edge | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
-| `aws-delta-fd4d6f4852d75a40` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135) | `deadline:AssumeFleetRoleForWorker` on an existing worker | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
-| `aws-delta-c2403f702fbd6615` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141) | `deadline:CreateWorker` and `deadline:AssumeFleetRoleForWorker` on an existing fleet | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
+| `aws-delta-fd4d6f4852d75a40` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135) | `deadline:AssumeFleetRoleForWorker` on an existing worker | `AssumeFleetRoleForWorker` probado con worker propio; regla de vending publicada en lote 366. Caso con worker preexistente ajeno sin probar. |
+| `aws-delta-c2403f702fbd6615` | [aws-privilege-escalation/aws-deadline-cloud-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141) | `deadline:CreateWorker` and `deadline:AssumeFleetRoleForWorker` on an existing fleet | Ambos eventos probados en flota propia y cubiertos por reglas de lote 366; la correlación automática sigue pendiente. |
 | `aws-delta-03ad82941d272075` | [aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md#L218) | `elasticmapreduce:GetClusterSessionCredentials` — connect to a runtime-role cluster endpoint | Encabezado renombrado; misma operación, revisar los cambios del cuerpo. |
 | `aws-delta-4436873172a551bc` | [aws-privilege-escalation/aws-emr-serverless-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-serverless-privesc/README.md#L182) | `emr-serverless:UpdateApplication` — replace a custom image for future workloads | Ruta nueva; falta prueba específica y regla o equivalencia verificada. |
 | `aws-delta-7de01048670df834` | [aws-privilege-escalation/aws-glue-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/README.md#L101) | Replace the script of an existing Glue job | Sección nueva; reglas Glue UpdateJob y correlación con StartJobRun ya publicadas. |
@@ -86,6 +86,38 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 - [aws-privilege-escalation/eventbridgescheduler-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/eventbridgescheduler-privesc/README.md) — revisar cambios en el cuerpo.
 
 ### Páginas retiradas
+
+## Lote 366: credenciales de flota Deadline Cloud sin host
+
+En `us-east-2` se creó una granja, un rol de flota limitado a la granja y
+una flota **customer-managed** sin EC2 ni trabajos. El rol tenía los permisos
+de worker y un permiso benigno adicional de listado S3. La primera llamada
+`CreateWorker` llegó durante `CREATE_IN_PROGRESS` y recibió
+`ConflictException`; se eliminaron todos los objetos de ese intento. El
+segundo ensayo esperó a `ACTIVE`: `AssumeFleetRoleForRead`, `CreateWorker` y
+`AssumeFleetRoleForWorker` devolvieron respuestas aceptadas. Se verificó que
+las credenciales de worker eran de una sesión del rol de flota y podían
+ejercer el permiso adicional. No se guardaron claves temporales ni se
+consultaron nombres de buckets en los recibos.
+
+CloudTrail registró los tres eventos de interés como llamadas de gestión
+aceptadas, sin recursos tipados; `CreateWorker` era escritura, y los dos
+`AssumeFleetRole` eran lectura. Las [tres reglas de Deadline](rules/aws/deadline/)
+dieron **3 positivos reales y cero en 18 variantes negativas**. Alertan sobre
+registro y solicitudes de credenciales por separado: todavía no prueban que
+ambas operaciones correspondan al mismo actor/worker ni que se usara un
+permiso peligroso. La primera flota y el segundo worker, flota, rol y granja
+se eliminaron; lecturas independientes confirmaron cinco ausencias finales,
+incluido cualquier grupo de logs propio. La facturación de Deadline para
+flotas customer-managed depende de tiempo de worker conectado; el worker
+de este ensayo fue temporal y no ejecutó trabajos.
+
+Recibos privados 0600: `/tmp/peasso-b366-deadline-receipt-private.json`,
+`/tmp/peasso-b366-deadline-cloudtrail-private.json` y
+`/tmp/peasso-b366-deadline-cleanup-private.json`.
+[HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L135),
+[roles de flota AWS](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/security-iam-service-roles.html)
+y [precio AWS](https://aws.amazon.com/deadline-cloud/pricing/).
 
 ## Lotes 363–364: creación de acción IAM mediante AWS Budgets
 
