@@ -1,0 +1,30 @@
+title: Launch Wizard deployments listed
+id: 18700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted ListDeployments call enumerated Launch Wizard deployments. The
+  event does not show returned deployment identifiers or prove that any
+  deployment existed; review unexpected readers before targeted GetDeployment
+  or ListDeploymentEvents access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-launch-wizard-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/launchwizard/latest/userguide/logging-using-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: launchwizard.amazonaws.com
+    event.name: ListDeployments
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved platform deployment inventory.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-launch-wizard-deployments-listed
+x_cloudtrail_raw: true
