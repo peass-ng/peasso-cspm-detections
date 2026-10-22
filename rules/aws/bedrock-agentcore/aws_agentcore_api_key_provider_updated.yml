@@ -1,0 +1,28 @@
+title: AgentCore API key credential provider updated
+id: 24200000-0000-4000-8000-000000000005
+status: experimental
+description: An AgentCore API key credential provider was updated. Review who rotated
+  the key and whether the new credential was approved. CloudTrail masks the key value,
+  so this event cannot show what secret was installed.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-bedrock-agentcore-privesc/README.md
+- https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity-api-key.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: bedrock-agentcore.amazonaws.com
+    event.name: UpdateApiKeyCredentialProvider
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::BedrockAgentCore::APIKeyCredentialProvider
+  condition: selection
+falsepositives:
+- Approved API key rotation.
+level: medium
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-agentcore-api-key-provider-updated
+x_cloudtrail_raw: true
