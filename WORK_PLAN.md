@@ -87,10 +87,31 @@ Estos son **encabezados candidatos**, no ataques distintos ni detecciones valida
 
 ### Páginas retiradas
 
+## Lote 369: cambio de rol de flota Deadline Cloud
+
+En una granja y flota customer-managed propias sin workers ni trabajos se
+configuró un primer rol limitado. Después de esperar `ACTIVE`, `UpdateFleet`
+con un segundo rol propio fue aceptado; `GetFleet` confirmó el segundo ARN y
+`AssumeFleetRoleForRead` devolvió una sesión de ese rol. CloudTrail entregó
+`UpdateFleet` como evento de gestión aceptado, con `roleArn` en la solicitud,
+`farmId` y `fleetId`. La regla específica aislada de la PR 168 dio **1
+positivo real y cero en 6 variantes negativas**; la lectura y la creación
+de flota activaron además las reglas ya existentes. La señal marca la
+solicitud aceptada y requiere línea base para distinguir cambio de
+reasignación idempotente.
+
+Se eliminaron flota, dos roles y granja. Una lectura independiente confirmó
+sus cuatro ausencias y que no quedó grupo de logs propio. Recibos privados
+0600: `/tmp/peasso-b369-fleet-role-update-receipt-private.json`,
+`/tmp/peasso-b369-fleet-role-update-cloudtrail-private.json` y
+`/tmp/peasso-b369-fleet-role-update-cleanup-private.json`.
+[HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-deadline-cloud-privesc/README.md#L141),
+[API AWS](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html).
+
 ## Lote 368: cambios de rol y secuencias Deadline en revisión
 
 La [PR 168 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/168)
-extrae de `CreateFleet`, `CreateQueue` y `UpdateQueue` sólo señales de
+extrae de `CreateFleet`, `UpdateFleet`, `CreateQueue` y `UpdateQueue` sólo señales de
 asignación explícita de un rol IAM de la misma cuenta. Para la flota nueva
 exige `customerManaged`; ninguna señal copia el ARN del rol en un hallazgo.
 También correlaciona `CreateWorker` → `AssumeFleetRoleForWorker` por misma
@@ -98,15 +119,16 @@ cuenta, Región, granja, flota, worker y actor, y `UpdateQueue` →
 `AssumeQueueRoleForUser` por misma cuenta, Región, granja, cola y actor,
 ambas dentro de 30 minutos.
 
-Las [cinco YAML nuevas](rules/aws/deadline/) están **aisladas** hasta
+Las [seis YAML nuevas](rules/aws/deadline/) están **aisladas** hasta
 integrar el parser. Con los eventos reales de los lotes 366–367 dieron
-cinco coincidencias adicionales: tres configuraciones y dos secuencias.
+cinco coincidencias adicionales: tres configuraciones y dos secuencias;
+el lote 369 añadió una sexta coincidencia `UpdateFleet`.
 Pasaron **25 pruebas focalizadas** del módulo, motor y sobre CloudTrail;
 los tests negativos cubren denegaciones, rol de otra cuenta, campos
 ausentes, identidad/recurso discordante, ventana agotada y eventos
 duplicados. La correlación no demuestra uso posterior de permisos del rol.
 La PR 168 parte del `main` actual y deberá incorporar la PR 167 antes de
-publicar las cinco YAML; no se mezclaron borradores con el catálogo público.
+publicar las seis YAML; no se mezclaron borradores con el catálogo público.
 
 ## Lote 367: vending de rol de cola Deadline Cloud
 
