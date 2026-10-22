@@ -1,0 +1,28 @@
+title: S3 Files file system created over an S3 bucket
+id: 25300000-0000-4000-8000-000000000001
+status: experimental
+description: A file system was created over an S3 bucket using a passed synchronization
+  role. Review the source bucket and role permissions; creation alone does not show
+  a mount or file access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-s3-files-privesc/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-logging-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3files.amazonaws.com
+    event.name: CreateFileSystem
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Files::FileSystem
+  condition: selection
+falsepositives:
+- Approved S3 Files file system provisioning.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-s3files-file-system-created
+x_cloudtrail_raw: true

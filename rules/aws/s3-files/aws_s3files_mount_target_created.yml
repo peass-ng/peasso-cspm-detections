@@ -1,0 +1,28 @@
+title: S3 Files mount target created
+id: 25300000-0000-4000-8000-000000000004
+status: experimental
+description: A mount target was created in a subnet for an S3-backed file system.
+  Review the subnet and security groups; this event alone does not show reachable
+  NFS or object access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-files-post-exploitation/README.md
+- https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-files-logging-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3files.amazonaws.com
+    event.name: CreateMountTarget
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::S3Files::FileSystem
+  condition: selection
+falsepositives:
+- Approved mount target provisioning.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-s3files-mount-target-created
+x_cloudtrail_raw: true
