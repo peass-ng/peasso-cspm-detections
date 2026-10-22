@@ -1,0 +1,27 @@
+title: Amazon DataZone group profiles searched
+id: b3520000-0000-4000-8000-000000000005
+status: experimental
+description: A caller searched DataZone group profiles. Repeated searches can map group identities
+  and access paths, but this event alone does not prove a matching group was returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L21
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_SearchGroupProfiles.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: SearchGroupProfiles
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved member lookup or identity administration.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-searchgroupprofiles-enumeration
+x_cloudtrail_raw: true

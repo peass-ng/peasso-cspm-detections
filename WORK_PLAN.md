@@ -1,5 +1,28 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 352: enumeración de dominio y perfiles DataZone
+
+En un dominio temporal con un proyecto propio se aceptaron ocho rutas de
+inventario: `GetDomain`, `ListDomainUnitsForParent`, `ListProjects`,
+`SearchUserProfiles`, `SearchGroupProfiles`, `ListEnvironmentBlueprints`,
+`ListEnvironmentBlueprintConfigurations` y `ListEnvironmentProfiles`. Los
+blueprints administrados devolvieron cuatro elementos; las búsquedas y
+listados restantes no se interpretan como hallazgos de usuarios, grupos,
+unidades o perfiles cuando su respuesta está vacía. CloudTrail entregó nueve
+eventos reales de esas ocho operaciones: `GetDomain` apareció dos veces.
+Las dos búsquedas de perfiles figuran con `readOnly=false`; los otros seis
+tipos figuran con `readOnly=true`. Las [ocho reglas](rules/aws/datazone/)
+coincidieron en **9 positivos reales y cero en 48 variantes negativas**.
+Describen enumeración, no lectura de activos ni acceso a datos.
+
+Se eliminó el dominio y su rol de ejecución; una lectura independiente
+confirmó ambos ausentes. Recibos privados 0600:
+`/tmp/peasso-b352-private.json`,
+`/tmp/peasso-b352-cloudtrail-private.json`,
+`/tmp/peasso-b352-validation-private.json` y
+`/tmp/peasso-b352-cleanup-verified-private.json`.
+[HackTricks DataZone enum](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L21).
+
 ## Lote 351: lecturas del catálogo privado DataZone
 
 Un dominio, un proyecto productor, un activo, tipos de activo y formulario y

@@ -1,0 +1,27 @@
+title: Amazon DataZone environment profiles listed
+id: b3520000-0000-4000-8000-000000000008
+status: experimental
+description: A caller listed environment profiles. This can map reusable environment settings
+  when present; the event alone does not prove any profiles were returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L100
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListEnvironmentProfiles.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListEnvironmentProfiles
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved project environment inventory.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-listenvironmentprofiles-enumeration
+x_cloudtrail_raw: true

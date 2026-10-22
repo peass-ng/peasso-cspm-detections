@@ -1,0 +1,28 @@
+title: Amazon DataZone domain details read
+id: b3520000-0000-4000-8000-000000000001
+status: experimental
+description: A caller read DataZone domain configuration, which can include execution roles,
+  portal settings and the root domain unit. Confirm the caller and whether the domain was approved
+  for its inventory.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L21
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetDomain.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: GetDomain
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved domain administration or governance inventory.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-getdomain-enumeration
+x_cloudtrail_raw: true
