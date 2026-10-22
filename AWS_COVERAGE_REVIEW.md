@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **77**. Total headings: **349**.
+Pages with at least three level-three headings and no direct YAML reference: **76**. Total headings: **344**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -192,14 +192,6 @@ Pages with at least three level-three headings and no direct YAML reference: **7
 - Token leakage from memory
 - Finding CodeBuild URLs in GitHub PRs
 - Quick audit checklist
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md) (5 headings)
-
-- Query current and historical cross-service configuration without native service reads
-- Redirect future configuration inventory with \`config:PutDeliveryChannel\`
-- Force a fixed custom evaluator with \`config:StartConfigRulesEvaluation\`
-- Neuter a rule in place with \`config:PutConfigRule\` (blind)
-- Stop recording / cap retention
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md) (5 headings)
 
