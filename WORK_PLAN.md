@@ -1,5 +1,15 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Revisión de referencias directas AWS
+
+La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
+anteriores contiene **48 páginas y 212 encabezados** sin referencia YAML
+directa en el corte `47c375ae`. Dos páginas salieron de la cola porque ya
+tenían referencias exactas: EBS Multi-Attach y persistencia Redshift.
+Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
+completa de las páginas citadas. La auditoría de cada ruta y sus efectos
+sigue abierta.
+
 ## Lote 382–383: configuración de ciclo de vida en espacio SageMaker
 
 Un dominio, perfil, espacio privado JupyterLab, rol y configuración Studio

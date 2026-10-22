@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **50**. Total headings: **223**.
+Pages with at least three level-three headings and no direct YAML reference: **48**. Total headings: **212**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -33,16 +33,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - Poison the product BOM through an import job
 - Poison or delete dataset rows with real-time events
 - Destructive deletion and operational denial
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md) (7 headings)
-
-- Summary
-- Requirements
-- Notes
-- Prepare a Multi-Attach io2 volume and attach to victim
-- Attach the same volume to the attacker instance
-- Mount read-only on the attacker and read data
-- Impact
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md) (6 headings)
 
@@ -185,13 +175,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - \`sso:PutPermissionsBoundaryToPermissionSet\` + \`sso:ProvisionPermissionSet\`
 - \`sso:GetRoleCredentials\`
 - \`sso-admin:CreateTrustedTokenIssuer\` (+ \`CreateApplication\` / \`PutApplicationGrant\`) — impersonate any user via a rogue trusted token issuer
-
-## [src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-redshift-persistence/README.md) (4 headings)
-
-- \`redshift-serverless:UpdateNamespace\` - reset the Serverless database administrator
-- \`redshift:ModifyCluster\` - reset the provisioned-cluster master password
-- \`redshift-serverless:UpdateWorkgroup\` - open a network path to a planted credential
-- \`redshift:AuthorizeEndpointAccess\` - retain a cross-account private route
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-devops-agent-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-devops-agent-post-exploitation/README.md) (4 headings)
 
