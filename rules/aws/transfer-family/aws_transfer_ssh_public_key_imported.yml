@@ -1,0 +1,28 @@
+title: Transfer Family SSH public key imported for a user
+id: 25000000-0000-4000-8000-000000000002
+status: experimental
+description: An SSH public key was added to a service-managed Transfer user. Review
+  user ownership and key fingerprint; the event alone does not prove authentication
+  with the new key.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-transfer-family-privesc/README.md
+- https://docs.aws.amazon.com/transfer/latest/userguide/cloudtrail-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: transfer.amazonaws.com
+    event.name: ImportSshPublicKey
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved SSH key rotation or user onboarding.
+level: high
+tags:
+- attack.credential-access
+x_hacktricks_technique_id: aws-transfer-ssh-public-key-imported
+x_cloudtrail_raw: true

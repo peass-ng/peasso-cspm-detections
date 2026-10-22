@@ -1,0 +1,28 @@
+title: Transfer Family service-managed user created
+id: 25000000-0000-4000-8000-000000000001
+status: experimental
+description: A service-managed Transfer user was created with an IAM role. Review
+  the assigned role and home directory; creation alone does not prove SFTP login or
+  storage access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-transfer-family-privesc/README.md
+- https://docs.aws.amazon.com/transfer/latest/userguide/cloudtrail-logging.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: transfer.amazonaws.com
+    event.name: CreateUser
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved SFTP user onboarding.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-transfer-user-created
+x_cloudtrail_raw: true

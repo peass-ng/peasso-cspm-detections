@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **81**. Total headings: **369**.
+Pages with at least three level-three headings and no direct YAML reference: **80**. Total headings: **363**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -159,15 +159,6 @@ Pages with at least three level-three headings and no direct YAML reference: **8
 - LiveAnalytics: invisible record injection, upsert and version pinning with \`timestream:WriteRecords\`
 - \`timestream:CreateScheduledQuery\` + \`iam:PassRole\` — run SQL and downstream writes as a scheduled-query role
 - \`timestream:ExecuteScheduledQuery\` — trigger an already stored role workflow
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-transfer-family-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-transfer-family-post-exploitation/README.md) (6 headings)
-
-- Web apps: multi-service authorization, not anonymous S3
-- \`logs:FilterLogEvents\` / \`logs:GetLogEvents\` — recover custom-IdP passwords from logs
-- \`transfer:TestIdentityProvider\` — query a custom IdP with a chosen password and source IP
-- \`transfer:UpdateServer\` — disable both Transfer server logging paths
-- Connector remote-directory, move, and delete capability pivot
-- Service disruption and trust-material tampering
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpn-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-vpn-post-exploitation/README.md) (6 headings)
 
