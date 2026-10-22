@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **57**. Total headings: **251**.
+Pages with at least three level-three headings and no direct YAML reference: **56**. Total headings: **244**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -33,16 +33,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - Poison the product BOM through an import job
 - Poison or delete dataset rows with real-time events
 - Destructive deletion and operational denial
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md) (7 headings)
-
-- \`connect:CreateParticipant\` — Mint a live chat or WebRTC participant bearer
-- Collect contact metadata, attributes, references and files
-- Recover flow source and integration targets
-- Read or monitor live conversations
-- Stream an active chat to a cross-account SNS topic
-- Intercept and alter an active chat with a custom message processor
-- Disable flow execution logs
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-ebs-multi-attach-data-theft.md) (7 headings)
 

@@ -1,0 +1,31 @@
+title: Amazon Connect chat streaming started
+id: b3270000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  StartContactStreaming succeeded for a chat. Inspect the SNS destination
+  account and topic against the Connect instance account and approved
+  integrations. This event alone does not prove message delivery or
+  cross-account exfiltration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md#L193
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: connect.amazonaws.com
+    event.name: StartContactStreaming
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved chat analytics or archive integration.
+level: medium
+tags:
+  - attack.collection
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-connect-chat-streaming-started
+x_cloudtrail_raw: true

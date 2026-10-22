@@ -1,0 +1,29 @@
+title: Amazon Connect contact attributes read
+id: b3270000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  GetContactAttributes succeeded. Attributes can contain application data
+  placed there by a flow or integration. CloudTrail does not reveal the
+  returned values; investigate unusual callers or bulk reads.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md#L57
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_GetContactAttributes.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: connect.amazonaws.com
+    event.name: GetContactAttributes
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved integration or contact-center support read.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-connect-contact-attributes-read
+x_cloudtrail_raw: true

@@ -1,0 +1,29 @@
+title: Amazon Connect contact flow source read
+id: b3270000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  DescribeContactFlow succeeded. The caller could inspect flow logic and
+  integration identifiers. CloudTrail records the request, not the returned
+  flow source. Review access outside approved administration.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeContactFlow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: connect.amazonaws.com
+    event.name: DescribeContactFlow
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved flow development or support investigation.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-connect-contact-flow-source-read
+x_cloudtrail_raw: true

@@ -1,0 +1,29 @@
+title: Amazon Connect contact metadata read
+id: b3270000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  DescribeContact succeeded. The response can contain contact metadata;
+  CloudTrail records the request but does not establish that any sensitive
+  field was present or copied. Review unusual readers or repeated contact IDs.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-post-exploitation/README.md#L57
+  - https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeContact.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: connect.amazonaws.com
+    event.name: DescribeContact
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved contact-center support or reporting.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-connect-contact-metadata-read
+x_cloudtrail_raw: true
