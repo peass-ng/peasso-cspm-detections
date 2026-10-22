@@ -1,0 +1,27 @@
+title: AWS EMR security configuration listed and described
+id: b3940000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  One actor listed EMR security configurations and then successfully described
+  a named configuration within fifteen minutes. The response body is absent
+  from CloudTrail, so this signal does not prove the returned encryption,
+  Kerberos, or EMRFS authorization values or any later exploitation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L55
+  - https://docs.aws.amazon.com/emr/latest/APIReference/API_DescribeSecurityConfiguration.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: EmrSecurityConfigurationReadAfterList
+    event.outcome: success
+    request.emr_security_configuration_read_after_list: true
+  condition: selection
+falsepositives:
+  - Approved EMR security configuration inventory or troubleshooting.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-emr-security-configuration-read-after-list

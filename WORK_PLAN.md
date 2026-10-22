@@ -3,13 +3,32 @@
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-anteriores contiene **46 páginas y 200 encabezados** sin referencia YAML
+actuales contiene **45 páginas y 196 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
-Migration Hub Strategy y EMR clásico salieron de la cola al recibir
-referencias exactas.
+Migration Hub Strategy, EMR clásico y EMR post-explotación salieron de la cola
+al recibir referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
+
+## Lote 394: lectura de configuración de seguridad EMR
+
+Se creó una configuración de seguridad EMR desechable sin clúster asociado.
+`ListSecurityConfigurations` y `DescribeSecurityConfiguration` fueron
+aceptadas y CloudTrail registró ambas como lecturas de gestión; la
+[regla de lectura](rules/aws/emr/aws_emr_security_configuration_read_after_list.yml)
+produjo **un positivo real y cero en siete variantes negativas dirigidas**.
+El parser pasó once pruebas focalizadas junto a las rutas EMR anteriores y
+se integró en la [PR 184 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/184)
+como `0a610d6c94d915cbc1a970a42310b1047e01867b`.
+
+CloudTrail registró `responseElements=null`; la señal demuestra que se
+solicitó la configuración tras listar, no qué valores se devolvieron ni un
+uso posterior. La configuración propia se borró de inmediato y una lectura
+independiente confirmó su ausencia. No se creó un clúster ni recursos EC2.
+Eventos y recibos reales permanecen privados 0600.
+[HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L55),
+[configuraciones de seguridad AWS](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-create-security-configuration.html).
 
 ## Lote 393: inventario de un clúster EMR
 
@@ -28,8 +47,8 @@ CloudTrail registró `responseElements=null` para las cuatro llamadas; la
 señal prueba las consultas, no el contenido devuelto ni acceso posterior a
 scripts, nodos o secretos. Se reutilizó un clúster de laboratorio terminado;
 **no se creó infraestructura nueva** y no hubo recursos que borrar. Los
-eventos y recibos reales permanecen privados 0600. Sigue pendiente probar
-`DescribeSecurityConfiguration` con una configuración propia.
+eventos y recibos reales permanecen privados 0600. La lectura de
+`DescribeSecurityConfiguration` se probó por separado en el lote 394.
 [HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L55),
 [CloudTrail para EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/logging-using-cloudtrail.html).
 
