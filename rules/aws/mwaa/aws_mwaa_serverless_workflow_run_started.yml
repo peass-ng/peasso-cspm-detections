@@ -1,0 +1,27 @@
+title: MWAA Serverless workflow run started
+id: 32300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A caller started a serverless workflow run. If the workflow definition was supplied by that caller, its tasks can execute as the configured execution role. Link the run to its workflow creation and role before attributing privilege escalation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mwaa-privesc/README.md#L5
+  - https://docs.aws.amazon.com/mwaa/latest/mwaa-serverless-userguide/log-apis-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: airflow-serverless.amazonaws.com
+    event.name: StartWorkflowRun
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved scheduled or operator-initiated workflow run.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mwaa-serverless-workflow-run-started
+x_cloudtrail_raw: true

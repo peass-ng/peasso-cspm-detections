@@ -1,0 +1,30 @@
+title: MWAA Serverless task instance and XCom read
+id: 32300000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  GetTaskInstance returned task details, potentially including XCom values
+  generated under the workflow execution role. CloudTrail logs the read but
+  omits the response, so inspect the actor and whether the task held sensitive
+  results before concluding data exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mwaa-post-exploitation/README.md#L116
+  - https://docs.aws.amazon.com/mwaa-serverless/latest/APIReference/API_GetTaskInstance.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: airflow-serverless.amazonaws.com
+    event.name: GetTaskInstance
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Authorized task troubleshooting or application monitoring.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-mwaa-serverless-task-xcom-read
+x_cloudtrail_raw: true

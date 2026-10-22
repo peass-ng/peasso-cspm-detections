@@ -1,0 +1,27 @@
+title: MWAA Serverless workflow definition read
+id: 32100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  GetWorkflow returned a snapshotted workflow definition, execution role and source location to the caller. CloudTrail logs the read but omits the returned definition; review the actor and workflow sensitivity.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mwaa-post-exploitation/README.md#L116
+  - https://docs.aws.amazon.com/mwaa/latest/mwaa-serverless-userguide/log-apis-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: airflow-serverless.amazonaws.com
+    event.name: GetWorkflow
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Authorized workflow inspection or troubleshooting.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mwaa-serverless-workflow-definition-read
+x_cloudtrail_raw: true

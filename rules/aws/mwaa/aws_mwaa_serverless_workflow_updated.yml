@@ -1,0 +1,27 @@
+title: MWAA Serverless workflow configuration updated
+id: 32100000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  UpdateWorkflow changed a workflow version or configuration and supplied an execution role and S3 definition location. Compare old and new values before attributing role escalation or code replacement.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mwaa-post-exploitation/README.md#L7
+  - https://docs.aws.amazon.com/mwaa/latest/mwaa-serverless-userguide/log-apis-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: airflow-serverless.amazonaws.com
+    event.name: UpdateWorkflow
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::MWAAServerless::Workflow
+  condition: selection
+falsepositives:
+  - Approved release of a revised workflow definition or role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mwaa-serverless-workflow-updated
+x_cloudtrail_raw: true

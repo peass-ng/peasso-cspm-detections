@@ -1,0 +1,27 @@
+title: MWAA Serverless workflow created with execution role
+id: 32100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A workflow was created from an S3 definition with a passed execution role. Review the role, source bucket and actor; the event alone does not prove a task ran or that the role was more privileged.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mwaa-privesc/README.md#L5
+  - https://docs.aws.amazon.com/mwaa/latest/mwaa-serverless-userguide/log-apis-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: airflow-serverless.amazonaws.com
+    event.name: CreateWorkflow
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::MWAAServerless::Workflow
+  condition: selection
+falsepositives:
+  - Approved workflow provisioning by data pipeline operators.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-mwaa-serverless-create-workflow-passed-role
+x_cloudtrail_raw: true

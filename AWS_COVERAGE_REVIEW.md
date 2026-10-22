@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **61**. Total headings: **269**.
+Pages with at least three level-three headings and no direct YAML reference: **59**. Total headings: **258**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -53,16 +53,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - Attach the same volume to the attacker instance
 - Mount read-only on the attacker and read data
 - Impact
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mwaa-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mwaa-post-exploitation/README.md) (7 headings)
-
-- MWAA Serverless workflow creation as a passed execution role
-- Classic MWAA: \`airflow:CreateWebLoginToken\` / \`airflow:CreateCliToken\` → code execution as the environment execution role
-- Repoint the execution role: \`airflow:UpdateEnvironment\` + \`iam:PassRole\`
-- The Vulnerability
-- Exploitation
-- Impact
-- MWAA Serverless sensitive workflow reads
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-migration-hub-strategy-recommendations-post-exploitation/README.md) (6 headings)
 
@@ -303,13 +293,6 @@ Pages with at least three level-three headings and no direct YAML reference: **6
 - \`CreateWorkspaceServiceAccountToken\` — existing or attacker-created service account
 - \`grafana:UpdateWorkspaceAuthentication\` — attacker-controlled SAML IdP
 - \`grafana:UpdatePermissions\` — IAM Identity Center administrator
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mwaa-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mwaa-privesc/README.md) (4 headings)
-
-- \`airflow-serverless:CreateWorkflow\` + \`iam:PassRole\` → run attacker code as the execution role
-- Classic MWAA: \`airflow:CreateWebLoginToken\` / \`airflow:CreateCliToken\` → code execution as the environment execution role
-- Repoint the execution role: \`airflow:UpdateEnvironment\` + \`iam:PassRole\`
-- Write a DAG file into an MWAA environment's DAG bucket and run code as its execution role
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md) (4 headings)
 
