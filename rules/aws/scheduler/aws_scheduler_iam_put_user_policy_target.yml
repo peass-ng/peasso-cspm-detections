@@ -1,0 +1,28 @@
+title: AWS Scheduler configured to write an IAM user inline policy
+id: b3810000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  CreateSchedule or UpdateSchedule accepted a universal IAM PutUserPolicy
+  target with a same-account execution role. Scheduler can write an inline
+  policy if the schedule runs and the role permits the target action.
+  CloudTrail omits target.input in this event, so confirm subsequent IAM
+  activity before concluding permissions changed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/eventbridgescheduler-privesc/README.md#L15
+  - https://docs.aws.amazon.com/scheduler/latest/UserGuide/managing-targets-universal.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: scheduler.amazonaws.com
+    event.outcome: success
+    request.scheduler_iam_put_user_policy_target_requested: true
+  condition: selection
+falsepositives:
+  - Approved scheduling of a scoped IAM user policy change.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-scheduler-iam-put-user-policy-target

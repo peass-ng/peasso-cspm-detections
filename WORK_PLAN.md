@@ -1,5 +1,31 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 380–381: Scheduler hacia políticas IAM
+
+Un laboratorio aislado creó dos programaciones de EventBridge Scheduler con
+targets universales `iam:putRolePolicy` e `iam:putUserPolicy`, un rol de
+ejecución limitado a modificar un rol y un usuario propios, y políticas
+inocuas de listado S3. Ambas programaciones se crearon deshabilitadas y se
+activaron mediante `UpdateSchedule`. Al dispararse, las políticas aparecieron
+en las identidades de laboratorio; CloudTrail entregó **dos
+`CreateSchedule`, dos `UpdateSchedule`, un `PutRolePolicy` y un
+`PutUserPolicy` aceptados**. Las dos reglas específicas dieron **cuatro
+positivos reales y cero en 32 variantes negativas**; pasaron 14 pruebas
+focalizadas y el parser se integró en la
+[PR 177 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/177)
+como `9e46c5ffc9dfc39e7941a3459d24a2f10b1ef7bc`.
+Detectan la operación IAM configurada y el rol de ejecución de
+la misma cuenta; **no infieren el destinatario ni el contenido de la
+política**. En los cuatro eventos de Scheduler CloudTrail omitió por completo
+`target.input`, pese a que la página HackTricks afirma que se registra: la
+llamada IAM posterior fue la evidencia de aplicación efectiva. Dos intentos
+previos fallaron por propagación de confianza del rol recién creado y sus
+recursos se borraron; el intento final añadió reintentos acotados. Las dos
+programaciones, tres identidades y políticas se eliminaron; otra lectura
+confirmó ausencia de programaciones, roles y usuario. Recibos y eventos
+reales permanecen privados 0600. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/eventbridgescheduler-privesc/README.md#L15),
+[targets universales AWS](https://docs.aws.amazon.com/scheduler/latest/UserGuide/managing-targets-universal.html).
+
 ## Lote 378–379: autoasignación de política OpenSearch Serverless
 
 Se creó un rol IAM desechable sin permisos de datos y dos políticas de acceso
@@ -262,7 +288,7 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | IAM Identity Center / IdentityStore privilege escalation | Añade persistencia mediante `CreateUser` más membresía o assignment, sujeta a sign-in y aprovisionamiento asíncrono. Falta detector compuesto; no hay reglas específicas de IdentityStore publicadas. |
 | STS privilege escalation | Acota tokens SAML/web, tareas `AssumeRoot` y sus permisos de organización. `AssumeRoot` continúa pendiente de una organización de laboratorio con la función habilitada. |
 | CloudWatch Synthetics privilege escalation | Runtime compatible, canary propio y dry run probados en lote 374; señal específica de reemplazo de código validada con CloudTrail y resultado asíncrono PASSED. |
-| EventBridge Scheduler privilege escalation | Detalla target IAM `PutUserPolicy`/`PutRolePolicy`; la regla de target universal observa la configuración, pero la concesión efectiva necesita correlación con ejecución y política IAM. |
+| EventBridge Scheduler privilege escalation | Targets IAM `PutUserPolicy`/`PutRolePolicy` ejecutados en identidades propias y cubiertos por reglas específicas del lote 380–381. La concesión efectiva requiere el evento IAM posterior; CloudTrail omitió `target.input` en los cuatro eventos Scheduler. |
 
 ### Páginas retiradas
 
