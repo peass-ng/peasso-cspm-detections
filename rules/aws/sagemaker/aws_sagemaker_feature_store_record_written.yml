@@ -5,6 +5,7 @@ description: >
   A successful PutRecord data event wrote to a SageMaker Feature Store group. A caller could poison features used by models; this event alone does not establish that values were malicious. Review the writer, record provenance and expected feature distribution.
 references:
   - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/README.md#L272
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/feature-store-poisoning.md#L67
   - https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-logging-using-cloudtrail.html
 logsource:
   product: aws

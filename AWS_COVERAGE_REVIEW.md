@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **54**. Total headings: **238**.
+Pages with at least three level-three headings and no direct YAML reference: **53**. Total headings: **235**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -367,12 +367,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - \`rtbfabric:UpdateResponderGateway\` — replace a managed responder backend
 - \`rtbfabric:CreateOutboundExternalLink\` — stage a public exfiltration destination
 - \`rtbfabric:UpdateLinkModuleFlow\` — suppress, filter or alter bid traffic
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/feature-store-poisoning.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-post-exploitation/feature-store-poisoning.md) (3 headings)
-
-- Requirements
-- Steps
-- Data export
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-systems-manager-incident-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-systems-manager-incident-manager-post-exploitation/README.md) (3 headings)
 
