@@ -1,0 +1,27 @@
+title: Marketplace agreement invoice items listed
+id: 19500000-0000-4000-8000-000000000008
+status: experimental
+description: >
+  An accepted ListAgreementInvoiceLineItems call queried invoice items for an agreement. CloudTrail omits returned billing details.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-agreement-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: agreement-marketplace.amazonaws.com
+    event.name: ListAgreementInvoiceLineItems
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved procurement or seller operations.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-agreement-invoice-items-listed
+x_cloudtrail_raw: true

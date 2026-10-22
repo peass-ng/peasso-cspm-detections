@@ -1,0 +1,27 @@
+title: Marketplace agreement described
+id: 19500000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  An accepted DescribeAgreement call requested details of a known agreement. CloudTrail omits the returned contract content.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-agreement-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: agreement-marketplace.amazonaws.com
+    event.name: DescribeAgreement
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved procurement or seller operations.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-agreement-described
+x_cloudtrail_raw: true

@@ -1,0 +1,27 @@
+title: Marketplace agreement entitlements read
+id: 19500000-0000-4000-8000-000000000006
+status: experimental
+description: >
+  An accepted GetAgreementEntitlements call requested entitlements for a known agreement. The response can contain an onboarding token, but CloudTrail does not prove one was returned or used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-marketplace-post-exploitation/README.md
+  - https://docs.aws.amazon.com/marketplace/latest/developerguide/logging-agreement-api-calls-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: agreement-marketplace.amazonaws.com
+    event.name: GetAgreementEntitlements
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved procurement or seller operations.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-marketplace-agreement-entitlements-read
+x_cloudtrail_raw: true
