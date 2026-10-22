@@ -1,0 +1,31 @@
+title: Managed Flink extension presigned URL issued
+id: 31700000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  CreateApplicationPresignedUrl succeeded. The caller received a bearer URL
+  for a Flink application extension; review the requested URL type, session
+  lifetime and caller. This event-level signal also matches dashboard URLs
+  and does not prove that the URL was redeemed or notebook code executed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-flink-privesc/README.md#L117
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-flink-post-exploitation/README.md#L54
+  - https://docs.aws.amazon.com/managed-flink/latest/apiv2/API_CreateApplicationPresignedUrl.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: kinesisanalytics.amazonaws.com
+    event.name: CreateApplicationPresignedUrl
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved dashboard or Studio notebook access.
+level: medium
+tags:
+  - attack.credential-access
+x_hacktricks_technique_id: aws-managed-flink-extension-presigned-url-issued
+x_cloudtrail_raw: true
