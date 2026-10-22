@@ -1,5 +1,39 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 337: revisión y publicación de un activo DataZone
+
+Se creó otro dominio temporal propio, un proyecto, un tipo de formulario, un
+tipo de activo y un activo con un endpoint `example.invalid` sintético. Se
+publicó la revisión inicial, se creó una revisión con otro endpoint sintético
+y se volvió a publicar. `SearchListings` devolvió primero el valor inicial y
+después el revisado. Esto demuestra que la ruta puede cambiar lo que ve un
+consumidor del catálogo; no se conectó ningún servicio ni se enviaron datos
+a esos nombres de ejemplo.
+
+CloudTrail registró `CreateAssetRevision` y dos
+`CreateListingChangeSet` aceptados, con `AWS::DataZone::Domain` tipado y
+`readOnly=false`. El evento de revisión incluyó el formulario, pero el de
+publicación sólo el identificador, la acción `PUBLISH` y la revisión; las
+respuestas de `SearchListings` en CloudTrail no conservaron el valor del
+endpoint. Las [dos reglas nuevas](rules/aws/datazone/) dieron **3 positivos
+reales y cero en 18 variantes negativas**. La segunda regla detecta todo
+`CreateListingChangeSet`: exige leer `action` para distinguir publicación de
+retirada; no afirma por sí sola que el contenido cambió o fue consumido.
+
+La primera ejecución falló al guardar una fecha del SDK en el recibo y la
+segunda llegó antes de que IAM propagase el rol; ambos intentos se limpiaron.
+El tercero completó las llamadas, aunque una comprobación local de JSON
+falló después de que la búsqueda ya hubiera devuelto el valor revisado.
+Una lectura independiente confirmó ausentes el dominio y el rol finales.
+Recibos privados 0600: `/tmp/peasso-b337-private.json`,
+`/tmp/peasso-b337-cloudtrail-private.json`,
+`/tmp/peasso-b337-validation-private.json`,
+`/tmp/peasso-b337-cleanup-verified-private.json` y
+`/tmp/peasso-b337a-cleanup-verified-private.json` y
+`/tmp/peasso-b337b-cleanup-verified-private.json`.
+[HackTricks DataZone](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L99);
+[AWS CreateAssetRevision](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateAssetRevision.html).
+
 ## Lote 336: descubrimiento del catálogo de Amazon DataZone
 
 Un preflight encontró cero dominios en la región de ensayo. Se creó un dominio

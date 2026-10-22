@@ -1,0 +1,30 @@
+title: Amazon DataZone listing change set created
+id: b3370000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  CreateListingChangeSet succeeded. Inspect request action and entity revision
+  to determine whether an asset was published or unpublished. A published
+  revision may change metadata visible to catalog consumers, but this generic
+  event rule does not prove that content changed or was consumed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datazone-post-exploitation/README.md#L99
+  - https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateListingChangeSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: CreateListingChangeSet
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+  - Approved catalog publication or unpublication.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-datazone-listing-change-set-created
+x_cloudtrail_raw: true
