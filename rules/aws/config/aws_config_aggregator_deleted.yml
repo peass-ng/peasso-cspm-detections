@@ -1,0 +1,29 @@
+title: AWS Config aggregator deleted
+id: 27800000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  DeleteConfigurationAggregator removed a configuration aggregator and its
+  collected data. Review whether the aggregator was still used for security
+  inventory; CloudTrail does not establish the downstream impact.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L219
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationAggregator.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: DeleteConfigurationAggregator
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved retirement of an AWS Config aggregator.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-config-aggregator-deleted
+x_cloudtrail_raw: true

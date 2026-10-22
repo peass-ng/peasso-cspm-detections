@@ -1,0 +1,29 @@
+title: AWS Config aggregator source configuration written
+id: 27800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  PutConfigurationAggregator created or changed an aggregation source. Compare
+  the source accounts, Regions and filters with the approved configuration:
+  this event alone does not distinguish normal setup from narrowed coverage.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-config-post-exploitation/README.md#L58
+  - https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationAggregator.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: config.amazonaws.com
+    event.name: PutConfigurationAggregator
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved creation or maintenance of an AWS Config aggregator.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-config-aggregator-configuration-put
+x_cloudtrail_raw: true
