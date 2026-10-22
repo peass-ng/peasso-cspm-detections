@@ -1,0 +1,28 @@
+title: EFS mount target created in a subnet
+id: 24800000-0000-4000-8000-000000000002
+status: experimental
+description: A successful CreateMountTarget added an EFS network endpoint in a
+  subnet. Review its subnet and security groups for newly reachable client
+  paths. Creation alone does not show NFS connection or file access.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-efs-privesc/README.md
+- https://docs.aws.amazon.com/efs/latest/APIReference/API_CreateMountTarget.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: CreateMountTarget
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved file system availability-zone expansion.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-efs-mount-target-created
+x_cloudtrail_raw: true

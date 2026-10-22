@@ -1,0 +1,28 @@
+title: EFS mount target security groups changed
+id: 24800000-0000-4000-8000-000000000003
+status: experimental
+description: A successful ModifyMountTargetSecurityGroups replaced the security
+  groups on an EFS mount target. Compare old and new NFS ingress rules before
+  concluding that file-system access became broader.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-efs-privesc/README.md
+- https://docs.aws.amazon.com/efs/latest/APIReference/API_ModifyMountTargetSecurityGroups.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticfilesystem.amazonaws.com
+    event.name: ModifyMountTargetSecurityGroups
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved NFS network policy maintenance.
+level: medium
+tags:
+- attack.privilege-escalation
+x_hacktricks_technique_id: aws-efs-mount-target-security-groups-changed
+x_cloudtrail_raw: true
