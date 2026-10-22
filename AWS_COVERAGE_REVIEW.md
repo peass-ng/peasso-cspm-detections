@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **45**. Total headings: **196**.
+Pages with at least three level-three headings and no direct YAML reference: **44**. Total headings: **193**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -226,12 +226,6 @@ Pages with at least three level-three headings and no direct YAML reference: **4
 - Automation rules as a self-healing suppressor
 - Disabled controls / standards persist
 - Persistent blindness at the routing/aggregation layer
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md) (3 headings)
-
-- \`appstream:UpdateImagePermissions\` — share and clone a private golden image cross-account
-- \`appstream:CreateExportImageTask\` + \`iam:PassRole\` — turn a private image into an EC2 AMI
-- \`appstream:UpdateStack\` — re-enable client data-transfer channels
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-bedrock-data-access-post-exploitation/README.md) (3 headings)
 

@@ -1,0 +1,27 @@
+title: AppStream client data egress channel enabled
+id: 21300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted UpdateStack submitted and returned ENABLED for clipboard copy
+  to the local device, file download, or local printing. Review prior stack
+  settings and approved session policy; this event proves the new setting,
+  not that a user actually transferred data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md#L99
+  - https://docs.aws.amazon.com/appstream2/latest/developerguide/stacks.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: UpdateStack
+    event.outcome: success
+    request.appstream_client_egress_enabled: true
+  condition: selection
+falsepositives:
+  - Approved change to a stack's client transfer policy.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-appstream-client-egress-enabled

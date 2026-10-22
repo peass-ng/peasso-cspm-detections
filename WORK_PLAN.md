@@ -3,13 +3,30 @@
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **45 páginas y 196 encabezados** sin referencia YAML
+actuales contiene **44 páginas y 193 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
-Migration Hub Strategy, EMR clásico y EMR post-explotación salieron de la cola
-al recibir referencias exactas.
+Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
+post-explotación salieron de la cola al recibir referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
+
+## Lote 401: integrar los controles de transferencia AppStream pendientes
+
+Se retomó el laboratorio propio del lote 213. Su `UpdateStack` aceptado
+incluyó las cinco acciones de transferencia de datos en petición y respuesta;
+las [reglas de salida y entrada](rules/aws/appstream/) produjeron **dos
+positivos reales**, mientras `CreateStack` y `DeleteStack` produjeron cero.
+Cuatro pruebas focalizadas pasaron en el árbol actual. El parser, reforzado
+con comprobación de la cuenta del principal, se integró en la
+[PR 188 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/188)
+como `32ddac1a61a8129f67f09fac5bfd43cd1d53be29`; la PR 133 anterior se
+cerró y su rama remota se eliminó. La pila ya estaba borrada y una lectura
+independiente previa confirmó su ausencia. No se crearon recursos nuevos.
+La señal acredita el ajuste del canal, no una sesión ni transferencia real.
+Eventos y recibos permanecen privados 0600. Compartir una imagen y exportarla
+como AMI siguen pendientes de pruebas separadas.
+[HackTricks AppStream post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md#L99).
 
 ## Lotes 398–400: controles de permanencia y terminación EMR
 
@@ -1761,7 +1778,7 @@ CloudTrail entregó dos `DescribeChannel` aceptados, un `ListChannels` atribuido
 
 ## Lote 213: AppStream, canales de transferencia de pila reactivados
 
-Una pila AppStream propia se creó con cinco acciones de transferencia `DISABLED`: portapapeles en ambos sentidos, subida, descarga e impresión local. `UpdateStack` las puso en `ENABLED` y `DescribeStacks` confirmó las cinco; CloudTrail entregó un `UpdateStack` de gestión aceptado con las cinco opciones solicitadas y las ocho opciones resultantes en la respuesta. La [PR 133 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/133) separa las señales de salida (portapapeles hacia el cliente, descarga o impresión) y entrada (portapapeles desde el cliente o subida), exige coincidencia en petición y respuesta y emite sólo un hash de la pila. Los dos YAML permanecen aislados en `/tmp/peasso-b213-appstream-rule-draft` hasta la integración: dieron dos hallazgos reales y cero con cuatro variantes negativas. Cuatro tests sintéticos pasaron por ejecución directa; `pytest` sigue sin recolectar por la discrepancia previa de una fixture Azure en `tests/conftest.py`. La API confirma el ajuste, no una sesión o transferencia real. `DeleteStack` fue aceptado; una lectura independiente posterior confirmó la ausencia de la pila. Recibos privados 0600: `/tmp/peasso-b213-appstream-stack-private.json` y `/tmp/peasso-b213-{create,update,delete}stack-event-private.json`. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md). Las rutas de compartir imagen y exportarla como AMI en la misma página siguen pendientes.
+Una pila AppStream propia se creó con cinco acciones de transferencia `DISABLED`: portapapeles en ambos sentidos, subida, descarga e impresión local. `UpdateStack` las puso en `ENABLED` y `DescribeStacks` confirmó las cinco; CloudTrail entregó un `UpdateStack` de gestión aceptado con las cinco opciones solicitadas y las ocho opciones resultantes en la respuesta. El parser originalmente preparado en la [PR 133 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/133) separa las señales de salida (portapapeles hacia el cliente, descarga o impresión) y entrada (portapapeles desde el cliente o subida), exige coincidencia en petición y respuesta y emite sólo un hash de la pila. Los dos YAML y el parser se integraron finalmente en el lote 401 mediante la PR 188. La API confirma el ajuste, no una sesión o transferencia real. `DeleteStack` fue aceptado; una lectura independiente posterior confirmó la ausencia de la pila. Recibos privados 0600: `/tmp/peasso-b213-appstream-stack-private.json` y `/tmp/peasso-b213-{create,update,delete}stack-event-private.json`. [Ruta HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-appstream-post-exploitation/README.md). Las rutas de compartir imagen y exportarla como AMI en la misma página siguen pendientes.
 
 ## Lote 212: Timestream LiveAnalytics, acceso de laboratorio no disponible
 
