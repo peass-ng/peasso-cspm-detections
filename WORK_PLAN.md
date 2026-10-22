@@ -15,10 +15,16 @@ validarlas con eventos reales y 25 pruebas focalizadas. El laboratorio
 ARC Region Switch del lote 370 ejecutó un plan temporal con paso SSM y
 objetivos sin coincidencias; plan y rol se borraron y su ausencia se
 verificó de forma independiente. CloudTrail entregó `StartPlanExecution`:
-una regla de inicio de ejecución dio un positivo real y cero en ocho
-variantes negativas. `CreatePlan` y la detección específica de la
-configuración SSM esperan la entrega del evento de creación; no se afirma
-que un comando haya llegado a un nodo.
+una regla publicada de inicio de ejecución dio un positivo real y cero en
+ocho variantes negativas; no se afirma que un comando haya llegado a un
+nodo. Después se encontró `CreatePlan` y
+`DeletePlan` en CloudTrail de `us-east-1`, mientras que el inicio se registró
+en `us-east-2`. El lote 371 creó y actualizó otro plan SSM propio. Las
+respuestas de ambas operaciones repitieron rol y workflows; CloudTrail
+entregó las tres escrituras aceptadas. Dos reglas específicas
+produjeron **tres positivos reales y cero en 24 variantes negativas**.
+Plan y rol del segundo laboratorio también se borraron y se comprobaron
+ausentes. El parser se integró en la [PR 170 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/170) como `ed7b5a9addbbe0eaf7872739eaae0941e1619128`, con 25 pruebas focalizadas aprobadas. Las dos YAML se publican en este lote.
 
 ## Diferencia de fuentes AWS para el plan de trabajo
 
@@ -32,7 +38,7 @@ anclados a contenido idéntico.
 
 Páginas Markdown cambiadas: 62 modificadas, 0 añadidas, 0 retiradas. Las páginas modificadas contienen 16 encabezados nuevos en 12 páginas; otras 50 páginas cambiaron sólo el cuerpo. Se revisaron las 50; las rutas nuevas o no cubiertas halladas se conservan como pendientes abajo.
 
-Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **dos rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge e imagen personalizada de EMR Serverless. ARC SSM Run Command tiene un plan propio ejecutado; espera CloudTrail y regla validada. La correlación de Deadline se integró en la PR 168.
+Estos son **encabezados candidatos**, no ataques distintos ni detecciones validadas. Los cambios de nombre, la navegación, las técnicas duplicadas y los pasos bajo encabezados existentes requieren revisión manual. Una página sin encabezados nuevos puede contener una técnica nueva en el cuerpo. Tras comparar también los encabezados retirados, **10 de los 16 son renombres**, una sección nueva de Glue ya tiene reglas para `UpdateJob` y `StartJobRun`, dos rutas de Deadline Cloud tienen señales de eventos probadas en el lote 366, y **dos rutas nuevas** siguen pendientes de prueba específica: CloudFront con Lambda@Edge e imagen personalizada de EMR Serverless. ARC SSM Run Command tiene plan propio creado, actualizado y ejecutado, con reglas específicas verificadas mediante CloudTrail; el objetivo no coincidía con ningún nodo. La correlación de Deadline se integró en la PR 168.
 
 ### Encabezados nuevos en páginas modificadas
 

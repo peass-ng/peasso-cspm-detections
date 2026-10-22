@@ -1,0 +1,28 @@
+title: AWS ARC Region Switch plan with SSM command step updated
+id: b3710000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  UpdatePlan accepted workflows containing an SSM SendCommand execution
+  block, and the response confirms that plan and execution role. Compare the
+  previous version to determine whether this step or its targets changed.
+  This signal does not prove plan or node execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/9725dcb0f71c664994b24647815f17f3e330bfc3/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-region-switch-privesc/README.md#L20
+  - https://docs.aws.amazon.com/arc-region-switch/latest/api/API_UpdatePlan.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: arc-region-switch.amazonaws.com
+    event.name: UpdatePlan
+    event.outcome: success
+    request.arc_ssm_command_plan_updated: true
+  condition: selection
+falsepositives:
+  - Approved or idempotent disaster recovery plan update.
+level: high
+tags:
+  - attack.privilege-escalation
+  - attack.persistence
+x_hacktricks_technique_id: aws-arc-region-switch-ssm-command-plan-updated
