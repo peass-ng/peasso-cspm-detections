@@ -11,6 +11,26 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
+## Lote 397: solicitud de terminación de clúster EMR
+
+CloudTrail registró un `TerminateJobFlows` aceptado al limpiar un clúster
+descartable propio del lote 386. La
+[regla de terminación](rules/aws/emr/aws_emr_clusters_termination_requested.yml)
+produjo **un positivo real y cero en nueve variantes negativas dirigidas**;
+quince pruebas EMR focalizadas pasaron y el parser se integró en la
+[PR 186 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/186)
+como `a2924e8f4f3d7f181edb710eaf8b0e5cfcde35a1`.
+
+El evento acredita la solicitud aceptada; por sí solo no mide el trabajo
+interrumpido ni la pérdida de datos. La comprobación independiente previa del
+laboratorio confirmó el clúster `TERMINATED`, roles y perfil ausentes, y cero
+instancias, grupos de seguridad e interfaces propias. No se creó
+infraestructura nueva en este lote. Recibos y evento real privados 0600.
+Siguen pendientes las modificaciones de protección contra terminación y de
+la política de terminación automática.
+[HackTricks EMR post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L171),
+[TerminateJobFlows AWS](https://docs.aws.amazon.com/emr/latest/APIReference/API_TerminateJobFlows.html).
+
 ## Lote 395–396: debilitamiento de EMR Block Public Access
 
 En `us-east-2` se verificó primero que no había clústeres EMR activos y que

@@ -1,0 +1,27 @@
+title: AWS EMR cluster termination requested
+id: b3970000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  TerminateJobFlows accepted one or more EMR cluster IDs. This can interrupt
+  workloads and remove node-local data. The API event confirms the accepted
+  termination request; inspect cluster states and workloads to determine
+  whether termination completed and what data or work was affected.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-post-exploitation/README.md#L171
+  - https://docs.aws.amazon.com/emr/latest/APIReference/API_TerminateJobFlows.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: elasticmapreduce.amazonaws.com
+    event.name: TerminateJobFlows
+    event.outcome: success
+    request.emr_clusters_termination_requested: true
+  condition: selection
+falsepositives:
+  - Approved EMR cluster shutdown or cost-control cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-emr-clusters-termination-requested
