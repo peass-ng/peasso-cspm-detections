@@ -1,0 +1,27 @@
+title: Amazon DataZone environment actions listed
+id: b3550000-0000-4000-8000-000000000003
+status: experimental
+description: ListEnvironmentActions succeeded. This can map actions available for a project
+  environment when configured; an empty response does not establish a runnable action.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L100
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListEnvironmentActions.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListEnvironmentActions
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved environment inventory or administration.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-listenvironmentactions-observed
+x_cloudtrail_raw: true

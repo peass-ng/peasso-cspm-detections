@@ -1,0 +1,27 @@
+title: Amazon DataZone environment details read
+id: b3550000-0000-4000-8000-000000000005
+status: experimental
+description: GetEnvironment succeeded. The response can reveal a provisioned environment role
+  and resources; the event alone does not prove a role was associated or its credentials issued.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L100
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_GetEnvironment.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: GetEnvironment
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved environment administration or project inventory.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-getenvironment-observed
+x_cloudtrail_raw: true

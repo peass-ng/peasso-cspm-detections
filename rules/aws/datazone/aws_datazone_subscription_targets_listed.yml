@@ -1,0 +1,28 @@
+title: Amazon DataZone subscription targets listed
+id: b3550000-0000-4000-8000-000000000004
+status: experimental
+description: ListSubscriptionTargets succeeded for an environment. This can map fulfillment
+  destinations when targets exist; the event alone does not prove that any target or grant was
+  returned.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L147
+- https://docs.aws.amazon.com/datazone/latest/APIReference/API_ListSubscriptionTargets.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datazone.amazonaws.com
+    event.name: ListSubscriptionTargets
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: AWS::DataZone::Domain
+  condition: selection
+falsepositives:
+- Approved subscription fulfillment inventory.
+level: low
+tags:
+- attack.discovery
+x_hacktricks_technique_id: aws-datazone-listsubscriptiontargets-observed
+x_cloudtrail_raw: true

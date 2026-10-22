@@ -1,5 +1,36 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 355: portal y rutas de entorno DataZone
+
+Un dominio, proyecto y entorno `CustomAwsService` propios permitieron probar
+`GetIamPortalLoginUrl`, `GetEnvironmentBlueprint`,
+`GetEnvironmentBlueprintConfiguration`, `ListEnvironmentActions`,
+`ListSubscriptionTargets` y `GetEnvironment`. La URL temporal del portal se
+usó sólo para confirmar su presencia y **no se guardó ni imprimió**. En
+CloudTrail su valor estaba redactado y el evento figuraba `readOnly=false`;
+los otros cinco tipos eran lecturas. La lista de targets fue aceptada, pero
+no devolvió targets; no se infiere ningún grant ni acceso a datos.
+
+Las [cinco reglas nuevas](rules/aws/datazone/) y la regla existente de
+configuración de blueprint dieron **7 positivos reales y cero en 36
+variantes negativas dirigidas**. La evidencia del detector para el portal no
+contiene el campo de URL. Tras desasociar el rol y pedir el borrado, una
+lectura independiente confirmó ausentes dominio, ambos roles y stacks activos
+propios. Recibos privados 0600: `/tmp/peasso-b355-private.json`,
+`/tmp/peasso-b355-cloudtrail-private.json`,
+`/tmp/peasso-b355-validation-private.json` y
+`/tmp/peasso-b355-cleanup-verified-private.json`.
+[HackTricks DataZone enum](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-datazone-enum.md#L43).
+
+## Preflight Firewall Manager: administración no configurada
+
+En la cuenta de ensayo, `GetAdminAccount` devolvió
+`ResourceNotFoundException` y las lecturas de listas de aplicaciones,
+protocolos y resource sets devolvieron `AccessDeniedException`. No se
+modificó la administración de la organización ni se creó un recurso FMS;
+las rutas de esa página siguen pendientes de una cuenta FMS de laboratorio
+habilitada. [HackTricks Firewall Manager](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-firewall-manager-post-exploitation/README.md#L15).
+
 ## Lotes 353–354: retirada de rol y membresía DataZone
 
 Se revisó el evento `DisassociateEnvironmentRole` del laboratorio propio 344.
