@@ -1,0 +1,29 @@
+title: Amazon Fraud Detector event submitted or replaced
+id: b3570000-0000-4000-8000-000000000002
+status: experimental
+description: SendEvent succeeded for a stored event type. The same API can create a new event
+  or replace variables for an existing event ID; this single CloudTrail record cannot distinguish
+  those cases because the variables are redacted. Correlate repeated event type and event IDs
+  with prior writes and business authorization.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L42
+- https://docs.aws.amazon.com/frauddetector/latest/api/API_SendEvent.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: frauddetector.amazonaws.com
+    event.name: SendEvent
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved event ingestion or correction.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-frauddetector-event-submitted
+x_cloudtrail_raw: true

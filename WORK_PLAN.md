@@ -1,5 +1,34 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 357: datos y etiquetas de eventos Fraud Detector
+
+Una variable, tipo de entidad, dos etiquetas y tipo de evento **sintéticos**
+permitieron almacenar un evento, leerlo, cambiar su etiqueta y sustituir
+sus variables bajo el mismo ID y timestamp original. `GetEvent` confirmó el
+marcador inicial, la nueva etiqueta y el marcador de sustitución. Después,
+`DeleteEvent` eliminó el primero; un segundo evento propio permitió probar
+`DeleteEventsByEventType`, que pasó de `IN_PROGRESS_INITIALIZING` a
+`COMPLETE` y dejó ese evento ausente. Se eliminaron los cinco objetos de
+configuración y ambos eventos; una comprobación independiente confirmó
+**siete ausencias**. Sólo se usaron valores de prueba.
+
+CloudTrail entregó `GetEvent`, `SendEvent`, `UpdateEventLabel`, `DeleteEvent`
+y `DeleteEventsByEventType` aceptados, sin recursos tipados. Los valores de
+variables enviados estaban redactados; la evidencia del detector tampoco
+los copia. Las [cinco reglas nuevas](rules/aws/frauddetector/) dieron **12
+positivos reales y cero en 30 variantes negativas** y descartaron cuatro
+`GetEvent` fallidos. La señal `SendEvent` detecta una escritura aceptada,
+**no distingue por sí sola** entre alta y sustitución: queda pendiente
+correlacionar tipo e ID de evento con escrituras anteriores para detectar
+específicamente el reemplazo. La regla de borrado masivo marca la solicitud;
+su finalización requiere el estado aparte, observado en este laboratorio.
+Recibos privados 0600: `/tmp/peasso-b357-private.json`,
+`/tmp/peasso-b357-cloudtrail-private.json`,
+`/tmp/peasso-b357-validation-private.json` y
+`/tmp/peasso-b357-cleanup-verified-private.json`.
+[HackTricks Fraud Detector](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L17);
+[AWS disponibilidad](https://docs.aws.amazon.com/frauddetector/latest/ug/frauddetector-availability-change.html).
+
 ## Lote 356: inventario Migration Hub Strategy Recommendations
 
 Con `naxusai-admin` se aceptaron siete lecturas en `us-east-1`:

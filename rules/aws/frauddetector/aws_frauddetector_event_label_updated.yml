@@ -1,0 +1,28 @@
+title: Amazon Fraud Detector stored event label updated
+id: b3570000-0000-4000-8000-000000000003
+status: experimental
+description: UpdateEventLabel succeeded. This can change the ground-truth label used by investigations
+  or model training. Compare prior labels and reviewer identity to distinguish an approved correction
+  from poisoning.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L75
+- https://docs.aws.amazon.com/frauddetector/latest/api/API_UpdateEventLabel.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: frauddetector.amazonaws.com
+    event.name: UpdateEventLabel
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved adjudication or label correction.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-frauddetector-event-label-updated
+x_cloudtrail_raw: true

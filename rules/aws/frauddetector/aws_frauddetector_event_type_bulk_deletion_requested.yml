@@ -1,0 +1,28 @@
+title: Amazon Fraud Detector event type bulk deletion requested
+id: b3570000-0000-4000-8000-000000000005
+status: experimental
+description: DeleteEventsByEventType succeeded and started bulk deletion for an event type.
+  Check GetDeleteEventsByEventTypeStatus and counts before concluding data was removed; this
+  event alone is a deletion request.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L108
+- https://docs.aws.amazon.com/frauddetector/latest/api/API_DeleteEventsByEventType.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: frauddetector.amazonaws.com
+    event.name: DeleteEventsByEventType
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved teardown of an obsolete synthetic or production event type.
+level: high
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-frauddetector-event-type-bulk-deletion-requested
+x_cloudtrail_raw: true

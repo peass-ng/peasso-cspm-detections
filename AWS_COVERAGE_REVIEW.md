@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **51**. Total headings: **227**.
+Pages with at least three level-three headings and no direct YAML reference: **50**. Total headings: **223**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -206,13 +206,6 @@ Pages with at least three level-three headings and no direct YAML reference: **5
 - Enumerate cluster configuration, instances, and bootstrap artifacts
 - Weaken EMR Block Public Access with \`PutBlockPublicAccessConfiguration\`
 - Destroy a cluster with \`SetTerminationProtection\` and \`TerminateJobFlows\`
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md) (4 headings)
-
-- \`frauddetector:GetEvent\` - Read a known stored event
-- \`frauddetector:SendEvent\` - Blindly replace a stored event
-- \`frauddetector:UpdateEventLabel\` - Blind label poisoning
-- Event and decision-data destruction
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md) (4 headings)
 

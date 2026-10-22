@@ -1,0 +1,28 @@
+title: Amazon Fraud Detector stored event read
+id: b3570000-0000-4000-8000-000000000001
+status: experimental
+description: GetEvent succeeded. An authorized caller read a stored Fraud Detector event; the
+  returned variables are absent from the observed CloudTrail response. Review business authorization
+  for the event ID before calling the read a data exposure.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-fraud-detector-post-exploitation/README.md#L17
+- https://docs.aws.amazon.com/frauddetector/latest/api/API_GetEvent.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: frauddetector.amazonaws.com
+    event.name: GetEvent
+    event.category: Management
+    event.outcome: success
+    event.read_only: true
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+- Approved investigation or application event lookup.
+level: medium
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-frauddetector-event-read
+x_cloudtrail_raw: true
