@@ -1,0 +1,27 @@
+title: Image builder streaming URL created
+id: 19100000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted CreateImageBuilderStreamingURL request minted an administrator session URL for an AppStream image builder. The event does not prove the URL was opened or that its machine role was used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_CreateImageBuilderStreamingURL.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: CreateImageBuilderStreamingURL
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved image builder maintenance.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-image-builder-streaming-url-created
+x_cloudtrail_raw: true

@@ -1,0 +1,27 @@
+title: App block builder streaming URL created
+id: 19100000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted CreateAppBlockBuilderStreamingURL request minted a session URL for an AppStream app block builder. The event does not prove the URL was opened or that builder files or roles were accessed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_CreateAppBlockBuilderStreamingURL.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: CreateAppBlockBuilderStreamingURL
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved app block packaging.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-appstream-app-block-builder-streaming-url-created
+x_cloudtrail_raw: true

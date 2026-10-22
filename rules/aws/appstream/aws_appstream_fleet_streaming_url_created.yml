@@ -1,0 +1,27 @@
+title: Fleet streaming URL created
+id: 19100000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted CreateStreamingURL request minted a bearer URL for an AppStream fleet and stack. The event does not prove the URL was opened or that machine-role credentials were reached. CloudTrail masks the URL and user ID.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md
+  - https://docs.aws.amazon.com/appstream2/latest/APIReference/API_CreateStreamingURL.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: appstream.amazonaws.com
+    event.name: CreateStreamingURL
+    event.category: Management
+    event.outcome: success
+    event.read_only: false
+    resource.type: CloudTrail::UnscopedEvent
+  condition: selection
+falsepositives:
+  - Approved fleet access or test session.
+level: medium
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-appstream-fleet-streaming-url-created
+x_cloudtrail_raw: true
