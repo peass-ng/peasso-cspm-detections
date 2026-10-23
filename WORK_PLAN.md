@@ -1,5 +1,51 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 435: alarma compuesta con acciones deshabilitadas
+
+Se creó una alarma compuesta y un tema SNS propios con `AlarmRule=FALSE`,
+`ActionsEnabled=false` y el tema en `AlarmActions`. `PutCompositeAlarm` fue
+aceptada y CloudTrail entregó el evento sin error con ambos campos. La lectura
+posterior de `DescribeAlarms` no estableció el estado persistido de la alarma;
+la regla refleja **la solicitud aceptada**, no la desactivación de una alarma
+anterior ni la supresión comprobada de una notificación real. Una lectura
+independiente posterior confirmó que la alarma no figura entre las compuestas
+y que el tema SNS ya no existe. Recibos privados 0600:
+`/tmp/peasso-b435-cloudwatch-private.json`,
+`/tmp/peasso-b435-cloudwatch-cloudtrail-private.json`,
+`/tmp/peasso-b435-cloudwatch-independent-readback-private.json` y
+`/tmp/peasso-b435-cloudwatch-cleanup-independent-private.json`.
+
+La [regla CloudWatch](rules/aws/cloudwatch/aws_cloudwatch_composite_alarm_actions_disabled.yml)
+acertó con el evento real. Pasaron 28 pruebas focalizadas en la app y la
+lectura remota del pack fijado devolvió **1.622 reglas AWS**, SHA-256
+`e164770a027a3e2bf161012845a8ca8fc5b2bcff53e20d03d80669edf8c21dd8`.
+Reglas en `main` desde `a53b7d979a0fbe912f41db34cae22767e1a94bf2`;
+la app las fijó en [PR 288](https://github.com/peass-ng/PEASSo-CSPM/pull/288),
+merge `f04c643cf74611a652f92917447eb3d62254b7ac`. No se afirma despliegue.
+
+## Lote 434: Spot Fleet no aceptó la configuración aislada
+
+Se prepararon un rol EC2 propio sin permisos, instance profile, VPC, subnet
+y security group aislados para comprobar `RequestSpotFleet` con un perfil IAM
+y user data sintético. Se leyó un rol Spot Fleet preexistente, sin modificarlo.
+La llamada devolvió `InvalidSpotFleetRequestConfig` antes de crear una flota;
+CloudTrail confirmó `Client.InvalidSpotFleetRequestConfig` sin detalle
+suficiente para atribuir el campo inválido;
+no se observó una solicitud aceptada ni se genera regla a partir de este
+ensayo. Se debe revisar el motivo preciso de validación en el evento de
+CloudTrail si llega y repetir únicamente con una configuración corregida.
+El alcance buscado es la persistencia por capacidad mantenida descrita en la
+[página EC2 de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/README.md#L431),
+**no** una evasión de `ec2:RunInstances`.
+
+El bloque de limpieza retiró los cinco recursos auxiliares; una lectura
+independiente confirmó que rol, perfil, VPC, subnet y security group no
+existen y que no se creó flota. Recibos privados 0600:
+`/tmp/peasso-b434-spotfleet-private.json` y
+`/tmp/peasso-b434-spotfleet-cleanup-independent-private.json` y
+`/tmp/peasso-b434-spotfleet-cloudtrail-private.json`.
+No se creó rama remota ni se modificó el catálogo fijado.
+
 ## Lote 433: plantilla y solicitud Spot con perfil IAM
 
 Un rol EC2 propio **sin políticas**, su instance profile y una VPC/subred/
@@ -43,8 +89,8 @@ no se afirma despliegue.
 
 El [índice global de revisión](AWS_ACTION_REVIEW_ALL.md) ahora enumera **las
 578 páginas** del corpus de ataques AWS, incluso las **263** ya citadas por
-alguna regla. Recoge 1.713 encabezados H3, 601 menciones de acciones con
-nombre idéntico a algún `event.name`, 687 sin ese nombre y 889 encabezados
+alguna regla. Recoge 1.713 encabezados H3, 602 menciones de acciones con
+nombre idéntico a algún `event.name`, 686 sin ese nombre y 889 encabezados
 sin `service:Action`. **No son cifras de ataques pendientes ni de cobertura**:
 el nombre de acción puede diferir de CloudTrail, una regla puede cubrir otra
 ruta, un encabezado puede ser explicativo y una página citada puede contener

@@ -9,8 +9,8 @@ An exact event-name match also does not prove detection of the described route.
 H3 headings can be setup or background, and attack routes may appear outside H3.
 
 - Pages: **578**; direct YAML reference: **263**; no direct reference: **315**.
-- H3 headings: **1713**; exact action-name mentions: **601**;
-  mentions without an exact YAML event name: **687**; headings without
+- H3 headings: **1713**; exact action-name mentions: **602**;
+  mentions without an exact YAML event name: **686**; headings without
   a backticked `service:Action`: **889**.
 
 The [work plan](WORK_PLAN.md) contains the full no-reference census and
@@ -351,9 +351,9 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-emr-privesc/README.md) | yes | 6 | 3 | 10 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-s3-post-exploitation/README.md) | yes | 17 | 8 | 9 | 7 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ses-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ses-post-exploitation/README.md) | yes | 12 | 0 | 9 | 4 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md) | yes | 14 | 18 | 9 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-codebuild-privesc/README.md) | yes | 11 | 12 | 8 | 2 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-rds-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-rds-privesc/README.md) | yes | 8 | 4 | 8 | 2 |
+| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md) | yes | 14 | 19 | 8 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudfront-privesc/README.md) | yes | 3 | 3 | 8 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-elastic-beanstalk-privesc/README.md) | yes | 5 | 11 | 8 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-configuration-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sagemaker-configuration-access-post-exploitation/README.md) | yes | 4 | 0 | 7 | 0 |
@@ -773,7 +773,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 ### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md
 
 - [`oam:CreateLink`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L63)
-- [`cloudwatch:PutCompositeAlarm`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133)
 - [`cloudwatch:EnableAlarmActions`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L221)
 - [`cloudwatch:PutManagedInsightRules`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L350)
 - [`cloudwatch:PutMetricStream`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L398)
