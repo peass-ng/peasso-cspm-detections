@@ -1,0 +1,28 @@
+title: HealthLake FHIR REST export by POST submitted
+id: 973effcd-186a-43c2-bb31-8c5ec7de0b78
+status: experimental
+description: >
+  An accepted StartFHIRExportJobWithPost request submitted a REST $export
+  job to an S3 destination through a HealthLake access role. This separate
+  permission path can bypass a control that only blocks the native export
+  action. Datastore, role and destination are hashed. Job completion and
+  object delivery require separate evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L69
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/reference-fhir-operations-export.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRExportJobWithPost
+    event.outcome: success
+    request.healthlake_rest_export_post_submitted: true
+  condition: selection
+falsepositives:
+  - Approved FHIR REST export to a controlled S3 prefix.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthlake-fhir-rest-export-post-submitted

@@ -1,5 +1,43 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 432: importación y dos vías de exportación HealthLake
+
+Un cuarto datastore FHIR R4 desechable, un bucket privado y un rol IAM propio
+de lectura/escritura limitado a ese bucket se crearon con un Patient
+completamente sintético en NDJSON. Se usó la clave administrada existente
+`alias/aws/s3`; no se creó una CMK pendiente de borrado. `StartFHIRImportJob`
+aceptó la solicitud, terminó `COMPLETED` y una búsqueda FHIR posterior
+devolvió el canario. `StartFHIRExportJob` terminó `COMPLETED` y tres objetos
+de salida propios incluyeron el canario. La vía REST `POST /$export`
+respondió 202, su job terminó `COMPLETED` y tres objetos de salida propios
+incluyeron el canario. Esta prueba confirma ambas rutas de exportación en
+un entorno controlado; no demuestra acceso a datos de otros usuarios ni
+permisos mínimos de un atacante, pues las llamadas se hicieron con el perfil
+de laboratorio autorizado.
+
+CloudTrail entregó `StartFHIRImportJob`, `StartFHIRExportJob` y
+`StartFHIRExportJobWithPost` aceptados. Las [tres reglas](rules/aws/healthlake/)
+dieron tres hallazgos sobre esos tres eventos reales. Los eventos nativos
+incluyeron rol y prefijos S3; el REST incluyó `exportJobParameters` y un
+`responseBody` de bytes. Los parsers codifican datastore, rol y ubicación
+S3 como SHA-256 truncado, y omiten cuerpo, cabeceras, job ID y contenido
+clínico. Cada regla informa **envío aceptado**; el resultado del job se
+verificó por separado en el laboratorio. La vía REST GET queda pendiente:
+según la documentación, sus archivos pueden quedar disponibles durante
+48 horas y la prueba no ofrecía una eliminación inmediata comprobable.
+
+Recibos privados 0600:
+`/tmp/peasso-b432-healthlake-private.json`,
+`/tmp/peasso-b432-healthlake-cloudtrail-private.json`,
+`/tmp/peasso-b432-import-cloudtrail-private.json`,
+`/tmp/peasso-b432-export-cloudtrail-private.json`,
+`/tmp/peasso-b432-rest-export-cloudtrail-private.json`,
+`/tmp/peasso-b432-native-export-objects-private.json` y
+`/tmp/peasso-b432-rest-export-private.json`.
+El datastore llegó a `DELETED`; una lectura independiente confirmó que no
+figura activo y que el bucket y el rol propios están ausentes. El recibo es
+`/tmp/peasso-b432-healthlake-cleanup-independent-private.json` (0600).
+
 ## Lote 431: operaciones masivas y borrado del datastore HealthLake
 
 Un tercer datastore FHIR R4 aislado recibió cinco Patients enteramente

@@ -1,0 +1,27 @@
+title: HealthLake FHIR bulk export submitted
+id: b18c1c26-4d5a-4d95-ae62-141f730ec66e
+status: experimental
+description: >
+  An accepted StartFHIRExportJob submitted a FHIR datastore export to an
+  S3 location through a HealthLake access role. The detector hashes the
+  datastore, role and destination. The CloudTrail event alone does not
+  prove job completion or object delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L49
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/exporting-fhir-data-start.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRExportJob
+    event.outcome: success
+    request.healthlake_export_submitted: true
+  condition: selection
+falsepositives:
+  - Approved FHIR backup to a controlled S3 prefix.
+level: high
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthlake-fhir-export-submitted

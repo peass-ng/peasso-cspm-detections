@@ -1,0 +1,27 @@
+title: HealthLake FHIR bulk import submitted
+id: 40373ae4-930a-42ab-9fc7-68bea703bcfd
+status: experimental
+description: >
+  An accepted StartFHIRImportJob submitted an S3-backed FHIR import through
+  a HealthLake access role. The detector hashes the datastore, role, input
+  and output locations. Job completion and ingested records require separate
+  evidence; the CloudTrail event only proves submission.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L82
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/importing-fhir-data-start.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRImportJob
+    event.outcome: success
+    request.healthlake_import_submitted: true
+  condition: selection
+falsepositives:
+  - Approved import from a controlled S3 prefix.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-import-submitted
