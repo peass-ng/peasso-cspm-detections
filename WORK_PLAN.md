@@ -1,5 +1,36 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 437: registros Route 53 y asociación VPC de zona privada
+
+Se creó una zona privada sintética asociada a una VPC propia, un registro A
+y una segunda VPC propia. Un usuario de prueba con solo
+`route53:ChangeResourceRecordSets` sobre la zona realizó un `UPSERT` de A;
+la lectura administrativa confirmó el nuevo valor. En la misma cuenta se
+aceptaron `CreateVPCAssociationAuthorization` y
+`AssociateVPCWithHostedZone` para la segunda VPC, y `GetHostedZone`
+confirmó la asociación. **No se probó una asociación entre cuentas** ni
+intercepción de tráfico DNS; la zona fue privada y no hubo consumidor real.
+CloudTrail entregó `CREATE`, `UPSERT` y `DELETE` de registro, autorización y
+asociación, además de `CreateHostedZone`. Las
+[cinco reglas Route 53](rules/aws/route53/) dieron cinco aciertos sobre seis
+eventos: tres tipos de escritura de registros y las dos operaciones VPC.
+Los hallazgos omiten nombres de zona, registro, VPC y usuario. Las reglas
+señalan cambios que requieren contexto, no prueban toma de DNS ni titularidad
+externa de la VPC; el `DELETE` observado fue la limpieza aprobada.
+
+La limpieza retiró la asociación y autorización, el registro, la zona,
+usuario/clave y ambas VPC. Una comprobación independiente confirmó la
+ausencia de zona, usuario y las dos VPC. Recibos privados 0600:
+`/tmp/peasso-b437-route53-private.json`,
+`/tmp/peasso-b437-route53-cloudtrail-complete-private.json` y
+`/tmp/peasso-b437-route53-cleanup-independent-private.json`.
+Pasaron **26 pruebas focalizadas**; el pack remoto fijado devolvió
+**1.631 reglas AWS**. Reglas en `main` desde
+`2016ec1b33e4aa17c025e1b31aa32226f1750742`, pack SHA-256
+`e13f4fc6e11effa92d0193e5f813d774e2d15741828da50fb247ea2e020ef967`;
+app fijada en [PR 296](https://github.com/peass-ng/PEASSo-CSPM/pull/296),
+merge `70a311b68143ddff2935162de82656dda9ab85df`. No se afirma despliegue.
+
 ## Lote 436: DataSync S3 con rol delegado y tarea programada
 
 Se probaron las rutas de la [página DataSync de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
@@ -18528,10 +18559,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 52 | 2 | 17 | 60 |
-| `aws-post-exploitation` | 254 | 138 | 32 | 79 | 5 |
+| `aws-post-exploitation` | 254 | 139 | 32 | 78 | 5 |
 | `aws-privilege-escalation` | 135 | 72 | 4 | 23 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **264** | **53** | **146** | **115** |
+| **Total** | **578** | **265** | **53** | **145** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18710,7 +18741,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-tag-inventory-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-resource-tag-inventory-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-arc-routing-control-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-arc-routing-control-post-exploitation/README.md) | 3 | 1 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-domains-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-domains-post-exploitation/README.md) | 7 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-global-resolver-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-global-resolver-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-resolver-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-resolver-post-exploitation/README.md) | 4 | 2 |
