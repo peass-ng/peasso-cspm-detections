@@ -1,5 +1,51 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 427: credenciales y configuración de Managed Grafana
+
+Dos workspaces `CUSTOMER_MANAGED`/SAML propios y cuatro roles IAM propios se
+crearon en dos ensayos aislados. El primero aceptó
+`CreateWorkspaceApiKey(ADMIN)`, `CreateWorkspaceServiceAccount(ADMIN)` y
+`CreateWorkspaceServiceAccountToken`; la respuesta de CloudTrail incluyó el
+valor de la clave y el token de una sola visualización. Esos secretos no
+se guardaron en el recibo público ni se copiaron a los hallazgos: el archivo
+privado de eventos se depuró y los recursos se borraron. Un error local de
+lectura de la estructura `serviceAccountToken` interrumpió ese script después
+de crear el token, pero su bloque de limpieza eliminó la cuenta de servicio,
+clave, workspace y roles. Una lectura independiente confirmó ausentes
+workspace y roles; la eliminación del workspace revocó el token asociado.
+
+El segundo workspace aceptó `UpdateWorkspace` con un rol propio alternativo.
+La primera lectura inmediata aún mostraba estado `UPDATING`; una lectura tras
+la transición a `ACTIVE` confirmó el rol alternativo. CloudTrail enmascaró el
+ARN como `***` tanto en solicitud como en respuesta; la
+[regla](rules/aws/grafana/aws_grafana_workspace_role_update_submitted.yml)
+detecta una actualización **enviada**, no cuál fue el rol ni una escalada de
+permisos. Las llamadas inmediatas de restauración, actualización SAML y
+borrado fueron rechazadas con `ConflictException`, sin hallazgo. Tras esperar
+a `ACTIVE`, `UpdateWorkspaceAuthentication` aceptó SAML y una asignación de
+grupo ADMIN sintético. CloudTrail confirmó estado `CONFIGURED`, pero enmascaró
+el valor del grupo como `***`; la URL de metadatos se omite del hallazgo.
+La consulta SDK posterior a `DescribeWorkspaceAuthentication` falló al
+parsear el tagged union `IdpMetadata`; no se afirma inicio de sesión SAML.
+El workspace se borró y una lectura independiente confirmó ausentes él y
+ambos roles.
+
+Las [cinco reglas Grafana](rules/aws/grafana/) dieron cinco hallazgos sobre
+cinco eventos aceptados y ninguno sobre los dos eventos de configuración
+rechazados. Cubren la emisión de clave API ADMIN, cuenta de servicio ADMIN,
+token de servicio, actualización de rol y mapeo SAML ADMIN. La creación de
+token por sí sola no identifica el rol de la cuenta de servicio; correlacionar
+con su inventario aumenta certeza. `UpdatePermissions` sigue pendiente por
+ausencia de una instancia IAM Identity Center en esta cuenta. Los dos ensayos
+dejaron **seis ausencias independientes** (dos workspaces, cuatro roles).
+Recibos privados 0600:
+`/tmp/peasso-b427-grafana-private.json`,
+`/tmp/peasso-b427-cloudtrail-private.json`,
+`/tmp/peasso-b427-cleanup-independent-private.json`,
+`/tmp/peasso-b427b-grafana-private.json`,
+`/tmp/peasso-b427b-cloudtrail-private.json` y
+`/tmp/peasso-b427b-cleanup-independent-private.json`.
+
 ## Lote 426: lectura de read set con URL prefirmada SigV4
 
 Un sequence store y un read set FASTQ sintéticos propios permitieron leer el
@@ -464,10 +510,11 @@ permanecen privados 0600 en `/tmp/peasso-b410-lambda-efs-private.json` y
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **41 páginas y 184 encabezados** sin referencia YAML
+actuales contiene **40 páginas y 180 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
 Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
-post-explotación, el montaje EFS en Lambda, la enumeración Direct Connect y HealthOmics
+post-explotación, el montaje EFS en Lambda, la enumeración Direct Connect,
+HealthOmics y la página de escalada de Grafana
 salieron de la cola al recibir
 referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
@@ -476,9 +523,9 @@ sigue abierta.
 
 El [generador del índice de acciones para retomar](scripts/refresh_aws_action_gaps.py)
 descompone estas
-41 páginas y 184 encabezados: 89 menciones `service:Action` carecen de un
-`event.name` idéntico en los YAML, 12 lo tienen y 99 encabezados necesitan
-lectura manual. Son pistas de búsqueda, **no 89 ataques sin detector**:
+40 páginas y 180 encabezados: 86 menciones `service:Action` carecen de un
+`event.name` idéntico en los YAML, 12 lo tienen y 98 encabezados necesitan
+lectura manual. Son pistas de búsqueda, **no 86 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
 Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
 genera `/tmp/peasso-aws-action-gaps.md` para consultar la tabla completa. El
@@ -18127,11 +18174,11 @@ separate review for embedded attack routes.
 | Category | Source pages | With direct YAML reference | No reference: ≥3 H3 | No reference: 1–2 H3 | No reference: 0 H3 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
-| `aws-persistence` | 131 | 51 | 2 | 18 | 60 |
-| `aws-post-exploitation` | 254 | 135 | 34 | 80 | 5 |
-| `aws-privilege-escalation` | 135 | 70 | 5 | 24 | 36 |
+| `aws-persistence` | 131 | 52 | 2 | 17 | 60 |
+| `aws-post-exploitation` | 254 | 136 | 34 | 79 | 5 |
+| `aws-privilege-escalation` | 135 | 71 | 4 | 24 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **258** | **56** | **149** | **115** |
+| **Total** | **578** | **261** | **55** | **147** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18195,7 +18242,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-location-service-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-location-service-persistence/README.md) | 2 | 1 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-mainframe-modernization-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-mainframe-modernization-persistence/README.md) | 3 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-managed-blockchain-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-blockchain-persistence/README.md) | 4 | 0 |
-| [src/pentesting-cloud/aws-security/aws-persistence/aws-managed-grafana-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-grafana-persistence/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-managed-prometheus-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-prometheus-persistence/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-marketplace-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-marketplace-persistence/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-mediaconnect-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-mediaconnect-persistence/README.md) | 4 | 2 |
@@ -18289,7 +18335,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-macie-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-macie-post-exploitation/README.md) | 5 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mainframe-modernization-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mainframe-modernization-post-exploitation/README.md) | 6 | 3 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md) | 8 | 4 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-grafana-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-grafana-post-exploitation/README.md) | 1 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-medialive-video-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-medialive-video-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-data-access-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-post-exploitation/README.md) | 5 | 2 |
@@ -18387,7 +18432,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-macie-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-macie-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mainframe-modernization-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mainframe-modernization-privesc/README.md) | 5 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-blockchain-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-blockchain-privesc/README.md) | 3 | 0 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md) | 5 | 4 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-memorydb-user-reset-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-memorydb-user-reset-privesc/README.md) | 2 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-migration-hub-orchestrator-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-migration-hub-orchestrator-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-migration-hub-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-migration-hub-privesc/README.md) | 3 | 0 |

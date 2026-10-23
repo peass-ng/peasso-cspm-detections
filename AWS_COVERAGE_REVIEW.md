@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **41**. Total headings: **184**.
+Pages with at least three level-three headings and no direct YAML reference: **40**. Total headings: **180**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -206,13 +206,6 @@ Pages with at least three level-three headings and no direct YAML reference: **4
 - \`workdocs:AddResourcePermissions\`
 - \`workdocs:CreateUser\`
 - \`workdocs:UpdateUser\`
-
-## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md) (4 headings)
-
-- \`grafana:CreateWorkspaceApiKey\` — arbitrary-role legacy API key
-- \`CreateWorkspaceServiceAccountToken\` — existing or attacker-created service account
-- \`grafana:UpdateWorkspaceAuthentication\` — attacker-controlled SAML IdP
-- \`grafana:UpdatePermissions\` — IAM Identity Center administrator
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-workdocs-privesc/README.md) (4 headings)
 

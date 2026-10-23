@@ -1,0 +1,26 @@
+title: Managed Grafana administrator API key created
+id: 8499af33-eb24-45ee-9697-4144945f3fac
+status: experimental
+description: >
+  A successful CreateWorkspaceApiKey requested ADMIN access to a Managed
+  Grafana workspace. CloudTrail can contain the one-time bearer key in the
+  response; the detector discards it and hashes the workspace target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md#L17
+  - https://docs.aws.amazon.com/grafana/latest/APIReference/API_CreateWorkspaceApiKey.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: grafana.amazonaws.com
+    event.name: CreateWorkspaceApiKey
+    event.outcome: success
+    request.grafana_admin_api_key_created: true
+  condition: selection
+falsepositives:
+  - Approved administrator automation using legacy API keys.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-grafana-admin-api-key-created

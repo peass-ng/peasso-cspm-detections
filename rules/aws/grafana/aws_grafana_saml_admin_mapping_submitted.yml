@@ -1,0 +1,30 @@
+title: Managed Grafana SAML administrator mapping submitted
+id: 6d5e8eb6-7604-4493-b933-9e814578cdf0
+status: experimental
+description: >
+  A successful UpdateWorkspaceAuthentication configured SAML and supplied
+  administrator role values that the response confirmed. This records an
+  accepted IdP and role mapping, not a successful sign-in or proof that the
+  IdP is attacker controlled. CloudTrail masks the administrator group
+  values as ***; the detector also omits the metadata URL. Compare the
+  workspace against an approved identity-provider baseline.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-managed-grafana-privesc/README.md#L111
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-grafana-persistence/README.md#L15
+  - https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspaceAuthentication.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: grafana.amazonaws.com
+    event.name: UpdateWorkspaceAuthentication
+    event.outcome: success
+    request.grafana_saml_admin_mapping_submitted: true
+  condition: selection
+falsepositives:
+  - Approved SAML identity-provider and administrator group changes.
+level: high
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-grafana-saml-admin-mapping-submitted

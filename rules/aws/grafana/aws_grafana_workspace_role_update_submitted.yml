@@ -1,0 +1,28 @@
+title: Managed Grafana workspace role update submitted
+id: 73fc80fe-c84d-4f5f-a23a-7a3a2c040d33
+status: experimental
+description: >
+  A successful UpdateWorkspace specified a workspaceRoleArn for a
+  customer-managed Grafana workspace. CloudTrail masks that ARN as *** in
+  both request and response; compare inventory before and after the event
+  to determine the actual role and permission change. This event alone
+  proves only that an update was accepted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-grafana-post-exploitation/README.md#L7
+  - https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspace.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: grafana.amazonaws.com
+    event.name: UpdateWorkspace
+    event.outcome: success
+    request.grafana_workspace_role_update_submitted: true
+  condition: selection
+falsepositives:
+  - Approved changes to a workspace's data-source role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-grafana-workspace-role-update-submitted
