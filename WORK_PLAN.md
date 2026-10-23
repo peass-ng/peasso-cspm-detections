@@ -22,6 +22,12 @@ confirmó las tres ausencias. Recibos privados 0600:
 `/tmp/peasso-b428-neptune-private.json`,
 `/tmp/peasso-b428-neptune-data-events-private.json` y
 `/tmp/peasso-b428-cleanup-independent-private.json`.
+Pasaron **22 pruebas enfocadas** de Neptune y catálogo. La app fijó las
+**1.599 reglas AWS** y el pack SHA256
+`4093b4a78cdc3f44b2042e66e33c79d9c1f085b44b55f63f21d54cbc8b4fd13f`
+en [PR 252](https://github.com/peass-ng/PEASSo-CSPM/pull/252), merge
+`9b4b44fad954b91c3f9ef825c1325b1a43b7dfa3`. Sus checks remotos no
+habían finalizado al fusionar; no se afirma despliegue.
 
 ## Lote 427: credenciales y configuración de Managed Grafana
 
