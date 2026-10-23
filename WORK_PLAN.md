@@ -1,5 +1,43 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 440: EventBridge Pipes con rol delegado y lectura de plantilla
+
+Se montaron tres colas SQS, un rol Pipes con acceso limitado a ellas y dos
+usuarios temporales. El primer intento de `CreatePipe` no pasó autorización
+porque faltaba `pipes:TagResource` para los tags solicitados; se retiraron
+sus seis recursos y una comprobación independiente confirmó ausencia. El
+segundo actor, con `pipes:CreatePipe`, `pipes:UpdatePipe`, `pipes:TagResource`
+e `iam:PassRole` sobre el rol propio, **sin acceso SQS directo**, creó un
+pipe SQS→SQS que quedó `RUNNING`; un mensaje sintético llegó al primer
+destino. `UpdatePipe` cambió el destino y otro mensaje llegó a la segunda
+cola. Un usuario distinto con solo `pipes:DescribePipe` recibió una plantilla
+que contenía un marcador sintético. Esto demuestra la ruta de delegación y
+la lectura de configuración para los recursos propios, sin demostrar
+privilegios generales sobre el rol ni extracción de datos reales.
+
+CloudTrail entregó `CreatePipe`, `UpdatePipe` y el `DescribePipe` del lector;
+el servicio no incluyó la respuesta de `DescribePipe` en ese evento. Las
+[tres reglas Pipes](rules/aws/pipes/) detectan la creación con rol/origen/
+destino, la actualización con rol/destino y la lectura por **otro actor**
+correlacionada con una plantilla previamente configurada. El conjunto real
+dio diez aciertos, siete de ellos `DescribePipe` administrativos de las
+lecturas de espera y uno del lector limitado; este último dio un acierto
+aislado. La regla de lectura es de severidad baja y exige interpretación:
+CloudTrail no prueba qué bytes devolvió la API. Los hallazgos omiten nombres,
+ARN y contenido de la plantilla. Pasaron **25 pruebas focalizadas**.
+
+La limpieza borró pipe, tres colas, dos usuarios/claves y rol; una lectura
+independiente confirmó las siete ausencias. Recibos privados 0600:
+`/tmp/peasso-b440-pipes-private.json`,
+`/tmp/peasso-b440-pipes-cloudtrail-complete-private.json`,
+`/tmp/peasso-b440-pipes-cleanup-independent-final-private.json` y
+`/tmp/peasso-b440-pipes-cleanup-independent-first-private.json`.
+Reglas en `main` desde `b2b0ffa7910b3e09e81547e9f6e1dc7b41275af1`, pack
+SHA-256 `f1f1c9bb1cea753a9fe6ec3532f5a389fb94a492eaa958986df3138c7cfb29b5`,
+**1.637 reglas AWS**; app fijada en
+[PR 311](https://github.com/peass-ng/PEASSo-CSPM/pull/311), merge
+`6cdccf98c0d0599e8ac50b52e791dd4791035645`. No se afirma despliegue.
+
 ## Lote 439: DLM con hook SSM y rol transferido
 
 Un usuario de laboratorio con `dlm:CreateLifecyclePolicy`,
@@ -18613,10 +18651,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 53 | 2 | 16 | 60 |
-| `aws-post-exploitation` | 254 | 139 | 32 | 78 | 5 |
-| `aws-privilege-escalation` | 135 | 73 | 4 | 22 | 36 |
+| `aws-post-exploitation` | 254 | 140 | 32 | 77 | 5 |
+| `aws-privilege-escalation` | 135 | 74 | 4 | 21 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **267** | **53** | **143** | **115** |
+| **Total** | **578** | **269** | **53** | **141** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18752,7 +18790,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md) | 4 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md) | 5 | 3 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-evs-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-evs-post-exploitation/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-firewall-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-firewall-manager-post-exploitation/README.md) | 5 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-free-tier-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-free-tier-post-exploitation/README.md) | 3 | 1 |
@@ -18851,7 +18888,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ebs-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ebs-privesc/README.md) | 2 | 2 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/aws-ecscape-privesc.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/aws-ecscape-privesc.md) | 3 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-entity-resolution-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-entity-resolution-privesc/README.md) | 3 | 0 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-fis-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-fis-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift-streams-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift-streams-privesc/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift/README.md) | 3 | 2 |

@@ -8,9 +8,9 @@ different CloudTrail event name, no standalone event, or an existing broader rul
 An exact event-name match also does not prove detection of the described route.
 H3 headings can be setup or background, and attack routes may appear outside H3.
 
-- Pages: **578**; direct YAML reference: **267**; no direct reference: **311**.
-- H3 headings: **1713**; exact action-name mentions: **617**;
-  mentions without an exact YAML event name: **671**; headings without
+- Pages: **578**; direct YAML reference: **269**; no direct reference: **309**.
+- H3 headings: **1713**; exact action-name mentions: **619**;
+  mentions without an exact YAML event name: **669**; headings without
   a backticked `service:Action`: **889**.
 
 The [work plan](WORK_PLAN.md) contains the full no-reference census and
@@ -65,7 +65,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-wickr-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-wickr-post-exploitation/README.md) | no | 3 | 1 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workspaces-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-chatbot-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-chatbot-privesc/README.md) | no | 1 | 0 | 2 | 0 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md) | no | 1 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift/README.md) | no | 2 | 1 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-lake-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-security-lake-post-exploitation/README.md) | no | 4 | 0 | 1 | 3 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workmail-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-workmail-post-exploitation/README.md) | no | 3 | 0 | 1 | 2 |
@@ -83,7 +82,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-health-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-health-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md) | no | 1 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-free-tier-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-free-tier-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-medialive-video-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-medialive-video-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-memorydb-post-exploitation/README.md) | no | 2 | 1 | 1 | 0 |
@@ -436,6 +434,7 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appconfig-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appconfig-privesc/README.md) | yes | 1 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-stored-query-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-stored-query-privesc/README.md) | yes | 2 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md) | yes | 1 | 1 | 1 | 0 |
+| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md) | yes | 1 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-core-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-core-privesc/README.md) | yes | 1 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md) | yes | 4 | 7 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mq-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-mq-privesc/README.md) | yes | 4 | 8 | 1 | 0 |
@@ -575,6 +574,7 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md) | yes | 2 | 4 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md) | yes | 3 | 4 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md) | yes | 4 | 7 | 0 | 0 |
+| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md) | yes | 1 | 1 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediapackage-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mediapackage-post-exploitation/README.md) | yes | 4 | 4 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mq-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mq-post-exploitation/README.md) | yes | 2 | 2 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-network-firewall-post-exploitation/README.md) | yes | 3 | 3 | 0 | 0 |
@@ -915,10 +915,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 
 - [`social-messaging:GetWhatsAppMessageMedia`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md#L15)
 - [`social-messaging:SendWhatsAppMessage`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-end-user-messaging-social-post-exploitation/README.md#L50)
-
-### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md
-
-- [`pipes:DescribePipe`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md#L17)
 
 ### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-post-exploitation/README.md
 
@@ -1617,7 +1613,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 
 ### src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md
 
-- [`pipes:CreatePipe`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md#L18)
 - [`iam:PassRole`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md#L18)
 
 ### src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-gamelift/README.md
