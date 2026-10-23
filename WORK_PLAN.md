@@ -36,6 +36,10 @@ es nuevo respecto del estado anterior o que el rol tenga autorización IAM
 suficiente. Tres pruebas sintéticas nuevas pasaron. Sigue pendiente la
 persistencia por `CreateShare` a otra cuenta autorizada y su aceptación.
 El grupo HealthOmics y catálogo acumuló **62 pruebas enfocadas** correctas.
+La app fusionó el parser y fijó las 1.592 reglas AWS mediante
+[PR 238](https://github.com/peass-ng/PEASSo-CSPM/pull/238), commit
+`6dc86c44554cc26c9f66e2c1e4cdfc7c0265017a`. Sus checks remotos
+estaban en cola al fusionar; no se afirma que pasaran.
 Recibos privados 0600: `/tmp/peasso-b425-omics-policy-attempt2-private.json`,
 `/tmp/peasso-b425-cloudtrail-private.json` y
 `/tmp/peasso-b425-cleanup-independent-private.json`.
