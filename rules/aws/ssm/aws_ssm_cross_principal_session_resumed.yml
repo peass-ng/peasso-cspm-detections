@@ -1,0 +1,28 @@
+title: SSM session resumed by another principal
+id: 41200000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A principal successfully resumed a Session Manager session created by a
+  different principal in the same account and Region within 24 hours. The
+  resumed event does not restate the target; the earlier StartSession supplies
+  it. API acceptance does not prove that a data channel was opened or that a
+  shell command ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L399
+  - https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_ResumeSession.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: ResumeSession
+    event.outcome: success
+    request.ssm_session_resumed_by_other_principal: true
+  condition: selection
+falsepositives:
+  - Approved support role reconnected to an operator's session.
+level: high
+tags:
+  - attack.lateral-movement
+x_hacktricks_technique_id: aws-ssm-cross-principal-session-resumed

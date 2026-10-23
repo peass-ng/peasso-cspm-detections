@@ -1,0 +1,27 @@
+title: SSM shell command sent to a managed node
+id: 41200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted SendCommand request used AWS-RunShellScript on one explicit
+  managed node. That document can run shell commands under the node's local
+  identity. The CloudTrail management event in the live test redacted the
+  parameters, and API acceptance alone does not prove execution.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ssm-privesc/README.md#L240
+  - https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendCommand.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ssm.amazonaws.com
+    event.name: SendCommand
+    event.outcome: success
+    request.ssm_shell_command_sent: true
+  condition: selection
+falsepositives:
+  - Approved Run Command troubleshooting or administration.
+level: medium
+tags:
+  - attack.execution
+x_hacktricks_technique_id: aws-ssm-shell-command-sent

@@ -1,5 +1,41 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 412: SendCommand y reanudación SSM entre principales
+
+Se lanzó una instancia Amazon Linux 2023 propia con SSM Agent en una VPC
+aislada y un rol de instancia con `AmazonSSMManagedInstanceCore`. Un rol de
+operador limitado a `ssm:SendCommand` sobre esa instancia y
+`AWS-RunShellScript` ejecutó un canario `sts get-caller-identity`; la salida
+identificó el rol de la instancia y confirmó la diferencia de principal. El
+administrador abrió una sesión en esa misma instancia y otro rol, limitado a
+`ssm:ResumeSession` sobre sesiones de la cuenta, obtuvo una respuesta aceptada
+para el ID de sesión. **No se abrió el canal de datos ni se ejecutó un comando
+interactivo**, por lo que la segunda prueba sólo valida la API y su
+atribución. La sesión se terminó; una lectura confirmó que no está activa.
+Instancia, red, perfil y tres roles propios se borraron y diez comprobaciones
+independientes resultaron ausentes o terminales. Una primera ejecución falló
+en `RunInstances` antes de crear instancia y también limpió sus siete grupos
+de recursos; la repetición esperó propagación IAM y concluyó.
+
+Los siete eventos CloudTrail reales produjeron **tres hallazgos**: la regla
+anterior de `StartSession`, una [regla nueva `SendCommand`](rules/aws/ssm/aws_ssm_shell_command_sent.yml)
+y una [regla nueva de `ResumeSession` entre principales](rules/aws/ssm/aws_ssm_cross_principal_session_resumed.yml).
+La correlación une `ResumeSession` con el `StartSession` de la misma cuenta,
+región e ID en 24 horas y exige principal diferente. Si el inicio está fuera
+de la ventana disponible, esta señal no puede reconstruir el destino. El
+evento `SendCommand` aceptado tenía `parameters` **redactado** tanto en petición
+como respuesta; contradice la expectativa de texto de comando visible en la
+descripción actual de HackTricks para esta cuenta. La regla confirma el
+documento shell y nodo explícito, **no** el contenido ni ejecución posterior,
+aunque la salida del canario privado verificó la ejecución en este ensayo.
+Doce pruebas focalizadas pasaron sobre la rama integrada con Lambda EFS.
+El parser se fusionó en la [PR 199 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/199)
+como `e624d0b0ac2d0dc38ab85529ecc8143c04d2e679`.
+Recibos privados 0600:
+`/tmp/peasso-b412-ssm-node-private.json` y
+`/tmp/peasso-b412-cloudtrail-private.json`.
+
+
 ## Lote 411: modificación de tarea shell de Maintenance Window
 
 En una ventana SSM propia **deshabilitada**, el laboratorio registró un
