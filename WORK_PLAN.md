@@ -41,6 +41,13 @@ ausencias. Recibos privados 0600:
 `/tmp/peasso-b423-cloudtrail-private.json` y
 `/tmp/peasso-b423-cleanup-independent-private.json`.
 
+Las dos reglas produjeron **dos hallazgos** sobre cuatro eventos reales
+seleccionados. Cinco pruebas sintéticas nuevas y **59 pruebas enfocadas**
+HealthOmics/catálogo pasaron. La app fijó las 1.591 reglas AWS y fusionó
+los parsers en [PR 235](https://github.com/peass-ng/PEASSo-CSPM/pull/235),
+commit `ba964913829fce2aa8a1323a4ef2aa78688407ae`. Sus checks remotos
+estaban en cola al fusionar; no se afirma que pasaran.
+
 ## Lotes 419–421: lectura S3 de HealthOmics y ciclo de run
 
 **419, exploración previa.** Un read set sintético propio expuso un URI de
