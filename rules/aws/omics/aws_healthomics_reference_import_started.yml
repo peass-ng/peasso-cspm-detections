@@ -1,0 +1,24 @@
+title: HealthOmics reference import started
+id: 41600000-0000-4000-8000-000000000001
+status: experimental
+description: An accepted import job submitted one or more S3 reference sources. This
+  may seed altered reference data, but the event alone does not prove the import completed.
+  S3 URIs and role ARNs are excluded from the finding.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: StartReferenceImportJob
+    event.outcome: success
+    request.healthomics_reference_import_started: true
+  condition: selection
+falsepositives:
+- Approved reference genome import.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-reference-import-started

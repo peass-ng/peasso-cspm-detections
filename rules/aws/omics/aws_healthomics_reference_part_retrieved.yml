@@ -1,0 +1,24 @@
+title: HealthOmics reference part retrieved
+id: 41600000-0000-4000-8000-000000000002
+status: experimental
+description: A successful GetReference call retrieved part of a reference genome.
+  A synthetic reference was downloaded in the disposable lab; bytes and reference
+  IDs are excluded from the finding.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: GetReference
+    event.outcome: success
+    request.healthomics_reference_part_retrieved: true
+  condition: selection
+falsepositives:
+- Approved reference genome use or backup.
+level: medium
+tags:
+- attack.collection
+x_hacktricks_technique_id: aws-healthomics-reference-part-retrieved

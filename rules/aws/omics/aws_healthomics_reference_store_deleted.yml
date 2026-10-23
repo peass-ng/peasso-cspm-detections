@@ -1,0 +1,24 @@
+title: HealthOmics reference store deletion accepted
+id: 41600000-0000-4000-8000-000000000004
+status: experimental
+description: An accepted DeleteReferenceStore call removed an empty reference store
+  in the disposable lab. AWS requires references to be deleted first; correlate earlier
+  deletion events.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: DeleteReferenceStore
+    event.outcome: success
+    request.healthomics_reference_store_deletion_accepted: true
+  condition: selection
+falsepositives:
+- Approved empty-store retirement or lab cleanup.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-reference-store-deletion-accepted

@@ -1,5 +1,34 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 416: HealthOmics, referencia FASTA sintética
+
+Se confirmó que `us-east-1` no tenía reference store previo. En una cuenta y
+región de laboratorio se creó uno propio, un bucket S3 privado con FASTA
+sintética y un rol de importación limitado a ese bucket. El job
+`StartReferenceImportJob` terminó `COMPLETED`, la referencia se activó y
+`GetReference` devolvió exactamente el canario. Se aceptaron
+`DeleteReference` y `DeleteReferenceStore`; una verificación independiente
+confirmó ausentes referencia, store, rol IAM y bucket. No se usaron datos
+reales. Recibos privados 0600:
+`/tmp/peasso-b416-omics-reference-private.json`,
+`/tmp/peasso-b416-cloudtrail-private.json` y
+`/tmp/peasso-b416-cleanup-independent-private.json`.
+
+CloudTrail entregó **32 eventos** del ensayo: cuatro operaciones aceptadas
+produjeron **cuatro hallazgos** con las
+[reglas de referencia](rules/aws/omics/). Un `GetReference` posterior fallido
+por ausencia quedó excluido. La regla de importación sólo asegura que el job
+se envió; la finalización se comprobó por separado. El contenido FASTA, el
+URI S3, el rol y los IDs de referencia no se copian a hallazgos. Cuatro
+pruebas nuevas y catorce pruebas combinadas HealthOmics pasaron. Parser fusionado en
+[PR 207 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/207)
+como `82130aa18b1001c7e8e9dfddefee0ccf9658c3fe`.
+
+Quedan en la página de HackTricks las rutas S3/access point y sus logs,
+`StartReadSetImportJob`, manipulación del logging/fallback, ejecución y
+cancelación de runs y correlación de descargas masivas. Los borrados en
+CloudTrail son solicitudes aceptadas; el estado final requiere inventario.
+
 ## Lote 415: HealthOmics, almacén de secuencias y read set sintético
 
 En `us-east-1` se creó **un** sequence store propio y un FASTQ sintético
