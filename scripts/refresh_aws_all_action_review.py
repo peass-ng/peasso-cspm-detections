@@ -35,8 +35,10 @@ def git(repo: Path, *args: str) -> str:
     return subprocess.check_output(["git", "-C", str(repo), *args], text=True)
 
 
-def render(source_repo: Path, rules_root: Path) -> str:
-    paths = git(source_repo, "ls-tree", "-r", "--name-only", SOURCE_COMMIT).splitlines()
+def render(source_repo: Path, rules_root: Path, source_commit: str = SOURCE_COMMIT) -> str:
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("--source-commit must be a full lowercase Git SHA")
+    paths = git(source_repo, "ls-tree", "-r", "--name-only", source_commit).splitlines()
     pages = sorted(
         path for path in paths
         if path.endswith(".md") and any(path.startswith(BASE + cat + "/") for cat in CATEGORIES)
@@ -55,7 +57,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
     rows: list[tuple[str, bool, int, int, int, int, list[tuple[int, str, str]]]] = []
     headings = exact = absent = manual = 0
     for path in pages:
-        content = git(source_repo, "show", f"{SOURCE_COMMIT}:{path}")
+        content = git(source_repo, "show", f"{source_commit}:{path}")
         local_headings = 0
         local_exact = 0
         local_absent = 0
@@ -84,7 +86,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
     output = [
         "# AWS attack-page action review queue",
         "",
-        f"Pinned HackTricks Cloud source: `{SOURCE_COMMIT}`. This lists **all** attack-page",
+        f"Pinned HackTricks Cloud source: `{source_commit}`. This lists **all** attack-page",
         "Markdown files in the five AWS attack categories, including pages that already",
         "have a rule reference. It is an index for further semantic review, not a count",
         "of attacks, tested techniques, or missing detectors. IAM actions can have a",
@@ -109,7 +111,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
     for path, referenced, local_headings, local_exact, local_absent, local_manual, _ in sorted(
         rows, key=lambda row: (row[1], -row[4], -row[5], row[0])
     ):
-        url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{SOURCE_COMMIT}/{path}"
+        url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{source_commit}/{path}"
         output.append(
             f"| [{path}]({url}) | {'yes' if referenced else 'no'} | {local_headings} | "
             f"{local_exact} | {local_absent} | {local_manual} |"
@@ -123,7 +125,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
         output.append(f"### {path}")
         output.append("")
         for line, action, _ in candidates:
-            url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{SOURCE_COMMIT}/{path}#L{line}"
+            url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{source_commit}/{path}#L{line}"
             output.append(f"- [`{action}`]({url})")
         output.append("")
     return "\n".join(output).rstrip() + "\n"
@@ -132,10 +134,11 @@ def render(source_repo: Path, rules_root: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-repo", type=Path, required=True)
+    parser.add_argument("--source-commit", default=SOURCE_COMMIT)
     parser.add_argument("--rules-root", type=Path, default=ROOT / "rules" / "aws")
     parser.add_argument("--output", type=Path, default=ROOT / "AWS_ACTION_REVIEW_ALL.md")
     args = parser.parse_args()
-    result = render(args.source_repo.resolve(), args.rules_root.resolve())
+    result = render(args.source_repo.resolve(), args.rules_root.resolve(), args.source_commit)
     args.output.write_text(result, encoding="utf-8")
     print(f"wrote={args.output} pages={result.count(chr(10) + '| [')}")
 

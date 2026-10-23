@@ -35,8 +35,10 @@ def git(repo: Path, *args: str) -> str:
     return subprocess.check_output(["git", "-C", str(repo), *args], text=True)
 
 
-def render(source_repo: Path, rules_root: Path) -> str:
-    paths = git(source_repo, "ls-tree", "-r", "--name-only", SOURCE_COMMIT).splitlines()
+def render(source_repo: Path, rules_root: Path, source_commit: str = SOURCE_COMMIT) -> str:
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("--source-commit must be a full lowercase Git SHA")
+    paths = git(source_repo, "ls-tree", "-r", "--name-only", source_commit).splitlines()
     attack_pages = sorted(
         path for path in paths
         if path.endswith(".md") and any(path.startswith(BASE + cat + "/") for cat in CATEGORIES)
@@ -53,7 +55,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
         if path in references:
             counts[category]["referenced"] += 1
             continue
-        content = git(source_repo, "show", f"{SOURCE_COMMIT}:{path}")
+        content = git(source_repo, "show", f"{source_commit}:{path}")
         h2 = len(re.findall(r"^##\s+", content, re.MULTILINE))
         h3 = len(re.findall(r"^###\s+", content, re.MULTILINE))
         counts[category]["unreferenced"] += 1
@@ -62,7 +64,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
     output = [
         "# AWS attack-page source census",
         "",
-        f"Pinned HackTricks Cloud source: `{SOURCE_COMMIT}`. This covers all Markdown pages under",
+        f"Pinned HackTricks Cloud source: `{source_commit}`. This covers all Markdown pages under",
         "`aws-cross-account-attacks`, `aws-persistence`, `aws-post-exploitation`,",
         "`aws-privilege-escalation` and `aws-unauthenticated-enum-access`.",
         "A missing direct YAML URL is a **triage signal**, not proof that a technique lacks",
@@ -83,7 +85,7 @@ def render(source_repo: Path, rules_root: Path) -> str:
                "marking it covered, blocked or not observable in CloudTrail.", "",
                "| Source page | H2 | H3 |", "| --- | ---: | ---: |"]
     for path, h2, h3 in unreferenced:
-        url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{SOURCE_COMMIT}/{path}"
+        url = f"https://github.com/HackTricks-wiki/hacktricks-cloud/blob/{source_commit}/{path}"
         output.append(f"| [{path}]({url}) | {h2} | {h3} |")
     return "\n".join(output) + "\n"
 
@@ -91,10 +93,11 @@ def render(source_repo: Path, rules_root: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-repo", type=Path, required=True)
+    parser.add_argument("--source-commit", default=SOURCE_COMMIT)
     parser.add_argument("--rules-root", type=Path, default=Path(__file__).resolve().parents[1] / "rules" / "aws")
     parser.add_argument("--plan", type=Path, default=Path(__file__).resolve().parents[1] / "WORK_PLAN.md")
     args = parser.parse_args()
-    result = render(args.source_repo.resolve(), args.rules_root.resolve())
+    result = render(args.source_repo.resolve(), args.rules_root.resolve(), args.source_commit)
     plan = args.plan.read_text(encoding="utf-8")
     if START in plan or END in plan:
         if plan.count(START) != 1 or plan.count(END) != 1:
