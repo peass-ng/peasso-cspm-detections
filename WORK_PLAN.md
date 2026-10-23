@@ -23,6 +23,11 @@ confirmó las cuatro ausencias. Recibos privados 0600:
 `/tmp/peasso-b426-cleanup-independent-private.json`. La URL sólo estuvo en
 memoria. La señal requiere habilitar eventos S3 de datos en el access point;
 su uso legítimo con URL prefirmada puede producir falsos positivos.
+La app incorporó el parser y fijó las **1.593 reglas AWS** y el pack
+`2e951ba02df87643905881a775a5adefe1381fc725255ec42d0799b3ba2e0cc7`
+en [PR 240](https://github.com/peass-ng/PEASSo-CSPM/pull/240), merge
+`d334b828e3be85a5f4f69487c51a5d3d14e85285`. Pasaron 57 pruebas
+enfocadas; los checks remotos estaban en cola al fusionar.
 
 ## Lotes 424–425: analytics cerrado y política S3 del store
 
