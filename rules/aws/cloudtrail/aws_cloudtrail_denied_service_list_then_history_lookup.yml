@@ -1,0 +1,27 @@
+title: Denied service listing followed by CloudTrail history lookup
+id: 390e1196-5edb-4694-8d0d-c5a820b330ca
+status: experimental
+description: >
+  The same actor queried CloudTrail history for a service within fifteen
+  minutes of a denied List or Describe API call to that service. This can
+  recover recent resource identifiers despite missing service-local list
+  permission. The event does not disclose which history records were returned.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md#L18
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: LookupEvents
+    event.outcome: success
+    request.cloudtrail_after_denied_service_list: true
+  condition: selection
+falsepositives:
+  - Approved operator investigating an authorization failure.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-cloudtrail-denied-list-history-fallback

@@ -1,0 +1,28 @@
+title: CloudTrail event history queried for one AWS service
+id: de9a58a4-5d39-463c-81d6-c1c266ae69d4
+status: experimental
+description: >
+  LookupEvents read account activity filtered to one AWS service event source.
+  This can enumerate resource and actor details even when service-local list
+  access is unavailable. CloudTrail does not log the returned events in this
+  call, so the signal does not prove a particular resource was disclosed or
+  that service-local list access was denied.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md#L18
+  - https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudtrail.amazonaws.com
+    event.name: LookupEvents
+    event.outcome: success
+    request.cloudtrail_service_history_lookup: true
+  condition: selection
+falsepositives:
+  - Approved security investigation or inventory troubleshooting.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-cloudtrail-service-event-history-lookup
