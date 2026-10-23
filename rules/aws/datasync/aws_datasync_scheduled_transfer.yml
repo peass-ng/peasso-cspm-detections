@@ -1,0 +1,27 @@
+title: DataSync transfer task created with enabled schedule
+id: 717e7efd-714e-47ec-b64c-2022b72d6698
+status: experimental
+description: >
+  A successful CreateTask request linked two DataSync locations and enabled a
+  recurring schedule. Such a task can keep copying data with the locations'
+  configured roles. The event proves task creation, not that any execution
+  occurred or that the locations were attacker controlled.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L70
+  - https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datasync.amazonaws.com
+    event.name: CreateTask
+    event.outcome: success
+    request.datasync_scheduled_task_created: true
+  condition: selection
+falsepositives:
+  - Approved recurring data transfer.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-datasync-scheduled-transfer

@@ -1,0 +1,27 @@
+title: DataSync task started after same actor bound an S3 role
+id: 5e225917-a9eb-4f12-a4e7-6525823e591f
+status: experimental
+description: >
+  The same actor created an S3 location with an IAM role, created a task using
+  that location, and started the task within two hours. This links delegated
+  S3 access setup to execution. CloudTrail alone does not prove that the role
+  exceeded the actor's permissions or that bytes moved.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18
+  - https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datasync.amazonaws.com
+    event.name: StartTaskExecution
+    event.outcome: success
+    request.datasync_new_role_task_started: true
+  condition: selection
+falsepositives:
+  - Approved new DataSync S3 transfer using a delegated role.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-datasync-new-role-task-started

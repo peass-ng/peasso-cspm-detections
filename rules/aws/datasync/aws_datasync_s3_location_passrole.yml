@@ -1,0 +1,27 @@
+title: DataSync S3 location bound to a passed IAM role
+id: 6ef83ce7-17b0-4caa-9c02-c8f8289a764e
+status: experimental
+description: >
+  A successful CreateLocationS3 request bound an S3 bucket to an IAM role for
+  DataSync. This is the setup step for a delegated S3 copy. The event does not
+  establish that the caller lacked S3 access, that the role was more privileged,
+  or that a transfer ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18
+  - https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datasync.amazonaws.com
+    event.name: CreateLocationS3
+    event.outcome: success
+    request.datasync_s3_role_bound: true
+  condition: selection
+falsepositives:
+  - Approved S3 transfer location setup.
+level: low
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-datasync-s3-location-passrole

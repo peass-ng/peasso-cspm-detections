@@ -1,0 +1,27 @@
+title: DataSync S3 location role explicitly updated
+id: db618d75-c262-498e-9ab0-a039949bb5e6
+status: experimental
+description: >
+  A successful UpdateLocationS3 request supplied an IAM role for an existing
+  S3 location. A role change can expand the objects reachable by future tasks.
+  CloudTrail alone does not prove that the role differs from the prior role or
+  that a task copied data; compare the configuration history before escalation.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L98
+  - https://docs.aws.amazon.com/datasync/latest/apireference/API_UpdateLocationS3.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: datasync.amazonaws.com
+    event.name: UpdateLocationS3
+    event.outcome: success
+    request.datasync_s3_role_updated: true
+  condition: selection
+falsepositives:
+  - Approved DataSync S3 location maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-datasync-s3-location-role-update
