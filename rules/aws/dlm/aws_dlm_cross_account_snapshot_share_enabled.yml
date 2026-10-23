@@ -1,0 +1,29 @@
+title: Active DLM policy configured to share EBS snapshots across accounts
+id: 0d7d66d3-2148-4e90-9fa7-52778e040c3c
+status: experimental
+description: >
+  CreateLifecyclePolicy accepted an enabled EBS volume snapshot policy with
+  a ShareRule naming another account and a passed DLM execution role. If
+  tagged volumes match and the role can perform the operation, future
+  snapshots may be shared. This event does not prove a snapshot was created
+  or copied by the recipient.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md#L16
+  - https://docs.aws.amazon.com/dlm/latest/APIReference/API_ShareRule.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dlm.amazonaws.com
+    event.name: CreateLifecyclePolicy
+    event.outcome: success
+    request.dlm_cross_account_share_rule_configured: true
+    request.dlm_policy_enabled: true
+  condition: selection
+falsepositives:
+  - Approved cross-account backup sharing.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-dlm-active-cross-account-snapshot-share
