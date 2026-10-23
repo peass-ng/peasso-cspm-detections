@@ -1,0 +1,27 @@
+title: Data Lifecycle Manager instance snapshot policy with SSM script
+id: 7fb04c64-251e-40f4-9e17-ef39430aaf48
+status: experimental
+description: >
+  A successful CreateLifecyclePolicy request included an instance snapshot
+  schedule with an AWS Systems Manager pre or post script and an IAM execution
+  role. This prepares a delegated command path if tagged managed instances
+  exist and the policy is enabled. The event alone proves no command ran.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md#L22
+  - https://docs.aws.amazon.com/ebs/latest/userguide/script-other-use-cases.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dlm.amazonaws.com
+    event.name: CreateLifecyclePolicy
+    event.outcome: success
+    request.dlm_ssm_hook_policy_created: true
+  condition: selection
+falsepositives:
+  - Approved application-consistent snapshot policy.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-dlm-ssm-hook-policy-created

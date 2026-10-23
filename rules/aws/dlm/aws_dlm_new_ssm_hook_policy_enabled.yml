@@ -1,0 +1,27 @@
+title: New Data Lifecycle Manager SSM hook policy enabled
+id: 9fb343f9-e7f4-4432-8adb-14c637ff9a34
+status: experimental
+description: >
+  The same actor created an instance snapshot policy with an SSM script and
+  enabled that policy within two hours. This establishes an active scheduled
+  command configuration, but CloudTrail does not prove any instance matched,
+  SSM sent a command, or operating-system code executed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md#L22
+  - https://docs.aws.amazon.com/ebs/latest/userguide/script-flow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: dlm.amazonaws.com
+    event.name: UpdateLifecyclePolicy
+    event.outcome: success
+    request.dlm_new_ssm_hook_policy_enabled: true
+  condition: selection
+falsepositives:
+  - Approved snapshot policy activation.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-dlm-new-ssm-hook-policy-enabled
