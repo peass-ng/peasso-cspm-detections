@@ -1,0 +1,27 @@
+title: HealthOmics read-set part retrieved
+id: 41500000-0000-4000-8000-000000000007
+status: experimental
+description: >
+  A successful GetReadSet call retrieved one part of a HealthOmics read set.
+  The disposable lab downloaded synthetic FASTQ content and CloudTrail later
+  recorded the management read. The finding omits genomic bytes, sample and
+  subject identifiers; investigate repeated or unexpected reads in context.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/omics/latest/api/API_GetReadSet.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: GetReadSet
+    event.outcome: success
+    request.healthomics_read_set_part_retrieved: true
+  condition: selection
+falsepositives:
+  - Approved genomic analysis or backup read.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthomics-read-set-part-retrieved

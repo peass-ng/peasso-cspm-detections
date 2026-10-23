@@ -1,0 +1,24 @@
+title: HealthOmics sequence-store propagated tags update accepted
+id: 41500000-0000-4000-8000-000000000001
+status: experimental
+description: An accepted UpdateSequenceStore request supplied propagatedSetLevelTags.
+  Compare the request with the approved configuration; this event alone does not prove
+  tags were removed.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: UpdateSequenceStore
+    event.outcome: success
+    request.healthomics_sequence_store_change_accepted: true
+  condition: selection
+falsepositives:
+- Approved sequence-store configuration change.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-sequence-store-propagated-tags-updated

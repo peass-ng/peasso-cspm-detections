@@ -1,5 +1,43 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 415: HealthOmics, almacén de secuencias y read set sintético
+
+En `us-east-1` se creó **un** sequence store propio y un FASTQ sintético
+minúsculo. El ensayo aceptó `UpdateSequenceStore` con una lista de tags
+propagados, `CreateMultipartReadSetUpload`, `UploadReadSetPart` y
+`CompleteMultipartReadSetUpload`. El read set llegó a `ACTIVE` y
+`GetReadSet` devolvió exactamente el canario descomprimido. Después se hizo
+`BatchDeleteReadSet`, se esperó su desaparición, se borró el store y dos
+lecturas independientes confirmaron ausentes read set y store. No hubo datos
+de pacientes ni genomas reales. La primera tentativa en `us-east-2` falló
+antes de crear recursos porque el endpoint de almacenamiento no resolvía.
+Recibos privados 0600: `/tmp/peasso-b415-omics-sequence-private.json` y
+`/tmp/peasso-b415-cloudtrail-private.json`.
+
+CloudTrail entregó **33 eventos del ensayo**, incluyendo 22 sondeos de
+`GetReadSetMetadata`; siete eventos aceptados produjeron **siete hallazgos**
+con las [reglas de HealthOmics](rules/aws/omics/): actualización de tags
+propagados, inicio/carga/compleción multipart, lectura de una parte,
+solicitud de borrado por lotes y solicitud de borrado del almacén. El evento
+`GetReadSet` apareció con retraso; es lectura de gestión con archivo y
+número de parte, sin bytes de respuesta. `UploadReadSetPart` contiene un
+campo `payload` estructurado que el normalizador omite, igual que los ID de
+muestra/sujeto y checksums. Las reglas de escritura señalan solicitudes
+aceptadas; la activación y el borrado final se verificaron por lecturas
+separadas sólo en el laboratorio. `UpdateSequenceStore` no se interpreta como
+desactivación de logs: aquí únicamente se pidió una lista de tags, y el
+estado anterior debe compararse aparte. Cinco pruebas nuevas y diez pruebas
+HealthOmics combinadas pasaron. Parser fusionado en
+[PR 205 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/205)
+como `7eb6bf7546311ae9fba982350fdc66b48ebf96a3`.
+
+Quedan en esta página `GetReference`, vía S3/access point y sus logs,
+`StartReadSetImportJob`, configuración real de logging/fallback,
+`CancelRun`/`DeleteRun`/límites del run group, y correlación de lecturas
+masivas. La ausencia de referencia directa de esta página en
+[AWS_COVERAGE_REVIEW.md](AWS_COVERAGE_REVIEW.md) **no** marca esas rutas como
+resueltas.
+
 ## Lote 414: HealthOmics, exportación y versión de workflow privado
 
 En una región de laboratorio se creó un workflow privado WDL con marcadores

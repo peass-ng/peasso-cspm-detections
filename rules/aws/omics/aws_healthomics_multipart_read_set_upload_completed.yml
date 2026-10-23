@@ -1,0 +1,23 @@
+title: HealthOmics read-set upload completed
+id: 41500000-0000-4000-8000-000000000004
+status: experimental
+description: An accepted multipart completion returned a read-set ID. Verify the later
+  read-set status before claiming active data ingestion.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: CompleteMultipartReadSetUpload
+    event.outcome: success
+    request.healthomics_sequence_store_change_accepted: true
+  condition: selection
+falsepositives:
+- Approved genomic data ingestion.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-multipart-read-set-upload-completed

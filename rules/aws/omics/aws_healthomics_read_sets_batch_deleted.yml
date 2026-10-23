@@ -1,0 +1,23 @@
+title: HealthOmics read-set batch deletion accepted
+id: 41500000-0000-4000-8000-000000000005
+status: experimental
+description: An accepted BatchDeleteReadSet call requested deletion of one or more
+  read sets. The finding omits their IDs; confirm asynchronous deletion from inventory.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: BatchDeleteReadSet
+    event.outcome: success
+    request.healthomics_sequence_store_change_accepted: true
+  condition: selection
+falsepositives:
+- Approved retention policy or lab cleanup.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-read-sets-batch-deletion-accepted
