@@ -1,0 +1,28 @@
+title: HealthLake FHIR historical version read
+id: ae8bb2c4-853f-4188-927a-6d7469a2e6de
+status: experimental
+description: >
+  A successful VersionReadResource request accessed a specific FHIR
+  resource version. The lab read its original synthetic Patient after a
+  later PATCH; the initial attempt before propagation returned 404 and is
+  excluded. The detector hashes datastore, resource and version IDs and
+  omits the clinical response.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/managing-fhir-resources-read-history.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: VersionReadResource
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved audit or recovery of a historical FHIR version.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthlake-fhir-version-read

@@ -1,5 +1,39 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 430: versiones, PATCH y $erase de HealthLake
+
+Un segundo datastore FHIR R4 propio y un Patient completamente sintético
+permitieron verificar las rutas que faltaban del lote 429. Tras esperar al
+índice, `SearchWithGet` y `SearchWithPost` devolvieron el canario. Un
+`PatchResource` respondió 200 y la lectura posterior confirmó el campo
+modificado. `VersionReadResource` sobre el `meta.versionId` original devolvió
+404 inmediatamente después del PATCH y 200 tras la propagación; la respuesta
+posterior contenía un Patient para la versión solicitada. `GetHistoryByResourceId` respondió
+200 con un Bundle, sin inspección clínica de cada versión.
+
+La primera petición `$erase` sin `Content-Type` devolvió 415. Con
+`application/fhir+json`, respondió 200 y su job llegó a `COMPLETED`. No se
+comprobó una lectura del Patient después de la finalización, así que el
+resultado no prueba por sí solo la desaparición física de todos los datos.
+CloudTrail registró la petición aceptada como `StartFHIRBulkDeleteJob` con
+`bulkDeleteType=erase_Patient_…`, aunque la documentación de la ruta no
+describe ese nombre de evento. La regla informa **envío aceptado**, no
+finalización. El parser codifica datastore/recurso/versión, y omite
+cabeceras, contenido clínico e identificadores del Patient. Las tres reglas
+detectaron exactamente los eventos reales aceptados de PATCH, lectura de
+versión y erase, y rechazaron el VersionReadResource con 404.
+
+`DeleteFHIRDatastore` terminó con `DELETED`; una lectura independiente
+confirmó estado terminal y ausencia del listado activo. Recibos privados
+0600: `/tmp/peasso-b430-healthlake-private.json`,
+`/tmp/peasso-b430-followup-private.json`,
+`/tmp/peasso-b430-healthlake-cloudtrail-private.json`,
+`/tmp/peasso-b430-erase-cloudtrail-private.json` y
+`/tmp/peasso-b430-healthlake-cleanup-independent-private.json`.
+Import/export con rol, bulk delete general y borrado del datastore como
+señal propia siguen pendientes. El recuento de páginas con referencia YAML
+directa no cambia: HealthLake ya la tenía.
+
 ## Lote 429: FHIR sintético en HealthLake
 
 Un datastore FHIR R4 desechable recibió solamente un Patient sintético y un

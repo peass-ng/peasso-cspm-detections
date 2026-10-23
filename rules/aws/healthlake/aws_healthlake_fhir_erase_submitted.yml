@@ -1,0 +1,27 @@
+title: HealthLake FHIR permanent erase submitted
+id: 90cdbe2f-e463-40c9-aa52-bab1114f373d
+status: experimental
+description: >
+  An accepted StartFHIRBulkDeleteJob request submitted a permanent FHIR
+  $erase operation against a resource. The observed job later completed,
+  but this CloudTrail event proves submission only. The detector hashes
+  datastore and resource identifiers and omits headers and clinical data.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L117
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/reference-fhir-operations-erase.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRBulkDeleteJob
+    event.outcome: success
+    request.healthlake_fhir_erase_submitted: true
+  condition: selection
+falsepositives:
+  - Approved permanent erasure of a FHIR resource.
+level: critical
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-permanent-erase-submitted

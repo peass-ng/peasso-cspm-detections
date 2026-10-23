@@ -1,0 +1,27 @@
+title: HealthLake FHIR resource patched
+id: 15130535-8b9f-4658-a803-3c6edbf29175
+status: experimental
+description: >
+  A successful PatchResource request changed a FHIR resource. The lab
+  verified the synthetic Patient field changed. CloudTrail omits the patch
+  body, so the event alone does not identify affected fields or clinical
+  impact. The detector hashes the datastore and resource target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/managing-fhir-resources-patch.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: PatchResource
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved targeted correction of a FHIR resource.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-resource-patched
