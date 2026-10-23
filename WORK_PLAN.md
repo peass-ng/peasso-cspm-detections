@@ -1,15 +1,101 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 411: modificación de tarea shell de Maintenance Window
+
+En una ventana SSM propia **deshabilitada**, el laboratorio registró un
+destino por etiqueta sin instancias coincidentes, añadió una tarea
+`AWS-RunShellScript` con canario sintético y actualizó la configuración de esa
+tarea. Se comprobaron el estado deshabilitado y los parámetros resultantes.
+Después se desregistraron tarea y destino, se borraron ventana y rol y una
+lectura independiente confirmó ambas ausencias. Los ocho eventos CloudTrail
+reales del ciclo dieron **un hallazgo con la regla anterior de destino seguido
+de tarea** y **uno con la regla nueva de actualización de tarea shell**;
+los eventos de limpieza no dieron hallazgos. Seis pruebas focalizadas pasaron.
+CloudTrail omitió `taskInvocationParameters` tanto en registro como en
+actualización: el detector nuevo se limita al documento
+`AWS-RunShellScript` devuelto, IDs coherentes y actualización aceptada; no
+afirma qué comando cambió ni que la ventana ejecutara la tarea. El parser se
+integró en la [PR 198 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/198)
+como `a1f8c52e882109d24962f4e9908f99dfc5c45987`. La
+[regla SSM](rules/aws/ssm/aws_ssm_maintenance_window_shell_task_updated.yml)
+se publicó directamente en `main` de detecciones como `3773520`.
+Eventos y recibos con identificadores reales están sólo en archivos privados
+0600: `/tmp/peasso-b411-ssm-window-private.json` y
+`/tmp/peasso-b411-cloudtrail-private.json`.
+
+La ruta `ssm:SendCommand` hacia un nodo con un perfil más privilegiado y
+`ssm:ResumeSession` de una sesión de otro principal aún requieren un nodo
+SSM de laboratorio, una sesión desconectada y prueba de la diferencia de
+principales. Las rutas de `UpdateManagedInstanceRole` y
+`UpdateServiceSetting` exigen revisar efectos de cuenta antes de ensayarlas;
+la prueba actual no los cubre.
+
+## Lote 410: montaje EFS en Lambda y actualización de código
+
+Un laboratorio propio en `us-east-2` creó una VPC, un EFS con punto de acceso,
+un rol y dos funciones Lambda. Una función escribió un canario aleatorio en
+EFS; la otra comenzó sin EFS, se configuró con el punto de acceso y se
+actualizó su código. Su invocación leyó el canario y devolvió exactamente su
+SHA-256 esperado. Después se retiró la configuración EFS. CloudTrail aportó
+tres eventos propios: la configuración y la actualización de código dieron
+**dos hallazgos, uno por cada regla nueva**; la retirada quedó negativa.
+Ocho pruebas focalizadas pasaron, incluyendo función, ARN y cuenta incoherentes,
+error, `dryRun`, actor diferente y orden temporal. El objetivo se publica como
+hash, sin nombre de función ni ARN del punto de acceso en el hallazgo.
+
+El borrado de funciones, grupos de logs, mount target, punto de acceso,
+filesystem, VPC, red y rol se comprobó por lectura independiente: **once
+ausencias más la interfaz Lambda ausente**. EFS devolvió la variante
+`MountTargetNotFound`, que el primer waiter no reconocía; se interrumpió esa
+espera, se completó la limpieza con un script de reparación y se verificó el
+resultado. No quedan recursos facturables del lote. El parser se integró en la
+[PR 197 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/197) como
+`532a02af36cf014c801c3b3708349e28a007d7b9`. Las
+[dos reglas Lambda](rules/aws/lambda/) señalan configuración aceptada y
+secuencia configuración→código; los eventos de gestión no muestran por sí
+solos el contenido leído, aunque la invocación del canario sí lo confirmó en
+este laboratorio. La lectura real, eventos y recibos con identificadores
+permanecen privados 0600 en `/tmp/peasso-b410-lambda-efs-private.json` y
+`/tmp/peasso-b410-cloudtrail-private.json`.
+
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **44 páginas y 193 encabezados** sin referencia YAML
+actuales contiene **43 páginas y 190 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
 Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
-post-explotación salieron de la cola al recibir referencias exactas.
+post-explotación y el montaje EFS en Lambda salieron de la cola al recibir
+referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
+
+El [índice de acciones para retomar](AWS_ACTION_GAPS.md) descompone estas
+43 páginas y 190 encabezados: 92 menciones `service:Action` carecen de un
+`event.name` idéntico en los YAML, 12 lo tienen y 102 encabezados necesitan
+lectura manual. Son pistas de búsqueda, **no 92 ataques sin detector**:
+CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
+
+## Borradores sin evento vivo aceptado
+
+La PR 115 de IdentityStore quedó cerrada, con su rama eliminada: la cuenta de
+laboratorio no tiene una instancia IAM Identity Center y sólo hubo pruebas
+sintéticas de `CreateGroupMembership`. Para retomarla se necesita una cuenta
+de ensayo con Identity Center, un usuario y grupo desechables y un evento
+CloudTrail aceptado; el commit recuperable es
+`eaae52572a5e3e4fac0b21dc041fc97865690e1f`.
+
+La PR 122 de Marketplace `GetBuyerDashboard` también quedó cerrada y su rama
+eliminada: las dos llamadas reales devolvieron `UnauthorizedException`; el
+éxito usado en pruebas fue derivado sintético. Requiere una cuenta habilitada
+para el dashboard y una respuesta aceptada sin conservar la URL temporal.
+El commit recuperable es `c1365e65f8ba88b0225cf9c749b688cb7aee9b32`.
+Ninguna de las dos reglas se publica como verificada en vivo.
+
+Una comprobación de frescura al `HEAD` remoto de HackTricks Cloud
+`257ad8696284bea507cf7be37b9ba410631d4c45` no encontró archivos AWS
+modificados desde el corte ya auditado
+`9725dcb0f71c664994b24647815f17f3e330bfc3`.
 
 ## Lote 409: integrar cadena Amazon MQ y secreto Slurm de PCS
 

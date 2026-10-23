@@ -1,0 +1,27 @@
+title: Lambda code updated soon after EFS access point configuration
+id: 41000000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  The same principal updated Lambda code within fifteen minutes of configuring
+  a same-account EFS access point on the function, with no observed removal in
+  between. This sequence can prepare code to read mounted files. CloudTrail
+  management events do not show a function invocation or file contents.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-efs-mount-injection.md#L65
+  - https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem-efs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionCode20150331v2
+    event.outcome: success
+    request.lambda_efs_mount_followed_by_code_update: true
+  condition: selection
+falsepositives:
+  - Approved deployment shortly after a Lambda EFS configuration change.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-lambda-efs-mount-followed-by-code-update

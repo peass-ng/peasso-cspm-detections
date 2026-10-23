@@ -1,0 +1,27 @@
+title: Lambda EFS access point configured
+id: 41000000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted Lambda configuration update specified a same-account EFS access
+  point under /mnt/. This can give the function access to a shared file system
+  when its VPC, execution role, and EFS policy allow it. A configuration event
+  alone does not prove the mount was new or that files were read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-efs-mount-injection.md#L13
+  - https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem-efs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: lambda.amazonaws.com
+    event.name: UpdateFunctionConfiguration20150331v2
+    event.outcome: success
+    request.lambda_efs_access_point_configured: true
+  condition: selection
+falsepositives:
+  - Approved Lambda file-system configuration or reapplication of an existing setting.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-lambda-efs-access-point-configured
