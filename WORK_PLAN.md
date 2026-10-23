@@ -1,5 +1,29 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 426: lectura de read set con URL prefirmada SigV4
+
+Un sequence store y un read set FASTQ sintéticos propios permitieron leer el
+canario mediante S3 autenticado y mediante una URL prefirmada SigV4 abierta
+sin credenciales. La URL no se guardó ni publicó. Un trail temporal con
+selector exacto del access point entregó dos eventos `GetObject` de datos:
+`AuthHeader` y `QueryString`, ambos exitosos. CloudTrail atribuyó el segundo
+al principal que firmó la URL; **no identifica a quien la recibió**. La
+[regla de URL prefirmada](rules/aws/omics/aws_healthomics_presigned_s3_read_set_get.yml)
+exige `AuthenticationMethod=QueryString`, `SignatureVersion=SigV4` y los
+controles de bucket, objeto y access point de HealthOmics. En los dos eventos
+reales produjo un hallazgo específico sólo para `QueryString`; la regla
+general de lectura S3 produjo dos. El parser omite ruta, alias y contenido.
+La primera prueba del lote 419 generó una URL SigV2 y falló; esta corrección
+explica por qué no se había validado esa vía entonces.
+
+Read set, store, trail y bucket fueron eliminados, y una lectura independiente
+confirmó las cuatro ausencias. Recibos privados 0600:
+`/tmp/peasso-b426-omics-s3-trail-private.json`,
+`/tmp/peasso-b426-s3-data-events-private.json` y
+`/tmp/peasso-b426-cleanup-independent-private.json`. La URL sólo estuvo en
+memoria. La señal requiere habilitar eventos S3 de datos en el access point;
+su uso legítimo con URL prefirmada puede producir falsos positivos.
+
 ## Lotes 424–425: analytics cerrado y política S3 del store
 
 **424, disponibilidad de analytics.** `ListVariantStores` y

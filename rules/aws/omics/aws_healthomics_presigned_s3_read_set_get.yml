@@ -1,0 +1,29 @@
+title: HealthOmics read set fetched through presigned S3 URL
+id: 15fbec4d-fc03-45e4-b789-420958d85d8d
+status: experimental
+description: >
+  A successful S3 data event read a HealthOmics read-set object through its
+  service-owned access point using a SigV4 query-string signature. The
+  CloudTrail actor is the signer; the event does not identify the URL recipient.
+  Requires S3 Access Point data-event logging. The object path and alias are
+  omitted from findings.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/omics/latest/dev/s3-access.html
+  - https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: GetObject
+    event.outcome: success
+    request.healthomics_presigned_read_set_read: true
+  condition: selection
+falsepositives:
+  - Authorized sharing of read-set objects through a presigned URL.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthomics-presigned-s3-read-set-get
