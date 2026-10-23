@@ -1,0 +1,27 @@
+title: HealthOmics workflow log events read
+id: 42200000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful CloudWatch Logs GetLogEvents accessed the HealthOmics
+  WorkflowLog group. Its streams may reveal run parameters, manifests or
+  task output. CloudTrail does not include returned log lines; this signal
+  proves the read only. The finding hashes the stream name.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: logs.amazonaws.com
+    event.name: GetLogEvents
+    event.outcome: success
+    request.healthomics_workflow_log_read: true
+  condition: selection
+falsepositives:
+  - Routine run troubleshooting or authorized workflow monitoring.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthomics-workflow-log-events-read

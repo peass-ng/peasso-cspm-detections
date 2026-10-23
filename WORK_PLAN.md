@@ -1,5 +1,46 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 422–423: logs de workflow y lectura masiva de read sets
+
+**422, acceso a logs.** Dos runs WDL sintéticos propios llegaron a `FAILED`
+antes de crear tareas, por URI pública ECR no admitida por HealthOmics. Un
+tercer run, con imagen Ubuntu x86_64 propia publicada en ECR privado, también
+falló antes de crear tareas porque el servicio no pudo acceder al repositorio.
+No se atribuye un `GetRunTask` exitoso ni ejecución de código. Sí se leyó mediante
+`GetLogEvents` un stream de manifiesto en `/aws/omics/WorkflowLog`; CloudTrail
+entregó un evento de gestión exitoso con `logGroupName` y `logStreamName`,
+sin líneas de respuesta. La
+[regla de lectura de logs](rules/aws/omics/aws_healthomics_workflow_log_events_read.yml)
+alerta sobre el grupo exacto y sólo exporta un hash del stream. Los tres runs,
+workflows, roles y buckets quedaron ausentes; los streams y el log group
+del ensayo se borraron, y una lectura independiente confirmó las ausencias.
+Dos tentativas de aplicar la política de repositorio ECR recomendada por AWS
+fallaron antes del workflow con `InvalidParameterException`; una tercera
+creó y subió la imagen pero la ausencia de esa política causó el fallo del
+run. Los tres repositorios temporales se borraron y su ausencia también se
+confirmó. El token local de Docker se revocó con `docker logout`. Recibos
+privados 0600:
+`/tmp/peasso-b422-omics-run-private.json`,
+`/tmp/peasso-b422-omics-run-attempt2-private.json`,
+`/tmp/peasso-b422-omics-run-attempt5-private.json`,
+`/tmp/peasso-b422-log-cloudtrail-private.json` y
+`/tmp/peasso-b422-cleanup-independent-private.json`. `GetRunTask` queda
+pendiente de un run con tarea; no se fabrica esa señal a partir del fallo.
+
+**423, descargas correlacionadas.** En un sequence store propio se activaron
+tres read sets con FASTQ sintético minúsculo. Un mismo actor descargó una
+parte de cada uno y los tres canarios descomprimidos coincidieron. CloudTrail
+entregó los tres `GetReadSet` exitosos; la
+[regla de lectura masiva](rules/aws/omics/aws_healthomics_bulk_read_set_retrieval.yml)
+correlaciona tres IDs distintos del mismo store, cuenta y actor en quince
+minutos, con una alerta por ventana. El hallazgo omite IDs de read set,
+sample y subject, y el umbral necesita ajuste para pipelines autorizados.
+Read sets y store se borraron; una lectura independiente confirmó las cuatro
+ausencias. Recibos privados 0600:
+`/tmp/peasso-b423-omics-bulk-private.json`,
+`/tmp/peasso-b423-cloudtrail-private.json` y
+`/tmp/peasso-b423-cleanup-independent-private.json`.
+
 ## Lotes 419–421: lectura S3 de HealthOmics y ciclo de run
 
 **419, exploración previa.** Un read set sintético propio expuso un URI de
@@ -49,9 +90,29 @@ Los cinco YAML nuevos y el parser obtuvieron **seis hallazgos** sobre diez
 eventos reales seleccionados. Seis pruebas sintéticas nuevas y **28 pruebas
 HealthOmics combinadas** pasaron. El evento de cancelación prueba solicitud
 aceptada; el estado terminal se confirmó por `GetRun` sólo en este ensayo.
+Con las pruebas de catálogo fueron **54 pruebas enfocadas**. La app fusionó
+los parsers y fijó las 1.589 reglas AWS en
+[PR 228](https://github.com/peass-ng/PEASSo-CSPM/pull/228), commit
+`be349d680511fa143e6575a62bea2e2ff9a8a0bd`. Las comprobaciones
+remotas de esa PR estaban en cola al fusionar; no se afirma que pasaran.
 La página aún necesita `GetRunTask`/lecturas CloudWatch, descargas masivas,
 `CancelRunBatch`, variantes y analytics stores donde el servicio esté
 disponible; no se cuentan como cubiertas por estas reglas.
+
+### Bloqueo de Timestream LiveAnalytics
+
+La revisión de
+[Timestream post-explotación](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-timestream-post-exploitation/README.md)
+encontró rutas de `Query`, `UNLOAD`, `WriteRecords` y scheduled queries sin
+regla directa. Las llamadas **de sólo lectura** `ListDatabases` y
+`DescribeEndpoints` con el perfil de laboratorio en `us-east-1` devolvieron
+`AccessDeniedException` con mensaje de que sólo clientes existentes pueden
+acceder a Timestream LiveAnalytics. No se creó infraestructura ni se ensayó
+una escritura. Esta cuenta no permite validarlas en vivo; la ruta
+`WriteRecords` además carece de evento CloudTrail según la documentación de
+AWS y requerirá evidencia de aplicación/tabla, no un detector ficticio de
+CloudTrail. Las scheduled queries pueden tener evento de gestión, pero siguen
+pendientes de una cuenta con acceso.
 
 ## Lote 418: importación y exportación S3 de read sets
 

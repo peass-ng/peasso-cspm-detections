@@ -1,0 +1,26 @@
+title: HealthOmics bulk read-set retrieval by one actor
+id: 42300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  One actor successfully fetched parts from three distinct read sets in
+  the same sequence store within fifteen minutes. The correlated finding
+  hashes the store and omits the read-set, sample and subject IDs. This
+  count is a starter threshold; tune it for approved batch pipelines.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: HealthOmicsBulkReadSetRetrieval
+    event.outcome: success
+    request.healthomics_bulk_read_sets: true
+  condition: selection
+falsepositives:
+  - Approved genomic analysis or migration downloading several read sets.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthomics-bulk-read-set-retrieval
