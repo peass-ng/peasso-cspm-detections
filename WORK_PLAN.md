@@ -1,5 +1,45 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lotes 424–425: analytics cerrado y política S3 del store
+
+**424, disponibilidad de analytics.** `ListVariantStores` y
+`ListAnnotationStores` respondieron en `us-east-1` sin stores existentes.
+Una solicitud de `CreateAnnotationStore` con nombre propio y formato TSV
+fue rechazada antes de crear recurso (`AccessDeniedException`); una lectura
+independiente confirmó que el nombre propio no apareció. La guía de
+[HealthOmics](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-services/aws-healthomics-enum.md#L7)
+indica que variant/annotation stores están cerrados a clientes nuevos. No
+se publican reglas para borrado/importación de esos stores sin evento de
+aceptación y efecto verificable. Recibo privado 0600:
+`/tmp/peasso-b424-omics-analytics-private.json`.
+
+**425, persistencia mediante política de acceso S3.** En un sequence store
+propio se conservó la política por defecto y se añadió una declaración
+`Allow s3:GetObject` para un rol IAM propio desechable, limitada al prefijo
+de objetos exacto y a read sets `ACTIVE`. `PutS3AccessPolicy` fue aceptado
+y `GetS3AccessPolicy` confirmó el principal. Se restauró la política
+original, se borraron store y rol, y lecturas independientes confirmaron
+ausentes ambos y la política del access point. El primer intento fue
+rechazado por validación antes de alterar la política; se limpió. En el
+segundo se esperó la propagación del rol y se añadió su permiso de identidad.
+No se ensayó acceso entre cuentas ni lectura como ese rol: la evidencia
+prueba instalación y lectura posterior del grant, no una descarga.
+
+CloudTrail entregó **tres** `PutS3AccessPolicy` aceptados del segundo ensayo:
+uno contenía el rol y dos restauraban la política por defecto. La
+[regla de grant a rol](rules/aws/omics/aws_healthomics_s3_role_read_policy_submitted.yml)
+detectó sólo el primero. El ARN del access point en la petición CloudTrail
+estaba codificado como URL y en la respuesta era normal; el parser compara
+ambos y no exporta la política, el rol ni el access point. La regla señala
+que la política enviada **contiene** un grant de lectura, sin afirmar que
+es nuevo respecto del estado anterior o que el rol tenga autorización IAM
+suficiente. Tres pruebas sintéticas nuevas pasaron. Sigue pendiente la
+persistencia por `CreateShare` a otra cuenta autorizada y su aceptación.
+El grupo HealthOmics y catálogo acumuló **62 pruebas enfocadas** correctas.
+Recibos privados 0600: `/tmp/peasso-b425-omics-policy-attempt2-private.json`,
+`/tmp/peasso-b425-cloudtrail-private.json` y
+`/tmp/peasso-b425-cleanup-independent-private.json`.
+
 ## Lotes 422–423: logs de workflow y lectura masiva de read sets
 
 **422, acceso a logs.** Dos runs WDL sintéticos propios llegaron a `FAILED`
@@ -18054,11 +18094,11 @@ separate review for embedded attack routes.
 | Category | Source pages | With direct YAML reference | No reference: ≥3 H3 | No reference: 1–2 H3 | No reference: 0 H3 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
-| `aws-persistence` | 131 | 50 | 2 | 19 | 60 |
+| `aws-persistence` | 131 | 51 | 2 | 18 | 60 |
 | `aws-post-exploitation` | 254 | 135 | 34 | 80 | 5 |
 | `aws-privilege-escalation` | 135 | 70 | 5 | 24 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **257** | **56** | **150** | **115** |
+| **Total** | **578** | **258** | **56** | **149** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18107,7 +18147,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-global-accelerator-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-global-accelerator-persistence/README.md) | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-ground-station-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-ground-station-persistence/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-healthlake-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-healthlake-persistence/README.md) | 4 | 0 |
-| [src/pentesting-cloud/aws-security/aws-persistence/aws-healthomics-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-healthomics-persistence/README.md) | 2 | 2 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-identity-center-user-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-identity-center-user-persistence/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-inspector-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-inspector-persistence/README.md) | 4 | 2 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-invoicing-and-billing-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-invoicing-and-billing-persistence/README.md) | 4 | 5 |

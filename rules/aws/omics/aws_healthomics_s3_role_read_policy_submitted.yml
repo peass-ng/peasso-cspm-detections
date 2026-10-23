@@ -1,0 +1,29 @@
+title: HealthOmics S3 access policy grants role object reads
+id: 42500000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful PutS3AccessPolicy submitted a sequence-store policy
+  containing an IAM role allowed to read objects through the store's
+  service-owned access point. This event proves the policy was accepted;
+  it does not prove the role has matching identity permission or that the
+  grant is new relative to the previous policy. Compare approved principals
+  with store inventory. The finding omits the policy, role and access point.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-healthomics-persistence/README.md#L13
+  - https://docs.aws.amazon.com/omics/latest/dev/s3-sharing.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: PutS3AccessPolicy
+    event.outcome: success
+    request.healthomics_s3_role_read_policy_submitted: true
+  condition: selection
+falsepositives:
+  - Approved role access to a research sequence store.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-healthomics-s3-role-read-policy-submitted
