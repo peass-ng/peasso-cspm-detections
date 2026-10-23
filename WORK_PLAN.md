@@ -45,6 +45,11 @@ Recibos privados 0600:
 `/tmp/peasso-b427b-grafana-private.json`,
 `/tmp/peasso-b427b-cloudtrail-private.json` y
 `/tmp/peasso-b427b-cleanup-independent-private.json`.
+Pasaron **26 pruebas enfocadas** de Grafana y fuente. Las 1.598 reglas AWS
+quedaron fijadas por la app en [PR 242](https://github.com/peass-ng/PEASSo-CSPM/pull/242),
+merge `7034914211b78a3e35640ee64fd8fb79f239070a`, pack SHA256
+`917e7780c339bd6f9d45d7d65ff34be897b082232571452aeff1a370b6cc394d`.
+Los checks remotos estaban en cola al fusionar; no se afirma despliegue.
 
 ## Lote 426: lectura de read set con URL prefirmada SigV4
 
