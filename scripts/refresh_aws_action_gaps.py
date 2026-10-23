@@ -8,6 +8,7 @@ does not establish that a rule detects a particular technique.
 
 from __future__ import annotations
 
+import argparse
 from collections import defaultdict
 from pathlib import Path
 import re
@@ -33,6 +34,9 @@ def rule_event_names() -> set[str]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output', type=Path, default=Path('/tmp/peasso-aws-action-gaps.md'))
+    args = parser.parse_args()
     names = rule_event_names()
     review = (ROOT / "AWS_COVERAGE_REVIEW.md").read_text(encoding="utf-8")
     pages: dict[str, list[tuple[str, str]]] = defaultdict(list)
@@ -80,7 +84,7 @@ def main() -> None:
         for action, heading in pages[path]:
             lines.append(f"| `{action}` | {heading.replace('|', '&#124;')} |")
         lines.append("")
-    (ROOT / "AWS_ACTION_GAPS.md").write_text("\n".join(lines), encoding="utf-8")
+    args.output.write_text("\n".join(lines), encoding="utf-8")
     print(f"pages={len(PAGE.findall(review))} headings={total} missing_action_mentions={missing} manual_headings={manual}")
 
 

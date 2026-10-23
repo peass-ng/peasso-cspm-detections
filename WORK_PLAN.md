@@ -113,7 +113,8 @@ descompone estas
 lectura manual. Son pistas de búsqueda, **no 92 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
 Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
-regenera `AWS_ACTION_GAPS.md` para consultar la tabla completa. Este archivo
+genera `/tmp/peasso-aws-action-gaps.md` para consultar la tabla completa. El
+generador permite `--output` para otra ruta fuera del repositorio. Este archivo
 generado queda fuera de `main` porque el lector seguro de catálogos del CSPM
 admite sólo las rutas Markdown públicas enumeradas en su formato actual.
 
