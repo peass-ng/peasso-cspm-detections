@@ -1,0 +1,29 @@
+title: Neptune Analytics graph query executed
+id: 86559756-f6e4-4289-b945-2d8aa3bde0d2
+status: experimental
+description: >
+  A successful ExecuteQuery data event used a Neptune Analytics graph.
+  CloudTrail redacts the query and may set readOnly=false even for a read,
+  so this signal cannot distinguish extraction from writes or deletions.
+  Requires AWS::NeptuneGraph::Graph data events; the finding hashes the
+  graph target and omits query and result content.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-neptune-post-exploitation/README.md#L84
+  - https://docs.aws.amazon.com/neptune-analytics/latest/userguide/monitoring-cloudtrail-info.html
+  - https://docs.aws.amazon.com/neptune-analytics/latest/userguide/monitoring-cloudtrail-understanding.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: neptune-graph.amazonaws.com
+    event.name: ExecuteQuery
+    event.outcome: success
+    request.neptune_graph_query_executed: true
+  condition: selection
+falsepositives:
+  - Approved application or analyst queries against the graph.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-neptune-analytics-graph-query-executed
