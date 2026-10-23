@@ -1,0 +1,26 @@
+title: HealthOmics run started with logging disabled
+id: 50def360-43a2-415a-b0ec-50e09d06cbc9
+status: experimental
+description: >
+  An accepted StartRun request for a private workflow set logLevel OFF.
+  The disposable run was cancelled; the event proves logging was disabled
+  at submission, not that any workflow task completed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: StartRun
+    event.outcome: success
+    request.healthomics_run_logging_disabled: true
+  condition: selection
+falsepositives:
+  - Approved low-sensitivity workflows that intentionally disable logs.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-healthomics-run-logging-disabled

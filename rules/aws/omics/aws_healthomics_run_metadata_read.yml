@@ -1,0 +1,27 @@
+title: HealthOmics run metadata read
+id: 011e1289-b353-408b-9f08-1cac9f0dca5f
+status: experimental
+description: >
+  A successful GetRun accessed run metadata that can reveal workflow
+  parameters and data locations. CloudTrail omits the response, so this
+  only proves the read, not which fields were returned. Baseline readers
+  and alert on unusual or bulk access.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/omics/latest/api/API_GetRun.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: GetRun
+    event.outcome: success
+    request.healthomics_run_metadata_read: true
+  condition: selection
+falsepositives:
+  - Routine run-status polling.
+level: low
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-healthomics-run-metadata-read

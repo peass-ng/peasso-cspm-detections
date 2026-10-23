@@ -1,0 +1,26 @@
+title: HealthOmics run cancellation accepted
+id: 323e03f5-c65e-4abd-9122-ecaad52b7af2
+status: experimental
+description: >
+  A successful CancelRun request targeted a workflow run. The management
+  event proves accepted cancellation; inspect run state separately to
+  establish that processing stopped.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/omics/latest/dev/canceling-runs.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: CancelRun
+    event.outcome: success
+    request.healthomics_run_cancel_accepted: true
+  condition: selection
+falsepositives:
+  - Approved cancellation of an erroneous or obsolete analysis.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthomics-run-cancel-accepted

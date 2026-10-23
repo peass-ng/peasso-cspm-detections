@@ -1,0 +1,29 @@
+title: HealthOmics read set fetched through S3 access point
+id: bd1ea45d-1999-4522-9591-7108f4874810
+status: experimental
+description: >
+  A successful S3 data event read an object from a HealthOmics service-owned
+  bucket through its access point alias. Native GetReadSet telemetry alone
+  does not cover this path. Requires S3 Access Point data events; the
+  synthetic lab downloaded one object and observed one matching event.
+  The finding omits the object key, alias and genomic bytes.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/omics/latest/dev/s3-access.html
+  - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: s3.amazonaws.com
+    event.name: GetObject
+    event.outcome: success
+    request.healthomics_s3_read_set_read: true
+  condition: selection
+falsepositives:
+  - Approved research or clinical read-set download through the S3 access point.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthomics-s3-access-point-read-set-get

@@ -1,0 +1,26 @@
+title: HealthOmics run deletion accepted
+id: 405ee556-9271-47b2-bd15-3bd5917eb083
+status: experimental
+description: >
+  A successful DeleteRun request removed run metadata after terminal
+  state. Outputs in S3 and logs in CloudWatch are separate resources and
+  may remain; this event does not prove they were deleted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/omics/latest/api/API_DeleteRun.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: DeleteRun
+    event.outcome: success
+    request.healthomics_run_delete_accepted: true
+  condition: selection
+falsepositives:
+  - Approved run-metadata retention cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthomics-run-delete-accepted
