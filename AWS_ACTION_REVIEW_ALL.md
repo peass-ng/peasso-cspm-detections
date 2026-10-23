@@ -8,9 +8,9 @@ different CloudTrail event name, no standalone event, or an existing broader rul
 An exact event-name match also does not prove detection of the described route.
 H3 headings can be setup or background, and attack routes may appear outside H3.
 
-- Pages: **578**; direct YAML reference: **270**; no direct reference: **308**.
-- H3 headings: **1713**; exact action-name mentions: **619**;
-  mentions without an exact YAML event name: **669**; headings without
+- Pages: **578**; direct YAML reference: **271**; no direct reference: **307**.
+- H3 headings: **1713**; exact action-name mentions: **620**;
+  mentions without an exact YAML event name: **668**; headings without
   a backticked `service:Action`: **889**.
 
 The [work plan](WORK_PLAN.md) contains the full no-reference census and
@@ -78,7 +78,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-application-discovery-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-application-discovery-post-exploitation/README.md) | no | 2 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-aurora-dsql-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-aurora-dsql-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-batch-data-disclosure-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-batch-data-disclosure-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-health-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-connect-health-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md) | no | 1 | 1 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-emr-serverless-configuration-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
@@ -571,6 +570,7 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-sqs-persistence/aws-sqs-dlq-backdoor-persistence.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-sqs-persistence/aws-sqs-dlq-backdoor-persistence.md) | yes | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-support-authorization-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-support-authorization-persistence/README.md) | yes | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-map-post-exploitation/README.md) | yes | 2 | 2 | 0 | 0 |
+| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md) | yes | 1 | 1 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codecommit-source-access-post-exploitation/README.md) | yes | 2 | 4 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codepipeline-data-access-post-exploitation/README.md) | yes | 3 | 4 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cognito-post-exploitation/README.md) | yes | 4 | 7 | 0 | 0 |
@@ -748,10 +748,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 - [`cloudfront:DescribeFunction`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-post-exploitation/README.md#L259)
 - [`cloudfront:PublishFunction`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-post-exploitation/README.md#L259)
 - [`cloudfront:GetDistributionConfig`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudfront-post-exploitation/README.md#L259)
-
-### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md
-
-- [`cloudtrail:LookupEvents`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-data-access-post-exploitation/README.md#L17)
 
 ### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudtrail-post-exploitation/README.md
 
