@@ -1,0 +1,27 @@
+title: HealthOmics private workflow version created
+id: 41400000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  A new version of a private HealthOmics workflow was accepted. A changed
+  workflow definition could poison a later run, but this signal confirms
+  version creation only. The definition ZIP and its contents are never copied
+  to the finding; the live lab created no workflow runs.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/omics/latest/api/API_CreateWorkflowVersion.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: CreateWorkflowVersion
+    event.outcome: success
+    request.healthomics_workflow_version_created: true
+  condition: selection
+falsepositives:
+  - Approved workflow development and version promotion.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-healthomics-private-workflow-version-created

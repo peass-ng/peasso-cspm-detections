@@ -1,0 +1,26 @@
+title: HealthOmics private workflow definition exported
+id: 41400000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  A successful GetWorkflow or GetWorkflowVersion request exported a private
+  workflow definition. In the live lab, the API supplied a presigned download
+  URL and the synthetic definition was downloaded, while CloudTrail exposed
+  only the export request. This rule does not prove that the URL was used.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/omics/latest/api/API_GetWorkflow.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.outcome: success
+    request.healthomics_definition_exported: true
+  condition: selection
+falsepositives:
+  - Approved workflow backup or developer source inspection.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthomics-private-workflow-definition-export

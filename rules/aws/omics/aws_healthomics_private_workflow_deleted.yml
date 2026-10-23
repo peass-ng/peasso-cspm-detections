@@ -1,0 +1,24 @@
+title: HealthOmics private workflow deleted
+id: 41400000-0000-4000-8000-000000000003
+status: experimental
+description: >
+  An accepted DeleteWorkflow request sought to delete a private workflow in the disposable
+  lab. Investigate whether a production workflow was intentionally retired.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: DeleteWorkflow
+    event.outcome: success
+    request.healthomics_workflow_deletion_accepted: true
+  condition: selection
+falsepositives:
+  - Approved workflow retirement and lab cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthomics-private-workflow-deleted

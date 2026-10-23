@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **42**. Total headings: **187**.
+Pages with at least three level-three headings and no direct YAML reference: **41**. Total headings: **184**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -238,12 +238,6 @@ Pages with at least three level-three headings and no direct YAML reference: **4
 - \`social-messaging:GetWhatsAppMessageMedia\` - Copy inbound media to an attacker destination
 - \`social-messaging:SendWhatsAppMessage\` - Send trusted-brand WhatsApp messages
 - WABA template and Flow writes - Build durable phishing content
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md) (3 headings)
-
-- Export private workflow source and run secrets
-- Exfiltrate sequence and reference data
-- Poison or destroy genomic and workflow state
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mainframe-modernization-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-mainframe-modernization-post-exploitation/README.md) (3 headings)
 

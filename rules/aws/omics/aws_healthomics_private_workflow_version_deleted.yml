@@ -1,0 +1,25 @@
+title: HealthOmics private workflow version deleted
+id: 41400000-0000-4000-8000-000000000004
+status: experimental
+description: >
+  An accepted DeleteWorkflowVersion request sought to delete a private workflow version.
+  This can disrupt a pinned run definition; the rule does not infer actual run
+  failure from the management event alone.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: DeleteWorkflowVersion
+    event.outcome: success
+    request.healthomics_workflow_deletion_accepted: true
+  condition: selection
+falsepositives:
+  - Approved workflow version retirement and lab cleanup.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthomics-private-workflow-version-deleted

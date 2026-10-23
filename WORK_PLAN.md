@@ -1,5 +1,35 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 414: HealthOmics, exportación y versión de workflow privado
+
+En una región de laboratorio se creó un workflow privado WDL con marcadores
+sintéticos, se exportó su definición mediante `GetWorkflow`, y se descargó
+el ZIP con la URL firmada para confirmar el contenido. Después se creó una
+versión v2 distinta con `CreateWorkflowVersion`, se exportó con
+`GetWorkflowVersion` y se verificó su ZIP. No se ejecutó ningún workflow ni
+se usaron datos genómicos. La versión y el workflow propios se borraron;
+dos lecturas independientes confirmaron ausencia. Recibos privados 0600:
+`/tmp/peasso-b414-omics-workflow-private.json` y
+`/tmp/peasso-b414-cloudtrail-private.json`.
+
+De 12 eventos CloudTrail del laboratorio, dos exportaciones, la creación de
+versión y los dos borrados aceptados dieron **cinco señales**. `export` apareció como cadena separada por
+comas; CloudTrail no incluyó la URL firmada en `responseElements`. El evento
+`CreateWorkflowVersion` sí incluyó `definitionZip`, que el normalizador jamás
+copia a un hallazgo. Cinco pruebas sintéticas cubren positivos y negativos,
+coherencia de cuenta/versión y ausencia del contenido sensible en la salida.
+[Regla de exportación](rules/aws/omics/aws_healthomics_private_workflow_definition_exported.yml)
+y [regla de versión](rules/aws/omics/aws_healthomics_private_workflow_version_created.yml),
+[regla de borrado de workflow](rules/aws/omics/aws_healthomics_private_workflow_deleted.yml)
+y [regla de borrado de versión](rules/aws/omics/aws_healthomics_private_workflow_version_deleted.yml).
+Parser fusionado en [PR 201 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/201)
+como `03f0a48e3b0838e7cb10d7e5eae39bc276817182`.
+Las reglas confirman la petición de exportación, creación o borrado;
+la lectura del ZIP se confirmó sólo en el laboratorio, y no se infiere que
+una versión haya sido ejecutada. Siguen pendientes en esta página `GetRun` y
+`GetRunTask`/logs, lecturas `GetReadSet`/`GetReference`, controles de
+secuencias/referencias y las demás rutas de envenenamiento/destrucción.
+
 ## Lote 413: enumeración Direct Connect sin interfaces
 
 `DescribeVirtualInterfaces` sin ID se aceptó en `us-east-1` y `us-east-2`;
@@ -118,10 +148,10 @@ permanecen privados 0600 en `/tmp/peasso-b410-lambda-efs-private.json` y
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **42 páginas y 187 encabezados** sin referencia YAML
+actuales contiene **41 páginas y 184 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
 Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
-post-explotación, el montaje EFS en Lambda y la enumeración Direct Connect
+post-explotación, el montaje EFS en Lambda, la enumeración Direct Connect y HealthOmics
 salieron de la cola al recibir
 referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
@@ -130,8 +160,8 @@ sigue abierta.
 
 El [generador del índice de acciones para retomar](scripts/refresh_aws_action_gaps.py)
 descompone estas
-42 páginas y 187 encabezados: 89 menciones `service:Action` carecen de un
-`event.name` idéntico en los YAML, 12 lo tienen y 102 encabezados necesitan
+41 páginas y 184 encabezados: 89 menciones `service:Action` carecen de un
+`event.name` idéntico en los YAML, 12 lo tienen y 99 encabezados necesitan
 lectura manual. Son pistas de búsqueda, **no 89 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
 Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
@@ -806,8 +836,8 @@ líneas añadidas y retiradas con las reglas y los laboratorios existentes:
 | Secrets Manager privilege escalation | Precisa que `PutResourcePolicy` basta para reemplazar política y `DeleteResourcePolicy` sólo era limpieza; no añade evento de ataque. |
 | Service Catalog privilege escalation | Acota producto, artefacto y rol de lanzamiento exactos; asociación de portfolio sola no ejecuta el rol. |
 | SQS privilege escalation | Aclara que `AddPermission` sólo admite cuentas y que un usuario propio puede recibir acceso por política de cola; la efectividad requiere política/KMS del recurso. |
-| SSM privilege escalation | Distingue `UpdateManagedInstanceRole`, DHMC por `UpdateServiceSetting`, `SendCommand`, `StartSession` y `ResumeSession`. Sólo `StartSession` tiene regla directa publicada; las otras rutas requieren laboratorio/normalización específica sin tocar nodos ni ajustes ajenos. |
-| IAM Identity Center / IdentityStore privilege escalation | Añade persistencia mediante `CreateUser` más membresía o assignment, sujeta a sign-in y aprovisionamiento asíncrono. Falta detector compuesto; no hay reglas específicas de IdentityStore publicadas. |
+| SSM privilege escalation | Distingue `UpdateManagedInstanceRole`, DHMC por `UpdateServiceSetting`, `SendCommand`, `StartSession` y `ResumeSession`. Desde los lotes 411–412 hay reglas vivas para tarea de ventana, `SendCommand`, `StartSession` y reanudación entre principales. Siguen sin prueba de nodo híbrido `UpdateManagedInstanceRole`, cambio global DHMC y canal interactivo de la sesión reanudada. |
+| IAM Identity Center / IdentityStore privilege escalation | Añade persistencia mediante `CreateUser` más membresía o assignment, sujeta a sign-in y aprovisionamiento asíncrono. Falta detector compuesto; no hay reglas específicas de IdentityStore publicadas. La cuenta de prueba es la cuenta de administración de AWS Organizations y carece de instancia Identity Center; `CreateInstance` de cuenta no aplica, y habilitar una instancia de organización afectaría a otras cuentas. |
 | STS privilege escalation | Acota tokens SAML/web, tareas `AssumeRoot` y sus permisos de organización. `AssumeRoot` continúa pendiente de una organización de laboratorio con la función habilitada. |
 | CloudWatch Synthetics privilege escalation | Runtime compatible, canary propio y dry run probados en lote 374; señal específica de reemplazo de código validada con CloudTrail y resultado asíncrono PASSED. |
 | EventBridge Scheduler privilege escalation | Targets IAM `PutUserPolicy`/`PutRolePolicy` ejecutados en identidades propias y cubiertos por reglas específicas del lote 380–381. La concesión efectiva requiere el evento IAM posterior; CloudTrail omitió `target.input` en los cuatro eventos Scheduler. |
