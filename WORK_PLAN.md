@@ -1,5 +1,27 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 413: enumeración Direct Connect sin interfaces
+
+`DescribeVirtualInterfaces` sin ID se aceptó en `us-east-1` y `us-east-2`;
+ambas respuestas estaban vacías. Los dos eventos CloudTrail reales fueron
+lecturas de gestión con `requestParameters=null` y
+`responseElements=null`; la [regla nueva](rules/aws/directconnect/aws_directconnect_virtual_interfaces_enumerated.yml)
+dio **dos hallazgos en dos eventos**. Cinco pruebas focalizadas pasaron,
+incluyendo lectura limitada a un ID, error, cuenta ajena y material de
+respuesta sintético que no se copia al hallazgo. No se crearon recursos. El
+parser se fusionó en la [PR 200 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/200)
+como `d5e32e2f707543eaad381adfbc2abf6f4b4815a3`. Recibo CloudTrail
+privado 0600: `/tmp/peasso-b413-dx-read-cloudtrail-private.json`.
+
+La prueba valida **enumeración**, no recuperación de clave BGP: no había
+interfaces ni secretos. Las otras dos rutas de la página siguen pendientes:
+`CreateDirectConnectGatewayAssociationProposal` exige una segunda cuenta
+autorizada con DX gateway y un TGW/VGW propio; `AssociateMacSecKey` y
+`UpdateConnection` exigen una conexión física compatible. No crear una
+propuesta o alterar MACsec de una conexión ajena. La página desaparece de la
+cola de referencias directas porque ahora tiene una regla, pero estas rutas
+siguen aquí explícitas.
+
 ## Lote 412: SendCommand y reanudación SSM entre principales
 
 Se lanzó una instancia Amazon Linux 2023 propia con SSM Agent en una VPC
@@ -59,10 +81,9 @@ Eventos y recibos con identificadores reales están sólo en archivos privados
 0600: `/tmp/peasso-b411-ssm-window-private.json` y
 `/tmp/peasso-b411-cloudtrail-private.json`.
 
-La ruta `ssm:SendCommand` hacia un nodo con un perfil más privilegiado y
-`ssm:ResumeSession` de una sesión de otro principal aún requieren un nodo
-SSM de laboratorio, una sesión desconectada y prueba de la diferencia de
-principales. Las rutas de `UpdateManagedInstanceRole` y
+La ruta `ssm:SendCommand` hacia un nodo con otro perfil y la llamada
+`ssm:ResumeSession` entre principales se ensayaron después en el lote 412;
+allí no se abrió un canal interactivo. Las rutas de `UpdateManagedInstanceRole` y
 `UpdateServiceSetting` exigen revisar efectos de cuenta antes de ensayarlas;
 la prueba actual no los cubre.
 
@@ -97,10 +118,11 @@ permanecen privados 0600 en `/tmp/peasso-b410-lambda-efs-private.json` y
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **43 páginas y 190 encabezados** sin referencia YAML
+actuales contiene **42 páginas y 187 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
 Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
-post-explotación y el montaje EFS en Lambda salieron de la cola al recibir
+post-explotación, el montaje EFS en Lambda y la enumeración Direct Connect
+salieron de la cola al recibir
 referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
@@ -108,9 +130,9 @@ sigue abierta.
 
 El [generador del índice de acciones para retomar](scripts/refresh_aws_action_gaps.py)
 descompone estas
-43 páginas y 190 encabezados: 92 menciones `service:Action` carecen de un
+42 páginas y 187 encabezados: 89 menciones `service:Action` carecen de un
 `event.name` idéntico en los YAML, 12 lo tienen y 102 encabezados necesitan
-lectura manual. Son pistas de búsqueda, **no 92 ataques sin detector**:
+lectura manual. Son pistas de búsqueda, **no 89 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
 Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
 genera `/tmp/peasso-aws-action-gaps.md` para consultar la tabla completa. El

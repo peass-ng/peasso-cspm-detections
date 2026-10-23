@@ -1,0 +1,28 @@
+title: Direct Connect virtual interfaces enumerated account-wide
+id: 41300000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted unscoped DescribeVirtualInterfaces call requested all Direct
+  Connect virtual interfaces in the Region. The API response can contain BGP
+  authentication material when interfaces exist, but the CloudTrail event did
+  not include response contents in the live test. That account had no virtual
+  interfaces, so this signal does not establish credential exposure.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-direct-connect-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/directconnect/latest/APIReference/API_DescribeVirtualInterfaces.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: directconnect.amazonaws.com
+    event.name: DescribeVirtualInterfaces
+    event.outcome: success
+    request.directconnect_virtual_interfaces_enumerated: true
+  condition: selection
+falsepositives:
+  - Approved network inventory or Direct Connect provisioning audit.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-directconnect-virtual-interfaces-enumerated
