@@ -1,0 +1,27 @@
+title: Amazon Location API key created without expiration
+id: b4de672b-e44a-47ca-948f-8e29a253698f
+status: experimental
+description: >
+  A successful CreateKey request delegated Location data actions and resources
+  to an API key with NoExpiry=true. The bearer may outlive the creator's IAM
+  access. CloudTrail does not expose the bearer value or prove later use; the
+  owned lab separately confirmed an unsigned tile request after creator removal.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-location-service-persistence/README.md#L13
+  - https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: geo.amazonaws.com
+    event.name: CreateKey
+    event.outcome: success
+    request.location_nonexpiring_bearer_created: true
+  condition: selection
+falsepositives:
+  - Approved application API key with intentional unlimited lifetime.
+level: medium
+tags:
+  - attack.persistence
+x_hacktricks_technique_id: aws-location-nonexpiring-api-key-created
