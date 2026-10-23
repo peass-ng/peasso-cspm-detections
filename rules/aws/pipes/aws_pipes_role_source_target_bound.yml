@@ -1,0 +1,27 @@
+title: EventBridge Pipe created with a passed role and source target route
+id: 78452493-1294-4c66-98d2-ebbc1622d61b
+status: experimental
+description: >
+  A successful CreatePipe request selected an IAM execution role, source and
+  target. If the role has access and the pipe runs, it can relay source data
+  or invoke a target on the caller's behalf. Creation alone does not prove
+  processing; the owned lab separately observed SQS delivery.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md#L17
+  - https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_CreatePipe.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: pipes.amazonaws.com
+    event.name: CreatePipe
+    event.outcome: success
+    request.pipes_role_source_target_bound: true
+  condition: selection
+falsepositives:
+  - Approved new EventBridge Pipe.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-pipes-role-source-target-bound

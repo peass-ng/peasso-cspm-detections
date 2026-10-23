@@ -1,0 +1,27 @@
+title: EventBridge Pipe target updated with a passed role
+id: 1f58c329-cec4-4c4d-9d84-ac37b690a9e9
+status: experimental
+description: >
+  A successful UpdatePipe request supplied an IAM execution role and target.
+  This can redirect future pipe output. The event does not prove the target
+  differs from the prior configuration or that records were delivered; compare
+  configuration history. The owned lab separately observed the new target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-eventbridge-pipes-privesc/README.md#L17
+  - https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_UpdatePipe.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: pipes.amazonaws.com
+    event.name: UpdatePipe
+    event.outcome: success
+    request.pipes_role_target_updated: true
+  condition: selection
+falsepositives:
+  - Approved pipe target maintenance.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-pipes-role-target-updated

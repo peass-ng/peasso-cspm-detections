@@ -1,0 +1,27 @@
+title: Another actor described a Pipe with a configured input template
+id: 75334193-d4e4-46bc-91fb-f6c33cb1b9f0
+status: experimental
+description: >
+  A different actor called DescribePipe within two hours of a pipe create or
+  update that configured a target InputTemplate. DescribePipe can return
+  literal template values, as the owned lab confirmed, but CloudTrail omits
+  the read response and this correlation does not prove which bytes were read.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-eventbridge-pipe-configuration-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_DescribePipe.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: pipes.amazonaws.com
+    event.name: DescribePipe
+    event.outcome: success
+    request.pipes_other_actor_read_configured_template: true
+  condition: selection
+falsepositives:
+  - Approved operator inspecting an existing pipe.
+level: low
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-pipes-other-actor-template-read
