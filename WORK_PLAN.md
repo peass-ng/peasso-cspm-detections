@@ -41,6 +41,15 @@ El script eliminó el datastore; una comprobación independiente encontró
 `/tmp/peasso-b431-healthlake-cleanup-independent-private.json`.
 La importación/exportación por rol y el `$export` REST siguen pendientes.
 
+Pasaron **16 pruebas enfocadas** y la lectura remota del catálogo fijado
+devolvió **1.616 reglas AWS**, pack SHA256
+`6fa38abc1c8817a97f586a7e752bee674e21c37e66f95c982933ca6a75f3df87`.
+Las reglas están en `main` desde `01e96c864e36b8b269cc11d22aac6004bd18c823`;
+la app las fijó en [PR 266](https://github.com/peass-ng/PEASSo-CSPM/pull/266),
+merge `44169302736b1a85b8573f05c7970a19395ea0a7`. Se eliminó la rama
+remota de trabajo. Los checks remotos aún no habían finalizado al fusionar;
+no se afirma despliegue.
+
 ## Lote 430: versiones, PATCH y $erase de HealthLake
 
 Un segundo datastore FHIR R4 propio y un Patient completamente sintético
