@@ -4,6 +4,11 @@ Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. Th
 
 Pages with at least three level-three headings and no direct YAML reference: **38**. Total headings: **173**.
 
+This is the shorter service-focused queue. The complete pinned census in
+[WORK_PLAN.md](WORK_PLAN.md) has **53** no-reference pages with at least three H3
+headings (**237** headings); the **15** additional pages (**64** headings) are in
+`aws-unauthenticated-enum-access`. Review those in the census as well.
+
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
 - \`sso-directory:UpdatePassword\`
