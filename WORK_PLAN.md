@@ -38,6 +38,15 @@ El datastore llegó a `DELETED`; una lectura independiente confirmó que no
 figura activo y que el bucket y el rol propios están ausentes. El recibo es
 `/tmp/peasso-b432-healthlake-cleanup-independent-private.json` (0600).
 
+Pasaron **19 pruebas enfocadas** y la lectura remota del catálogo fijado
+devolvió **1.619 reglas AWS**, pack SHA256
+`6b7de7c0e85e74f398e90d1f0a4e2235f24278415e74ecfc3f8a60de6687a664`.
+Las reglas están en `main` desde `0aef6da4b7d33c6fd2cb4577d6fc22df9325daed`;
+la app las fijó en [PR 271](https://github.com/peass-ng/PEASSo-CSPM/pull/271),
+merge `e5948702adda0e8b28b1292e9a80ce930f11a5f2`. Se eliminó la rama
+remota de trabajo. Los checks remotos aún no habían finalizado al fusionar;
+no se afirma despliegue.
+
 ## Lote 431: operaciones masivas y borrado del datastore HealthLake
 
 Un tercer datastore FHIR R4 aislado recibió cinco Patients enteramente
