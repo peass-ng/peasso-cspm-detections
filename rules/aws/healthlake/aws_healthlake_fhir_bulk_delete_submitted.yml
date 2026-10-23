@@ -1,0 +1,28 @@
+title: HealthLake FHIR resource type bulk delete submitted
+id: a36a786b-d4cf-4fd2-a656-e76137c89082
+status: experimental
+description: >
+  An accepted StartFHIRBulkDeleteJob request submitted a type-wide FHIR
+  $bulk-delete job. The lab submitted soft and hard variants, but CloudTrail
+  redacted isHardDelete and recorded the same bulkDeleteType for both.
+  This event establishes submission only and cannot identify the mode or
+  number of resources removed. Datastore and type are hashed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L118
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/reference-fhir-operations-bulk-delete.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRBulkDeleteJob
+    event.outcome: success
+    request.healthlake_fhir_bulk_delete_submitted: true
+  condition: selection
+falsepositives:
+  - Approved bulk cleanup of a FHIR resource type.
+level: critical
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-bulk-delete-submitted

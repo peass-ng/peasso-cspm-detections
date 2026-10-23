@@ -1,0 +1,26 @@
+title: HealthLake FHIR datastore deletion submitted
+id: 6f5f582f-b207-4d78-ab8b-105b8f5dedf2
+status: experimental
+description: >
+  An accepted DeleteFHIRDatastore request moved a FHIR datastore into
+  DELETING. The lab later observed terminal DELETED, but this event alone
+  proves submission only. The datastore ID is hashed and the endpoint omitted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L118
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/managing-data-stores-delete.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: DeleteFHIRDatastore
+    event.outcome: success
+    request.healthlake_datastore_deletion_submitted: true
+  condition: selection
+falsepositives:
+  - Approved retirement of a FHIR datastore.
+level: critical
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-datastore-deletion-submitted

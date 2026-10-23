@@ -1,0 +1,27 @@
+title: HealthLake FHIR bulk patch submitted
+id: f384288f-c847-4d37-81a7-fab251281f48
+status: experimental
+description: >
+  An accepted StartFHIRBulkPatchJob request submitted a FHIR bulk patch.
+  The CloudTrail request body is a byte buffer that may contain clinical
+  identifiers and patch values; the detector discards it and hashes only
+  the datastore. Completion and changed fields require separate evidence.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/reference-fhir-operations-bulk-patch.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: StartFHIRBulkPatchJob
+    event.outcome: success
+    request.healthlake_bulk_patch_submitted: true
+  condition: selection
+falsepositives:
+  - Approved mass correction of FHIR resources.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-bulk-patch-submitted

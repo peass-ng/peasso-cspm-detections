@@ -1,0 +1,27 @@
+title: HealthLake FHIR conditional delete by identifier
+id: bf5e7b0c-504c-4d59-9e13-f6942bcbbf44
+status: experimental
+description: >
+  A successful DeleteResource event included an identifier search parameter,
+  indicating a conditional FHIR deletion. The lab deleted one synthetic
+  Patient and CloudTrail recorded the resolved resource ID. Query values
+  are redacted and the detector hashes datastore and resource target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L112
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/managing-fhir-resources-delete.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: DeleteResource
+    event.outcome: success
+    request.healthlake_conditional_delete_by_identifier: true
+  condition: selection
+falsepositives:
+  - Approved deletion using a FHIR identifier search.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-conditional-delete-by-identifier

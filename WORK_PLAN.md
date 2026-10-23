@@ -1,5 +1,46 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 431: operaciones masivas y borrado del datastore HealthLake
+
+Un tercer datastore FHIR R4 aislado recibió cinco Patients enteramente
+sintéticos. `StartFHIRBulkPatchJob` respondió 202; su job terminó
+`COMPLETED`, con una operación satisfactoria, y una lectura posterior
+confirmó `active=false` en el Patient objetivo. `Patient/$purge` devolvió
+200 y el job terminó `COMPLETED`. Un DELETE condicional por `identifier`
+respondió 204; CloudTrail incluyó el ID de recurso resuelto y ocultó el
+valor de búsqueda. Se enviaron `$bulk-delete` blando y permanente: ambos
+respondieron 200 y sus jobs terminaron `COMPLETED`; no se midió cuántos
+recursos retiró cada uno. El segundo se lanzó después de completar el
+primero, de modo que **no** se afirma que borrara más registros. Finalmente,
+`DeleteFHIRDatastore` aceptó el cambio a `DELETING` y el recurso alcanzó
+`DELETED`.
+
+CloudTrail registró `StartFHIRBulkPatchJob` con el cuerpo como byte buffer:
+puede contener identificadores clínicos y valores del parche. La regla
+descarta íntegro ese cuerpo y solo informa del envío. `Patient/$purge` y
+ambos `$bulk-delete` aparecen como `StartFHIRBulkDeleteJob`, distinguibles
+por el `bulkDeleteType`; sin embargo, `isHardDelete` estaba redactado como
+`HIDDEN_DUE_TO_SECURITY_REASONS` tanto para blando como para permanente.
+La [regla de borrado masivo](rules/aws/healthlake/aws_healthlake_fhir_bulk_delete_submitted.yml)
+**no infiere** el modo. El DELETE condicional tiene `queryStrings.identifier`
+y `DeleteResource` 204, separable del DELETE ordinario sin parámetro de
+búsqueda. La regla específica detecta solo esa variante comprobada.
+`DeleteFHIRDatastore` responde `DELETING`: su regla informa el envío, no
+el estado terminal. Cinco reglas dieron seis hallazgos sobre los eventos
+reales aceptados: parche, purga, DELETE condicional, dos borrados masivos y
+borrado del datastore.
+
+El script eliminó el datastore; una comprobación independiente encontró
+`DELETED` y ausencia del listado activo. Recibos privados 0600:
+`/tmp/peasso-b431-healthlake-private.json`,
+`/tmp/peasso-b431-healthlake-cloudtrail-private.json`,
+`/tmp/peasso-b431-bulkpatch-cloudtrail-private.json`,
+`/tmp/peasso-b431-bulkpatch-followup-private.json`,
+`/tmp/peasso-b431-bulkdelete-cloudtrail-private.json`,
+`/tmp/peasso-b431-datastore-delete-cloudtrail-private.json` y
+`/tmp/peasso-b431-healthlake-cleanup-independent-private.json`.
+La importación/exportación por rol y el `$export` REST siguen pendientes.
+
 ## Lote 430: versiones, PATCH y $erase de HealthLake
 
 Un segundo datastore FHIR R4 propio y un Patient completamente sintético
