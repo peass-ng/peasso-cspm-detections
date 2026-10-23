@@ -1,5 +1,32 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 417: logging, fallback y límites HealthOmics
+
+En un almacén de secuencias propio con S3 Access Logs dirigidos a un bucket
+privado propio, `UpdateSequenceStore(s3AccessConfig.accessLogLocation="")`
+desactivó el registro; `GetSequenceStore` confirmó la ubicación vacía. Otro
+`UpdateSequenceStore` cambió la ubicación de respaldo de cargas fallidas a
+un prefijo S3 propio diferente y la lectura posterior confirmó el destino.
+Un run group propio se creó con límites 16 CPU, dos ejecuciones y 60 minutos;
+`UpdateRunGroup` fijó los tres límites en uno, confirmado por `GetRunGroup`.
+No se iniciaron runs ni se cargaron datos. Se borraron run group, store y
+bucket; tres verificaciones independientes confirmaron ausencia. Recibos
+privados 0600: `/tmp/peasso-b417-omics-controls-private.json`,
+`/tmp/peasso-b417-cloudtrail-private.json` y
+`/tmp/peasso-b417-cleanup-independent-private.json`.
+
+De **14 eventos CloudTrail**, las dos actualizaciones de almacén y la del
+run group dieron **tres hallazgos nuevos**; el borrado de almacén activó
+además la regla publicada en lote 415. Las
+[reglas de controles](rules/aws/omics/) no copian el URI S3 ni los IDs, y
+exigen la petición de logging vacía, respuesta sin destino de logs, destino
+de fallback confirmado o al menos un límite máximo de uno. La regla de
+fallback no afirma que la nueva ubicación sea maliciosa sin inventario
+previo; la de límites no afirma que un run se haya detenido. Cuatro pruebas
+nuevas y 18 pruebas combinadas HealthOmics pasaron. Parser fusionado en
+[PR 210 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/210)
+como `b819d7a54ede1a88f76dff9bf663e02dced6a8de`.
+
 ## Lote 416: HealthOmics, referencia FASTA sintética
 
 Se confirmó que `us-east-1` no tenía reference store previo. En una cuenta y

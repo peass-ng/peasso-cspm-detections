@@ -1,0 +1,24 @@
+title: HealthOmics sequence-store fallback location set
+id: 41700000-0000-4000-8000-000000000002
+status: experimental
+description: An accepted UpdateSequenceStore request set an S3 fallback location for
+  failed direct uploads. Compare the destination with the approved store configuration;
+  the event alone cannot tell whether it is a redirect.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: UpdateSequenceStore
+    event.outcome: success
+    request.healthomics_fallback_location_set: true
+  condition: selection
+falsepositives:
+- Approved fallback destination update.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-sequence-fallback-location-set

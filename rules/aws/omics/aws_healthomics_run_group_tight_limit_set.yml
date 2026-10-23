@@ -1,0 +1,24 @@
+title: HealthOmics run group tight execution limit set
+id: 41700000-0000-4000-8000-000000000003
+status: experimental
+description: An accepted UpdateRunGroup request set at least one CPU, concurrent-run
+  or duration limit to one or zero. This can stall later work, but the event does
+  not prove that any run was delayed.
+references:
+- https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: UpdateRunGroup
+    event.outcome: success
+    request.healthomics_run_group_tight_limit_set: true
+  condition: selection
+falsepositives:
+- Approved small run group or cost control.
+level: medium
+tags:
+- attack.impact
+x_hacktricks_technique_id: aws-healthomics-run-group-tight-limit-set
