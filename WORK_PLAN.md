@@ -34,6 +34,15 @@ Import/export con rol, bulk delete general y borrado del datastore como
 señal propia siguen pendientes. El recuento de páginas con referencia YAML
 directa no cambia: HealthLake ya la tenía.
 
+Pasaron **10 pruebas enfocadas** y la lectura remota del catálogo fijado
+devolvió **1.611 reglas AWS**, pack SHA256
+`4875d8a854430afa4ae3038ec74bb8e57c2db42a9d79ec9e32d529404291e4c8`.
+Las reglas están en `main` desde `e2942f4e3ab04ef382e8e1e5af8beaf4c634491a`;
+la app las fijó en [PR 263](https://github.com/peass-ng/PEASSo-CSPM/pull/263),
+merge `77350f3d5d7e3f8062c7c05ee68237ba46670e58`. Se borró la rama
+remota de trabajo. Los checks remotos aún no se habían comprobado al fusionar;
+no se afirma despliegue.
+
 ## Lote 429: FHIR sintético en HealthLake
 
 Un datastore FHIR R4 desechable recibió solamente un Patient sintético y un
