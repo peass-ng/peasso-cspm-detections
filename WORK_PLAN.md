@@ -30,6 +30,12 @@ en el listado. Recibos privados 0600:
 `/tmp/peasso-b429-healthlake-private.json`,
 `/tmp/peasso-b429-healthlake-cloudtrail-private.json` y
 `/tmp/peasso-b429-cleanup-independent-private.json`.
+Pasaron **22 pruebas enfocadas** de HealthLake y fuente. La app fijó las
+**1.608 reglas AWS** y el pack SHA256
+`832b5ad130262ab8576e3abc4678a4050311aa283d55bb427e81c662d996ac48`
+en [PR 258](https://github.com/peass-ng/PEASSo-CSPM/pull/258), merge
+`fba63ad0644b5e38f6b2bc1a6f65dca83c1215a8`. Los checks remotos aún
+no habían finalizado al fusionar; no se afirma despliegue.
 
 ## Lote 428: consultas de datos Neptune Analytics
 
