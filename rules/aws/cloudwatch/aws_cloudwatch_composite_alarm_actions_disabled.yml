@@ -1,0 +1,28 @@
+title: CloudWatch composite alarm actions explicitly disabled
+id: 7ddfb5ae-5c9f-447c-9e8a-daf447ca29aa
+status: experimental
+description: >
+  A successful PutCompositeAlarm request set ActionsEnabled=false while
+  specifying an SNS alarm action. The lab observed the accepted request in
+  CloudTrail; the subsequent DescribeAlarms read did not establish the alarm's
+  persisted state. The event does not prove prior settings, malicious intent
+  or that an action would otherwise have fired.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloudwatch-post-exploitation/README.md#L133
+  - https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutCompositeAlarm.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: monitoring.amazonaws.com
+    event.name: PutCompositeAlarm
+    event.outcome: success
+    request.alarm_actions_explicitly_disabled: true
+  condition: selection
+falsepositives:
+  - Approved testing or maintenance with composite alarm actions disabled.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-cloudwatch-composite-alarm-actions-disabled
