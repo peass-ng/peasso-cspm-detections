@@ -1,5 +1,9 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 445: corrección de privacidad del test Cloud Control
+
+La auditoría de los commits nuevos detectó un identificador de cuenta de 12 dígitos escrito literalmente en un negativo sintético del lote 441. Se sustituyó por una cuenta ficticia derivada de `999999999999`, conservando el caso entre cuentas sin publicar un literal que parezca un identificador de operador. Pasaron **7 pruebas focalizadas** y una lectura de `main` confirmó cero literales de 12 dígitos distintos del sintético en ese test. [PR 327](https://github.com/peass-ng/PEASSo-CSPM/pull/327), merge `0314f0160f4ca8f6639726b52997905d07439b4c`. No cambian las reglas, el digest ni los recursos AWS; no se afirma despliegue.
+
 ## Corte de fuente y cola para reanudar después de las 07:00
 
 El índice [AWS_ACTION_REVIEW_ALL.md](AWS_ACTION_REVIEW_ALL.md) sigue fijado al commit HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`: **578 páginas** de las cinco categorías de ataques AWS, **272** con alguna referencia YAML directa y **306** sin ella (escalada 60, post-explotación 112, persistencia 78, enumeración anónima 49 y ataques entre cuentas 7). Son páginas para revisión, **no** 306 ataques sin detectar. Las 272 páginas citadas también pueden contener rutas sin regla. El censo completo contiene **53 páginas sin referencia y con al menos tres H3 (237 H3)**; la [cola abreviada](AWS_COVERAGE_REVIEW.md) contiene **38 páginas/173 H3** y omite **15 páginas/64 H3 de enumeración anónima**. Los encabezados no equivalen a técnicas. Además, el árbol AWS de ese corte tiene **230 páginas `aws-services`** y otras cinco páginas de contexto fuera de esas categorías; se deben revisar por rutas de ataque embebidas, por lo que el índice de 578 tampoco agota el alcance pedido. Para declarar terminado un ataque hay que revisar su efecto, telemetría y regla ya existente o demostrar ausencia de señal, con prueba acotada y limpieza cuando sea viable.
