@@ -1,0 +1,26 @@
+title: Route 53 private zone associated with a VPC
+id: f47e7b04-3343-4b69-afb0-ff11727c170a
+status: experimental
+description: >
+  A successful AssociateVPCWithHostedZone request attached a VPC to a private
+  hosted zone. This can expand which VPCs resolve its private DNS names. The
+  event does not prove that the VPC is foreign or that DNS queries occurred.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md#L75
+  - https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53.amazonaws.com
+    event.name: AssociateVPCWithHostedZone
+    event.outcome: success
+    request.route53_vpc_associated: true
+  condition: selection
+falsepositives:
+  - Approved private hosted zone VPC association.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-route53-vpc-associated

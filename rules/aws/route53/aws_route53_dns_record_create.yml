@@ -1,0 +1,27 @@
+title: Route 53 DNS record created in an existing zone
+id: bd957185-f1df-49f4-8b95-02679dcd76f3
+status: experimental
+description: >
+  A successful ChangeResourceRecordSets request created an A, AAAA, CNAME,
+  MX, NS, or TXT record. New records can redirect traffic or satisfy DNS
+  ownership checks. The event does not prove attacker control, delegation,
+  client use, or interception.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53.amazonaws.com
+    event.name: ChangeResourceRecordSets
+    event.outcome: success
+    request.route53_dns_create_observed: true
+  condition: selection
+falsepositives:
+  - Approved DNS record creation.
+level: low
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-route53-dns-record-create

@@ -1,0 +1,27 @@
+title: Route 53 DNS record created or replaced by UPSERT
+id: 7e66f13c-dc68-4a31-8ba5-996a97e6fe13
+status: experimental
+description: >
+  A successful ChangeResourceRecordSets UPSERT named an A, AAAA, CNAME, MX,
+  NS, or TXT record. UPSERT can create a record or replace its destination.
+  The event alone does not prove that a prior value existed or traffic was
+  redirected; compare prior configuration and expected change windows.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md#L17
+  - https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53.amazonaws.com
+    event.name: ChangeResourceRecordSets
+    event.outcome: success
+    request.route53_dns_upsert_observed: true
+  condition: selection
+falsepositives:
+  - Approved DNS record update or creation.
+level: medium
+tags:
+  - attack.defense-evasion
+x_hacktricks_technique_id: aws-route53-dns-record-upsert

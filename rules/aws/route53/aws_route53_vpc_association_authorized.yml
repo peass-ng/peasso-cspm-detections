@@ -1,0 +1,28 @@
+title: Route 53 private zone VPC association authorized
+id: 76f28ef6-554e-4546-a782-c06f74591cba
+status: experimental
+description: >
+  A successful CreateVPCAssociationAuthorization request authorized a VPC to
+  associate with a private hosted zone. CloudTrail identifies the VPC and
+  zone, but does not by itself prove that the VPC belongs to another account
+  or that association was completed. Review the VPC owner and subsequent
+  association events.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md#L75
+  - https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateVPCAssociationAuthorization.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: route53.amazonaws.com
+    event.name: CreateVPCAssociationAuthorization
+    event.outcome: success
+    request.route53_vpc_association_authorized: true
+  condition: selection
+falsepositives:
+  - Approved private hosted zone VPC authorization.
+level: medium
+tags:
+  - attack.discovery
+x_hacktricks_technique_id: aws-route53-vpc-association-authorized
