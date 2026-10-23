@@ -1,0 +1,28 @@
+title: EC2 Spot request submitted with instance profile and user data
+id: 6a4d98ec-19f5-41e7-9645-aa48196140e7
+status: experimental
+description: >
+  An accepted RequestSpotInstances included an IAM instance profile and
+  user data. The lab's request briefly launched an isolated instance before
+  cancellation and immediate termination. The event does not prove theft
+  of role credentials; it identifies the caller's launch path. Profile and
+  Spot request IDs are hashed and user data omitted.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/README.md#L170
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: RequestSpotInstances
+    event.outcome: success
+    request.ec2_role_user_data_spot_requested: true
+  condition: selection
+falsepositives:
+  - Approved Spot workload deployment with an application role.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-ec2-role-user-data-spot-requested

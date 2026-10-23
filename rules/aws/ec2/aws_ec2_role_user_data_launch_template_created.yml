@@ -1,0 +1,27 @@
+title: EC2 launch template created with instance profile and user data
+id: d161b87e-8559-4a8b-bf85-7b80b0362892
+status: experimental
+description: >
+  An accepted CreateLaunchTemplate stored both an IAM instance profile and
+  user data. The template is a launch preparation route; this event alone
+  does not prove that an instance ran or credentials were accessed. CloudTrail
+  did not expose the user data in the lab. Profile and template IDs are hashed.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/README.md#L272
+  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: ec2.amazonaws.com
+    event.name: CreateLaunchTemplate
+    event.outcome: success
+    request.ec2_role_user_data_template_created: true
+  condition: selection
+falsepositives:
+  - Approved instance deployment template with an application role.
+level: high
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-ec2-role-user-data-launch-template-created

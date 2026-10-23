@@ -1,5 +1,37 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 433: plantilla y solicitud Spot con perfil IAM
+
+Un rol EC2 propio **sin políticas**, su instance profile y una VPC/subred/
+security group aislados sirvieron para probar `CreateLaunchTemplate` y
+`RequestSpotInstances` con perfil IAM y user data inocuo. Se usó una AMI
+Amazon Linux pública. La solicitud Spot se aceptó y llegó a arrancar una
+instancia pese a un precio máximo bajo; se canceló la solicitud y se envió
+la terminación **inmediatamente**. La lectura posterior confirmó instancia
+`terminated`, ninguna instancia activa y solicitud `cancelled`. No hubo IP
+pública, salida de Internet ni permisos en el rol; no se ejecutó extracción
+de credenciales. La prueba demuestra la ruta de lanzamiento, no una
+escalada efectiva. El rol de servicio EC2 Spot ya existía y no se modificó.
+
+CloudTrail entregó `CreateLaunchTemplate` y `RequestSpotInstances` sin error,
+además del `CancelSpotInstanceRequests` de limpieza. Ambos eventos de
+creación incluían el instance profile y una indicación de user data, cuyo
+contenido CloudTrail sustituyó por un marcador. Las
+[dos reglas](rules/aws/ec2/) detectaron los dos eventos aceptados y ninguna
+cancelación. Codifican como SHA-256 el perfil y el ID de plantilla/solicitud;
+omiten nombres, user data y detalles de red. La regla de plantilla informa
+preparación, no ejecución; la regla Spot informa la solicitud del actor,
+sin atribuir uso de credenciales. Esta página ya tenía otra referencia YAML,
+lo que ilustra que **una página referenciada puede conservar rutas sin regla**.
+
+La limpieza propia eliminó plantilla, security group, subnet, VPC, instance
+profile y rol. Una verificación independiente confirmó las seis ausencias,
+solicitud Spot cancelada y cero instancias activas. Recibos privados 0600:
+`/tmp/peasso-b433-ec2-private.json`,
+`/tmp/peasso-b433-ec2-cloudtrail-private.json`,
+`/tmp/peasso-b433-early-terminate-private.json` y
+`/tmp/peasso-b433-ec2-cleanup-independent-private.json`.
+
 ## Lote 432: importación y dos vías de exportación HealthLake
 
 Un cuarto datastore FHIR R4 desechable, un bucket privado y un rol IAM propio
