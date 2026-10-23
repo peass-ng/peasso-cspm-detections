@@ -32,6 +32,28 @@ solicitud Spot cancelada y cero instancias activas. Recibos privados 0600:
 `/tmp/peasso-b433-early-terminate-private.json` y
 `/tmp/peasso-b433-ec2-cleanup-independent-private.json`.
 
+Pasaron **11 pruebas enfocadas** y la lectura remota del catálogo fijado
+devolvió **1.621 reglas AWS**, pack SHA256
+`5e07db7fb164ea902e118ba5e95f38fc5e84be42f26f96bb6c7740a8fda0580c`.
+Las reglas están en `main` desde `182759c18712b865ae09b47776c84ed9001f585e`;
+la app las fijó en [PR 281](https://github.com/peass-ng/PEASSo-CSPM/pull/281),
+merge `334753762fdbc2083d87bdde2f88b101be527039`. Se eliminó la rama
+remota de trabajo. Los checks remotos aún no habían finalizado al fusionar;
+no se afirma despliegue.
+
+El [índice global de revisión](AWS_ACTION_REVIEW_ALL.md) ahora enumera **las
+578 páginas** del corpus de ataques AWS, incluso las **263** ya citadas por
+alguna regla. Recoge 1.713 encabezados H3, 601 menciones de acciones con
+nombre idéntico a algún `event.name`, 687 sin ese nombre y 889 encabezados
+sin `service:Action`. **No son cifras de ataques pendientes ni de cobertura**:
+el nombre de acción puede diferir de CloudTrail, una regla puede cubrir otra
+ruta, un encabezado puede ser explicativo y una página citada puede contener
+ataques sin detector. El índice se regenera con
+`python3 scripts/refresh_aws_all_action_review.py --source-repo <checkout-del-corte>`;
+su orden pone primero páginas sin cita directa y con más acciones que exigen
+revisión manual. El [censo de páginas](WORK_PLAN.md) y
+[la cola de alto volumen](AWS_COVERAGE_REVIEW.md) siguen siendo complementarios.
+
 ## Lote 432: importación y dos vías de exportación HealthLake
 
 Un cuarto datastore FHIR R4 desechable, un bucket privado y un rol IAM propio
