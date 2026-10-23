@@ -1,5 +1,34 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 439: DLM con hook SSM y rol transferido
+
+Un usuario de laboratorio con `dlm:CreateLifecyclePolicy`,
+`dlm:UpdateLifecyclePolicy` e `iam:PassRole` sobre un rol DLM propio,
+**sin `ssm:SendCommand`**, creó una política de snapshots para instancias
+con un script PRE de un documento SSM inocuo. La etiqueta objetivo aleatoria
+no coincidía con ninguna instancia antes ni después del ensayo. La política
+nació `DISABLED`, se activó brevemente con `UpdateLifecyclePolicy` y
+`GetLifecyclePolicy` confirmó `ENABLED` y el documento previsto; se desactivó
+y borró de inmediato. Esto prueba **la preparación y activación de la
+configuración**, no ejecución de comandos ni escalada efectiva en un host.
+CloudTrail entregó la creación, activación y desactivación. Las
+[dos reglas DLM](rules/aws/dlm/) dieron dos aciertos sobre esos tres eventos;
+la regla de activación correlaciona la creación del hook y el cambio a
+`ENABLED` del mismo actor y política dentro de dos horas. Los hallazgos no
+revelan rol, documento ni ID de política. Pasaron **25 pruebas focalizadas**.
+
+La limpieza retiró política, documento SSM, rol, usuario y clave. Una lectura
+independiente confirmó las cuatro ausencias y que sigue sin haber instancia
+con la etiqueta objetivo. Recibos privados 0600:
+`/tmp/peasso-b439-dlm-private.json`,
+`/tmp/peasso-b439-dlm-cloudtrail-private.json` y
+`/tmp/peasso-b439-dlm-cleanup-independent-private.json`.
+Reglas en `main` desde `49d923743b086dbc158f20408c48e3cbe4ee1686`, pack
+SHA-256 `c787398a2a8328920e41efe6cf8f52e53ab33b358e7ef958bf183af073833914`,
+**1.634 reglas AWS**; app fijada en
+[PR 303](https://github.com/peass-ng/PEASSo-CSPM/pull/303), merge
+`73ca57f1367a5630da0fcfbb5479b1609f72ab7d`. No se afirma despliegue.
+
 ## Lote 438: clave pública de Amazon Location sin caducidad
 
 Un usuario propio con `geo:CreateKey` y `geo-maps:GetTile` para el proveedor
@@ -18585,9 +18614,9 @@ separate review for embedded attack routes.
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 53 | 2 | 16 | 60 |
 | `aws-post-exploitation` | 254 | 139 | 32 | 78 | 5 |
-| `aws-privilege-escalation` | 135 | 72 | 4 | 23 | 36 |
+| `aws-privilege-escalation` | 135 | 73 | 4 | 22 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **266** | **53** | **144** | **115** |
+| **Total** | **578** | **267** | **53** | **143** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18818,7 +18847,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datapipeline-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datapipeline-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-device-farm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-device-farm-privesc/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-directory-services-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-directory-services-privesc/README.md) | 3 | 2 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-documentdb-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-documentdb-privesc/README.md) | 3 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ebs-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ebs-privesc/README.md) | 2 | 2 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/aws-ecscape-privesc.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/aws-ecscape-privesc.md) | 3 | 0 |
