@@ -1,5 +1,30 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 438: clave pública de Amazon Location sin caducidad
+
+Un usuario propio con `geo:CreateKey` y `geo-maps:GetTile` para el proveedor
+predeterminado creó una clave con `NoExpiry=true` y restricciones de una
+sola acción/recurso. `DescribeKey` confirmó ausencia de expiración y la
+acción delegada. Después de borrar la clave de acceso IAM y el propio
+usuario, un cliente **sin firma SigV4** obtuvo un tile con HTTP 200 y
+263.492 bytes mediante el bearer. Esto prueba persistencia de acceso al
+servicio Location tras retirar al creador, **no** un nuevo permiso AWS ni
+acceso a otros servicios. El bearer nunca se escribió en recibos ni reglas.
+CloudTrail entregó `CreateKey` con `NoExpiry=true` y sustituyó su respuesta
+`Key` por `***`. La [regla Location](rules/aws/location/aws_location_nonexpiring_api_key_created.yml)
+acertó con el evento real y omitió el nombre de la clave y el usuario en
+el hallazgo. Pasaron **25 pruebas focalizadas**. La clave se borró con
+`ForceDelete`; una lectura independiente confirmó que clave y usuario no
+existen. Recibos privados 0600: `/tmp/peasso-b438-location-private.json`,
+`/tmp/peasso-b438-location-cloudtrail-private.json` y
+`/tmp/peasso-b438-location-cleanup-independent-private.json`.
+
+Regla en `main` desde `3be33430b0d70cbf38ced6b00f582273918cc308`, pack
+SHA-256 `5941e2c6a114a36b515a0759d9bbbe7b3f80a5bf177630318e6678dc0473a261`,
+**1.632 reglas AWS**; app fijada en
+[PR 302](https://github.com/peass-ng/PEASSo-CSPM/pull/302), merge
+`0e44f0d09965c6ecc04aef73fa982a7faa4ab026`. No se afirma despliegue.
+
 ## Lote 437: registros Route 53 y asociación VPC de zona privada
 
 Se creó una zona privada sintética asociada a una VPC propia, un registro A
@@ -18558,11 +18583,11 @@ separate review for embedded attack routes.
 | Category | Source pages | With direct YAML reference | No reference: ≥3 H3 | No reference: 1–2 H3 | No reference: 0 H3 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
-| `aws-persistence` | 131 | 52 | 2 | 17 | 60 |
+| `aws-persistence` | 131 | 53 | 2 | 16 | 60 |
 | `aws-post-exploitation` | 254 | 139 | 32 | 78 | 5 |
 | `aws-privilege-escalation` | 135 | 72 | 4 | 23 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **265** | **53** | **145** | **115** |
+| **Total** | **578** | **266** | **53** | **144** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18623,7 +18648,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/aws-lambda-exec-wrapper-persistence.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lambda-persistence/aws-lambda-exec-wrapper-persistence.md) | 7 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-lex-v2-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lex-v2-persistence/README.md) | 5 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-lightsail-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-lightsail-persistence/README.md) | 5 | 2 |
-| [src/pentesting-cloud/aws-security/aws-persistence/aws-location-service-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-location-service-persistence/README.md) | 2 | 1 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-mainframe-modernization-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-mainframe-modernization-persistence/README.md) | 3 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-managed-blockchain-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-blockchain-persistence/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-managed-prometheus-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-managed-prometheus-persistence/README.md) | 4 | 0 |
