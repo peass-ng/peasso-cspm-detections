@@ -1,0 +1,26 @@
+title: HealthLake FHIR resource deleted
+id: 2401b6c2-577a-43bb-a788-84b08af83ecb
+status: experimental
+description: >
+  A successful DeleteResource request removed one FHIR resource. Ordinary
+  FHIR deletion can retain version history; this event does not prove
+  permanent erasure. The detector hashes the datastore and resource target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: DeleteResource
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved record deletion under retention policy.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-resource-deleted

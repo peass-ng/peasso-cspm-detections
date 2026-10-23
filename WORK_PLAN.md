@@ -1,5 +1,36 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 429: FHIR sintético en HealthLake
+
+Un datastore FHIR R4 desechable recibió solamente un Patient sintético y un
+Bundle sintético. `CreateResource` devolvió 201, `ReadResource` devolvió
+el canario exacto, `SearchEverything` también lo devolvió, `UpdateResource`
+aceptó un valor sintético nuevo y `DeleteResource` devolvió 204. Las búsquedas
+GET/POST respondieron 200, pero durante la prueba no devolvieron el canario;
+no se afirma que extrajeran datos. `GetHistoryByResourceId` devolvió 200,
+pero tampoco confirmó contenido histórico. `ProcessBundle` devolvió 200;
+no se comprobó el estado de cada entrada. `VersionReadResource` sobre la
+versión `1` devolvió 404 y queda **sin regla validada**; para retomarlo hay
+que usar el `meta.versionId` real de un recurso y verificar el cuerpo.
+
+CloudTrail Event History entregó **nueve** eventos de gestión aceptados:
+`CreateResource`, `ReadResource`, `SearchWithGet`, `SearchWithPost`,
+`SearchEverything`, `UpdateResource`, `GetHistoryByResourceId`,
+`ProcessBundle` y `DeleteResource`, además del `VersionReadResource` fallido.
+Las [nueve reglas FHIR](rules/aws/healthlake/) dieron nueve hallazgos, cero
+sobre el error. El parser omite cabeceras, valores de búsqueda y contenido
+clínico, y codifica datastore/tipo/ID de recurso como SHA-256 truncado.
+Las alertas no prueban por sí solas falta de autorización ni envenenamiento
+del contenido; necesitan rol y procedencia esperados. Import/export por rol,
+bulk delete y borrado permanente quedan pendientes de prueba específica.
+
+`DeleteFHIRDatastore` fue aceptado. Una consulta independiente comprobó
+estado terminal `DELETED` o ausencia y que el datastore no aparecía activo
+en el listado. Recibos privados 0600:
+`/tmp/peasso-b429-healthlake-private.json`,
+`/tmp/peasso-b429-healthlake-cloudtrail-private.json` y
+`/tmp/peasso-b429-cleanup-independent-private.json`.
+
 ## Lote 428: consultas de datos Neptune Analytics
 
 Un grafo propio con 16 m-NCU, cero réplicas y un trail temporal con selector
@@ -544,11 +575,12 @@ permanecen privados 0600 en `/tmp/peasso-b410-lambda-efs-private.json` y
 ## Revisión de referencias directas AWS
 
 La [cola de revisión](AWS_COVERAGE_REVIEW.md) regenerada tras los lotes
-actuales contiene **39 páginas y 177 encabezados** sin referencia YAML
+actuales contiene **38 páginas y 173 encabezados** sin referencia YAML
 directa en el corte `47c375ae`. EBS Multi-Attach, persistencia Redshift,
 Migration Hub Strategy, EMR clásico, EMR post-explotación y AppStream
 post-explotación, el montaje EFS en Lambda, la enumeración Direct Connect,
-HealthOmics, la página de escalada de Grafana y la página de explotación de Neptune
+HealthOmics, la página de escalada de Grafana y las páginas de explotación
+de Neptune y HealthLake
 salieron de la cola al recibir
 referencias exactas.
 Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
@@ -557,8 +589,8 @@ sigue abierta.
 
 El [generador del índice de acciones para retomar](scripts/refresh_aws_action_gaps.py)
 descompone estas
-39 páginas y 177 encabezados: 83 menciones `service:Action` carecen de un
-`event.name` idéntico en los YAML, 12 lo tienen y 98 encabezados necesitan
+38 páginas y 173 encabezados: 83 menciones `service:Action` carecen de un
+`event.name` idéntico en los YAML, 12 lo tienen y 94 encabezados necesitan
 lectura manual. Son pistas de búsqueda, **no 83 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
 Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
@@ -18209,10 +18241,10 @@ separate review for embedded attack routes.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 52 | 2 | 17 | 60 |
-| `aws-post-exploitation` | 254 | 137 | 33 | 79 | 5 |
+| `aws-post-exploitation` | 254 | 138 | 32 | 79 | 5 |
 | `aws-privilege-escalation` | 135 | 71 | 4 | 24 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **262** | **54** | **147** | **115** |
+| **Total** | **578** | **263** | **53** | **147** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18357,7 +18389,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-gamelift-streams-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-gamelift-streams-post-exploitation/README.md) | 5 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ground-station-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ground-station-post-exploitation/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthimaging-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthimaging-data-access-post-exploitation/README.md) | 3 | 2 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md) | 4 | 4 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-interconnect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-interconnect-post-exploitation/README.md) | 3 | 1 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-invoicing-and-billing-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-invoicing-and-billing-post-exploitation/README.md) | 13 | 5 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-chat-room-token-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ivs-chat-room-token-post-exploitation/README.md) | 3 | 1 |

@@ -1,0 +1,27 @@
+title: HealthLake FHIR bundle processed
+id: cb16aa0c-03ad-4965-a28e-0993956fc69d
+status: experimental
+description: >
+  A successful ProcessBundle request submitted a FHIR bundle. The event
+  does not expose individual bundle operations or prove that each entry
+  succeeded; inspect the bundle response and resource history separately.
+  The detector hashes the datastore and omits request headers.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: ProcessBundle
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved batch or transaction ingestion.
+level: high
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-bundle-processed

@@ -1,0 +1,27 @@
+title: HealthLake FHIR resource created
+id: 107d4629-056c-42eb-a4f3-8ed8d28e654c
+status: experimental
+description: >
+  A successful CreateResource request added a FHIR resource to a HealthLake
+  datastore. CloudTrail does not contain the clinical payload, so content
+  integrity requires separate provenance checks. The detector hashes the
+  datastore and type and omits request headers.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L110
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: CreateResource
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved clinical data ingestion.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthlake-fhir-resource-created

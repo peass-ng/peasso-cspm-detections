@@ -1,0 +1,26 @@
+title: HealthLake FHIR resource read by ID
+id: 99946334-bd95-416c-9baf-503e5fbad467
+status: experimental
+description: >
+  A successful ReadResource request accessed a known FHIR resource ID.
+  The synthetic lab returned its own patient canary. CloudTrail omits the
+  clinical response; the detector hashes the datastore, type and ID.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: ReadResource
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved application read of a FHIR resource.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthlake-fhir-resource-read

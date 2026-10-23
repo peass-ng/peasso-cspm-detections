@@ -1,0 +1,27 @@
+title: HealthLake FHIR resource history read
+id: cb650369-cfaa-4226-b723-4366d60ec10f
+status: experimental
+description: >
+  A successful GetHistoryByResourceId request accessed a resource's FHIR
+  version history. CloudTrail omits the returned versions; the synthetic
+  lab confirmed the API accepted the request but did not establish the
+  presence of earlier clinical content. The detector hashes the target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/managing-fhir-resources-read-history.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: GetHistoryByResourceId
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved audit or recovery reads of resource history.
+level: medium
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthlake-fhir-resource-history-read

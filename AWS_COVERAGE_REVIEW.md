@@ -2,7 +2,7 @@
 
 Source snapshot: HackTricks Cloud `47c375ae496ae89f81936f47ab1cb84885c88373`. This is a **triage list**: zero direct YAML reference to a page does not prove its techniques lack rules, and a heading may be navigation, setup, duplicate or a technique not observable in CloudTrail. Review each heading against actual rule semantics and test evidence before marking it covered or uncovered.
 
-Pages with at least three level-three headings and no direct YAML reference: **39**. Total headings: **177**.
+Pages with at least three level-three headings and no direct YAML reference: **38**. Total headings: **173**.
 
 ## [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) (15 headings)
 
@@ -164,13 +164,6 @@ Pages with at least three level-three headings and no direct YAML reference: **3
 - Poison or expand an existing service association
 - Replace a private connection's trusted certificate chain
 - Disable and re-enable the Operator App with an attacker IdP
-
-## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md) (4 headings)
-
-- Steal clinical data with reads, searches and history
-- Export the entire datastore through a service role
-- Import an S3 object through a HealthLake role
-- Blindly poison or destroy FHIR records
 
 ## [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-managed-blockchain-post-exploitation/README.md) (4 headings)
 

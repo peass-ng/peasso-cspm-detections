@@ -1,0 +1,27 @@
+title: HealthLake Patient everything interaction
+id: 4ae2a8e6-0040-4cf5-9492-b4bbb3b73caa
+status: experimental
+description: >
+  A successful HealthLake SearchEverything request fetched the Patient
+  everything interaction. The synthetic lab returned its own patient
+  canary. CloudTrail omits the clinical response; the detector hashes the
+  datastore and patient target.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthlake-post-exploitation/README.md#L15
+  - https://docs.aws.amazon.com/healthlake/latest/devguide/monitoring-cloudtrail.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: healthlake.amazonaws.com
+    event.name: SearchEverything
+    event.outcome: success
+    request.healthlake_fhir_call: true
+  condition: selection
+falsepositives:
+  - Approved application retrieval of a patient's related FHIR records.
+level: high
+tags:
+  - attack.collection
+x_hacktricks_technique_id: aws-healthlake-patient-everything
