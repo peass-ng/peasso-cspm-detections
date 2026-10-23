@@ -1,0 +1,27 @@
+title: HealthOmics read-set S3 export submitted
+id: 41800000-0000-4000-8000-000000000002
+status: experimental
+description: >
+  An accepted StartReadSetExportJob submitted read sets for delivery to an
+  S3 destination. A disposable synthetic export later produced an S3 object,
+  but this management event alone does not prove delivery or an unauthorized
+  destination. The finding excludes the bucket path, role and read-set IDs.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L47
+  - https://docs.aws.amazon.com/omics/latest/dev/read-set-exports.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: StartReadSetExportJob
+    event.outcome: success
+    request.healthomics_read_set_export_submitted: true
+  condition: selection
+falsepositives:
+  - Approved genomic-data export or backup.
+level: medium
+tags:
+  - attack.exfiltration
+x_hacktricks_technique_id: aws-healthomics-read-set-s3-export-submitted

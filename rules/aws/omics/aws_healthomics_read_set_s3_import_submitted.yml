@@ -1,0 +1,27 @@
+title: HealthOmics read-set S3 import submitted
+id: 41800000-0000-4000-8000-000000000001
+status: experimental
+description: >
+  An accepted StartReadSetImportJob submitted one or more S3 inputs with
+  sample and subject metadata. A disposable synthetic import later reached
+  ACTIVE, but this CloudTrail event alone confirms submission only. The
+  finding excludes S3 paths, IAM role and sample or subject identifiers.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-healthomics-post-exploitation/README.md#L83
+  - https://docs.aws.amazon.com/omics/latest/dev/import-sequence-store.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: omics.amazonaws.com
+    event.name: StartReadSetImportJob
+    event.outcome: success
+    request.healthomics_read_set_import_submitted: true
+  condition: selection
+falsepositives:
+  - Approved genomic-data ingestion.
+level: medium
+tags:
+  - attack.impact
+x_hacktricks_technique_id: aws-healthomics-read-set-s3-import-submitted

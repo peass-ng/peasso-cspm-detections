@@ -1,5 +1,33 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 418: importación y exportación S3 de read sets
+
+Con un bucket privado, rol limitado y almacén de secuencias propios se subió
+un FASTQ comprimido sintético. `StartReadSetImportJob` terminó `COMPLETED` y
+el read set llegó a `ACTIVE`; `StartReadSetExportJob` terminó `COMPLETED` y
+dejó un objeto en el prefijo S3 de salida propio. No se usaron muestras
+reales. Se solicitó el borrado del read set, se verificó su desaparición y
+se borraron store, rol y bucket. Cuatro lecturas independientes confirmaron
+que siguen ausentes. Recibos privados 0600:
+`/tmp/peasso-b418-omics-s3-jobs-private.json`,
+`/tmp/peasso-b418-cloudtrail-private.json` y
+`/tmp/peasso-b418-cleanup-independent-private.json`.
+
+CloudTrail entregó **39 eventos** del ensayo, principalmente sondeos de
+estado. Los dos jobs aceptados produjeron **dos hallazgos nuevos** con las
+[reglas de importación y exportación](rules/aws/omics/); los borrados de
+limpieza activaron dos reglas existentes del lote 415. Los eventos de inicio
+sólo prueban envío aceptado: el estado final y el objeto exportado se
+comprobaron aparte. El normalizador omite URI S3, rol, IDs de read set,
+identificadores de muestra y sujeto. Cuatro pruebas nuevas y 22 pruebas
+HealthOmics combinadas pasaron. Parser fusionado en
+[PR 215 del CSPM](https://github.com/peass-ng/PEASSo-CSPM/pull/215)
+como `c92bebf090d2dd443f3e81394a148116ebb6ac28`.
+
+Rutas aún abiertas de esta página: lectura directa mediante el access point
+S3 y su telemetría, lecturas masivas/contextuales, manipulación de run y
+borrado de variantes/analytics stores donde el servicio esté disponible.
+
 ## Lote 417: logging, fallback y límites HealthOmics
 
 En un almacén de secuencias propio con S3 Access Logs dirigidos a un bucket
