@@ -106,11 +106,16 @@ Esto sólo mide referencias de página, **no** técnicas restantes ni cobertura
 completa de las páginas citadas. La auditoría de cada ruta y sus efectos
 sigue abierta.
 
-El [índice de acciones para retomar](AWS_ACTION_GAPS.md) descompone estas
+El [generador del índice de acciones para retomar](scripts/refresh_aws_action_gaps.py)
+descompone estas
 43 páginas y 190 encabezados: 92 menciones `service:Action` carecen de un
 `event.name` idéntico en los YAML, 12 lo tienen y 102 encabezados necesitan
 lectura manual. Son pistas de búsqueda, **no 92 ataques sin detector**:
 CloudTrail puede usar otro nombre, omitir el evento o necesitar correlación.
+Ejecutar `python3 scripts/refresh_aws_action_gaps.py` en un checkout local
+regenera `AWS_ACTION_GAPS.md` para consultar la tabla completa. Este archivo
+generado queda fuera de `main` porque el lector seguro de catálogos del CSPM
+admite sólo las rutas Markdown públicas enumeradas en su formato actual.
 
 ## Borradores sin evento vivo aceptado
 
