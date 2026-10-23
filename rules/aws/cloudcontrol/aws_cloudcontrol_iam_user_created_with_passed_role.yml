@@ -1,0 +1,28 @@
+title: Cloud Control IAM user creation requested with a passed role
+id: 7146b18a-70c4-4243-8c65-9bccfa96d5dd
+status: experimental
+description: >
+  A successful Cloud Control CreateResource request selected AWS::IAM::User
+  and passed a same-account CloudFormation role. The role can perform the
+  resource handler operations allowed by its policy. The accepted request is
+  asynchronous; verify its operation status and the resulting user's grants
+  before concluding that privilege escalation occurred.
+references:
+  - https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md#L17
+  - https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_CreateResource.html
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    event.source: cloudcontrolapi.amazonaws.com
+    event.name: CreateResource
+    event.outcome: success
+    request.cloudcontrol_iam_user_with_role: true
+  condition: selection
+falsepositives:
+  - Approved infrastructure automation creating IAM users.
+level: medium
+tags:
+  - attack.privilege-escalation
+x_hacktricks_technique_id: aws-cloudcontrol-iam-user-with-passed-role
