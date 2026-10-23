@@ -1,5 +1,46 @@
 # Plan de trabajo: detecciones de HackTricks Cloud
 
+## Lote 436: DataSync S3 con rol delegado y tarea programada
+
+Se probaron las rutas de la [página DataSync de HackTricks](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
+con dos buckets y dos roles propios, y un usuario de prueba **sin permiso
+directo de S3**. Su `GetObject` sobre el objeto privado recibió `AccessDenied`.
+El primer intento de crear la ubicación falló porque faltaba
+`datasync:TagResource` para los tags solicitados; no creó ubicación y se
+retiraron los cinco auxiliares. La política corregida permitió crear dos
+ubicaciones S3, una tarea con programación futura habilitada, actualizar la
+ubicación de origen con el rol de mayor alcance y ejecutar la tarea. La
+lectura del rol actualizado coincidió con el rol solicitado; la lectura de
+`Subdirectory` no confirmó el valor de `/`, aunque CloudTrail sí registró
+esa solicitud. `DescribeTaskExecution` terminó en `SUCCESS` y el objeto
+sintético privado apareció en el bucket de destino. Se trata de una copia
+**dentro de la misma cuenta**; no se ensayó un destino entre cuentas. La
+programación se eliminó antes de su siguiente hora y nunca se observó una
+ejecución programada.
+
+CloudTrail entregó dos `CreateLocationS3`, un `CreateTask`, un
+`UpdateLocationS3` y un `StartTaskExecution` aceptados. Las
+[cuatro reglas DataSync](rules/aws/datasync/) dieron cinco aciertos sobre esos
+cinco eventos: vinculación inicial de rol, rol explícito en la actualización,
+tarea programada y cadena de creación de ubicación/tarea/inicio por el mismo
+actor. Esta última correlación exige un intervalo máximo de dos horas y no
+afirma que CloudTrail pruebe bytes transferidos ni privilegios superiores.
+El test de transferencia separado sí confirmó la copia sintética. Los
+hallazgos omiten nombres y ARN del laboratorio. Pasaron **26 pruebas
+focalizadas** y el pack remoto fijado devolvió **1.626 reglas AWS**.
+
+La limpieza propia borró tarea, ambas ubicaciones, usuario/clave, roles y
+buckets. Una comprobación independiente confirmó las **nueve ausencias** y
+la tarea no listada. Recibos privados 0600:
+`/tmp/peasso-b436-datasync-private.json`,
+`/tmp/peasso-b436-datasync-cloudtrail-independent-private.json`,
+`/tmp/peasso-b436-datasync-cleanup-independent-final-private.json` y
+`/tmp/peasso-b436-datasync-cleanup-independent-private.json` (primer intento).
+Reglas en `main` desde `259c414a6aca114404f8f0a9763c8536d5ddcbc4`, pack
+SHA-256 `cefad818ec9b6c0ff2228f4c66a5dbfb5bcab142d7a5f9d607da435d42ede2d7`;
+app fijada en [PR 293](https://github.com/peass-ng/PEASSo-CSPM/pull/293),
+merge `85fd869557a297eeb7162606b98b73a2db775720`. No se afirma despliegue.
+
 ## Lote 435: alarma compuesta con acciones deshabilitadas
 
 Se creó una alarma compuesta y un tema SNS propios con `AlarmRule=FALSE`,
@@ -18488,9 +18529,9 @@ separate review for embedded attack routes.
 | `aws-cross-account-attacks` | 7 | 0 | 0 | 0 | 7 |
 | `aws-persistence` | 131 | 52 | 2 | 17 | 60 |
 | `aws-post-exploitation` | 254 | 138 | 32 | 79 | 5 |
-| `aws-privilege-escalation` | 135 | 71 | 4 | 24 | 36 |
+| `aws-privilege-escalation` | 135 | 72 | 4 | 23 | 36 |
 | `aws-unauthenticated-enum-access` | 51 | 2 | 15 | 27 | 7 |
-| **Total** | **578** | **263** | **53** | **147** | **115** |
+| **Total** | **578** | **264** | **53** | **146** | **115** |
 
 ## Pages requiring semantic review
 
@@ -18721,7 +18762,6 @@ marking it covered, blocked or not observable in CloudTrail.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-control-tower-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-control-tower-privesc/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-customer-profiles-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-customer-profiles-privesc/README.md) | 7 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datapipeline-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datapipeline-privesc/README.md) | 3 | 1 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-device-farm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-device-farm-privesc/README.md) | 4 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-directory-services-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-directory-services-privesc/README.md) | 3 | 2 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-dlm-privesc/README.md) | 3 | 1 |

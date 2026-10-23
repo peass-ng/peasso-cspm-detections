@@ -8,9 +8,9 @@ different CloudTrail event name, no standalone event, or an existing broader rul
 An exact event-name match also does not prove detection of the described route.
 H3 headings can be setup or background, and attack routes may appear outside H3.
 
-- Pages: **578**; direct YAML reference: **263**; no direct reference: **315**.
-- H3 headings: **1713**; exact action-name mentions: **602**;
-  mentions without an exact YAML event name: **686**; headings without
+- Pages: **578**; direct YAML reference: **264**; no direct reference: **314**.
+- H3 headings: **1713**; exact action-name mentions: **610**;
+  mentions without an exact YAML event name: **678**; headings without
   a backticked `service:Action`: **889**.
 
 The [work plan](WORK_PLAN.md) contains the full no-reference census and
@@ -23,7 +23,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | --- | :---: | ---: | ---: | ---: | ---: |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-sso-and-identitystore-privesc/README.md) | no | 15 | 3 | 17 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-firewall-manager-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-firewall-manager-post-exploitation/README.md) | no | 5 | 0 | 10 | 1 |
-| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md) | no | 2 | 0 | 7 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-dns-takeover-post-exploitation/README.md) | no | 2 | 0 | 6 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sso-and-identitystore-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-sso-and-identitystore-post-exploitation/README.md) | no | 5 | 0 | 6 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-elemental-inference-post-exploitation/README.md) | no | 5 | 0 | 5 | 0 |
@@ -50,7 +49,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-persistence/aws-security-incident-response-persistence/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-persistence/aws-security-incident-response-persistence/README.md) | no | 2 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-acm-pca-scep-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-acm-pca-scep-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeguru-profiler-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-codeguru-profiler-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dlm-post-exploitation/README.md) | no | 1 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dms-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-dms-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecs-data-access-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecs-data-access-post-exploitation/README.md) | no | 2 | 0 | 2 | 0 |
@@ -97,7 +95,6 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-refactor-spaces-post-exploitation/README.md) | no | 2 | 2 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-global-resolver-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-global-resolver-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-simpledb-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-simpledb-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
-| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-storage-gateway-chap-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-storage-gateway-chap-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-uxc-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-uxc-post-exploitation/README.md) | no | 1 | 0 | 1 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-cloudcontrol-privesc/README.md) | no | 1 | 1 | 1 | 0 |
@@ -285,10 +282,12 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/README.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-control-handler-role-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-cloud-control-handler-role-post-exploitation/README.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-databrew-stored-job-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-databrew-stored-job-post-exploitation/README.md) | no | 1 | 1 | 0 | 0 |
+| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md) | no | 2 | 2 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-malicious-vpc-mirror.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ec2-ebs-ssm-and-vpc-post-exploitation/aws-malicious-vpc-mirror.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-interconnect-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-interconnect-post-exploitation/README.md) | no | 1 | 1 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-runtime-pinning-abuse.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-lambda-post-exploitation/aws-lambda-runtime-pinning-abuse.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-domains-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-route53-domains-post-exploitation/README.md) | no | 0 | 0 | 0 | 0 |
+| [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md) | no | 1 | 1 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/README.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-account-management-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-account-management-privesc/README.md) | no | 0 | 0 | 0 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-aurora-dsql-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-aurora-dsql-privesc/README.md) | no | 0 | 0 | 0 | 0 |
@@ -407,6 +406,7 @@ pages with at least three H3 headings and no direct YAML reference.
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-appstream-privesc/README.md) | yes | 8 | 7 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-athena-spark-role-privesc/README.md) | yes | 3 | 1 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-budgets-privesc/README.md) | yes | 1 | 1 | 2 | 0 |
+| [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md) | yes | 2 | 5 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-iot-privesc/README.md) | yes | 3 | 4 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-kms-privesc/README.md) | yes | 4 | 6 | 2 | 0 |
 | [src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecs-post-exploitation/README.md](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-ecs-post-exploitation/README.md) | yes | 10 | 1 | 1 | 8 |
@@ -804,11 +804,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 - [`dataexchange:PublishToDataGrant`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-exchange-post-exploitation/README.md#L17)
 - [`dataexchange:CreateJob`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-exchange-post-exploitation/README.md#L77)
 - [`dataexchange:StartJob`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-data-exchange-post-exploitation/README.md#L77)
-
-### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md
-
-- [`datasync:UpdateLocationS3`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md#L17)
-- [`datasync:StartTaskExecution`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-datasync-delegated-copy-post-exploitation/README.md#L57)
 
 ### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-direct-connect-post-exploitation/README.md
 
@@ -1260,10 +1255,6 @@ semantics, CloudTrail shape, service availability and live test evidence.
 
 - [`sdb:StartDomainExport`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-simpledb-post-exploitation/README.md#L15)
 
-### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md
-
-- [`snow-device-management:CreateTask`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snow-device-management-post-exploitation/README.md#L16)
-
 ### src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snowball-post-exploitation/README.md
 
 - [`snowball:GetJobManifest`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-post-exploitation/aws-snowball-post-exploitation/README.md#L15)
@@ -1517,12 +1508,7 @@ semantics, CloudTrail shape, service availability and live test evidence.
 
 ### src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md
 
-- [`datasync:CreateLocationS3`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
-- [`datasync:CreateTask`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
-- [`datasync:StartTaskExecution`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
 - [`iam:PassRole`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L18)
-- [`datasync:UpdateLocationS3`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L98)
-- [`datasync:StartTaskExecution`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L98)
 - [`iam:PassRole`](https://github.com/HackTricks-wiki/hacktricks-cloud/blob/47c375ae496ae89f81936f47ab1cb84885c88373/src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-datasync-privesc/README.md#L98)
 
 ### src/pentesting-cloud/aws-security/aws-privilege-escalation/aws-directory-services-privesc/README.md
